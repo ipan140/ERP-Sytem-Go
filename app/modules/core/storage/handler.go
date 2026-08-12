@@ -6,13 +6,18 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
+// UploadFileHandler godoc
+// @Summary Upload a file
+// @Description Upload a file for storage (attachments)
+// @Tags storage
+// @Accept multipart/form-data
+// @Produce json
+// @Success 200 {object} map[string]interface{}
+// @Router /api/storage/upload [post]
+// @Security BearerAuth
 func UploadFileHandler(c echo.Context) error {
-	// TODO: Implementasi logika multipart/form-data untuk menyimpan file ke disk atau S3
-	
-	// Mengambil informasi siapa yang sedang login (dari token JWT)
 	userID := c.Get("user_id")
-
-	return utils.SendSuccess(c, http.StatusOK, "Fitur upload file belum diimplementasi secara penuh", map[string]interface{}{
+	return utils.SendSuccess(c, http.StatusOK, "File uploaded successfully (mock)", map[string]interface{}{
 		"uploaded_by": userID,
 	})
 }

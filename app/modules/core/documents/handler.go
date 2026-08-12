@@ -1,4 +1,4 @@
-package knowledge
+package documents
 
 import (
 	"net/http"
@@ -7,97 +7,97 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-// CreateArticle godoc
-// @Summary Create a new Article
-// @Description Create a new Article in the system
-// @Tags knowledge
+// CreateWorkspace godoc
+// @Summary Create a new Workspace
+// @Description Create a new Workspace in the system
+// @Tags documents
 // @Accept json
 // @Produce json
 // @Success 201 {object} map[string]interface{}
-// @Router /api/knowledge [post]
+// @Router /api/documents [post]
 // @Security BearerAuth
-func CreateArticleHandler(c echo.Context) error {
-	var data Article
+func CreateWorkspaceHandler(c echo.Context) error {
+	var data Workspace
 	if err := c.Bind(&data); err != nil {
 		return utils.SendError(c,  http.StatusBadRequest, "Invalid request payload", err.Error())
 	}
-	if err := CreateArticleService(&data); err != nil {
+	if err := CreateWorkspaceService(&data); err != nil {
 		return utils.SendError(c,  http.StatusInternalServerError, "Failed to create data", err.Error())
 	}
 	return utils.SendSuccess(c, http.StatusCreated, "Data created successfully", data)
 }
 
-// GetAllArticle godoc
-// @Summary Get all Article
-// @Description Retrieve a list of all Article
-// @Tags knowledge
+// GetAllWorkspace godoc
+// @Summary Get all Workspace
+// @Description Retrieve a list of all Workspace
+// @Tags documents
 // @Produce json
 // @Success 200 {object} map[string]interface{}
-// @Router /api/knowledge [get]
+// @Router /api/documents [get]
 // @Security BearerAuth
-func GetAllArticleHandler(c echo.Context) error {
-	data, err := GetAllArticleService()
+func GetAllWorkspaceHandler(c echo.Context) error {
+	data, err := GetAllWorkspaceService()
 	if err != nil {
 		return utils.SendError(c,  http.StatusInternalServerError, "Failed to retrieve data", err.Error())
 	}
 	return utils.SendSuccess(c, http.StatusOK, "Data retrieved successfully", data)
 }
 
-// GetArticleByID godoc
-// @Summary Get a Article by ID
-// @Description Retrieve a specific Article by its ID
-// @Tags knowledge
+// GetWorkspaceByID godoc
+// @Summary Get a Workspace by ID
+// @Description Retrieve a specific Workspace by its ID
+// @Tags documents
 // @Produce json
-// @Param id path int true "Article ID"
+// @Param id path int true "Workspace ID"
 // @Success 200 {object} map[string]interface{}
-// @Router /api/knowledge/{id} [get]
+// @Router /api/documents/{id} [get]
 // @Security BearerAuth
-func GetArticleByIDHandler(c echo.Context) error {
+func GetWorkspaceByIDHandler(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
-	data, err := GetArticleByIDService(uint(id))
+	data, err := GetWorkspaceByIDService(uint(id))
 	if err != nil {
 		return utils.SendError(c,  http.StatusNotFound, "Data not found", err.Error())
 	}
 	return utils.SendSuccess(c, http.StatusOK, "Data retrieved successfully", data)
 }
 
-// UpdateArticle godoc
-// @Summary Update a Article
-// @Description Update an existing Article
-// @Tags knowledge
+// UpdateWorkspace godoc
+// @Summary Update a Workspace
+// @Description Update an existing Workspace
+// @Tags documents
 // @Accept json
 // @Produce json
-// @Param id path int true "Article ID"
+// @Param id path int true "Workspace ID"
 // @Success 200 {object} map[string]interface{}
-// @Router /api/knowledge/{id} [put]
+// @Router /api/documents/{id} [put]
 // @Security BearerAuth
-func UpdateArticleHandler(c echo.Context) error {
+func UpdateWorkspaceHandler(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
-	data, err := GetArticleByIDService(uint(id))
+	data, err := GetWorkspaceByIDService(uint(id))
 	if err != nil {
 		return utils.SendError(c,  http.StatusNotFound, "Data not found", err.Error())
 	}
 	if err := c.Bind(data); err != nil {
 		return utils.SendError(c,  http.StatusBadRequest, "Invalid request payload", err.Error())
 	}
-	if err := UpdateArticleService(data); err != nil {
+	if err := UpdateWorkspaceService(data); err != nil {
 		return utils.SendError(c,  http.StatusInternalServerError, "Failed to update data", err.Error())
 	}
 	return utils.SendSuccess(c, http.StatusOK, "Data updated successfully", data)
 }
 
-// DeleteArticle godoc
-// @Summary Delete a Article
-// @Description Delete a Article by ID
-// @Tags knowledge
+// DeleteWorkspace godoc
+// @Summary Delete a Workspace
+// @Description Delete a Workspace by ID
+// @Tags documents
 // @Produce json
-// @Param id path int true "Article ID"
+// @Param id path int true "Workspace ID"
 // @Success 200 {object} map[string]interface{}
-// @Router /api/knowledge/{id} [delete]
+// @Router /api/documents/{id} [delete]
 // @Security BearerAuth
-func DeleteArticleHandler(c echo.Context) error {
+func DeleteWorkspaceHandler(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
-	if err := DeleteArticleService(uint(id)); err != nil {
+	if err := DeleteWorkspaceService(uint(id)); err != nil {
 		return utils.SendError(c,  http.StatusInternalServerError, "Failed to delete data", err.Error())
 	}
 	return utils.SendSuccess(c, http.StatusOK, "Data deleted successfully", nil)
