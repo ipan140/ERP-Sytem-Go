@@ -3,8 +3,8 @@ package main
 import (
 	"log"
 	"net/http"
-	
-	"ERP-System/config"
+
+	"ERP-System/app/modules/core/artificial_intelligence"
 	"ERP-System/app/modules/core/auth"
 	"ERP-System/app/modules/core/base"
 	"ERP-System/app/modules/core/dashboards"
@@ -12,12 +12,20 @@ import (
 	"ERP-System/app/modules/core/documents"
 	"ERP-System/app/modules/core/iot"
 	"ERP-System/app/modules/core/knowledge"
+	"ERP-System/app/modules/core/mailer"
+	_ "ERP-System/app/modules/core/report"
 	"ERP-System/app/modules/core/storage"
 	"ERP-System/app/modules/core/voip"
 	"ERP-System/app/modules/core/whatsapp"
-	"ERP-System/app/modules/core/artificial_intelligence"
-	"ERP-System/app/modules/core/mailer"
-	_ "ERP-System/app/modules/core/report"
+	"ERP-System/app/modules/finance/accounting"
+	"ERP-System/app/modules/finance/approvals"
+	"ERP-System/app/modules/finance/consolidation"
+	financeDocs "ERP-System/app/modules/finance/documents"
+	"ERP-System/app/modules/finance/expenses"
+	"ERP-System/app/modules/finance/invoicing"
+	"ERP-System/app/modules/finance/sign"
+	"ERP-System/app/modules/finance/spreadsheet_bi"
+	"ERP-System/config"
 	_ "ERP-System/docs" // Swagger docs
 
 	"github.com/labstack/echo/v4"
@@ -57,6 +65,14 @@ func main() {
 	artificial_intelligence.RegisterRoutes(e)
 	storage.RegisterRoutes(e)
 	mailer.RegisterRoutes(e)
+	accounting.RegisterRoutes(e)
+	approvals.RegisterRoutes(e)
+	consolidation.RegisterRoutes(e)
+	financeDocs.RegisterRoutes(e)
+	expenses.RegisterRoutes(e)
+	invoicing.RegisterRoutes(e)
+	sign.RegisterRoutes(e)
+	spreadsheet_bi.RegisterRoutes(e)
 
 	// Register Swagger Route
 	e.GET("/swagger/*", echoSwagger.WrapHandler)
