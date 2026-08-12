@@ -27,3 +27,7 @@ func UpdateJournalEntry(data *JournalEntry) error {
 func DeleteJournalEntry(id uint) error {
 	return config.DB.Delete(&JournalEntry{}, id).Error
 }
+
+func CreateJournalItem(data *JournalItem) error {
+	return config.DB.Create(data).Error
+}

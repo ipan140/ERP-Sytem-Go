@@ -1,10 +1,10 @@
 package accounting
 
 import (
-	"net/http"
-	"strconv"
 	"ERP-System/common/utils"
 	"github.com/labstack/echo/v4"
+	"net/http"
+	"strconv"
 )
 
 // CreateJournalEntry godoc
@@ -101,4 +101,20 @@ func DeleteJournalEntryHandler(c echo.Context) error {
 		return utils.SendError(c, http.StatusInternalServerError, "Failed to delete data", err.Error())
 	}
 	return utils.SendSuccess(c, http.StatusOK, "Data deleted successfully", nil)
+}
+
+// GetGeneralLedgerHandler godoc
+// @Summary Get General Ledger
+// @Description Get grouped debit/credit balance per account
+// @Tags finance-accounting
+// @Produce json
+// @Success 200 {object} map[string]interface{}
+// @Router /api/finance/accounting/ledger [get]
+// @Security BearerAuth
+func GetGeneralLedgerHandler(c echo.Context) error {
+	data, err := GetGeneralLedgerService()
+	if err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Gagal menarik laporan buku besar", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Buku Besar berhasil diambil", data)
 }

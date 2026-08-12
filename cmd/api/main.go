@@ -85,6 +85,7 @@ func main() {
 	// Initialize configuration and database
 	config.LoadEnv()
 	config.ConnectDB()
+	accounting.SeedDefaultAccounts()
 
 	e := echo.New()
 

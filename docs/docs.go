@@ -1348,6 +1348,32 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/finance/accounting/ledger": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Get grouped debit/credit balance per account",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "finance-accounting"
+                ],
+                "summary": "Get General Ledger",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
         "/api/finance/accounting/{id}": {
             "get": {
                 "security": [
@@ -1609,149 +1635,34 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/finance/consolidation": {
-            "get": {
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ],
-                "description": "Retrieve a list of all ConsolidationEntry",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "finance-consolidation"
-                ],
-                "summary": "Get all ConsolidationEntry",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": true
-                        }
-                    }
-                }
-            },
+        "/api/finance/consolidation/generate": {
             "post": {
                 "security": [
                     {
                         "BearerAuth": []
                     }
                 ],
-                "description": "Create a new ConsolidationEntry in the system",
-                "consumes": [
-                    "application/json"
-                ],
+                "description": "Aggregate ledgers from all companies into one report",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "finance-consolidation"
                 ],
-                "summary": "Create a new ConsolidationEntry",
-                "responses": {
-                    "201": {
-                        "description": "Created",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": true
-                        }
-                    }
-                }
-            }
-        },
-        "/api/finance/consolidation/{id}": {
-            "get": {
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ],
-                "description": "Retrieve a specific ConsolidationEntry by its ID",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "finance-consolidation"
-                ],
-                "summary": "Get a ConsolidationEntry by ID",
+                "summary": "Generate Multi-Company Consolidation",
                 "parameters": [
                     {
-                        "type": "integer",
-                        "description": "ConsolidationEntry ID",
-                        "name": "id",
-                        "in": "path",
+                        "type": "string",
+                        "description": "Report Name",
+                        "name": "name",
+                        "in": "query",
                         "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": true
-                        }
-                    }
-                }
-            },
-            "put": {
-                "security": [
+                    },
                     {
-                        "BearerAuth": []
-                    }
-                ],
-                "description": "Update an existing ConsolidationEntry",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "finance-consolidation"
-                ],
-                "summary": "Update a ConsolidationEntry",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "ConsolidationEntry ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": true
-                        }
-                    }
-                }
-            },
-            "delete": {
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ],
-                "description": "Delete a ConsolidationEntry by ID",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "finance-consolidation"
-                ],
-                "summary": "Delete a ConsolidationEntry",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "ConsolidationEntry ID",
-                        "name": "id",
-                        "in": "path",
+                        "type": "string",
+                        "description": "Period",
+                        "name": "period",
+                        "in": "query",
                         "required": true
                     }
                 ],
@@ -2133,6 +2044,32 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/finance/invoicing/dunning": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Scan overdue invoices and increment their threat level",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "finance-invoicing"
+                ],
+                "summary": "Trigger Dunning Process",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
         "/api/finance/invoicing/{id}": {
             "get": {
                 "security": [
@@ -2217,6 +2154,76 @@ const docTemplate = `{
                     "finance-invoicing"
                 ],
                 "summary": "Delete a Invoice",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Invoice ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/finance/invoicing/{id}/post": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Post an invoice and trigger auto-journal entry in accounting",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "finance-invoicing"
+                ],
+                "summary": "Confirm and Post Invoice",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Invoice ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/finance/invoicing/{id}/refund": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Refund a posted invoice and create a reversal journal",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "finance-invoicing"
+                ],
+                "summary": "Create a Refund / Credit Note",
                 "parameters": [
                     {
                         "type": "integer",

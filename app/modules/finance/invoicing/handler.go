@@ -1,10 +1,10 @@
 package invoicing
 
 import (
-	"net/http"
-	"strconv"
 	"ERP-System/common/utils"
 	"github.com/labstack/echo/v4"
+	"net/http"
+	"strconv"
 )
 
 // CreateInvoice godoc
@@ -101,4 +101,53 @@ func DeleteInvoiceHandler(c echo.Context) error {
 		return utils.SendError(c, http.StatusInternalServerError, "Failed to delete data", err.Error())
 	}
 	return utils.SendSuccess(c, http.StatusOK, "Data deleted successfully", nil)
+}
+
+// PostInvoiceHandler godoc
+// @Summary Confirm and Post Invoice
+// @Description Post an invoice and trigger auto-journal entry in accounting
+// @Tags finance-invoicing
+// @Produce json
+// @Param id path int true "Invoice ID"
+// @Success 200 {object} map[string]interface{}
+// @Router /api/finance/invoicing/{id}/post [post]
+// @Security BearerAuth
+func PostInvoiceHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	if err := PostInvoiceService(uint(id)); err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Gagal melakukan posting faktur", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Faktur berhasil diposting dan Jurnal telah dibuat", nil)
+}
+
+// RefundInvoiceHandler godoc
+// @Summary Create a Refund / Credit Note
+// @Description Refund a posted invoice and create a reversal journal
+// @Tags finance-invoicing
+// @Produce json
+// @Param id path int true "Invoice ID"
+// @Success 200 {object} map[string]interface{}
+// @Router /api/finance/invoicing/{id}/refund [post]
+// @Security BearerAuth
+func RefundInvoiceHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	if err := RefundInvoiceService(uint(id)); err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Gagal melakukan refund faktur", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Refund berhasil, jurnal pembalik telah dibuat", nil)
+}
+
+// TriggerDunningHandler godoc
+// @Summary Trigger Dunning Process
+// @Description Scan overdue invoices and increment their threat level
+// @Tags finance-invoicing
+// @Produce json
+// @Success 200 {object} map[string]interface{}
+// @Router /api/finance/invoicing/dunning [post]
+// @Security BearerAuth
+func TriggerDunningHandler(c echo.Context) error {
+	if err := RunDunningProcess(); err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Gagal menjalankan mesin dunning", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Mesin Dunning berhasil menyapu seluruh faktur tunggakan", nil)
 }

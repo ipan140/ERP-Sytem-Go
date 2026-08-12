@@ -1,21 +1,39 @@
 package consolidation
 
-func CreateConsolidationEntryService(data *ConsolidationEntry) error {
-	return CreateConsolidationEntry(data)
-}
+import (
+	"ERP-System/config"
+)
 
-func GetAllConsolidationEntryService() ([]ConsolidationEntry, error) {
-	return GetAllConsolidationEntry()
-}
+func GenerateConsolidationService(name, period string) error {
+	report := &ConsolidationReport{
+		Name:   name,
+		Period: period,
+	}
+	if err := config.DB.Create(report).Error; err != nil {
+		return err
+	}
 
-func GetConsolidationEntryByIDService(id uint) (*ConsolidationEntry, error) {
-	return GetConsolidationEntryByID(id)
-}
+	// Simulasi agregasi data dari seluruh cabang (Company)
+	// Kita akan group saldo dari seluruh account_id yang ada di journal_items
+	type Result struct {
+		AccountID uint
+		Balance   float64
+	}
+	var results []Result
 
-func UpdateConsolidationEntryService(data *ConsolidationEntry) error {
-	return UpdateConsolidationEntry(data)
-}
+	config.DB.Table("journal_items").
+		Select("account_id, (sum(debit) - sum(credit)) as balance").
+		Group("account_id").
+		Scan(&results)
 
-func DeleteConsolidationEntryService(id uint) error {
-	return DeleteConsolidationEntry(id)
+	for _, res := range results {
+		cAcc := &ConsolidatedAccount{
+			ReportID:  report.ID,
+			AccountID: res.AccountID,
+			Balance:   res.Balance,
+		}
+		config.DB.Create(cAcc)
+	}
+
+	return nil
 }
