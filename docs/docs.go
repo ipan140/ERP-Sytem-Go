@@ -4623,6 +4623,1105 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/supply_chain/barcode": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve a list of all BarcodeConfig",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-barcode"
+                ],
+                "summary": "Get all BarcodeConfig",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create a new BarcodeConfig in the system",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-barcode"
+                ],
+                "summary": "Create a new BarcodeConfig",
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/supply_chain/barcode/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve a specific BarcodeConfig by its ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-barcode"
+                ],
+                "summary": "Get a BarcodeConfig by ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "BarcodeConfig ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update an existing BarcodeConfig",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-barcode"
+                ],
+                "summary": "Update a BarcodeConfig",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "BarcodeConfig ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete a BarcodeConfig by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-barcode"
+                ],
+                "summary": "Delete a BarcodeConfig",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "BarcodeConfig ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/supply_chain/inventory": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve a list of all Product",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-inventory"
+                ],
+                "summary": "Get all Product",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create a new Product in the system",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-inventory"
+                ],
+                "summary": "Create a new Product",
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/supply_chain/inventory/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve a specific Product by its ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-inventory"
+                ],
+                "summary": "Get a Product by ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Product ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update an existing Product",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-inventory"
+                ],
+                "summary": "Update a Product",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Product ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete a Product by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-inventory"
+                ],
+                "summary": "Delete a Product",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Product ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/supply_chain/maintenance": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve a list of all MaintenanceRequest",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-maintenance"
+                ],
+                "summary": "Get all MaintenanceRequest",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create a new MaintenanceRequest in the system",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-maintenance"
+                ],
+                "summary": "Create a new MaintenanceRequest",
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/supply_chain/maintenance/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve a specific MaintenanceRequest by its ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-maintenance"
+                ],
+                "summary": "Get a MaintenanceRequest by ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "MaintenanceRequest ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update an existing MaintenanceRequest",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-maintenance"
+                ],
+                "summary": "Update a MaintenanceRequest",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "MaintenanceRequest ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete a MaintenanceRequest by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-maintenance"
+                ],
+                "summary": "Delete a MaintenanceRequest",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "MaintenanceRequest ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/supply_chain/manufacturing": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve a list of all ManufacturingOrder",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-manufacturing"
+                ],
+                "summary": "Get all ManufacturingOrder",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create a new ManufacturingOrder in the system",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-manufacturing"
+                ],
+                "summary": "Create a new ManufacturingOrder",
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/supply_chain/manufacturing/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve a specific ManufacturingOrder by its ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-manufacturing"
+                ],
+                "summary": "Get a ManufacturingOrder by ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ManufacturingOrder ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update an existing ManufacturingOrder",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-manufacturing"
+                ],
+                "summary": "Update a ManufacturingOrder",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ManufacturingOrder ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete a ManufacturingOrder by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-manufacturing"
+                ],
+                "summary": "Delete a ManufacturingOrder",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ManufacturingOrder ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/supply_chain/plm": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve a list of all Bom",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-plm"
+                ],
+                "summary": "Get all Bom",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create a new Bom in the system",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-plm"
+                ],
+                "summary": "Create a new Bom",
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/supply_chain/plm/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve a specific Bom by its ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-plm"
+                ],
+                "summary": "Get a Bom by ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Bom ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update an existing Bom",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-plm"
+                ],
+                "summary": "Update a Bom",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Bom ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete a Bom by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-plm"
+                ],
+                "summary": "Delete a Bom",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Bom ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/supply_chain/purchase": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve a list of all PurchaseOrder",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-purchase"
+                ],
+                "summary": "Get all PurchaseOrder",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create a new PurchaseOrder in the system",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-purchase"
+                ],
+                "summary": "Create a new PurchaseOrder",
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/supply_chain/purchase/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve a specific PurchaseOrder by its ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-purchase"
+                ],
+                "summary": "Get a PurchaseOrder by ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "PurchaseOrder ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update an existing PurchaseOrder",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-purchase"
+                ],
+                "summary": "Update a PurchaseOrder",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "PurchaseOrder ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete a PurchaseOrder by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-purchase"
+                ],
+                "summary": "Delete a PurchaseOrder",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "PurchaseOrder ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/supply_chain/quality": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve a list of all QualityCheck",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-quality"
+                ],
+                "summary": "Get all QualityCheck",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create a new QualityCheck in the system",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-quality"
+                ],
+                "summary": "Create a new QualityCheck",
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/supply_chain/quality/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve a specific QualityCheck by its ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-quality"
+                ],
+                "summary": "Get a QualityCheck by ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "QualityCheck ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update an existing QualityCheck",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-quality"
+                ],
+                "summary": "Update a QualityCheck",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "QualityCheck ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete a QualityCheck by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-quality"
+                ],
+                "summary": "Delete a QualityCheck",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "QualityCheck ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
         "/api/voip": {
             "get": {
                 "security": [

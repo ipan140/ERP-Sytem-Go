@@ -39,6 +39,13 @@ import (
 	"ERP-System/app/modules/sales/rental"
 	"ERP-System/app/modules/sales/sales_core"
 	"ERP-System/app/modules/sales/subscriptions"
+	"ERP-System/app/modules/supply_chain/barcode"
+	"ERP-System/app/modules/supply_chain/inventory"
+	"ERP-System/app/modules/supply_chain/maintenance"
+	"ERP-System/app/modules/supply_chain/manufacturing"
+	"ERP-System/app/modules/supply_chain/plm"
+	"ERP-System/app/modules/supply_chain/purchase"
+	"ERP-System/app/modules/supply_chain/quality"
 	"ERP-System/config"
 	_ "ERP-System/docs" // Swagger docs
 
@@ -101,6 +108,13 @@ func main() {
 	rental.RegisterRoutes(e)
 	sales_core.RegisterRoutes(e)
 	subscriptions.RegisterRoutes(e)
+	barcode.RegisterRoutes(e)
+	inventory.RegisterRoutes(e)
+	maintenance.RegisterRoutes(e)
+	manufacturing.RegisterRoutes(e)
+	plm.RegisterRoutes(e)
+	purchase.RegisterRoutes(e)
+	quality.RegisterRoutes(e)
 
 	// Register Swagger Route
 	e.GET("/swagger/*", echoSwagger.WrapHandler)
