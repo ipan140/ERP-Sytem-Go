@@ -13,7 +13,7 @@ import (
 	"ERP-System/app/modules/core/iot"
 	"ERP-System/app/modules/core/knowledge"
 	"ERP-System/app/modules/core/mailer"
-	_ "ERP-System/app/modules/core/report"
+	"ERP-System/app/modules/core/report"
 	"ERP-System/app/modules/core/storage"
 	"ERP-System/app/modules/core/voip"
 	"ERP-System/app/modules/core/whatsapp"
@@ -104,6 +104,7 @@ func main() {
 	whatsapp.RegisterRoutes(e)
 	artificial_intelligence.RegisterRoutes(e)
 	storage.RegisterRoutes(e)
+	report.RegisterRoutes(e)
 	mailer.RegisterRoutes(e)
 	accounting.RegisterRoutes(e)
 	approvals.RegisterRoutes(e)

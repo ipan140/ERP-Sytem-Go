@@ -6,6 +6,10 @@ import (
 )
 
 func RegisterRoutes(e *echo.Echo) {
-	api := e.Group("/api/mailer", middleware.Auth())
-	api.POST("/test-send", TestSendMailHandler)
+	api := e.Group("/api/core/mailer", middleware.Auth())
+	api.POST("", CreateEmailLogHandler)
+	api.GET("", GetAllEmailLogHandler)
+	api.GET("/:id", GetEmailLogByIDHandler)
+	api.PUT("/:id", UpdateEmailLogHandler)
+	api.DELETE("/:id", DeleteEmailLogHandler)
 }
