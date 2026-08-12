@@ -158,6 +158,7 @@ func main() {
 
 	// Register Swagger Route
 	e.GET("/swagger/*", echoSwagger.WrapHandler)
+	e.GET("/docs", serveCustomDocs)
 
 	e.GET("/", func(c echo.Context) error {
 		return c.JSON(http.StatusOK, map[string]string{
@@ -165,12 +166,85 @@ func main() {
 			"status":  "running",
 		})
 	})
-	// Register Module Routes
-	auth.RegisterRoutes(e)
-	storage.RegisterRoutes(e)
+	
 
 	// 5. Start Server
 	port := config.GetEnv("PORT", "8080")
 	log.Printf("Starting server on port %s", port)
 	e.Logger.Fatal(e.Start(":" + port))
+}
+
+func serveCustomDocs(c echo.Context) error {
+	html := `<!DOCTYPE html>
+<html>
+<head>
+  <title>ERP System API Docs (Auto-Token)</title>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://unpkg.com/swagger-ui-dist@5/swagger-ui.css">
+  <style>
+    body { margin: 0; }
+    .token-banner {
+      display: none;
+      position: fixed; top: 16px; right: 16px;
+      background: #49cc90; color: white;
+      padding: 12px 20px; border-radius: 8px;
+      font-weight: bold; z-index: 9999;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      font-family: sans-serif; font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+<div class="token-banner" id="banner">✅ Token berhasil disimpan & diauthorize!</div>
+<div id="swagger-ui"></div>
+<script src="https://unpkg.com/swagger-ui-dist@5/swagger-ui-bundle.js"></script>
+<script>
+const TOKEN_KEY = 'swagger_bearer_token';
+const savedToken = localStorage.getItem(TOKEN_KEY);
+
+const ui = SwaggerUIBundle({
+  url: "/swagger/doc.json",
+  dom_id: '#swagger-ui',
+  presets: [SwaggerUIBundle.presets.apis, SwaggerUIBundle.SwaggerUIStandalonePreset],
+  layout: "BaseLayout",
+  persistAuthorization: true,
+  onComplete: function() {
+    if (savedToken) {
+      ui.preauthorizeApiKey("BearerAuth", "Bearer " + savedToken);
+      console.log("✅ Token auto-loaded dari localStorage");
+    }
+  },
+  responseInterceptor: function(response) {
+    try {
+      const url = response.url || "";
+      const body = typeof response.body === "string"
+        ? JSON.parse(response.body)
+        : response.body;
+
+      const token = body?.token
+        || body?.access_token
+        || (typeof body?.data === "string" ? body.data : null)
+        || body?.data?.token
+        || body?.data?.access_token;
+
+      if (token && (url.includes("/auth/login") || url.includes("/auth/register"))) {
+        localStorage.setItem(TOKEN_KEY, token);
+        ui.preauthorizeApiKey("BearerAuth", "Bearer " + token);
+        showBanner();
+      }
+    } catch(e) { console.error("Token intercept error:", e); }
+    return response;
+  }
+});
+
+function showBanner() {
+  const b = document.getElementById("banner");
+  b.style.display = "block";
+  setTimeout(() => b.style.display = "none", 4000);
+}
+</script>
+</body>
+</html>`
+	return c.HTML(200, html)
 }
