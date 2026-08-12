@@ -25,6 +25,15 @@ import (
 	"ERP-System/app/modules/finance/invoicing"
 	"ERP-System/app/modules/finance/sign"
 	"ERP-System/app/modules/finance/spreadsheet_bi"
+	"ERP-System/app/modules/hr/appraisals"
+	"ERP-System/app/modules/hr/attendances"
+	"ERP-System/app/modules/hr/employees"
+	"ERP-System/app/modules/hr/fleet"
+	"ERP-System/app/modules/hr/lunch"
+	"ERP-System/app/modules/hr/payroll"
+	"ERP-System/app/modules/hr/recruitment"
+	"ERP-System/app/modules/hr/referrals"
+	"ERP-System/app/modules/hr/time_off"
 	"ERP-System/config"
 	_ "ERP-System/docs" // Swagger docs
 
@@ -73,6 +82,15 @@ func main() {
 	invoicing.RegisterRoutes(e)
 	sign.RegisterRoutes(e)
 	spreadsheet_bi.RegisterRoutes(e)
+	appraisals.RegisterRoutes(e)
+	attendances.RegisterRoutes(e)
+	employees.RegisterRoutes(e)
+	fleet.RegisterRoutes(e)
+	lunch.RegisterRoutes(e)
+	payroll.RegisterRoutes(e)
+	recruitment.RegisterRoutes(e)
+	referrals.RegisterRoutes(e)
+	time_off.RegisterRoutes(e)
 
 	// Register Swagger Route
 	e.GET("/swagger/*", echoSwagger.WrapHandler)
