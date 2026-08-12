@@ -5,6 +5,8 @@ import (
 	"net/http"
 	
 	"ERP-System/config"
+	"ERP-System/app/modules/auth"
+	"ERP-System/app/modules/storage"
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
@@ -30,6 +32,10 @@ func main() {
 			"status":  "running",
 		})
 	})
+	
+	// Register Module Routes
+	auth.RegisterRoutes(e)
+	storage.RegisterRoutes(e)
 
 	// 5. Start Server
 	port := config.GetEnv("PORT", "8080")

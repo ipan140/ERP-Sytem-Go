@@ -45,3 +45,31 @@ func Auth() echo.MiddlewareFunc {
 		}
 	}
 }
+
+// RequireRole adalah middleware tingkat lanjut untuk mengecek apakah user memiliki hak akses (RBAC).
+// Contoh penggunaan: e.GET("/admin", Handler, middleware.Auth(), middleware.RequireRole("superadmin", "admin"))
+func RequireRole(allowedRoles ...string) echo.MiddlewareFunc {
+	return func(next echo.HandlerFunc) echo.HandlerFunc {
+		return func(c echo.Context) error {
+			userRole, ok := c.Get("role").(string)
+			if !ok || userRole == "" {
+				return utils.SendError(c, http.StatusForbidden, "Akses ditolak: Role tidak ditemukan", "")
+			}
+
+			// Cek apakah role user ada di dalam daftar role yang diizinkan
+			isAllowed := false
+			for _, role := range allowedRoles {
+				if userRole == role {
+					isAllowed = true
+					break
+				}
+			}
+
+			if !isAllowed {
+				return utils.SendError(c, http.StatusForbidden, "Akses ditolak: Anda tidak memiliki hak akses (Forbidden)", "")
+			}
+
+			return next(c)
+		}
+	}
+}
