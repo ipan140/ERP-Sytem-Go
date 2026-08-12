@@ -34,6 +34,11 @@ import (
 	"ERP-System/app/modules/hr/recruitment"
 	"ERP-System/app/modules/hr/referrals"
 	"ERP-System/app/modules/hr/time_off"
+	"ERP-System/app/modules/sales/crm"
+	"ERP-System/app/modules/sales/point_of_sale"
+	"ERP-System/app/modules/sales/rental"
+	"ERP-System/app/modules/sales/sales_core"
+	"ERP-System/app/modules/sales/subscriptions"
 	"ERP-System/config"
 	_ "ERP-System/docs" // Swagger docs
 
@@ -91,6 +96,11 @@ func main() {
 	recruitment.RegisterRoutes(e)
 	referrals.RegisterRoutes(e)
 	time_off.RegisterRoutes(e)
+	crm.RegisterRoutes(e)
+	point_of_sale.RegisterRoutes(e)
+	rental.RegisterRoutes(e)
+	sales_core.RegisterRoutes(e)
+	subscriptions.RegisterRoutes(e)
 
 	// Register Swagger Route
 	e.GET("/swagger/*", echoSwagger.WrapHandler)
