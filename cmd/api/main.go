@@ -34,6 +34,12 @@ import (
 	"ERP-System/app/modules/hr/recruitment"
 	"ERP-System/app/modules/hr/referrals"
 	"ERP-System/app/modules/hr/time_off"
+	"ERP-System/app/modules/marketing/events"
+	"ERP-System/app/modules/marketing/marketing_automation"
+	"ERP-System/app/modules/marketing/mass_mailing"
+	"ERP-System/app/modules/marketing/sms_marketing"
+	"ERP-System/app/modules/marketing/social_marketing"
+	"ERP-System/app/modules/marketing/surveys"
 	"ERP-System/app/modules/sales/crm"
 	"ERP-System/app/modules/sales/point_of_sale"
 	"ERP-System/app/modules/sales/rental"
@@ -141,6 +147,12 @@ func main() {
 	forum.RegisterRoutes(e)
 	live_chat.RegisterRoutes(e)
 	website_builder.RegisterRoutes(e)
+	events.RegisterRoutes(e)
+	marketing_automation.RegisterRoutes(e)
+	mass_mailing.RegisterRoutes(e)
+	sms_marketing.RegisterRoutes(e)
+	social_marketing.RegisterRoutes(e)
+	surveys.RegisterRoutes(e)
 
 	// Register Swagger Route
 	e.GET("/swagger/*", echoSwagger.WrapHandler)

@@ -3809,6 +3809,948 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/marketing/events": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve a list of all Event",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "marketing-events"
+                ],
+                "summary": "Get all Event",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create a new Event in the system",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "marketing-events"
+                ],
+                "summary": "Create a new Event",
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/marketing/events/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve a specific Event by its ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "marketing-events"
+                ],
+                "summary": "Get a Event by ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Event ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update an existing Event",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "marketing-events"
+                ],
+                "summary": "Update a Event",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Event ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete a Event by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "marketing-events"
+                ],
+                "summary": "Delete a Event",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Event ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/marketing/marketing_automation": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve a list of all AutomationCampaign",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "marketing-marketing_automation"
+                ],
+                "summary": "Get all AutomationCampaign",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create a new AutomationCampaign in the system",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "marketing-marketing_automation"
+                ],
+                "summary": "Create a new AutomationCampaign",
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/marketing/marketing_automation/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve a specific AutomationCampaign by its ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "marketing-marketing_automation"
+                ],
+                "summary": "Get a AutomationCampaign by ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "AutomationCampaign ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update an existing AutomationCampaign",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "marketing-marketing_automation"
+                ],
+                "summary": "Update a AutomationCampaign",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "AutomationCampaign ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete a AutomationCampaign by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "marketing-marketing_automation"
+                ],
+                "summary": "Delete a AutomationCampaign",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "AutomationCampaign ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/marketing/mass_mailing": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve a list of all MailingCampaign",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "marketing-mass_mailing"
+                ],
+                "summary": "Get all MailingCampaign",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create a new MailingCampaign in the system",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "marketing-mass_mailing"
+                ],
+                "summary": "Create a new MailingCampaign",
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/marketing/mass_mailing/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve a specific MailingCampaign by its ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "marketing-mass_mailing"
+                ],
+                "summary": "Get a MailingCampaign by ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "MailingCampaign ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update an existing MailingCampaign",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "marketing-mass_mailing"
+                ],
+                "summary": "Update a MailingCampaign",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "MailingCampaign ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete a MailingCampaign by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "marketing-mass_mailing"
+                ],
+                "summary": "Delete a MailingCampaign",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "MailingCampaign ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/marketing/sms_marketing": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve a list of all SmsCampaign",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "marketing-sms_marketing"
+                ],
+                "summary": "Get all SmsCampaign",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create a new SmsCampaign in the system",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "marketing-sms_marketing"
+                ],
+                "summary": "Create a new SmsCampaign",
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/marketing/sms_marketing/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve a specific SmsCampaign by its ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "marketing-sms_marketing"
+                ],
+                "summary": "Get a SmsCampaign by ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "SmsCampaign ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update an existing SmsCampaign",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "marketing-sms_marketing"
+                ],
+                "summary": "Update a SmsCampaign",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "SmsCampaign ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete a SmsCampaign by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "marketing-sms_marketing"
+                ],
+                "summary": "Delete a SmsCampaign",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "SmsCampaign ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/marketing/social_marketing": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve a list of all SocialPost",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "marketing-social_marketing"
+                ],
+                "summary": "Get all SocialPost",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create a new SocialPost in the system",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "marketing-social_marketing"
+                ],
+                "summary": "Create a new SocialPost",
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/marketing/social_marketing/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve a specific SocialPost by its ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "marketing-social_marketing"
+                ],
+                "summary": "Get a SocialPost by ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "SocialPost ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update an existing SocialPost",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "marketing-social_marketing"
+                ],
+                "summary": "Update a SocialPost",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "SocialPost ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete a SocialPost by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "marketing-social_marketing"
+                ],
+                "summary": "Delete a SocialPost",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "SocialPost ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/marketing/surveys": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve a list of all Survey",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "marketing-surveys"
+                ],
+                "summary": "Get all Survey",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create a new Survey in the system",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "marketing-surveys"
+                ],
+                "summary": "Create a new Survey",
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/marketing/surveys/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve a specific Survey by its ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "marketing-surveys"
+                ],
+                "summary": "Get a Survey by ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Survey ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update an existing Survey",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "marketing-surveys"
+                ],
+                "summary": "Update a Survey",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Survey ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete a Survey by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "marketing-surveys"
+                ],
+                "summary": "Delete a Survey",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Survey ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
         "/api/sales/crm": {
             "get": {
                 "security": [
