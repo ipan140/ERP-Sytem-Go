@@ -9,4 +9,5 @@ func RegisterRoutes(e *echo.Echo) {
 
 	// Endpoint publik (tidak perlu middleware auth)
 	api.POST("/login", LoginHandler)
+	api.POST("/register", RegisterHandler)
 }

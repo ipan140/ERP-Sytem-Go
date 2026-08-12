@@ -4,8 +4,8 @@ import (
 	"log"
 	"net/http"
 
+	"ERP-System/app/modules/auth"
 	"ERP-System/app/modules/core/artificial_intelligence"
-	"ERP-System/app/modules/core/auth"
 	"ERP-System/app/modules/core/base"
 	"ERP-System/app/modules/core/dashboards"
 	"ERP-System/app/modules/core/discuss"
