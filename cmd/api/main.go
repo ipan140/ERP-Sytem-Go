@@ -53,6 +53,12 @@ import (
 	"ERP-System/app/modules/supply_chain/plm"
 	"ERP-System/app/modules/supply_chain/purchase"
 	"ERP-System/app/modules/supply_chain/quality"
+	"ERP-System/app/modules/website/blog"
+	"ERP-System/app/modules/website/ecommerce"
+	"ERP-System/app/modules/website/elearning"
+	"ERP-System/app/modules/website/forum"
+	"ERP-System/app/modules/website/live_chat"
+	"ERP-System/app/modules/website/website_builder"
 	"ERP-System/config"
 	_ "ERP-System/docs" // Swagger docs
 
@@ -129,6 +135,12 @@ func main() {
 	project.RegisterRoutes(e)
 	repairs.RegisterRoutes(e)
 	timesheets.RegisterRoutes(e)
+	blog.RegisterRoutes(e)
+	ecommerce.RegisterRoutes(e)
+	elearning.RegisterRoutes(e)
+	forum.RegisterRoutes(e)
+	live_chat.RegisterRoutes(e)
+	website_builder.RegisterRoutes(e)
 
 	// Register Swagger Route
 	e.GET("/swagger/*", echoSwagger.WrapHandler)
