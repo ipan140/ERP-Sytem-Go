@@ -39,6 +39,13 @@ import (
 	"ERP-System/app/modules/sales/rental"
 	"ERP-System/app/modules/sales/sales_core"
 	"ERP-System/app/modules/sales/subscriptions"
+	"ERP-System/app/modules/services/appointments"
+	"ERP-System/app/modules/services/field_service"
+	"ERP-System/app/modules/services/helpdesk"
+	"ERP-System/app/modules/services/planning"
+	"ERP-System/app/modules/services/project"
+	"ERP-System/app/modules/services/repairs"
+	"ERP-System/app/modules/services/timesheets"
 	"ERP-System/app/modules/supply_chain/barcode"
 	"ERP-System/app/modules/supply_chain/inventory"
 	"ERP-System/app/modules/supply_chain/maintenance"
@@ -115,6 +122,13 @@ func main() {
 	plm.RegisterRoutes(e)
 	purchase.RegisterRoutes(e)
 	quality.RegisterRoutes(e)
+	appointments.RegisterRoutes(e)
+	field_service.RegisterRoutes(e)
+	helpdesk.RegisterRoutes(e)
+	planning.RegisterRoutes(e)
+	project.RegisterRoutes(e)
+	repairs.RegisterRoutes(e)
+	timesheets.RegisterRoutes(e)
 
 	// Register Swagger Route
 	e.GET("/swagger/*", echoSwagger.WrapHandler)
