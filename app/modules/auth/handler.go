@@ -13,6 +13,15 @@ type LoginRequest struct {
 	Password string `json:"password" validate:"required"`
 }
 
+// LoginHandler godoc
+// @Summary Login User
+// @Description Authenticate user and get JWT token
+// @Tags auth
+// @Accept json
+// @Produce json
+// @Param request body LoginRequest true "Login credentials"
+// @Success 200 {object} map[string]interface{}
+// @Router /api/auth/login [post]
 func LoginHandler(c echo.Context) error {
 	var req LoginRequest
 	if err := c.Bind(&req); err != nil {
@@ -67,3 +76,4 @@ func RegisterHandler(c echo.Context) error {
 
 	return utils.SendSuccess(c, http.StatusCreated, "Registrasi berhasil!", user)
 }
+
