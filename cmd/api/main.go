@@ -5,8 +5,10 @@ import (
 	"net/http"
 	
 	"ERP-System/config"
-	"ERP-System/app/modules/auth"
-	"ERP-System/app/modules/storage"
+	"ERP-System/app/modules/core/auth"
+	"ERP-System/app/modules/core/storage"
+	_ "ERP-System/app/modules/core/mailer"
+	_ "ERP-System/app/modules/core/report"
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
