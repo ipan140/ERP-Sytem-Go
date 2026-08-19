@@ -102,3 +102,220 @@ func DeleteEmployeeHandler(c echo.Context) error {
 	}
 	return utils.SendSuccess(c, http.StatusOK, "Data deleted successfully", nil)
 }
+
+func CreateJobPositionHandler(c echo.Context) error {
+	var data JobPosition
+	if err := c.Bind(&data); err != nil { return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error()) }
+	if err := CreateJobPositionService(&data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to create", err.Error()) }
+	return utils.SendSuccess(c, http.StatusCreated, "Created successfully", data)
+}
+func GetAllJobPositionHandler(c echo.Context) error {
+	data, err := GetAllJobPositionService()
+	if err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve", err.Error()) }
+	return utils.SendSuccess(c, http.StatusOK, "Retrieved successfully", data)
+}
+func GetJobPositionByIDHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	data, err := GetJobPositionByIDService(uint(id))
+	if err != nil { return utils.SendError(c, http.StatusNotFound, "Not found", err.Error()) }
+	return utils.SendSuccess(c, http.StatusOK, "Retrieved successfully", data)
+}
+func UpdateJobPositionHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	data, err := GetJobPositionByIDService(uint(id))
+	if err != nil { return utils.SendError(c, http.StatusNotFound, "Not found", err.Error()) }
+	if err := c.Bind(data); err != nil { return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error()) }
+	if err := UpdateJobPositionService(data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to update", err.Error()) }
+	return utils.SendSuccess(c, http.StatusOK, "Updated successfully", data)
+}
+func DeleteJobPositionHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	if err := DeleteJobPositionService(uint(id)); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to delete", err.Error()) }
+	return utils.SendSuccess(c, http.StatusOK, "Deleted successfully", nil)
+}
+
+func CreateWorkingScheduleHandler(c echo.Context) error {
+	var data WorkingSchedule
+	if err := c.Bind(&data); err != nil { return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error()) }
+	if err := CreateWorkingScheduleService(&data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to create", err.Error()) }
+	return utils.SendSuccess(c, http.StatusCreated, "Created successfully", data)
+}
+func GetAllWorkingScheduleHandler(c echo.Context) error {
+	data, err := GetAllWorkingScheduleService()
+	if err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve", err.Error()) }
+	return utils.SendSuccess(c, http.StatusOK, "Retrieved successfully", data)
+}
+func GetWorkingScheduleByIDHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	data, err := GetWorkingScheduleByIDService(uint(id))
+	if err != nil { return utils.SendError(c, http.StatusNotFound, "Not found", err.Error()) }
+	return utils.SendSuccess(c, http.StatusOK, "Retrieved successfully", data)
+}
+func UpdateWorkingScheduleHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	data, err := GetWorkingScheduleByIDService(uint(id))
+	if err != nil { return utils.SendError(c, http.StatusNotFound, "Not found", err.Error()) }
+	if err := c.Bind(data); err != nil { return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error()) }
+	if err := UpdateWorkingScheduleService(data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to update", err.Error()) }
+	return utils.SendSuccess(c, http.StatusOK, "Updated successfully", data)
+}
+func DeleteWorkingScheduleHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	if err := DeleteWorkingScheduleService(uint(id)); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to delete", err.Error()) }
+	return utils.SendSuccess(c, http.StatusOK, "Deleted successfully", nil)
+}
+
+func CreateContractHandler(c echo.Context) error {
+	var data Contract
+	if err := c.Bind(&data); err != nil { return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error()) }
+	if err := CreateContractService(&data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to create", err.Error()) }
+	return utils.SendSuccess(c, http.StatusCreated, "Created successfully", data)
+}
+func GetAllContractHandler(c echo.Context) error {
+	data, err := GetAllContractService()
+	if err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve", err.Error()) }
+	return utils.SendSuccess(c, http.StatusOK, "Retrieved successfully", data)
+}
+func GetContractByIDHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	data, err := GetContractByIDService(uint(id))
+	if err != nil { return utils.SendError(c, http.StatusNotFound, "Not found", err.Error()) }
+	return utils.SendSuccess(c, http.StatusOK, "Retrieved successfully", data)
+}
+func UpdateContractHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	data, err := GetContractByIDService(uint(id))
+	if err != nil { return utils.SendError(c, http.StatusNotFound, "Not found", err.Error()) }
+	if err := c.Bind(data); err != nil { return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error()) }
+	if err := UpdateContractService(data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to update", err.Error()) }
+	return utils.SendSuccess(c, http.StatusOK, "Updated successfully", data)
+}
+func DeleteContractHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	if err := DeleteContractService(uint(id)); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to delete", err.Error()) }
+	return utils.SendSuccess(c, http.StatusOK, "Deleted successfully", nil)
+}
+
+func CreateSkillHandler(c echo.Context) error {
+	var data Skill
+	if err := c.Bind(&data); err != nil { return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error()) }
+	if err := CreateSkillService(&data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to create", err.Error()) }
+	return utils.SendSuccess(c, http.StatusCreated, "Created successfully", data)
+}
+func GetAllSkillHandler(c echo.Context) error {
+	data, err := GetAllSkillService()
+	if err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve", err.Error()) }
+	return utils.SendSuccess(c, http.StatusOK, "Retrieved successfully", data)
+}
+func GetSkillByIDHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	data, err := GetSkillByIDService(uint(id))
+	if err != nil { return utils.SendError(c, http.StatusNotFound, "Not found", err.Error()) }
+	return utils.SendSuccess(c, http.StatusOK, "Retrieved successfully", data)
+}
+func UpdateSkillHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	data, err := GetSkillByIDService(uint(id))
+	if err != nil { return utils.SendError(c, http.StatusNotFound, "Not found", err.Error()) }
+	if err := c.Bind(data); err != nil { return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error()) }
+	if err := UpdateSkillService(data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to update", err.Error()) }
+	return utils.SendSuccess(c, http.StatusOK, "Updated successfully", data)
+}
+func DeleteSkillHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	if err := DeleteSkillService(uint(id)); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to delete", err.Error()) }
+	return utils.SendSuccess(c, http.StatusOK, "Deleted successfully", nil)
+}
+
+func CreateSkillLevelHandler(c echo.Context) error {
+	var data SkillLevel
+	if err := c.Bind(&data); err != nil { return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error()) }
+	if err := CreateSkillLevelService(&data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to create", err.Error()) }
+	return utils.SendSuccess(c, http.StatusCreated, "Created successfully", data)
+}
+func GetAllSkillLevelHandler(c echo.Context) error {
+	data, err := GetAllSkillLevelService()
+	if err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve", err.Error()) }
+	return utils.SendSuccess(c, http.StatusOK, "Retrieved successfully", data)
+}
+func GetSkillLevelByIDHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	data, err := GetSkillLevelByIDService(uint(id))
+	if err != nil { return utils.SendError(c, http.StatusNotFound, "Not found", err.Error()) }
+	return utils.SendSuccess(c, http.StatusOK, "Retrieved successfully", data)
+}
+func UpdateSkillLevelHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	data, err := GetSkillLevelByIDService(uint(id))
+	if err != nil { return utils.SendError(c, http.StatusNotFound, "Not found", err.Error()) }
+	if err := c.Bind(data); err != nil { return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error()) }
+	if err := UpdateSkillLevelService(data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to update", err.Error()) }
+	return utils.SendSuccess(c, http.StatusOK, "Updated successfully", data)
+}
+func DeleteSkillLevelHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	if err := DeleteSkillLevelService(uint(id)); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to delete", err.Error()) }
+	return utils.SendSuccess(c, http.StatusOK, "Deleted successfully", nil)
+}
+
+func CreateEmployeeSkillHandler(c echo.Context) error {
+	var data EmployeeSkill
+	if err := c.Bind(&data); err != nil { return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error()) }
+	if err := CreateEmployeeSkillService(&data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to create", err.Error()) }
+	return utils.SendSuccess(c, http.StatusCreated, "Created successfully", data)
+}
+func GetAllEmployeeSkillHandler(c echo.Context) error {
+	data, err := GetAllEmployeeSkillService()
+	if err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve", err.Error()) }
+	return utils.SendSuccess(c, http.StatusOK, "Retrieved successfully", data)
+}
+func GetEmployeeSkillByIDHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	data, err := GetEmployeeSkillByIDService(uint(id))
+	if err != nil { return utils.SendError(c, http.StatusNotFound, "Not found", err.Error()) }
+	return utils.SendSuccess(c, http.StatusOK, "Retrieved successfully", data)
+}
+func UpdateEmployeeSkillHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	data, err := GetEmployeeSkillByIDService(uint(id))
+	if err != nil { return utils.SendError(c, http.StatusNotFound, "Not found", err.Error()) }
+	if err := c.Bind(data); err != nil { return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error()) }
+	if err := UpdateEmployeeSkillService(data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to update", err.Error()) }
+	return utils.SendSuccess(c, http.StatusOK, "Updated successfully", data)
+}
+func DeleteEmployeeSkillHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	if err := DeleteEmployeeSkillService(uint(id)); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to delete", err.Error()) }
+	return utils.SendSuccess(c, http.StatusOK, "Deleted successfully", nil)
+}
+
+func CreateResumeLineHandler(c echo.Context) error {
+	var data ResumeLine
+	if err := c.Bind(&data); err != nil { return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error()) }
+	if err := CreateResumeLineService(&data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to create", err.Error()) }
+	return utils.SendSuccess(c, http.StatusCreated, "Created successfully", data)
+}
+func GetAllResumeLineHandler(c echo.Context) error {
+	data, err := GetAllResumeLineService()
+	if err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve", err.Error()) }
+	return utils.SendSuccess(c, http.StatusOK, "Retrieved successfully", data)
+}
+func GetResumeLineByIDHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	data, err := GetResumeLineByIDService(uint(id))
+	if err != nil { return utils.SendError(c, http.StatusNotFound, "Not found", err.Error()) }
+	return utils.SendSuccess(c, http.StatusOK, "Retrieved successfully", data)
+}
+func UpdateResumeLineHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	data, err := GetResumeLineByIDService(uint(id))
+	if err != nil { return utils.SendError(c, http.StatusNotFound, "Not found", err.Error()) }
+	if err := c.Bind(data); err != nil { return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error()) }
+	if err := UpdateResumeLineService(data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to update", err.Error()) }
+	return utils.SendSuccess(c, http.StatusOK, "Updated successfully", data)
+}
+func DeleteResumeLineHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	if err := DeleteResumeLineService(uint(id)); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to delete", err.Error()) }
+	return utils.SendSuccess(c, http.StatusOK, "Deleted successfully", nil)
+}

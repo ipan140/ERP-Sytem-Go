@@ -12,4 +12,10 @@ func RegisterRoutes(e *echo.Echo) {
 	api.GET("/:id", GetAttendanceByIDHandler)
 	api.PUT("/:id", UpdateAttendanceHandler)
 	api.DELETE("/:id", DeleteAttendanceHandler)
+
+	api.POST("/overtime", CreateOvertimeHandler)
+	api.GET("/overtime", GetAllOvertimeHandler)
+	api.GET("/overtime/:id", GetOvertimeByIDHandler)
+	api.PUT("/overtime/:id", UpdateOvertimeHandler)
+	api.DELETE("/overtime/:id", DeleteOvertimeHandler)
 }

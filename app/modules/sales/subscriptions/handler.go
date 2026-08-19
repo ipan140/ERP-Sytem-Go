@@ -102,3 +102,34 @@ func DeleteSubscriptionHandler(c echo.Context) error {
 	}
 	return utils.SendSuccess(c, http.StatusOK, "Data deleted successfully", nil)
 }
+
+func CreateSubscriptionPlanHandler(c echo.Context) error {
+	var data SubscriptionPlan
+	if err := c.Bind(&data); err != nil { return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error()) }
+	if err := CreateSubscriptionPlanService(&data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to create", err.Error()) }
+	return utils.SendSuccess(c, http.StatusCreated, "Created successfully", data)
+}
+func GetAllSubscriptionPlanHandler(c echo.Context) error {
+	data, err := GetAllSubscriptionPlanService()
+	if err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve", err.Error()) }
+	return utils.SendSuccess(c, http.StatusOK, "Retrieved successfully", data)
+}
+func GetSubscriptionPlanByIDHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	data, err := GetSubscriptionPlanByIDService(uint(id))
+	if err != nil { return utils.SendError(c, http.StatusNotFound, "Not found", err.Error()) }
+	return utils.SendSuccess(c, http.StatusOK, "Retrieved successfully", data)
+}
+func UpdateSubscriptionPlanHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	data, err := GetSubscriptionPlanByIDService(uint(id))
+	if err != nil { return utils.SendError(c, http.StatusNotFound, "Not found", err.Error()) }
+	if err := c.Bind(data); err != nil { return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error()) }
+	if err := UpdateSubscriptionPlanService(data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to update", err.Error()) }
+	return utils.SendSuccess(c, http.StatusOK, "Updated successfully", data)
+}
+func DeleteSubscriptionPlanHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	if err := DeleteSubscriptionPlanService(uint(id)); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to delete", err.Error()) }
+	return utils.SendSuccess(c, http.StatusOK, "Deleted successfully", nil)
+}

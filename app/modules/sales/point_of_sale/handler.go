@@ -102,3 +102,158 @@ func DeletePosSessionHandler(c echo.Context) error {
 	}
 	return utils.SendSuccess(c, http.StatusOK, "Data deleted successfully", nil)
 }
+
+func CreatePosConfigHandler(c echo.Context) error {
+	var data PosConfig
+	if err := c.Bind(&data); err != nil { return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error()) }
+	if err := CreatePosConfigService(&data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to create", err.Error()) }
+	return utils.SendSuccess(c, http.StatusCreated, "Created successfully", data)
+}
+func GetAllPosConfigHandler(c echo.Context) error {
+	data, err := GetAllPosConfigService()
+	if err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve", err.Error()) }
+	return utils.SendSuccess(c, http.StatusOK, "Retrieved successfully", data)
+}
+func GetPosConfigByIDHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	data, err := GetPosConfigByIDService(uint(id))
+	if err != nil { return utils.SendError(c, http.StatusNotFound, "Not found", err.Error()) }
+	return utils.SendSuccess(c, http.StatusOK, "Retrieved successfully", data)
+}
+func UpdatePosConfigHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	data, err := GetPosConfigByIDService(uint(id))
+	if err != nil { return utils.SendError(c, http.StatusNotFound, "Not found", err.Error()) }
+	if err := c.Bind(data); err != nil { return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error()) }
+	if err := UpdatePosConfigService(data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to update", err.Error()) }
+	return utils.SendSuccess(c, http.StatusOK, "Updated successfully", data)
+}
+func DeletePosConfigHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	if err := DeletePosConfigService(uint(id)); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to delete", err.Error()) }
+	return utils.SendSuccess(c, http.StatusOK, "Deleted successfully", nil)
+}
+
+func CreatePosOrderHandler(c echo.Context) error {
+	var data PosOrder
+	if err := c.Bind(&data); err != nil { return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error()) }
+	if err := CreatePosOrderService(&data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to create", err.Error()) }
+	return utils.SendSuccess(c, http.StatusCreated, "Created successfully", data)
+}
+func GetAllPosOrderHandler(c echo.Context) error {
+	data, err := GetAllPosOrderService()
+	if err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve", err.Error()) }
+	return utils.SendSuccess(c, http.StatusOK, "Retrieved successfully", data)
+}
+func GetPosOrderByIDHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	data, err := GetPosOrderByIDService(uint(id))
+	if err != nil { return utils.SendError(c, http.StatusNotFound, "Not found", err.Error()) }
+	return utils.SendSuccess(c, http.StatusOK, "Retrieved successfully", data)
+}
+func UpdatePosOrderHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	data, err := GetPosOrderByIDService(uint(id))
+	if err != nil { return utils.SendError(c, http.StatusNotFound, "Not found", err.Error()) }
+	if err := c.Bind(data); err != nil { return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error()) }
+	if err := UpdatePosOrderService(data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to update", err.Error()) }
+	return utils.SendSuccess(c, http.StatusOK, "Updated successfully", data)
+}
+func DeletePosOrderHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	if err := DeletePosOrderService(uint(id)); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to delete", err.Error()) }
+	return utils.SendSuccess(c, http.StatusOK, "Deleted successfully", nil)
+}
+
+func CreatePosOrderLineHandler(c echo.Context) error {
+	var data PosOrderLine
+	if err := c.Bind(&data); err != nil { return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error()) }
+	if err := CreatePosOrderLineService(&data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to create", err.Error()) }
+	return utils.SendSuccess(c, http.StatusCreated, "Created successfully", data)
+}
+func GetAllPosOrderLineHandler(c echo.Context) error {
+	data, err := GetAllPosOrderLineService()
+	if err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve", err.Error()) }
+	return utils.SendSuccess(c, http.StatusOK, "Retrieved successfully", data)
+}
+func GetPosOrderLineByIDHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	data, err := GetPosOrderLineByIDService(uint(id))
+	if err != nil { return utils.SendError(c, http.StatusNotFound, "Not found", err.Error()) }
+	return utils.SendSuccess(c, http.StatusOK, "Retrieved successfully", data)
+}
+func UpdatePosOrderLineHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	data, err := GetPosOrderLineByIDService(uint(id))
+	if err != nil { return utils.SendError(c, http.StatusNotFound, "Not found", err.Error()) }
+	if err := c.Bind(data); err != nil { return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error()) }
+	if err := UpdatePosOrderLineService(data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to update", err.Error()) }
+	return utils.SendSuccess(c, http.StatusOK, "Updated successfully", data)
+}
+func DeletePosOrderLineHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	if err := DeletePosOrderLineService(uint(id)); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to delete", err.Error()) }
+	return utils.SendSuccess(c, http.StatusOK, "Deleted successfully", nil)
+}
+
+func CreatePosPaymentHandler(c echo.Context) error {
+	var data PosPayment
+	if err := c.Bind(&data); err != nil { return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error()) }
+	if err := CreatePosPaymentService(&data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to create", err.Error()) }
+	return utils.SendSuccess(c, http.StatusCreated, "Created successfully", data)
+}
+func GetAllPosPaymentHandler(c echo.Context) error {
+	data, err := GetAllPosPaymentService()
+	if err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve", err.Error()) }
+	return utils.SendSuccess(c, http.StatusOK, "Retrieved successfully", data)
+}
+func GetPosPaymentByIDHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	data, err := GetPosPaymentByIDService(uint(id))
+	if err != nil { return utils.SendError(c, http.StatusNotFound, "Not found", err.Error()) }
+	return utils.SendSuccess(c, http.StatusOK, "Retrieved successfully", data)
+}
+func UpdatePosPaymentHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	data, err := GetPosPaymentByIDService(uint(id))
+	if err != nil { return utils.SendError(c, http.StatusNotFound, "Not found", err.Error()) }
+	if err := c.Bind(data); err != nil { return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error()) }
+	if err := UpdatePosPaymentService(data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to update", err.Error()) }
+	return utils.SendSuccess(c, http.StatusOK, "Updated successfully", data)
+}
+func DeletePosPaymentHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	if err := DeletePosPaymentService(uint(id)); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to delete", err.Error()) }
+	return utils.SendSuccess(c, http.StatusOK, "Deleted successfully", nil)
+}
+
+func CreateLoyaltyProgramHandler(c echo.Context) error {
+	var data LoyaltyProgram
+	if err := c.Bind(&data); err != nil { return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error()) }
+	if err := CreateLoyaltyProgramService(&data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to create", err.Error()) }
+	return utils.SendSuccess(c, http.StatusCreated, "Created successfully", data)
+}
+func GetAllLoyaltyProgramHandler(c echo.Context) error {
+	data, err := GetAllLoyaltyProgramService()
+	if err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve", err.Error()) }
+	return utils.SendSuccess(c, http.StatusOK, "Retrieved successfully", data)
+}
+func GetLoyaltyProgramByIDHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	data, err := GetLoyaltyProgramByIDService(uint(id))
+	if err != nil { return utils.SendError(c, http.StatusNotFound, "Not found", err.Error()) }
+	return utils.SendSuccess(c, http.StatusOK, "Retrieved successfully", data)
+}
+func UpdateLoyaltyProgramHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	data, err := GetLoyaltyProgramByIDService(uint(id))
+	if err != nil { return utils.SendError(c, http.StatusNotFound, "Not found", err.Error()) }
+	if err := c.Bind(data); err != nil { return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error()) }
+	if err := UpdateLoyaltyProgramService(data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to update", err.Error()) }
+	return utils.SendSuccess(c, http.StatusOK, "Updated successfully", data)
+}
+func DeleteLoyaltyProgramHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	if err := DeleteLoyaltyProgramService(uint(id)); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to delete", err.Error()) }
+	return utils.SendSuccess(c, http.StatusOK, "Deleted successfully", nil)
+}

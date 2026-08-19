@@ -27,3 +27,9 @@ func UpdateRentalOrder(data *RentalOrder) error {
 func DeleteRentalOrder(id uint) error {
 	return config.DB.Delete(&RentalOrder{}, id).Error
 }
+
+func CreateRentalOrderLine(data *RentalOrderLine) error { return config.DB.Create(data).Error }
+func GetAllRentalOrderLine() ([]RentalOrderLine, error) { var list []RentalOrderLine; err := config.DB.Find(&list).Error; return list, err }
+func GetRentalOrderLineByID(id uint) (*RentalOrderLine, error) { var data RentalOrderLine; err := config.DB.First(&data, id).Error; return &data, err }
+func UpdateRentalOrderLine(data *RentalOrderLine) error { return config.DB.Save(data).Error }
+func DeleteRentalOrderLine(id uint) error { return config.DB.Delete(&RentalOrderLine{}, id).Error }

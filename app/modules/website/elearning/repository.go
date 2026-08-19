@@ -27,3 +27,9 @@ func UpdateCourse(data *Course) error {
 func DeleteCourse(id uint) error {
 	return config.DB.Delete(&Course{}, id).Error
 }
+
+func CreateSlide(data *Slide) error { return config.DB.Create(data).Error }
+func GetAllSlide() ([]Slide, error) { var list []Slide; err := config.DB.Find(&list).Error; return list, err }
+func GetSlideByID(id uint) (*Slide, error) { var data Slide; err := config.DB.First(&data, id).Error; return &data, err }
+func UpdateSlide(data *Slide) error { return config.DB.Save(data).Error }
+func DeleteSlide(id uint) error { return config.DB.Delete(&Slide{}, id).Error }

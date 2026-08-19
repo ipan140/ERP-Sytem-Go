@@ -19,3 +19,9 @@ func UpdateReferralRewardService(data *ReferralReward) error {
 func DeleteReferralRewardService(id uint) error {
 	return DeleteReferralReward(id)
 }
+
+func CreateReferralPointService(data *ReferralPoint) error { return CreateReferralPoint(data) }
+func GetAllReferralPointService() ([]ReferralPoint, error) { return GetAllReferralPoint() }
+func GetReferralPointByIDService(id uint) (*ReferralPoint, error) { return GetReferralPointByID(id) }
+func UpdateReferralPointService(data *ReferralPoint) error { return UpdateReferralPoint(data) }
+func DeleteReferralPointService(id uint) error { return DeleteReferralPoint(id) }

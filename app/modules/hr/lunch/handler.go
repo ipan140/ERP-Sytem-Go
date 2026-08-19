@@ -102,3 +102,34 @@ func DeleteLunchOrderHandler(c echo.Context) error {
 	}
 	return utils.SendSuccess(c, http.StatusOK, "Data deleted successfully", nil)
 }
+
+func CreateLunchCashmoveHandler(c echo.Context) error {
+	var data LunchCashmove
+	if err := c.Bind(&data); err != nil { return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error()) }
+	if err := CreateLunchCashmoveService(&data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to create", err.Error()) }
+	return utils.SendSuccess(c, http.StatusCreated, "Created successfully", data)
+}
+func GetAllLunchCashmoveHandler(c echo.Context) error {
+	data, err := GetAllLunchCashmoveService()
+	if err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve", err.Error()) }
+	return utils.SendSuccess(c, http.StatusOK, "Retrieved successfully", data)
+}
+func GetLunchCashmoveByIDHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	data, err := GetLunchCashmoveByIDService(uint(id))
+	if err != nil { return utils.SendError(c, http.StatusNotFound, "Not found", err.Error()) }
+	return utils.SendSuccess(c, http.StatusOK, "Retrieved successfully", data)
+}
+func UpdateLunchCashmoveHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	data, err := GetLunchCashmoveByIDService(uint(id))
+	if err != nil { return utils.SendError(c, http.StatusNotFound, "Not found", err.Error()) }
+	if err := c.Bind(data); err != nil { return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error()) }
+	if err := UpdateLunchCashmoveService(data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to update", err.Error()) }
+	return utils.SendSuccess(c, http.StatusOK, "Updated successfully", data)
+}
+func DeleteLunchCashmoveHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	if err := DeleteLunchCashmoveService(uint(id)); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to delete", err.Error()) }
+	return utils.SendSuccess(c, http.StatusOK, "Deleted successfully", nil)
+}

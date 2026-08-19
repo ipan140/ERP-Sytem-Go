@@ -19,3 +19,9 @@ func UpdateCourseService(data *Course) error {
 func DeleteCourseService(id uint) error {
 	return DeleteCourse(id)
 }
+
+func CreateSlideService(data *Slide) error { return CreateSlide(data) }
+func GetAllSlideService() ([]Slide, error) { return GetAllSlide() }
+func GetSlideByIDService(id uint) (*Slide, error) { return GetSlideByID(id) }
+func UpdateSlideService(data *Slide) error { return UpdateSlide(data) }
+func DeleteSlideService(id uint) error { return DeleteSlide(id) }

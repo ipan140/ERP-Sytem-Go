@@ -27,3 +27,9 @@ func UpdateReferralReward(data *ReferralReward) error {
 func DeleteReferralReward(id uint) error {
 	return config.DB.Delete(&ReferralReward{}, id).Error
 }
+
+func CreateReferralPoint(data *ReferralPoint) error { return config.DB.Create(data).Error }
+func GetAllReferralPoint() ([]ReferralPoint, error) { var list []ReferralPoint; err := config.DB.Find(&list).Error; return list, err }
+func GetReferralPointByID(id uint) (*ReferralPoint, error) { var data ReferralPoint; err := config.DB.First(&data, id).Error; return &data, err }
+func UpdateReferralPoint(data *ReferralPoint) error { return config.DB.Save(data).Error }
+func DeleteReferralPoint(id uint) error { return config.DB.Delete(&ReferralPoint{}, id).Error }

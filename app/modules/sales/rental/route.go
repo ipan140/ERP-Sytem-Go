@@ -12,4 +12,10 @@ func RegisterRoutes(e *echo.Echo) {
 	api.GET("/:id", GetRentalOrderByIDHandler)
 	api.PUT("/:id", UpdateRentalOrderHandler)
 	api.DELETE("/:id", DeleteRentalOrderHandler)
+
+	api.POST("/rentalorderline", CreateRentalOrderLineHandler)
+	api.GET("/rentalorderline", GetAllRentalOrderLineHandler)
+	api.GET("/rentalorderline/:id", GetRentalOrderLineByIDHandler)
+	api.PUT("/rentalorderline/:id", UpdateRentalOrderLineHandler)
+	api.DELETE("/rentalorderline/:id", DeleteRentalOrderLineHandler)
 }

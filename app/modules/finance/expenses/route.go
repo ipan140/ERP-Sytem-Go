@@ -12,4 +12,10 @@ func RegisterRoutes(e *echo.Echo) {
 	api.GET("/:id", GetExpenseByIDHandler)
 	api.PUT("/:id", UpdateExpenseHandler)
 	api.DELETE("/:id", DeleteExpenseHandler)
+
+	api.POST("/expensesheet", CreateExpenseSheetHandler)
+	api.GET("/expensesheet", GetAllExpenseSheetHandler)
+	api.GET("/expensesheet/:id", GetExpenseSheetByIDHandler)
+	api.PUT("/expensesheet/:id", UpdateExpenseSheetHandler)
+	api.DELETE("/expensesheet/:id", DeleteExpenseSheetHandler)
 }

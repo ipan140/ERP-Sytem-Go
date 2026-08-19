@@ -19,3 +19,9 @@ func UpdateRentalOrderService(data *RentalOrder) error {
 func DeleteRentalOrderService(id uint) error {
 	return DeleteRentalOrder(id)
 }
+
+func CreateRentalOrderLineService(data *RentalOrderLine) error { return CreateRentalOrderLine(data) }
+func GetAllRentalOrderLineService() ([]RentalOrderLine, error) { return GetAllRentalOrderLine() }
+func GetRentalOrderLineByIDService(id uint) (*RentalOrderLine, error) { return GetRentalOrderLineByID(id) }
+func UpdateRentalOrderLineService(data *RentalOrderLine) error { return UpdateRentalOrderLine(data) }
+func DeleteRentalOrderLineService(id uint) error { return DeleteRentalOrderLine(id) }

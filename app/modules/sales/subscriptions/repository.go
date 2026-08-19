@@ -27,3 +27,9 @@ func UpdateSubscription(data *Subscription) error {
 func DeleteSubscription(id uint) error {
 	return config.DB.Delete(&Subscription{}, id).Error
 }
+
+func CreateSubscriptionPlan(data *SubscriptionPlan) error { return config.DB.Create(data).Error }
+func GetAllSubscriptionPlan() ([]SubscriptionPlan, error) { var list []SubscriptionPlan; err := config.DB.Find(&list).Error; return list, err }
+func GetSubscriptionPlanByID(id uint) (*SubscriptionPlan, error) { var data SubscriptionPlan; err := config.DB.First(&data, id).Error; return &data, err }
+func UpdateSubscriptionPlan(data *SubscriptionPlan) error { return config.DB.Save(data).Error }
+func DeleteSubscriptionPlan(id uint) error { return config.DB.Delete(&SubscriptionPlan{}, id).Error }
