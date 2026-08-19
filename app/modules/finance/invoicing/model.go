@@ -15,7 +15,8 @@ type Invoice struct {
 	ID             uint      `gorm:"primaryKey" json:"id"`
 	Name           string    `gorm:"type:varchar(100);not null" json:"name"`
 	PartnerID      uint      `json:"partner_id"`
-	PaymentTermID  *uint     `json:"payment_term_id"`
+	PaymentTermID  *uint     `json:"payment_term_id"` 
+	IncotermID     *uint     `json:"incoterm_id"` // Untuk Ekspor/Impor
 	InvoiceDate    time.Time `json:"invoice_date"`
 	DueDate        time.Time `json:"due_date"`
 	State          string    `gorm:"type:varchar(20);default:'draft'" json:"state"`
@@ -43,6 +44,25 @@ type Tax struct {
 	Rate float64 `gorm:"type:numeric(5,2)" json:"rate"`
 }
 
-func init() {
-	config.ModelsToMigrate = append(config.ModelsToMigrate, &PaymentTerm{}, &Invoice{}, &InvoiceLine{}, &Tax{})
+
+// ---- FITUR ODOO MEDIUM (Ditambahkan Manual) ----
+
+type PaymentTermLine struct {
+	ID            uint    `gorm:"primaryKey" json:"id"`
+	PaymentTermID uint    `json:"payment_term_id"`
+	ValueType     string  `gorm:"type:varchar(20);default:'percent'" json:"value_type"` // percent, fixed, balance
+	ValueAmount   float64 `gorm:"type:numeric(15,2)" json:"value_amount"`
+	Days          int     `json:"days"`
 }
+
+type TaxRepartitionLine struct {
+	ID              uint    `gorm:"primaryKey" json:"id"`
+	TaxID           uint    `json:"tax_id"`
+	RepartitionType string  `gorm:"type:varchar(20);default:'tax'" json:"repartition_type"` // base, tax
+	FactorPercent   float64 `gorm:"type:numeric(5,2);default:100" json:"factor_percent"`
+	AccountID       *uint   `json:"account_id"` // Chart of Account Tujuan
+}
+func init() {
+	config.ModelsToMigrate = append(config.ModelsToMigrate, &PaymentTerm{}, &Invoice{}, &InvoiceLine{}, &Tax{}, &PaymentTermLine{}, &TaxRepartitionLine{})
+}
+

@@ -27,3 +27,15 @@ func UpdateInvoice(data *Invoice) error {
 func DeleteInvoice(id uint) error {
 	return config.DB.Delete(&Invoice{}, id).Error
 }
+
+func CreatePaymentTermLine(data *PaymentTermLine) error { return config.DB.Create(data).Error }
+func GetAllPaymentTermLine() ([]PaymentTermLine, error) { var list []PaymentTermLine; err := config.DB.Find(&list).Error; return list, err }
+func GetPaymentTermLineByID(id uint) (*PaymentTermLine, error) { var data PaymentTermLine; err := config.DB.First(&data, id).Error; return &data, err }
+func UpdatePaymentTermLine(data *PaymentTermLine) error { return config.DB.Save(data).Error }
+func DeletePaymentTermLine(id uint) error { return config.DB.Delete(&PaymentTermLine{}, id).Error }
+
+func CreateTaxRepartitionLine(data *TaxRepartitionLine) error { return config.DB.Create(data).Error }
+func GetAllTaxRepartitionLine() ([]TaxRepartitionLine, error) { var list []TaxRepartitionLine; err := config.DB.Find(&list).Error; return list, err }
+func GetTaxRepartitionLineByID(id uint) (*TaxRepartitionLine, error) { var data TaxRepartitionLine; err := config.DB.First(&data, id).Error; return &data, err }
+func UpdateTaxRepartitionLine(data *TaxRepartitionLine) error { return config.DB.Save(data).Error }
+func DeleteTaxRepartitionLine(id uint) error { return config.DB.Delete(&TaxRepartitionLine{}, id).Error }

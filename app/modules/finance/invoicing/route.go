@@ -15,4 +15,15 @@ func RegisterRoutes(e *echo.Echo) {
 	api.POST("/:id/post", PostInvoiceHandler)
 	api.POST("/:id/refund", RefundInvoiceHandler)
 	api.POST("/dunning", TriggerDunningHandler)
+	api.POST("/paymenttermline", CreatePaymentTermLineHandler)
+	api.GET("/paymenttermline", GetAllPaymentTermLineHandler)
+	api.GET("/paymenttermline/:id", GetPaymentTermLineByIDHandler)
+	api.PUT("/paymenttermline/:id", UpdatePaymentTermLineHandler)
+	api.DELETE("/paymenttermline/:id", DeletePaymentTermLineHandler)
+
+	api.POST("/taxrepartitionline", CreateTaxRepartitionLineHandler)
+	api.GET("/taxrepartitionline", GetAllTaxRepartitionLineHandler)
+	api.GET("/taxrepartitionline/:id", GetTaxRepartitionLineByIDHandler)
+	api.PUT("/taxrepartitionline/:id", UpdateTaxRepartitionLineHandler)
+	api.DELETE("/taxrepartitionline/:id", DeleteTaxRepartitionLineHandler)
 }
