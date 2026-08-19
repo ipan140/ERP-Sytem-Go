@@ -8,8 +8,8 @@ import (
 )
 
 // CreateBom godoc
-// @Summary Create a new Bom
-// @Description Create a new Bom in the system
+// @Summary Create a new PlmEco
+// @Description Create a new PlmEco in the system
 // @Tags supply_chain-plm
 // @Accept json
 // @Produce json
@@ -17,7 +17,7 @@ import (
 // @Router /api/supply_chain/plm [post]
 // @Security BearerAuth
 func CreateBomHandler(c echo.Context) error {
-	var data Bom
+	var data PlmEco
 	if err := c.Bind(&data); err != nil {
 		return utils.SendError(c, http.StatusBadRequest, "Invalid request payload", err.Error())
 	}
@@ -28,8 +28,8 @@ func CreateBomHandler(c echo.Context) error {
 }
 
 // GetAllBom godoc
-// @Summary Get all Bom
-// @Description Retrieve a list of all Bom
+// @Summary Get all PlmEco
+// @Description Retrieve a list of all PlmEco
 // @Tags supply_chain-plm
 // @Produce json
 // @Success 200 {object} map[string]interface{}
@@ -44,11 +44,11 @@ func GetAllBomHandler(c echo.Context) error {
 }
 
 // GetBomByID godoc
-// @Summary Get a Bom by ID
-// @Description Retrieve a specific Bom by its ID
+// @Summary Get a PlmEco by ID
+// @Description Retrieve a specific PlmEco by its ID
 // @Tags supply_chain-plm
 // @Produce json
-// @Param id path int true "Bom ID"
+// @Param id path int true "PlmEco ID"
 // @Success 200 {object} map[string]interface{}
 // @Router /api/supply_chain/plm/{id} [get]
 // @Security BearerAuth
@@ -62,12 +62,12 @@ func GetBomByIDHandler(c echo.Context) error {
 }
 
 // UpdateBom godoc
-// @Summary Update a Bom
-// @Description Update an existing Bom
+// @Summary Update a PlmEco
+// @Description Update an existing PlmEco
 // @Tags supply_chain-plm
 // @Accept json
 // @Produce json
-// @Param id path int true "Bom ID"
+// @Param id path int true "PlmEco ID"
 // @Success 200 {object} map[string]interface{}
 // @Router /api/supply_chain/plm/{id} [put]
 // @Security BearerAuth
@@ -87,11 +87,11 @@ func UpdateBomHandler(c echo.Context) error {
 }
 
 // DeleteBom godoc
-// @Summary Delete a Bom
-// @Description Delete a Bom by ID
+// @Summary Delete a PlmEco
+// @Description Delete a PlmEco by ID
 // @Tags supply_chain-plm
 // @Produce json
-// @Param id path int true "Bom ID"
+// @Param id path int true "PlmEco ID"
 // @Success 200 {object} map[string]interface{}
 // @Router /api/supply_chain/plm/{id} [delete]
 // @Security BearerAuth

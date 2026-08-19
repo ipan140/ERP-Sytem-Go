@@ -8,8 +8,8 @@ import (
 )
 
 // CreateBarcodeConfig godoc
-// @Summary Create a new BarcodeConfig
-// @Description Create a new BarcodeConfig in the system
+// @Summary Create a new BarcodeNomenclature
+// @Description Create a new BarcodeNomenclature in the system
 // @Tags supply_chain-barcode
 // @Accept json
 // @Produce json
@@ -17,7 +17,7 @@ import (
 // @Router /api/supply_chain/barcode [post]
 // @Security BearerAuth
 func CreateBarcodeConfigHandler(c echo.Context) error {
-	var data BarcodeConfig
+	var data BarcodeNomenclature
 	if err := c.Bind(&data); err != nil {
 		return utils.SendError(c, http.StatusBadRequest, "Invalid request payload", err.Error())
 	}
@@ -28,8 +28,8 @@ func CreateBarcodeConfigHandler(c echo.Context) error {
 }
 
 // GetAllBarcodeConfig godoc
-// @Summary Get all BarcodeConfig
-// @Description Retrieve a list of all BarcodeConfig
+// @Summary Get all BarcodeNomenclature
+// @Description Retrieve a list of all BarcodeNomenclature
 // @Tags supply_chain-barcode
 // @Produce json
 // @Success 200 {object} map[string]interface{}
@@ -44,11 +44,11 @@ func GetAllBarcodeConfigHandler(c echo.Context) error {
 }
 
 // GetBarcodeConfigByID godoc
-// @Summary Get a BarcodeConfig by ID
-// @Description Retrieve a specific BarcodeConfig by its ID
+// @Summary Get a BarcodeNomenclature by ID
+// @Description Retrieve a specific BarcodeNomenclature by its ID
 // @Tags supply_chain-barcode
 // @Produce json
-// @Param id path int true "BarcodeConfig ID"
+// @Param id path int true "BarcodeNomenclature ID"
 // @Success 200 {object} map[string]interface{}
 // @Router /api/supply_chain/barcode/{id} [get]
 // @Security BearerAuth
@@ -62,12 +62,12 @@ func GetBarcodeConfigByIDHandler(c echo.Context) error {
 }
 
 // UpdateBarcodeConfig godoc
-// @Summary Update a BarcodeConfig
-// @Description Update an existing BarcodeConfig
+// @Summary Update a BarcodeNomenclature
+// @Description Update an existing BarcodeNomenclature
 // @Tags supply_chain-barcode
 // @Accept json
 // @Produce json
-// @Param id path int true "BarcodeConfig ID"
+// @Param id path int true "BarcodeNomenclature ID"
 // @Success 200 {object} map[string]interface{}
 // @Router /api/supply_chain/barcode/{id} [put]
 // @Security BearerAuth
@@ -87,11 +87,11 @@ func UpdateBarcodeConfigHandler(c echo.Context) error {
 }
 
 // DeleteBarcodeConfig godoc
-// @Summary Delete a BarcodeConfig
-// @Description Delete a BarcodeConfig by ID
+// @Summary Delete a BarcodeNomenclature
+// @Description Delete a BarcodeNomenclature by ID
 // @Tags supply_chain-barcode
 // @Produce json
-// @Param id path int true "BarcodeConfig ID"
+// @Param id path int true "BarcodeNomenclature ID"
 // @Success 200 {object} map[string]interface{}
 // @Router /api/supply_chain/barcode/{id} [delete]
 // @Security BearerAuth

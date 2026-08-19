@@ -1,18 +1,18 @@
 package plm
 
-func CreateBomService(data *Bom) error {
+func CreateBomService(data *PlmEco) error {
 	return CreateBom(data)
 }
 
-func GetAllBomService() ([]Bom, error) {
+func GetAllBomService() ([]PlmEco, error) {
 	return GetAllBom()
 }
 
-func GetBomByIDService(id uint) (*Bom, error) {
+func GetBomByIDService(id uint) (*PlmEco, error) {
 	return GetBomByID(id)
 }
 
-func UpdateBomService(data *Bom) error {
+func UpdateBomService(data *PlmEco) error {
 	return UpdateBom(data)
 }
 

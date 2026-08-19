@@ -102,3 +102,96 @@ func DeleteCurrencyHandler(c echo.Context) error {
 	}
 	return utils.SendSuccess(c, http.StatusOK, "Data deleted successfully", nil)
 }
+
+func CreateCountryHandler(c echo.Context) error {
+	var data Country
+	if err := c.Bind(&data); err != nil { return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error()) }
+	if err := CreateCountryService(&data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to create", err.Error()) }
+	return utils.SendSuccess(c, http.StatusCreated, "Created successfully", data)
+}
+func GetAllCountryHandler(c echo.Context) error {
+	data, err := GetAllCountryService()
+	if err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve", err.Error()) }
+	return utils.SendSuccess(c, http.StatusOK, "Retrieved successfully", data)
+}
+func GetCountryByIDHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	data, err := GetCountryByIDService(uint(id))
+	if err != nil { return utils.SendError(c, http.StatusNotFound, "Not found", err.Error()) }
+	return utils.SendSuccess(c, http.StatusOK, "Retrieved successfully", data)
+}
+func UpdateCountryHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	data, err := GetCountryByIDService(uint(id))
+	if err != nil { return utils.SendError(c, http.StatusNotFound, "Not found", err.Error()) }
+	if err := c.Bind(data); err != nil { return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error()) }
+	if err := UpdateCountryService(data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to update", err.Error()) }
+	return utils.SendSuccess(c, http.StatusOK, "Updated successfully", data)
+}
+func DeleteCountryHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	if err := DeleteCountryService(uint(id)); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to delete", err.Error()) }
+	return utils.SendSuccess(c, http.StatusOK, "Deleted successfully", nil)
+}
+
+func CreateCountryStateHandler(c echo.Context) error {
+	var data CountryState
+	if err := c.Bind(&data); err != nil { return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error()) }
+	if err := CreateCountryStateService(&data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to create", err.Error()) }
+	return utils.SendSuccess(c, http.StatusCreated, "Created successfully", data)
+}
+func GetAllCountryStateHandler(c echo.Context) error {
+	data, err := GetAllCountryStateService()
+	if err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve", err.Error()) }
+	return utils.SendSuccess(c, http.StatusOK, "Retrieved successfully", data)
+}
+func GetCountryStateByIDHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	data, err := GetCountryStateByIDService(uint(id))
+	if err != nil { return utils.SendError(c, http.StatusNotFound, "Not found", err.Error()) }
+	return utils.SendSuccess(c, http.StatusOK, "Retrieved successfully", data)
+}
+func UpdateCountryStateHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	data, err := GetCountryStateByIDService(uint(id))
+	if err != nil { return utils.SendError(c, http.StatusNotFound, "Not found", err.Error()) }
+	if err := c.Bind(data); err != nil { return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error()) }
+	if err := UpdateCountryStateService(data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to update", err.Error()) }
+	return utils.SendSuccess(c, http.StatusOK, "Updated successfully", data)
+}
+func DeleteCountryStateHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	if err := DeleteCountryStateService(uint(id)); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to delete", err.Error()) }
+	return utils.SendSuccess(c, http.StatusOK, "Deleted successfully", nil)
+}
+
+func CreatePartnerHandler(c echo.Context) error {
+	var data Partner
+	if err := c.Bind(&data); err != nil { return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error()) }
+	if err := CreatePartnerService(&data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to create", err.Error()) }
+	return utils.SendSuccess(c, http.StatusCreated, "Created successfully", data)
+}
+func GetAllPartnerHandler(c echo.Context) error {
+	data, err := GetAllPartnerService()
+	if err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve", err.Error()) }
+	return utils.SendSuccess(c, http.StatusOK, "Retrieved successfully", data)
+}
+func GetPartnerByIDHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	data, err := GetPartnerByIDService(uint(id))
+	if err != nil { return utils.SendError(c, http.StatusNotFound, "Not found", err.Error()) }
+	return utils.SendSuccess(c, http.StatusOK, "Retrieved successfully", data)
+}
+func UpdatePartnerHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	data, err := GetPartnerByIDService(uint(id))
+	if err != nil { return utils.SendError(c, http.StatusNotFound, "Not found", err.Error()) }
+	if err := c.Bind(data); err != nil { return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error()) }
+	if err := UpdatePartnerService(data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to update", err.Error()) }
+	return utils.SendSuccess(c, http.StatusOK, "Updated successfully", data)
+}
+func DeletePartnerHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	if err := DeletePartnerService(uint(id)); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to delete", err.Error()) }
+	return utils.SendSuccess(c, http.StatusOK, "Deleted successfully", nil)
+}

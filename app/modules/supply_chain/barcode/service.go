@@ -1,18 +1,18 @@
 package barcode
 
-func CreateBarcodeConfigService(data *BarcodeConfig) error {
+func CreateBarcodeConfigService(data *BarcodeNomenclature) error {
 	return CreateBarcodeConfig(data)
 }
 
-func GetAllBarcodeConfigService() ([]BarcodeConfig, error) {
+func GetAllBarcodeConfigService() ([]BarcodeNomenclature, error) {
 	return GetAllBarcodeConfig()
 }
 
-func GetBarcodeConfigByIDService(id uint) (*BarcodeConfig, error) {
+func GetBarcodeConfigByIDService(id uint) (*BarcodeNomenclature, error) {
 	return GetBarcodeConfigByID(id)
 }
 
-func UpdateBarcodeConfigService(data *BarcodeConfig) error {
+func UpdateBarcodeConfigService(data *BarcodeNomenclature) error {
 	return UpdateBarcodeConfig(data)
 }
 
