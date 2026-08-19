@@ -6,23 +6,22 @@ import (
 )
 
 type Course struct {
-	ID           uint      `gorm:"primaryKey" json:"id"`
-	Title        string    `gorm:"type:varchar(255)" json:"title"`
-	Description  string    `gorm:"type:text" json:"description"`
-	InstructorID uint      `json:"instructor_id"` // Employee ID
-	State        string    `gorm:"type:varchar(20);default:'draft'" json:"state"` // draft, published
-	CreatedAt    time.Time `json:"created_at"`
+	ID          uint      `gorm:"primaryKey" json:"id"`
+	Name        string    `gorm:"type:varchar(255);not null" json:"name"` // e.g. Employee Onboarding
+	Description string    `gorm:"type:text" json:"description"`
+	IsPublished bool      `gorm:"default:false" json:"is_published"`
+	CreatedAt   time.Time `json:"created_at"`
 }
 
-type Lesson struct {
+type Slide struct {
 	ID        uint      `gorm:"primaryKey" json:"id"`
 	CourseID  uint      `json:"course_id"`
-	Title     string    `gorm:"type:varchar(255)" json:"title"`
+	Title     string    `gorm:"type:varchar(255);not null" json:"title"`
 	Content   string    `gorm:"type:text" json:"content"`
-	VideoURL  string    `gorm:"type:varchar(255)" json:"video_url"`
+	Type      string    `gorm:"type:varchar(50);default:'document'" json:"type"` // document, video, quiz
 	CreatedAt time.Time `json:"created_at"`
 }
 
 func init() {
-	config.ModelsToMigrate = append(config.ModelsToMigrate, &Course{}, &Lesson{})
+	config.ModelsToMigrate = append(config.ModelsToMigrate, &Course{}, &Slide{})
 }

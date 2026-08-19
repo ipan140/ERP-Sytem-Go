@@ -4,26 +4,26 @@ import (
 	"ERP-System/config"
 )
 
-func CreateJobApplicant(data *JobApplicant) error {
+func CreateApplicant(data *Applicant) error {
 	return config.DB.Create(data).Error
 }
 
-func GetAllJobApplicant() ([]JobApplicant, error) {
-	var list []JobApplicant
+func GetAllApplicant() ([]Applicant, error) {
+	var list []Applicant
 	err := config.DB.Find(&list).Error
 	return list, err
 }
 
-func GetJobApplicantByID(id uint) (*JobApplicant, error) {
-	var data JobApplicant
+func GetApplicantByID(id uint) (*Applicant, error) {
+	var data Applicant
 	err := config.DB.First(&data, id).Error
 	return &data, err
 }
 
-func UpdateJobApplicant(data *JobApplicant) error {
+func UpdateApplicant(data *Applicant) error {
 	return config.DB.Save(data).Error
 }
 
-func DeleteJobApplicant(id uint) error {
-	return config.DB.Delete(&JobApplicant{}, id).Error
+func DeleteApplicant(id uint) error {
+	return config.DB.Delete(&Applicant{}, id).Error
 }

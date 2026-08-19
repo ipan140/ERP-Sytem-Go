@@ -6,10 +6,10 @@ import (
 )
 
 func RegisterRoutes(e *echo.Echo) {
-	api := e.Group("/api/hr/referrals", middleware.Auth())
-	api.POST("", CreateReferralHandler)
-	api.GET("", GetAllReferralHandler)
-	api.GET("/:id", GetReferralByIDHandler)
-	api.PUT("/:id", UpdateReferralHandler)
-	api.DELETE("/:id", DeleteReferralHandler)
+	api := e.Group("/api/hr/ReferralRewards", middleware.Auth())
+	api.POST("", CreateReferralRewardHandler)
+	api.GET("", GetAllReferralRewardHandler)
+	api.GET("/:id", GetReferralRewardByIDHandler)
+	api.PUT("/:id", UpdateReferralRewardHandler)
+	api.DELETE("/:id", DeleteReferralRewardHandler)
 }

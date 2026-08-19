@@ -7,97 +7,97 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-// CreateReferral godoc
-// @Summary Create a new Referral
-// @Description Create a new Referral in the system
-// @Tags hr-referrals
+// CreateReferralReward godoc
+// @Summary Create a new ReferralReward
+// @Description Create a new ReferralReward in the system
+// @Tags hr-ReferralRewards
 // @Accept json
 // @Produce json
 // @Success 201 {object} map[string]interface{}
-// @Router /api/hr/referrals [post]
+// @Router /api/hr/ReferralRewards [post]
 // @Security BearerAuth
-func CreateReferralHandler(c echo.Context) error {
-	var data Referral
+func CreateReferralRewardHandler(c echo.Context) error {
+	var data ReferralReward
 	if err := c.Bind(&data); err != nil {
 		return utils.SendError(c, http.StatusBadRequest, "Invalid request payload", err.Error())
 	}
-	if err := CreateReferralService(&data); err != nil {
+	if err := CreateReferralRewardService(&data); err != nil {
 		return utils.SendError(c, http.StatusInternalServerError, "Failed to create data", err.Error())
 	}
 	return utils.SendSuccess(c, http.StatusCreated, "Data created successfully", data)
 }
 
-// GetAllReferral godoc
-// @Summary Get all Referral
-// @Description Retrieve a list of all Referral
-// @Tags hr-referrals
+// GetAllReferralReward godoc
+// @Summary Get all ReferralReward
+// @Description Retrieve a list of all ReferralReward
+// @Tags hr-ReferralRewards
 // @Produce json
 // @Success 200 {object} map[string]interface{}
-// @Router /api/hr/referrals [get]
+// @Router /api/hr/ReferralRewards [get]
 // @Security BearerAuth
-func GetAllReferralHandler(c echo.Context) error {
-	data, err := GetAllReferralService()
+func GetAllReferralRewardHandler(c echo.Context) error {
+	data, err := GetAllReferralRewardService()
 	if err != nil {
 		return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve data", err.Error())
 	}
 	return utils.SendSuccess(c, http.StatusOK, "Data retrieved successfully", data)
 }
 
-// GetReferralByID godoc
-// @Summary Get a Referral by ID
-// @Description Retrieve a specific Referral by its ID
-// @Tags hr-referrals
+// GetReferralRewardByID godoc
+// @Summary Get a ReferralReward by ID
+// @Description Retrieve a specific ReferralReward by its ID
+// @Tags hr-ReferralRewards
 // @Produce json
-// @Param id path int true "Referral ID"
+// @Param id path int true "ReferralReward ID"
 // @Success 200 {object} map[string]interface{}
-// @Router /api/hr/referrals/{id} [get]
+// @Router /api/hr/ReferralRewards/{id} [get]
 // @Security BearerAuth
-func GetReferralByIDHandler(c echo.Context) error {
+func GetReferralRewardByIDHandler(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
-	data, err := GetReferralByIDService(uint(id))
+	data, err := GetReferralRewardByIDService(uint(id))
 	if err != nil {
 		return utils.SendError(c, http.StatusNotFound, "Data not found", err.Error())
 	}
 	return utils.SendSuccess(c, http.StatusOK, "Data retrieved successfully", data)
 }
 
-// UpdateReferral godoc
-// @Summary Update a Referral
-// @Description Update an existing Referral
-// @Tags hr-referrals
+// UpdateReferralReward godoc
+// @Summary Update a ReferralReward
+// @Description Update an existing ReferralReward
+// @Tags hr-ReferralRewards
 // @Accept json
 // @Produce json
-// @Param id path int true "Referral ID"
+// @Param id path int true "ReferralReward ID"
 // @Success 200 {object} map[string]interface{}
-// @Router /api/hr/referrals/{id} [put]
+// @Router /api/hr/ReferralRewards/{id} [put]
 // @Security BearerAuth
-func UpdateReferralHandler(c echo.Context) error {
+func UpdateReferralRewardHandler(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
-	data, err := GetReferralByIDService(uint(id))
+	data, err := GetReferralRewardByIDService(uint(id))
 	if err != nil {
 		return utils.SendError(c, http.StatusNotFound, "Data not found", err.Error())
 	}
 	if err := c.Bind(data); err != nil {
 		return utils.SendError(c, http.StatusBadRequest, "Invalid request payload", err.Error())
 	}
-	if err := UpdateReferralService(data); err != nil {
+	if err := UpdateReferralRewardService(data); err != nil {
 		return utils.SendError(c, http.StatusInternalServerError, "Failed to update data", err.Error())
 	}
 	return utils.SendSuccess(c, http.StatusOK, "Data updated successfully", data)
 }
 
-// DeleteReferral godoc
-// @Summary Delete a Referral
-// @Description Delete a Referral by ID
-// @Tags hr-referrals
+// DeleteReferralReward godoc
+// @Summary Delete a ReferralReward
+// @Description Delete a ReferralReward by ID
+// @Tags hr-ReferralRewards
 // @Produce json
-// @Param id path int true "Referral ID"
+// @Param id path int true "ReferralReward ID"
 // @Success 200 {object} map[string]interface{}
-// @Router /api/hr/referrals/{id} [delete]
+// @Router /api/hr/ReferralRewards/{id} [delete]
 // @Security BearerAuth
-func DeleteReferralHandler(c echo.Context) error {
+func DeleteReferralRewardHandler(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
-	if err := DeleteReferralService(uint(id)); err != nil {
+	if err := DeleteReferralRewardService(uint(id)); err != nil {
 		return utils.SendError(c, http.StatusInternalServerError, "Failed to delete data", err.Error())
 	}
 	return utils.SendSuccess(c, http.StatusOK, "Data deleted successfully", nil)

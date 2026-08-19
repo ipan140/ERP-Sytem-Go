@@ -4,26 +4,26 @@ import (
 	"ERP-System/config"
 )
 
-func CreateReferral(data *Referral) error {
+func CreateReferralReward(data *ReferralReward) error {
 	return config.DB.Create(data).Error
 }
 
-func GetAllReferral() ([]Referral, error) {
-	var list []Referral
+func GetAllReferralReward() ([]ReferralReward, error) {
+	var list []ReferralReward
 	err := config.DB.Find(&list).Error
 	return list, err
 }
 
-func GetReferralByID(id uint) (*Referral, error) {
-	var data Referral
+func GetReferralRewardByID(id uint) (*ReferralReward, error) {
+	var data ReferralReward
 	err := config.DB.First(&data, id).Error
 	return &data, err
 }
 
-func UpdateReferral(data *Referral) error {
+func UpdateReferralReward(data *ReferralReward) error {
 	return config.DB.Save(data).Error
 }
 
-func DeleteReferral(id uint) error {
-	return config.DB.Delete(&Referral{}, id).Error
+func DeleteReferralReward(id uint) error {
+	return config.DB.Delete(&ReferralReward{}, id).Error
 }

@@ -1,21 +1,21 @@
 package fleet
 
-func CreateFleetVehicleService(data *FleetVehicle) error {
-	return CreateFleetVehicle(data)
+func CreateVehicleService(data *Vehicle) error {
+	return CreateVehicle(data)
 }
 
-func GetAllFleetVehicleService() ([]FleetVehicle, error) {
-	return GetAllFleetVehicle()
+func GetAllVehicleService() ([]Vehicle, error) {
+	return GetAllVehicle()
 }
 
-func GetFleetVehicleByIDService(id uint) (*FleetVehicle, error) {
-	return GetFleetVehicleByID(id)
+func GetVehicleByIDService(id uint) (*Vehicle, error) {
+	return GetVehicleByID(id)
 }
 
-func UpdateFleetVehicleService(data *FleetVehicle) error {
-	return UpdateFleetVehicle(data)
+func UpdateVehicleService(data *Vehicle) error {
+	return UpdateVehicle(data)
 }
 
-func DeleteFleetVehicleService(id uint) error {
-	return DeleteFleetVehicle(id)
+func DeleteVehicleService(id uint) error {
+	return DeleteVehicle(id)
 }

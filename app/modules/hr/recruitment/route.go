@@ -7,9 +7,9 @@ import (
 
 func RegisterRoutes(e *echo.Echo) {
 	api := e.Group("/api/hr/recruitment", middleware.Auth())
-	api.POST("", CreateJobApplicantHandler)
-	api.GET("", GetAllJobApplicantHandler)
-	api.GET("/:id", GetJobApplicantByIDHandler)
-	api.PUT("/:id", UpdateJobApplicantHandler)
-	api.DELETE("/:id", DeleteJobApplicantHandler)
+	api.POST("", CreateApplicantHandler)
+	api.GET("", GetAllApplicantHandler)
+	api.GET("/:id", GetApplicantByIDHandler)
+	api.PUT("/:id", UpdateApplicantHandler)
+	api.DELETE("/:id", DeleteApplicantHandler)
 }

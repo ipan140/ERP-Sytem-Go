@@ -7,9 +7,9 @@ import (
 
 func RegisterRoutes(e *echo.Echo) {
 	api := e.Group("/api/hr/fleet", middleware.Auth())
-	api.POST("", CreateFleetVehicleHandler)
-	api.GET("", GetAllFleetVehicleHandler)
-	api.GET("/:id", GetFleetVehicleByIDHandler)
-	api.PUT("/:id", UpdateFleetVehicleHandler)
-	api.DELETE("/:id", DeleteFleetVehicleHandler)
+	api.POST("", CreateVehicleHandler)
+	api.GET("", GetAllVehicleHandler)
+	api.GET("/:id", GetVehicleByIDHandler)
+	api.PUT("/:id", UpdateVehicleHandler)
+	api.DELETE("/:id", DeleteVehicleHandler)
 }

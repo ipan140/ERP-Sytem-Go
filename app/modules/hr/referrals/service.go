@@ -1,21 +1,21 @@
 package referrals
 
-func CreateReferralService(data *Referral) error {
-	return CreateReferral(data)
+func CreateReferralRewardService(data *ReferralReward) error {
+	return CreateReferralReward(data)
 }
 
-func GetAllReferralService() ([]Referral, error) {
-	return GetAllReferral()
+func GetAllReferralRewardService() ([]ReferralReward, error) {
+	return GetAllReferralReward()
 }
 
-func GetReferralByIDService(id uint) (*Referral, error) {
-	return GetReferralByID(id)
+func GetReferralRewardByIDService(id uint) (*ReferralReward, error) {
+	return GetReferralRewardByID(id)
 }
 
-func UpdateReferralService(data *Referral) error {
-	return UpdateReferral(data)
+func UpdateReferralRewardService(data *ReferralReward) error {
+	return UpdateReferralReward(data)
 }
 
-func DeleteReferralService(id uint) error {
-	return DeleteReferral(id)
+func DeleteReferralRewardService(id uint) error {
+	return DeleteReferralReward(id)
 }

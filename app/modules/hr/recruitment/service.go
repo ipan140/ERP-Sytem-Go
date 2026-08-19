@@ -1,21 +1,21 @@
 package recruitment
 
-func CreateJobApplicantService(data *JobApplicant) error {
-	return CreateJobApplicant(data)
+func CreateApplicantService(data *Applicant) error {
+	return CreateApplicant(data)
 }
 
-func GetAllJobApplicantService() ([]JobApplicant, error) {
-	return GetAllJobApplicant()
+func GetAllApplicantService() ([]Applicant, error) {
+	return GetAllApplicant()
 }
 
-func GetJobApplicantByIDService(id uint) (*JobApplicant, error) {
-	return GetJobApplicantByID(id)
+func GetApplicantByIDService(id uint) (*Applicant, error) {
+	return GetApplicantByID(id)
 }
 
-func UpdateJobApplicantService(data *JobApplicant) error {
-	return UpdateJobApplicant(data)
+func UpdateApplicantService(data *Applicant) error {
+	return UpdateApplicant(data)
 }
 
-func DeleteJobApplicantService(id uint) error {
-	return DeleteJobApplicant(id)
+func DeleteApplicantService(id uint) error {
+	return DeleteApplicant(id)
 }
