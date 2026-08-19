@@ -103,12 +103,27 @@ func DeletePosSessionHandler(c echo.Context) error {
 	return utils.SendSuccess(c, http.StatusOK, "Data deleted successfully", nil)
 }
 
+// @Summary Create PosConfig
+// @Description Create a new PosConfig
+// @Tags sales-point_of_sale
+// @Accept json
+// @Produce json
+// @Success 201 {object} map[string]interface{}
+// @Router /api/sales/point_of_sale/posconfig [post]
+// @Security BearerAuth
 func CreatePosConfigHandler(c echo.Context) error {
 	var data PosConfig
 	if err := c.Bind(&data); err != nil { return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error()) }
 	if err := CreatePosConfigService(&data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to create", err.Error()) }
 	return utils.SendSuccess(c, http.StatusCreated, "Created successfully", data)
 }
+// @Summary Get all PosConfig
+// @Description Retrieve a list of all PosConfig
+// @Tags sales-point_of_sale
+// @Produce json
+// @Success 200 {object} map[string]interface{}
+// @Router /api/sales/point_of_sale/posconfig [get]
+// @Security BearerAuth
 func GetAllPosConfigHandler(c echo.Context) error {
 	data, err := GetAllPosConfigService()
 	if err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve", err.Error()) }
@@ -120,6 +135,15 @@ func GetPosConfigByIDHandler(c echo.Context) error {
 	if err != nil { return utils.SendError(c, http.StatusNotFound, "Not found", err.Error()) }
 	return utils.SendSuccess(c, http.StatusOK, "Retrieved successfully", data)
 }
+// @Summary Update PosConfig
+// @Description Update an existing PosConfig
+// @Tags sales-point_of_sale
+// @Accept json
+// @Produce json
+// @Param id path int true "PosConfig ID"
+// @Success 200 {object} map[string]interface{}
+// @Router /api/sales/point_of_sale/posconfig/{id} [put]
+// @Security BearerAuth
 func UpdatePosConfigHandler(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
 	data, err := GetPosConfigByIDService(uint(id))
@@ -128,18 +152,41 @@ func UpdatePosConfigHandler(c echo.Context) error {
 	if err := UpdatePosConfigService(data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to update", err.Error()) }
 	return utils.SendSuccess(c, http.StatusOK, "Updated successfully", data)
 }
+// @Summary Delete PosConfig
+// @Description Delete PosConfig by ID
+// @Tags sales-point_of_sale
+// @Produce json
+// @Param id path int true "PosConfig ID"
+// @Success 200 {object} map[string]interface{}
+// @Router /api/sales/point_of_sale/posconfig/{id} [delete]
+// @Security BearerAuth
 func DeletePosConfigHandler(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
 	if err := DeletePosConfigService(uint(id)); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to delete", err.Error()) }
 	return utils.SendSuccess(c, http.StatusOK, "Deleted successfully", nil)
 }
 
+// @Summary Create PosOrder
+// @Description Create a new PosOrder
+// @Tags sales-point_of_sale
+// @Accept json
+// @Produce json
+// @Success 201 {object} map[string]interface{}
+// @Router /api/sales/point_of_sale/posorder [post]
+// @Security BearerAuth
 func CreatePosOrderHandler(c echo.Context) error {
 	var data PosOrder
 	if err := c.Bind(&data); err != nil { return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error()) }
 	if err := CreatePosOrderService(&data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to create", err.Error()) }
 	return utils.SendSuccess(c, http.StatusCreated, "Created successfully", data)
 }
+// @Summary Get all PosOrder
+// @Description Retrieve a list of all PosOrder
+// @Tags sales-point_of_sale
+// @Produce json
+// @Success 200 {object} map[string]interface{}
+// @Router /api/sales/point_of_sale/posorder [get]
+// @Security BearerAuth
 func GetAllPosOrderHandler(c echo.Context) error {
 	data, err := GetAllPosOrderService()
 	if err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve", err.Error()) }
@@ -151,6 +198,15 @@ func GetPosOrderByIDHandler(c echo.Context) error {
 	if err != nil { return utils.SendError(c, http.StatusNotFound, "Not found", err.Error()) }
 	return utils.SendSuccess(c, http.StatusOK, "Retrieved successfully", data)
 }
+// @Summary Update PosOrder
+// @Description Update an existing PosOrder
+// @Tags sales-point_of_sale
+// @Accept json
+// @Produce json
+// @Param id path int true "PosOrder ID"
+// @Success 200 {object} map[string]interface{}
+// @Router /api/sales/point_of_sale/posorder/{id} [put]
+// @Security BearerAuth
 func UpdatePosOrderHandler(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
 	data, err := GetPosOrderByIDService(uint(id))
@@ -159,18 +215,41 @@ func UpdatePosOrderHandler(c echo.Context) error {
 	if err := UpdatePosOrderService(data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to update", err.Error()) }
 	return utils.SendSuccess(c, http.StatusOK, "Updated successfully", data)
 }
+// @Summary Delete PosOrder
+// @Description Delete PosOrder by ID
+// @Tags sales-point_of_sale
+// @Produce json
+// @Param id path int true "PosOrder ID"
+// @Success 200 {object} map[string]interface{}
+// @Router /api/sales/point_of_sale/posorder/{id} [delete]
+// @Security BearerAuth
 func DeletePosOrderHandler(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
 	if err := DeletePosOrderService(uint(id)); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to delete", err.Error()) }
 	return utils.SendSuccess(c, http.StatusOK, "Deleted successfully", nil)
 }
 
+// @Summary Create PosOrderLine
+// @Description Create a new PosOrderLine
+// @Tags sales-point_of_sale
+// @Accept json
+// @Produce json
+// @Success 201 {object} map[string]interface{}
+// @Router /api/sales/point_of_sale/posorderline [post]
+// @Security BearerAuth
 func CreatePosOrderLineHandler(c echo.Context) error {
 	var data PosOrderLine
 	if err := c.Bind(&data); err != nil { return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error()) }
 	if err := CreatePosOrderLineService(&data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to create", err.Error()) }
 	return utils.SendSuccess(c, http.StatusCreated, "Created successfully", data)
 }
+// @Summary Get all PosOrderLine
+// @Description Retrieve a list of all PosOrderLine
+// @Tags sales-point_of_sale
+// @Produce json
+// @Success 200 {object} map[string]interface{}
+// @Router /api/sales/point_of_sale/posorderline [get]
+// @Security BearerAuth
 func GetAllPosOrderLineHandler(c echo.Context) error {
 	data, err := GetAllPosOrderLineService()
 	if err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve", err.Error()) }
@@ -182,6 +261,15 @@ func GetPosOrderLineByIDHandler(c echo.Context) error {
 	if err != nil { return utils.SendError(c, http.StatusNotFound, "Not found", err.Error()) }
 	return utils.SendSuccess(c, http.StatusOK, "Retrieved successfully", data)
 }
+// @Summary Update PosOrderLine
+// @Description Update an existing PosOrderLine
+// @Tags sales-point_of_sale
+// @Accept json
+// @Produce json
+// @Param id path int true "PosOrderLine ID"
+// @Success 200 {object} map[string]interface{}
+// @Router /api/sales/point_of_sale/posorderline/{id} [put]
+// @Security BearerAuth
 func UpdatePosOrderLineHandler(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
 	data, err := GetPosOrderLineByIDService(uint(id))
@@ -190,18 +278,41 @@ func UpdatePosOrderLineHandler(c echo.Context) error {
 	if err := UpdatePosOrderLineService(data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to update", err.Error()) }
 	return utils.SendSuccess(c, http.StatusOK, "Updated successfully", data)
 }
+// @Summary Delete PosOrderLine
+// @Description Delete PosOrderLine by ID
+// @Tags sales-point_of_sale
+// @Produce json
+// @Param id path int true "PosOrderLine ID"
+// @Success 200 {object} map[string]interface{}
+// @Router /api/sales/point_of_sale/posorderline/{id} [delete]
+// @Security BearerAuth
 func DeletePosOrderLineHandler(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
 	if err := DeletePosOrderLineService(uint(id)); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to delete", err.Error()) }
 	return utils.SendSuccess(c, http.StatusOK, "Deleted successfully", nil)
 }
 
+// @Summary Create PosPayment
+// @Description Create a new PosPayment
+// @Tags sales-point_of_sale
+// @Accept json
+// @Produce json
+// @Success 201 {object} map[string]interface{}
+// @Router /api/sales/point_of_sale/pospayment [post]
+// @Security BearerAuth
 func CreatePosPaymentHandler(c echo.Context) error {
 	var data PosPayment
 	if err := c.Bind(&data); err != nil { return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error()) }
 	if err := CreatePosPaymentService(&data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to create", err.Error()) }
 	return utils.SendSuccess(c, http.StatusCreated, "Created successfully", data)
 }
+// @Summary Get all PosPayment
+// @Description Retrieve a list of all PosPayment
+// @Tags sales-point_of_sale
+// @Produce json
+// @Success 200 {object} map[string]interface{}
+// @Router /api/sales/point_of_sale/pospayment [get]
+// @Security BearerAuth
 func GetAllPosPaymentHandler(c echo.Context) error {
 	data, err := GetAllPosPaymentService()
 	if err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve", err.Error()) }
@@ -213,6 +324,15 @@ func GetPosPaymentByIDHandler(c echo.Context) error {
 	if err != nil { return utils.SendError(c, http.StatusNotFound, "Not found", err.Error()) }
 	return utils.SendSuccess(c, http.StatusOK, "Retrieved successfully", data)
 }
+// @Summary Update PosPayment
+// @Description Update an existing PosPayment
+// @Tags sales-point_of_sale
+// @Accept json
+// @Produce json
+// @Param id path int true "PosPayment ID"
+// @Success 200 {object} map[string]interface{}
+// @Router /api/sales/point_of_sale/pospayment/{id} [put]
+// @Security BearerAuth
 func UpdatePosPaymentHandler(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
 	data, err := GetPosPaymentByIDService(uint(id))
@@ -221,18 +341,41 @@ func UpdatePosPaymentHandler(c echo.Context) error {
 	if err := UpdatePosPaymentService(data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to update", err.Error()) }
 	return utils.SendSuccess(c, http.StatusOK, "Updated successfully", data)
 }
+// @Summary Delete PosPayment
+// @Description Delete PosPayment by ID
+// @Tags sales-point_of_sale
+// @Produce json
+// @Param id path int true "PosPayment ID"
+// @Success 200 {object} map[string]interface{}
+// @Router /api/sales/point_of_sale/pospayment/{id} [delete]
+// @Security BearerAuth
 func DeletePosPaymentHandler(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
 	if err := DeletePosPaymentService(uint(id)); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to delete", err.Error()) }
 	return utils.SendSuccess(c, http.StatusOK, "Deleted successfully", nil)
 }
 
+// @Summary Create LoyaltyProgram
+// @Description Create a new LoyaltyProgram
+// @Tags sales-point_of_sale
+// @Accept json
+// @Produce json
+// @Success 201 {object} map[string]interface{}
+// @Router /api/sales/point_of_sale/loyaltyprogram [post]
+// @Security BearerAuth
 func CreateLoyaltyProgramHandler(c echo.Context) error {
 	var data LoyaltyProgram
 	if err := c.Bind(&data); err != nil { return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error()) }
 	if err := CreateLoyaltyProgramService(&data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to create", err.Error()) }
 	return utils.SendSuccess(c, http.StatusCreated, "Created successfully", data)
 }
+// @Summary Get all LoyaltyProgram
+// @Description Retrieve a list of all LoyaltyProgram
+// @Tags sales-point_of_sale
+// @Produce json
+// @Success 200 {object} map[string]interface{}
+// @Router /api/sales/point_of_sale/loyaltyprogram [get]
+// @Security BearerAuth
 func GetAllLoyaltyProgramHandler(c echo.Context) error {
 	data, err := GetAllLoyaltyProgramService()
 	if err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve", err.Error()) }
@@ -244,6 +387,15 @@ func GetLoyaltyProgramByIDHandler(c echo.Context) error {
 	if err != nil { return utils.SendError(c, http.StatusNotFound, "Not found", err.Error()) }
 	return utils.SendSuccess(c, http.StatusOK, "Retrieved successfully", data)
 }
+// @Summary Update LoyaltyProgram
+// @Description Update an existing LoyaltyProgram
+// @Tags sales-point_of_sale
+// @Accept json
+// @Produce json
+// @Param id path int true "LoyaltyProgram ID"
+// @Success 200 {object} map[string]interface{}
+// @Router /api/sales/point_of_sale/loyaltyprogram/{id} [put]
+// @Security BearerAuth
 func UpdateLoyaltyProgramHandler(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
 	data, err := GetLoyaltyProgramByIDService(uint(id))
@@ -252,6 +404,14 @@ func UpdateLoyaltyProgramHandler(c echo.Context) error {
 	if err := UpdateLoyaltyProgramService(data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to update", err.Error()) }
 	return utils.SendSuccess(c, http.StatusOK, "Updated successfully", data)
 }
+// @Summary Delete LoyaltyProgram
+// @Description Delete LoyaltyProgram by ID
+// @Tags sales-point_of_sale
+// @Produce json
+// @Param id path int true "LoyaltyProgram ID"
+// @Success 200 {object} map[string]interface{}
+// @Router /api/sales/point_of_sale/loyaltyprogram/{id} [delete]
+// @Security BearerAuth
 func DeleteLoyaltyProgramHandler(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
 	if err := DeleteLoyaltyProgramService(uint(id)); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to delete", err.Error()) }

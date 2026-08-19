@@ -103,12 +103,27 @@ func DeletePurchaseOrderHandler(c echo.Context) error {
 	return utils.SendSuccess(c, http.StatusOK, "Data deleted successfully", nil)
 }
 
+// @Summary Create PurchaseRequisition
+// @Description Create a new PurchaseRequisition
+// @Tags supply_chain-purchase
+// @Accept json
+// @Produce json
+// @Success 201 {object} map[string]interface{}
+// @Router /api/supply_chain/purchase/purchaserequisition [post]
+// @Security BearerAuth
 func CreatePurchaseRequisitionHandler(c echo.Context) error {
 	var data PurchaseRequisition
 	if err := c.Bind(&data); err != nil { return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error()) }
 	if err := CreatePurchaseRequisitionService(&data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to create", err.Error()) }
 	return utils.SendSuccess(c, http.StatusCreated, "Created successfully", data)
 }
+// @Summary Get all PurchaseRequisition
+// @Description Retrieve a list of all PurchaseRequisition
+// @Tags supply_chain-purchase
+// @Produce json
+// @Success 200 {object} map[string]interface{}
+// @Router /api/supply_chain/purchase/purchaserequisition [get]
+// @Security BearerAuth
 func GetAllPurchaseRequisitionHandler(c echo.Context) error {
 	data, err := GetAllPurchaseRequisitionService()
 	if err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve", err.Error()) }
@@ -120,6 +135,15 @@ func GetPurchaseRequisitionByIDHandler(c echo.Context) error {
 	if err != nil { return utils.SendError(c, http.StatusNotFound, "Not found", err.Error()) }
 	return utils.SendSuccess(c, http.StatusOK, "Retrieved successfully", data)
 }
+// @Summary Update PurchaseRequisition
+// @Description Update an existing PurchaseRequisition
+// @Tags supply_chain-purchase
+// @Accept json
+// @Produce json
+// @Param id path int true "PurchaseRequisition ID"
+// @Success 200 {object} map[string]interface{}
+// @Router /api/supply_chain/purchase/purchaserequisition/{id} [put]
+// @Security BearerAuth
 func UpdatePurchaseRequisitionHandler(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
 	data, err := GetPurchaseRequisitionByIDService(uint(id))
@@ -128,18 +152,41 @@ func UpdatePurchaseRequisitionHandler(c echo.Context) error {
 	if err := UpdatePurchaseRequisitionService(data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to update", err.Error()) }
 	return utils.SendSuccess(c, http.StatusOK, "Updated successfully", data)
 }
+// @Summary Delete PurchaseRequisition
+// @Description Delete PurchaseRequisition by ID
+// @Tags supply_chain-purchase
+// @Produce json
+// @Param id path int true "PurchaseRequisition ID"
+// @Success 200 {object} map[string]interface{}
+// @Router /api/supply_chain/purchase/purchaserequisition/{id} [delete]
+// @Security BearerAuth
 func DeletePurchaseRequisitionHandler(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
 	if err := DeletePurchaseRequisitionService(uint(id)); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to delete", err.Error()) }
 	return utils.SendSuccess(c, http.StatusOK, "Deleted successfully", nil)
 }
 
+// @Summary Create ProductSupplierInfo
+// @Description Create a new ProductSupplierInfo
+// @Tags supply_chain-purchase
+// @Accept json
+// @Produce json
+// @Success 201 {object} map[string]interface{}
+// @Router /api/supply_chain/purchase/productsupplierinfo [post]
+// @Security BearerAuth
 func CreateProductSupplierInfoHandler(c echo.Context) error {
 	var data ProductSupplierInfo
 	if err := c.Bind(&data); err != nil { return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error()) }
 	if err := CreateProductSupplierInfoService(&data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to create", err.Error()) }
 	return utils.SendSuccess(c, http.StatusCreated, "Created successfully", data)
 }
+// @Summary Get all ProductSupplierInfo
+// @Description Retrieve a list of all ProductSupplierInfo
+// @Tags supply_chain-purchase
+// @Produce json
+// @Success 200 {object} map[string]interface{}
+// @Router /api/supply_chain/purchase/productsupplierinfo [get]
+// @Security BearerAuth
 func GetAllProductSupplierInfoHandler(c echo.Context) error {
 	data, err := GetAllProductSupplierInfoService()
 	if err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve", err.Error()) }
@@ -151,6 +198,15 @@ func GetProductSupplierInfoByIDHandler(c echo.Context) error {
 	if err != nil { return utils.SendError(c, http.StatusNotFound, "Not found", err.Error()) }
 	return utils.SendSuccess(c, http.StatusOK, "Retrieved successfully", data)
 }
+// @Summary Update ProductSupplierInfo
+// @Description Update an existing ProductSupplierInfo
+// @Tags supply_chain-purchase
+// @Accept json
+// @Produce json
+// @Param id path int true "ProductSupplierInfo ID"
+// @Success 200 {object} map[string]interface{}
+// @Router /api/supply_chain/purchase/productsupplierinfo/{id} [put]
+// @Security BearerAuth
 func UpdateProductSupplierInfoHandler(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
 	data, err := GetProductSupplierInfoByIDService(uint(id))
@@ -159,18 +215,41 @@ func UpdateProductSupplierInfoHandler(c echo.Context) error {
 	if err := UpdateProductSupplierInfoService(data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to update", err.Error()) }
 	return utils.SendSuccess(c, http.StatusOK, "Updated successfully", data)
 }
+// @Summary Delete ProductSupplierInfo
+// @Description Delete ProductSupplierInfo by ID
+// @Tags supply_chain-purchase
+// @Produce json
+// @Param id path int true "ProductSupplierInfo ID"
+// @Success 200 {object} map[string]interface{}
+// @Router /api/supply_chain/purchase/productsupplierinfo/{id} [delete]
+// @Security BearerAuth
 func DeleteProductSupplierInfoHandler(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
 	if err := DeleteProductSupplierInfoService(uint(id)); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to delete", err.Error()) }
 	return utils.SendSuccess(c, http.StatusOK, "Deleted successfully", nil)
 }
 
+// @Summary Create PurchaseOrderLine
+// @Description Create a new PurchaseOrderLine
+// @Tags supply_chain-purchase
+// @Accept json
+// @Produce json
+// @Success 201 {object} map[string]interface{}
+// @Router /api/supply_chain/purchase/purchaseorderline [post]
+// @Security BearerAuth
 func CreatePurchaseOrderLineHandler(c echo.Context) error {
 	var data PurchaseOrderLine
 	if err := c.Bind(&data); err != nil { return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error()) }
 	if err := CreatePurchaseOrderLineService(&data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to create", err.Error()) }
 	return utils.SendSuccess(c, http.StatusCreated, "Created successfully", data)
 }
+// @Summary Get all PurchaseOrderLine
+// @Description Retrieve a list of all PurchaseOrderLine
+// @Tags supply_chain-purchase
+// @Produce json
+// @Success 200 {object} map[string]interface{}
+// @Router /api/supply_chain/purchase/purchaseorderline [get]
+// @Security BearerAuth
 func GetAllPurchaseOrderLineHandler(c echo.Context) error {
 	data, err := GetAllPurchaseOrderLineService()
 	if err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve", err.Error()) }
@@ -182,6 +261,15 @@ func GetPurchaseOrderLineByIDHandler(c echo.Context) error {
 	if err != nil { return utils.SendError(c, http.StatusNotFound, "Not found", err.Error()) }
 	return utils.SendSuccess(c, http.StatusOK, "Retrieved successfully", data)
 }
+// @Summary Update PurchaseOrderLine
+// @Description Update an existing PurchaseOrderLine
+// @Tags supply_chain-purchase
+// @Accept json
+// @Produce json
+// @Param id path int true "PurchaseOrderLine ID"
+// @Success 200 {object} map[string]interface{}
+// @Router /api/supply_chain/purchase/purchaseorderline/{id} [put]
+// @Security BearerAuth
 func UpdatePurchaseOrderLineHandler(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
 	data, err := GetPurchaseOrderLineByIDService(uint(id))
@@ -190,6 +278,14 @@ func UpdatePurchaseOrderLineHandler(c echo.Context) error {
 	if err := UpdatePurchaseOrderLineService(data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to update", err.Error()) }
 	return utils.SendSuccess(c, http.StatusOK, "Updated successfully", data)
 }
+// @Summary Delete PurchaseOrderLine
+// @Description Delete PurchaseOrderLine by ID
+// @Tags supply_chain-purchase
+// @Produce json
+// @Param id path int true "PurchaseOrderLine ID"
+// @Success 200 {object} map[string]interface{}
+// @Router /api/supply_chain/purchase/purchaseorderline/{id} [delete]
+// @Security BearerAuth
 func DeletePurchaseOrderLineHandler(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
 	if err := DeletePurchaseOrderLineService(uint(id)); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to delete", err.Error()) }

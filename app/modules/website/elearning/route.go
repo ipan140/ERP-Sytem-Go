@@ -24,4 +24,11 @@ func RegisterRoutes(e *echo.Echo) {
 	api.GET("/slide/:id", GetSlideByIDHandler)
 	api.PUT("/slide/:id", UpdateSlideHandler)
 	api.DELETE("/slide/:id", DeleteSlideHandler)
+
+	api.POST("/certification", CreateCertificationHandler)
+	api.GET("/certification", GetAllCertificationHandler)
+	api.GET("/certification/:id", GetCertificationByIDHandler)
+	api.PUT("/certification/:id", UpdateCertificationHandler)
+	api.DELETE("/certification/:id", DeleteCertificationHandler)
+
 }

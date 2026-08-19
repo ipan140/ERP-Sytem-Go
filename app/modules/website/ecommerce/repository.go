@@ -27,3 +27,22 @@ func UpdateCart(data *Cart) error {
 func DeleteCart(id uint) error {
 	return config.DB.Delete(&Cart{}, id).Error
 }
+
+func CreatePortalUser(data *PortalUser) error { return config.DB.Create(data).Error }
+func GetAllPortalUser() ([]PortalUser, error) { var list []PortalUser; err := config.DB.Find(&list).Error; return list, err }
+func GetPortalUserByID(id uint) (*PortalUser, error) { var data PortalUser; err := config.DB.First(&data, id).Error; return &data, err }
+func UpdatePortalUser(data *PortalUser) error { return config.DB.Save(data).Error }
+func DeletePortalUser(id uint) error { return config.DB.Delete(&PortalUser{}, id).Error }
+
+func CreateShoppingCart(data *ShoppingCart) error { return config.DB.Create(data).Error }
+func GetAllShoppingCart() ([]ShoppingCart, error) { var list []ShoppingCart; err := config.DB.Find(&list).Error; return list, err }
+func GetShoppingCartByID(id uint) (*ShoppingCart, error) { var data ShoppingCart; err := config.DB.First(&data, id).Error; return &data, err }
+func UpdateShoppingCart(data *ShoppingCart) error { return config.DB.Save(data).Error }
+func DeleteShoppingCart(id uint) error { return config.DB.Delete(&ShoppingCart{}, id).Error }
+
+func CreateCartItem(data *CartItem) error { return config.DB.Create(data).Error }
+func GetAllCartItem() ([]CartItem, error) { var list []CartItem; err := config.DB.Find(&list).Error; return list, err }
+func GetCartItemByID(id uint) (*CartItem, error) { var data CartItem; err := config.DB.First(&data, id).Error; return &data, err }
+func UpdateCartItem(data *CartItem) error { return config.DB.Save(data).Error }
+func DeleteCartItem(id uint) error { return config.DB.Delete(&CartItem{}, id).Error }
+

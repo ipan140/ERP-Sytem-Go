@@ -25,3 +25,10 @@ func GetAllSlideService() ([]Slide, error) { return GetAllSlide() }
 func GetSlideByIDService(id uint) (*Slide, error) { return GetSlideByID(id) }
 func UpdateSlideService(data *Slide) error { return UpdateSlide(data) }
 func DeleteSlideService(id uint) error { return DeleteSlide(id) }
+
+func CreateCertificationService(data *Certification) error { return CreateCertification(data) }
+func GetAllCertificationService() ([]Certification, error) { return GetAllCertification() }
+func GetCertificationByIDService(id uint) (*Certification, error) { return GetCertificationByID(id) }
+func UpdateCertificationService(data *Certification) error { return UpdateCertification(data) }
+func DeleteCertificationService(id uint) error { return DeleteCertification(id) }
+

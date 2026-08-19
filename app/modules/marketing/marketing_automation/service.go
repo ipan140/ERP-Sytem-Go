@@ -19,3 +19,10 @@ func UpdateAutomationCampaignService(data *AutomationCampaign) error {
 func DeleteAutomationCampaignService(id uint) error {
 	return DeleteAutomationCampaign(id)
 }
+
+func CreateWorkflowActivityService(data *WorkflowActivity) error { return CreateWorkflowActivity(data) }
+func GetAllWorkflowActivityService() ([]WorkflowActivity, error) { return GetAllWorkflowActivity() }
+func GetWorkflowActivityByIDService(id uint) (*WorkflowActivity, error) { return GetWorkflowActivityByID(id) }
+func UpdateWorkflowActivityService(data *WorkflowActivity) error { return UpdateWorkflowActivity(data) }
+func DeleteWorkflowActivityService(id uint) error { return DeleteWorkflowActivity(id) }
+

@@ -102,3 +102,42 @@ func DeleteMailingCampaignHandler(c echo.Context) error {
 	}
 	return utils.SendSuccess(c, http.StatusOK, "Data deleted successfully", nil)
 }
+
+// @Summary Create UtmTracker
+// @Description Create a new UtmTracker
+// @Tags marketing-mass_mailing
+// @Accept json
+// @Produce json
+// @Success 201 {object} map[string]interface{}
+// @Router /api/marketing/mass_mailing/utmtracker [post]
+// @Security BearerAuth
+func CreateUtmTrackerHandler(c echo.Context) error { var data UtmTracker; if err := c.Bind(&data); err != nil { return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error()) }; if err := CreateUtmTrackerService(&data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error()) }; return utils.SendSuccess(c, http.StatusCreated, "Success", data) }
+// @Summary Get all UtmTracker
+// @Description Retrieve a list of all UtmTracker
+// @Tags marketing-mass_mailing
+// @Produce json
+// @Success 200 {object} map[string]interface{}
+// @Router /api/marketing/mass_mailing/utmtracker [get]
+// @Security BearerAuth
+func GetAllUtmTrackerHandler(c echo.Context) error { data, err := GetAllUtmTrackerService(); if err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error()) }; return utils.SendSuccess(c, http.StatusOK, "Success", data) }
+func GetUtmTrackerByIDHandler(c echo.Context) error { id, _ := strconv.Atoi(c.Param("id")); data, err := GetUtmTrackerByIDService(uint(id)); if err != nil { return utils.SendError(c, http.StatusNotFound, "Not found", err.Error()) }; return utils.SendSuccess(c, http.StatusOK, "Success", data) }
+// @Summary Update UtmTracker
+// @Description Update an existing UtmTracker
+// @Tags marketing-mass_mailing
+// @Accept json
+// @Produce json
+// @Param id path int true "UtmTracker ID"
+// @Success 200 {object} map[string]interface{}
+// @Router /api/marketing/mass_mailing/utmtracker/{id} [put]
+// @Security BearerAuth
+func UpdateUtmTrackerHandler(c echo.Context) error { id, _ := strconv.Atoi(c.Param("id")); data, err := GetUtmTrackerByIDService(uint(id)); if err != nil { return utils.SendError(c, http.StatusNotFound, "Not found", err.Error()) }; if err := c.Bind(data); err != nil { return utils.SendError(c, http.StatusBadRequest, "Invalid", err.Error()) }; if err := UpdateUtmTrackerService(data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error()) }; return utils.SendSuccess(c, http.StatusOK, "Success", data) }
+// @Summary Delete UtmTracker
+// @Description Delete UtmTracker by ID
+// @Tags marketing-mass_mailing
+// @Produce json
+// @Param id path int true "UtmTracker ID"
+// @Success 200 {object} map[string]interface{}
+// @Router /api/marketing/mass_mailing/utmtracker/{id} [delete]
+// @Security BearerAuth
+func DeleteUtmTrackerHandler(c echo.Context) error { id, _ := strconv.Atoi(c.Param("id")); if err := DeleteUtmTrackerService(uint(id)); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error()) }; return utils.SendSuccess(c, http.StatusOK, "Success", nil) }
+

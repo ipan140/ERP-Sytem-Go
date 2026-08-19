@@ -103,12 +103,27 @@ func DeleteAttendanceHandler(c echo.Context) error {
 	return utils.SendSuccess(c, http.StatusOK, "Data deleted successfully", nil)
 }
 
+// @Summary Create Overtime
+// @Description Create a new Overtime
+// @Tags hr-attendances
+// @Accept json
+// @Produce json
+// @Success 201 {object} map[string]interface{}
+// @Router /api/hr/attendances/overtime [post]
+// @Security BearerAuth
 func CreateOvertimeHandler(c echo.Context) error {
 	var data Overtime
 	if err := c.Bind(&data); err != nil { return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error()) }
 	if err := CreateOvertimeService(&data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to create", err.Error()) }
 	return utils.SendSuccess(c, http.StatusCreated, "Created successfully", data)
 }
+// @Summary Get all Overtime
+// @Description Retrieve a list of all Overtime
+// @Tags hr-attendances
+// @Produce json
+// @Success 200 {object} map[string]interface{}
+// @Router /api/hr/attendances/overtime [get]
+// @Security BearerAuth
 func GetAllOvertimeHandler(c echo.Context) error {
 	data, err := GetAllOvertimeService()
 	if err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve", err.Error()) }
@@ -120,6 +135,15 @@ func GetOvertimeByIDHandler(c echo.Context) error {
 	if err != nil { return utils.SendError(c, http.StatusNotFound, "Not found", err.Error()) }
 	return utils.SendSuccess(c, http.StatusOK, "Retrieved successfully", data)
 }
+// @Summary Update Overtime
+// @Description Update an existing Overtime
+// @Tags hr-attendances
+// @Accept json
+// @Produce json
+// @Param id path int true "Overtime ID"
+// @Success 200 {object} map[string]interface{}
+// @Router /api/hr/attendances/overtime/{id} [put]
+// @Security BearerAuth
 func UpdateOvertimeHandler(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
 	data, err := GetOvertimeByIDService(uint(id))
@@ -128,6 +152,14 @@ func UpdateOvertimeHandler(c echo.Context) error {
 	if err := UpdateOvertimeService(data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to update", err.Error()) }
 	return utils.SendSuccess(c, http.StatusOK, "Updated successfully", data)
 }
+// @Summary Delete Overtime
+// @Description Delete Overtime by ID
+// @Tags hr-attendances
+// @Produce json
+// @Param id path int true "Overtime ID"
+// @Success 200 {object} map[string]interface{}
+// @Router /api/hr/attendances/overtime/{id} [delete]
+// @Security BearerAuth
 func DeleteOvertimeHandler(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
 	if err := DeleteOvertimeService(uint(id)); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to delete", err.Error()) }

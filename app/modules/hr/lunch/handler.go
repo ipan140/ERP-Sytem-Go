@@ -103,12 +103,27 @@ func DeleteLunchOrderHandler(c echo.Context) error {
 	return utils.SendSuccess(c, http.StatusOK, "Data deleted successfully", nil)
 }
 
+// @Summary Create LunchCashmove
+// @Description Create a new LunchCashmove
+// @Tags hr-lunch
+// @Accept json
+// @Produce json
+// @Success 201 {object} map[string]interface{}
+// @Router /api/hr/lunch/lunchcashmove [post]
+// @Security BearerAuth
 func CreateLunchCashmoveHandler(c echo.Context) error {
 	var data LunchCashmove
 	if err := c.Bind(&data); err != nil { return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error()) }
 	if err := CreateLunchCashmoveService(&data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to create", err.Error()) }
 	return utils.SendSuccess(c, http.StatusCreated, "Created successfully", data)
 }
+// @Summary Get all LunchCashmove
+// @Description Retrieve a list of all LunchCashmove
+// @Tags hr-lunch
+// @Produce json
+// @Success 200 {object} map[string]interface{}
+// @Router /api/hr/lunch/lunchcashmove [get]
+// @Security BearerAuth
 func GetAllLunchCashmoveHandler(c echo.Context) error {
 	data, err := GetAllLunchCashmoveService()
 	if err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve", err.Error()) }
@@ -120,6 +135,15 @@ func GetLunchCashmoveByIDHandler(c echo.Context) error {
 	if err != nil { return utils.SendError(c, http.StatusNotFound, "Not found", err.Error()) }
 	return utils.SendSuccess(c, http.StatusOK, "Retrieved successfully", data)
 }
+// @Summary Update LunchCashmove
+// @Description Update an existing LunchCashmove
+// @Tags hr-lunch
+// @Accept json
+// @Produce json
+// @Param id path int true "LunchCashmove ID"
+// @Success 200 {object} map[string]interface{}
+// @Router /api/hr/lunch/lunchcashmove/{id} [put]
+// @Security BearerAuth
 func UpdateLunchCashmoveHandler(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
 	data, err := GetLunchCashmoveByIDService(uint(id))
@@ -128,6 +152,14 @@ func UpdateLunchCashmoveHandler(c echo.Context) error {
 	if err := UpdateLunchCashmoveService(data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to update", err.Error()) }
 	return utils.SendSuccess(c, http.StatusOK, "Updated successfully", data)
 }
+// @Summary Delete LunchCashmove
+// @Description Delete LunchCashmove by ID
+// @Tags hr-lunch
+// @Produce json
+// @Param id path int true "LunchCashmove ID"
+// @Success 200 {object} map[string]interface{}
+// @Router /api/hr/lunch/lunchcashmove/{id} [delete]
+// @Security BearerAuth
 func DeleteLunchCashmoveHandler(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
 	if err := DeleteLunchCashmoveService(uint(id)); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to delete", err.Error()) }

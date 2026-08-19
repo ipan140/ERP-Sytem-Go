@@ -33,3 +33,10 @@ func GetAllSlide() ([]Slide, error) { var list []Slide; err := config.DB.Find(&l
 func GetSlideByID(id uint) (*Slide, error) { var data Slide; err := config.DB.First(&data, id).Error; return &data, err }
 func UpdateSlide(data *Slide) error { return config.DB.Save(data).Error }
 func DeleteSlide(id uint) error { return config.DB.Delete(&Slide{}, id).Error }
+
+func CreateCertification(data *Certification) error { return config.DB.Create(data).Error }
+func GetAllCertification() ([]Certification, error) { var list []Certification; err := config.DB.Find(&list).Error; return list, err }
+func GetCertificationByID(id uint) (*Certification, error) { var data Certification; err := config.DB.First(&data, id).Error; return &data, err }
+func UpdateCertification(data *Certification) error { return config.DB.Save(data).Error }
+func DeleteCertification(id uint) error { return config.DB.Delete(&Certification{}, id).Error }
+

@@ -103,12 +103,27 @@ func DeleteCourseHandler(c echo.Context) error {
 	return utils.SendSuccess(c, http.StatusOK, "Data deleted successfully", nil)
 }
 
+// @Summary Create Slide
+// @Description Create a new Slide
+// @Tags website-elearning
+// @Accept json
+// @Produce json
+// @Success 201 {object} map[string]interface{}
+// @Router /api/website/elearning/slide [post]
+// @Security BearerAuth
 func CreateSlideHandler(c echo.Context) error {
 	var data Slide
 	if err := c.Bind(&data); err != nil { return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error()) }
 	if err := CreateSlideService(&data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to create", err.Error()) }
 	return utils.SendSuccess(c, http.StatusCreated, "Created successfully", data)
 }
+// @Summary Get all Slide
+// @Description Retrieve a list of all Slide
+// @Tags website-elearning
+// @Produce json
+// @Success 200 {object} map[string]interface{}
+// @Router /api/website/elearning/slide [get]
+// @Security BearerAuth
 func GetAllSlideHandler(c echo.Context) error {
 	data, err := GetAllSlideService()
 	if err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve", err.Error()) }
@@ -120,6 +135,15 @@ func GetSlideByIDHandler(c echo.Context) error {
 	if err != nil { return utils.SendError(c, http.StatusNotFound, "Not found", err.Error()) }
 	return utils.SendSuccess(c, http.StatusOK, "Retrieved successfully", data)
 }
+// @Summary Update Slide
+// @Description Update an existing Slide
+// @Tags website-elearning
+// @Accept json
+// @Produce json
+// @Param id path int true "Slide ID"
+// @Success 200 {object} map[string]interface{}
+// @Router /api/website/elearning/slide/{id} [put]
+// @Security BearerAuth
 func UpdateSlideHandler(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
 	data, err := GetSlideByIDService(uint(id))
@@ -128,8 +152,55 @@ func UpdateSlideHandler(c echo.Context) error {
 	if err := UpdateSlideService(data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to update", err.Error()) }
 	return utils.SendSuccess(c, http.StatusOK, "Updated successfully", data)
 }
+// @Summary Delete Slide
+// @Description Delete Slide by ID
+// @Tags website-elearning
+// @Produce json
+// @Param id path int true "Slide ID"
+// @Success 200 {object} map[string]interface{}
+// @Router /api/website/elearning/slide/{id} [delete]
+// @Security BearerAuth
 func DeleteSlideHandler(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
 	if err := DeleteSlideService(uint(id)); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to delete", err.Error()) }
 	return utils.SendSuccess(c, http.StatusOK, "Deleted successfully", nil)
 }
+
+// @Summary Create Certification
+// @Description Create a new Certification
+// @Tags website-elearning
+// @Accept json
+// @Produce json
+// @Success 201 {object} map[string]interface{}
+// @Router /api/website/elearning/certification [post]
+// @Security BearerAuth
+func CreateCertificationHandler(c echo.Context) error { var data Certification; if err := c.Bind(&data); err != nil { return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error()) }; if err := CreateCertificationService(&data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error()) }; return utils.SendSuccess(c, http.StatusCreated, "Success", data) }
+// @Summary Get all Certification
+// @Description Retrieve a list of all Certification
+// @Tags website-elearning
+// @Produce json
+// @Success 200 {object} map[string]interface{}
+// @Router /api/website/elearning/certification [get]
+// @Security BearerAuth
+func GetAllCertificationHandler(c echo.Context) error { data, err := GetAllCertificationService(); if err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error()) }; return utils.SendSuccess(c, http.StatusOK, "Success", data) }
+func GetCertificationByIDHandler(c echo.Context) error { id, _ := strconv.Atoi(c.Param("id")); data, err := GetCertificationByIDService(uint(id)); if err != nil { return utils.SendError(c, http.StatusNotFound, "Not found", err.Error()) }; return utils.SendSuccess(c, http.StatusOK, "Success", data) }
+// @Summary Update Certification
+// @Description Update an existing Certification
+// @Tags website-elearning
+// @Accept json
+// @Produce json
+// @Param id path int true "Certification ID"
+// @Success 200 {object} map[string]interface{}
+// @Router /api/website/elearning/certification/{id} [put]
+// @Security BearerAuth
+func UpdateCertificationHandler(c echo.Context) error { id, _ := strconv.Atoi(c.Param("id")); data, err := GetCertificationByIDService(uint(id)); if err != nil { return utils.SendError(c, http.StatusNotFound, "Not found", err.Error()) }; if err := c.Bind(data); err != nil { return utils.SendError(c, http.StatusBadRequest, "Invalid", err.Error()) }; if err := UpdateCertificationService(data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error()) }; return utils.SendSuccess(c, http.StatusOK, "Success", data) }
+// @Summary Delete Certification
+// @Description Delete Certification by ID
+// @Tags website-elearning
+// @Produce json
+// @Param id path int true "Certification ID"
+// @Success 200 {object} map[string]interface{}
+// @Router /api/website/elearning/certification/{id} [delete]
+// @Security BearerAuth
+func DeleteCertificationHandler(c echo.Context) error { id, _ := strconv.Atoi(c.Param("id")); if err := DeleteCertificationService(uint(id)); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error()) }; return utils.SendSuccess(c, http.StatusOK, "Success", nil) }
+

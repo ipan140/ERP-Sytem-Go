@@ -12,4 +12,11 @@ func RegisterRoutes(e *echo.Echo) {
 	api.GET("/:id", GetMailingCampaignByIDHandler)
 	api.PUT("/:id", UpdateMailingCampaignHandler)
 	api.DELETE("/:id", DeleteMailingCampaignHandler)
+
+	api.POST("/utmtracker", CreateUtmTrackerHandler)
+	api.GET("/utmtracker", GetAllUtmTrackerHandler)
+	api.GET("/utmtracker/:id", GetUtmTrackerByIDHandler)
+	api.PUT("/utmtracker/:id", UpdateUtmTrackerHandler)
+	api.DELETE("/utmtracker/:id", DeleteUtmTrackerHandler)
+
 }

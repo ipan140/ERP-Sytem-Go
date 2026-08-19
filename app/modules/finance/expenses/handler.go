@@ -103,12 +103,27 @@ func DeleteExpenseHandler(c echo.Context) error {
 	return utils.SendSuccess(c, http.StatusOK, "Data deleted successfully", nil)
 }
 
+// @Summary Create ExpenseSheet
+// @Description Create a new ExpenseSheet
+// @Tags finance-expenses
+// @Accept json
+// @Produce json
+// @Success 201 {object} map[string]interface{}
+// @Router /api/finance/expenses/expensesheet [post]
+// @Security BearerAuth
 func CreateExpenseSheetHandler(c echo.Context) error {
 	var data ExpenseSheet
 	if err := c.Bind(&data); err != nil { return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error()) }
 	if err := CreateExpenseSheetService(&data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to create", err.Error()) }
 	return utils.SendSuccess(c, http.StatusCreated, "Created successfully", data)
 }
+// @Summary Get all ExpenseSheet
+// @Description Retrieve a list of all ExpenseSheet
+// @Tags finance-expenses
+// @Produce json
+// @Success 200 {object} map[string]interface{}
+// @Router /api/finance/expenses/expensesheet [get]
+// @Security BearerAuth
 func GetAllExpenseSheetHandler(c echo.Context) error {
 	data, err := GetAllExpenseSheetService()
 	if err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve", err.Error()) }
@@ -120,6 +135,15 @@ func GetExpenseSheetByIDHandler(c echo.Context) error {
 	if err != nil { return utils.SendError(c, http.StatusNotFound, "Not found", err.Error()) }
 	return utils.SendSuccess(c, http.StatusOK, "Retrieved successfully", data)
 }
+// @Summary Update ExpenseSheet
+// @Description Update an existing ExpenseSheet
+// @Tags finance-expenses
+// @Accept json
+// @Produce json
+// @Param id path int true "ExpenseSheet ID"
+// @Success 200 {object} map[string]interface{}
+// @Router /api/finance/expenses/expensesheet/{id} [put]
+// @Security BearerAuth
 func UpdateExpenseSheetHandler(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
 	data, err := GetExpenseSheetByIDService(uint(id))
@@ -128,6 +152,14 @@ func UpdateExpenseSheetHandler(c echo.Context) error {
 	if err := UpdateExpenseSheetService(data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to update", err.Error()) }
 	return utils.SendSuccess(c, http.StatusOK, "Updated successfully", data)
 }
+// @Summary Delete ExpenseSheet
+// @Description Delete ExpenseSheet by ID
+// @Tags finance-expenses
+// @Produce json
+// @Param id path int true "ExpenseSheet ID"
+// @Success 200 {object} map[string]interface{}
+// @Router /api/finance/expenses/expensesheet/{id} [delete]
+// @Security BearerAuth
 func DeleteExpenseSheetHandler(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
 	if err := DeleteExpenseSheetService(uint(id)); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to delete", err.Error()) }

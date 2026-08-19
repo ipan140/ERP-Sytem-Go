@@ -19,3 +19,10 @@ func UpdateEventService(data *Event) error {
 func DeleteEventService(id uint) error {
 	return DeleteEvent(id)
 }
+
+func CreateEventTicketService(data *EventTicket) error { return CreateEventTicket(data) }
+func GetAllEventTicketService() ([]EventTicket, error) { return GetAllEventTicket() }
+func GetEventTicketByIDService(id uint) (*EventTicket, error) { return GetEventTicketByID(id) }
+func UpdateEventTicketService(data *EventTicket) error { return UpdateEventTicket(data) }
+func DeleteEventTicketService(id uint) error { return DeleteEventTicket(id) }
+

@@ -103,12 +103,27 @@ func DeleteReferralRewardHandler(c echo.Context) error {
 	return utils.SendSuccess(c, http.StatusOK, "Data deleted successfully", nil)
 }
 
+// @Summary Create ReferralPoint
+// @Description Create a new ReferralPoint
+// @Tags hr-referrals
+// @Accept json
+// @Produce json
+// @Success 201 {object} map[string]interface{}
+// @Router /api/hr/referrals/referralpoint [post]
+// @Security BearerAuth
 func CreateReferralPointHandler(c echo.Context) error {
 	var data ReferralPoint
 	if err := c.Bind(&data); err != nil { return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error()) }
 	if err := CreateReferralPointService(&data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to create", err.Error()) }
 	return utils.SendSuccess(c, http.StatusCreated, "Created successfully", data)
 }
+// @Summary Get all ReferralPoint
+// @Description Retrieve a list of all ReferralPoint
+// @Tags hr-referrals
+// @Produce json
+// @Success 200 {object} map[string]interface{}
+// @Router /api/hr/referrals/referralpoint [get]
+// @Security BearerAuth
 func GetAllReferralPointHandler(c echo.Context) error {
 	data, err := GetAllReferralPointService()
 	if err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve", err.Error()) }
@@ -120,6 +135,15 @@ func GetReferralPointByIDHandler(c echo.Context) error {
 	if err != nil { return utils.SendError(c, http.StatusNotFound, "Not found", err.Error()) }
 	return utils.SendSuccess(c, http.StatusOK, "Retrieved successfully", data)
 }
+// @Summary Update ReferralPoint
+// @Description Update an existing ReferralPoint
+// @Tags hr-referrals
+// @Accept json
+// @Produce json
+// @Param id path int true "ReferralPoint ID"
+// @Success 200 {object} map[string]interface{}
+// @Router /api/hr/referrals/referralpoint/{id} [put]
+// @Security BearerAuth
 func UpdateReferralPointHandler(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
 	data, err := GetReferralPointByIDService(uint(id))
@@ -128,6 +152,14 @@ func UpdateReferralPointHandler(c echo.Context) error {
 	if err := UpdateReferralPointService(data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to update", err.Error()) }
 	return utils.SendSuccess(c, http.StatusOK, "Updated successfully", data)
 }
+// @Summary Delete ReferralPoint
+// @Description Delete ReferralPoint by ID
+// @Tags hr-referrals
+// @Produce json
+// @Param id path int true "ReferralPoint ID"
+// @Success 200 {object} map[string]interface{}
+// @Router /api/hr/referrals/referralpoint/{id} [delete]
+// @Security BearerAuth
 func DeleteReferralPointHandler(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
 	if err := DeleteReferralPointService(uint(id)); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to delete", err.Error()) }

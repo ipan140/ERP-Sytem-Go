@@ -103,12 +103,27 @@ func DeleteLeaveRequestHandler(c echo.Context) error {
 	return utils.SendSuccess(c, http.StatusOK, "Data deleted successfully", nil)
 }
 
+// @Summary Create LeaveType
+// @Description Create a new LeaveType
+// @Tags hr-time_off
+// @Accept json
+// @Produce json
+// @Success 201 {object} map[string]interface{}
+// @Router /api/hr/time_off/leavetype [post]
+// @Security BearerAuth
 func CreateLeaveTypeHandler(c echo.Context) error {
 	var data LeaveType
 	if err := c.Bind(&data); err != nil { return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error()) }
 	if err := CreateLeaveTypeService(&data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to create", err.Error()) }
 	return utils.SendSuccess(c, http.StatusCreated, "Created successfully", data)
 }
+// @Summary Get all LeaveType
+// @Description Retrieve a list of all LeaveType
+// @Tags hr-time_off
+// @Produce json
+// @Success 200 {object} map[string]interface{}
+// @Router /api/hr/time_off/leavetype [get]
+// @Security BearerAuth
 func GetAllLeaveTypeHandler(c echo.Context) error {
 	data, err := GetAllLeaveTypeService()
 	if err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve", err.Error()) }
@@ -120,6 +135,15 @@ func GetLeaveTypeByIDHandler(c echo.Context) error {
 	if err != nil { return utils.SendError(c, http.StatusNotFound, "Not found", err.Error()) }
 	return utils.SendSuccess(c, http.StatusOK, "Retrieved successfully", data)
 }
+// @Summary Update LeaveType
+// @Description Update an existing LeaveType
+// @Tags hr-time_off
+// @Accept json
+// @Produce json
+// @Param id path int true "LeaveType ID"
+// @Success 200 {object} map[string]interface{}
+// @Router /api/hr/time_off/leavetype/{id} [put]
+// @Security BearerAuth
 func UpdateLeaveTypeHandler(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
 	data, err := GetLeaveTypeByIDService(uint(id))
@@ -128,18 +152,41 @@ func UpdateLeaveTypeHandler(c echo.Context) error {
 	if err := UpdateLeaveTypeService(data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to update", err.Error()) }
 	return utils.SendSuccess(c, http.StatusOK, "Updated successfully", data)
 }
+// @Summary Delete LeaveType
+// @Description Delete LeaveType by ID
+// @Tags hr-time_off
+// @Produce json
+// @Param id path int true "LeaveType ID"
+// @Success 200 {object} map[string]interface{}
+// @Router /api/hr/time_off/leavetype/{id} [delete]
+// @Security BearerAuth
 func DeleteLeaveTypeHandler(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
 	if err := DeleteLeaveTypeService(uint(id)); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to delete", err.Error()) }
 	return utils.SendSuccess(c, http.StatusOK, "Deleted successfully", nil)
 }
 
+// @Summary Create LeaveAllocation
+// @Description Create a new LeaveAllocation
+// @Tags hr-time_off
+// @Accept json
+// @Produce json
+// @Success 201 {object} map[string]interface{}
+// @Router /api/hr/time_off/leaveallocation [post]
+// @Security BearerAuth
 func CreateLeaveAllocationHandler(c echo.Context) error {
 	var data LeaveAllocation
 	if err := c.Bind(&data); err != nil { return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error()) }
 	if err := CreateLeaveAllocationService(&data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to create", err.Error()) }
 	return utils.SendSuccess(c, http.StatusCreated, "Created successfully", data)
 }
+// @Summary Get all LeaveAllocation
+// @Description Retrieve a list of all LeaveAllocation
+// @Tags hr-time_off
+// @Produce json
+// @Success 200 {object} map[string]interface{}
+// @Router /api/hr/time_off/leaveallocation [get]
+// @Security BearerAuth
 func GetAllLeaveAllocationHandler(c echo.Context) error {
 	data, err := GetAllLeaveAllocationService()
 	if err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve", err.Error()) }
@@ -151,6 +198,15 @@ func GetLeaveAllocationByIDHandler(c echo.Context) error {
 	if err != nil { return utils.SendError(c, http.StatusNotFound, "Not found", err.Error()) }
 	return utils.SendSuccess(c, http.StatusOK, "Retrieved successfully", data)
 }
+// @Summary Update LeaveAllocation
+// @Description Update an existing LeaveAllocation
+// @Tags hr-time_off
+// @Accept json
+// @Produce json
+// @Param id path int true "LeaveAllocation ID"
+// @Success 200 {object} map[string]interface{}
+// @Router /api/hr/time_off/leaveallocation/{id} [put]
+// @Security BearerAuth
 func UpdateLeaveAllocationHandler(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
 	data, err := GetLeaveAllocationByIDService(uint(id))
@@ -159,6 +215,14 @@ func UpdateLeaveAllocationHandler(c echo.Context) error {
 	if err := UpdateLeaveAllocationService(data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to update", err.Error()) }
 	return utils.SendSuccess(c, http.StatusOK, "Updated successfully", data)
 }
+// @Summary Delete LeaveAllocation
+// @Description Delete LeaveAllocation by ID
+// @Tags hr-time_off
+// @Produce json
+// @Param id path int true "LeaveAllocation ID"
+// @Success 200 {object} map[string]interface{}
+// @Router /api/hr/time_off/leaveallocation/{id} [delete]
+// @Security BearerAuth
 func DeleteLeaveAllocationHandler(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
 	if err := DeleteLeaveAllocationService(uint(id)); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to delete", err.Error()) }

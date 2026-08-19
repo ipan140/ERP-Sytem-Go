@@ -12,4 +12,11 @@ func RegisterRoutes(e *echo.Echo) {
 	api.GET("/:id", GetAutomationCampaignByIDHandler)
 	api.PUT("/:id", UpdateAutomationCampaignHandler)
 	api.DELETE("/:id", DeleteAutomationCampaignHandler)
+
+	api.POST("/workflowactivity", CreateWorkflowActivityHandler)
+	api.GET("/workflowactivity", GetAllWorkflowActivityHandler)
+	api.GET("/workflowactivity/:id", GetWorkflowActivityByIDHandler)
+	api.PUT("/workflowactivity/:id", UpdateWorkflowActivityHandler)
+	api.DELETE("/workflowactivity/:id", DeleteWorkflowActivityHandler)
+
 }

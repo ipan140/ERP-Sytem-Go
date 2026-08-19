@@ -19,3 +19,10 @@ func UpdateMailingCampaignService(data *MailingCampaign) error {
 func DeleteMailingCampaignService(id uint) error {
 	return DeleteMailingCampaign(id)
 }
+
+func CreateUtmTrackerService(data *UtmTracker) error { return CreateUtmTracker(data) }
+func GetAllUtmTrackerService() ([]UtmTracker, error) { return GetAllUtmTracker() }
+func GetUtmTrackerByIDService(id uint) (*UtmTracker, error) { return GetUtmTrackerByID(id) }
+func UpdateUtmTrackerService(data *UtmTracker) error { return UpdateUtmTracker(data) }
+func DeleteUtmTrackerService(id uint) error { return DeleteUtmTracker(id) }
+

@@ -103,12 +103,27 @@ func DeleteCurrencyHandler(c echo.Context) error {
 	return utils.SendSuccess(c, http.StatusOK, "Data deleted successfully", nil)
 }
 
+// @Summary Create Country
+// @Description Create a new Country
+// @Tags core-base
+// @Accept json
+// @Produce json
+// @Success 201 {object} map[string]interface{}
+// @Router /api/core/base/country [post]
+// @Security BearerAuth
 func CreateCountryHandler(c echo.Context) error {
 	var data Country
 	if err := c.Bind(&data); err != nil { return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error()) }
 	if err := CreateCountryService(&data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to create", err.Error()) }
 	return utils.SendSuccess(c, http.StatusCreated, "Created successfully", data)
 }
+// @Summary Get all Country
+// @Description Retrieve a list of all Country
+// @Tags core-base
+// @Produce json
+// @Success 200 {object} map[string]interface{}
+// @Router /api/core/base/country [get]
+// @Security BearerAuth
 func GetAllCountryHandler(c echo.Context) error {
 	data, err := GetAllCountryService()
 	if err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve", err.Error()) }
@@ -120,6 +135,15 @@ func GetCountryByIDHandler(c echo.Context) error {
 	if err != nil { return utils.SendError(c, http.StatusNotFound, "Not found", err.Error()) }
 	return utils.SendSuccess(c, http.StatusOK, "Retrieved successfully", data)
 }
+// @Summary Update Country
+// @Description Update an existing Country
+// @Tags core-base
+// @Accept json
+// @Produce json
+// @Param id path int true "Country ID"
+// @Success 200 {object} map[string]interface{}
+// @Router /api/core/base/country/{id} [put]
+// @Security BearerAuth
 func UpdateCountryHandler(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
 	data, err := GetCountryByIDService(uint(id))
@@ -128,18 +152,41 @@ func UpdateCountryHandler(c echo.Context) error {
 	if err := UpdateCountryService(data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to update", err.Error()) }
 	return utils.SendSuccess(c, http.StatusOK, "Updated successfully", data)
 }
+// @Summary Delete Country
+// @Description Delete Country by ID
+// @Tags core-base
+// @Produce json
+// @Param id path int true "Country ID"
+// @Success 200 {object} map[string]interface{}
+// @Router /api/core/base/country/{id} [delete]
+// @Security BearerAuth
 func DeleteCountryHandler(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
 	if err := DeleteCountryService(uint(id)); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to delete", err.Error()) }
 	return utils.SendSuccess(c, http.StatusOK, "Deleted successfully", nil)
 }
 
+// @Summary Create CountryState
+// @Description Create a new CountryState
+// @Tags core-base
+// @Accept json
+// @Produce json
+// @Success 201 {object} map[string]interface{}
+// @Router /api/core/base/countrystate [post]
+// @Security BearerAuth
 func CreateCountryStateHandler(c echo.Context) error {
 	var data CountryState
 	if err := c.Bind(&data); err != nil { return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error()) }
 	if err := CreateCountryStateService(&data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to create", err.Error()) }
 	return utils.SendSuccess(c, http.StatusCreated, "Created successfully", data)
 }
+// @Summary Get all CountryState
+// @Description Retrieve a list of all CountryState
+// @Tags core-base
+// @Produce json
+// @Success 200 {object} map[string]interface{}
+// @Router /api/core/base/countrystate [get]
+// @Security BearerAuth
 func GetAllCountryStateHandler(c echo.Context) error {
 	data, err := GetAllCountryStateService()
 	if err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve", err.Error()) }
@@ -151,6 +198,15 @@ func GetCountryStateByIDHandler(c echo.Context) error {
 	if err != nil { return utils.SendError(c, http.StatusNotFound, "Not found", err.Error()) }
 	return utils.SendSuccess(c, http.StatusOK, "Retrieved successfully", data)
 }
+// @Summary Update CountryState
+// @Description Update an existing CountryState
+// @Tags core-base
+// @Accept json
+// @Produce json
+// @Param id path int true "CountryState ID"
+// @Success 200 {object} map[string]interface{}
+// @Router /api/core/base/countrystate/{id} [put]
+// @Security BearerAuth
 func UpdateCountryStateHandler(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
 	data, err := GetCountryStateByIDService(uint(id))
@@ -159,18 +215,41 @@ func UpdateCountryStateHandler(c echo.Context) error {
 	if err := UpdateCountryStateService(data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to update", err.Error()) }
 	return utils.SendSuccess(c, http.StatusOK, "Updated successfully", data)
 }
+// @Summary Delete CountryState
+// @Description Delete CountryState by ID
+// @Tags core-base
+// @Produce json
+// @Param id path int true "CountryState ID"
+// @Success 200 {object} map[string]interface{}
+// @Router /api/core/base/countrystate/{id} [delete]
+// @Security BearerAuth
 func DeleteCountryStateHandler(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
 	if err := DeleteCountryStateService(uint(id)); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to delete", err.Error()) }
 	return utils.SendSuccess(c, http.StatusOK, "Deleted successfully", nil)
 }
 
+// @Summary Create Partner
+// @Description Create a new Partner
+// @Tags core-base
+// @Accept json
+// @Produce json
+// @Success 201 {object} map[string]interface{}
+// @Router /api/core/base/partner [post]
+// @Security BearerAuth
 func CreatePartnerHandler(c echo.Context) error {
 	var data Partner
 	if err := c.Bind(&data); err != nil { return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error()) }
 	if err := CreatePartnerService(&data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to create", err.Error()) }
 	return utils.SendSuccess(c, http.StatusCreated, "Created successfully", data)
 }
+// @Summary Get all Partner
+// @Description Retrieve a list of all Partner
+// @Tags core-base
+// @Produce json
+// @Success 200 {object} map[string]interface{}
+// @Router /api/core/base/partner [get]
+// @Security BearerAuth
 func GetAllPartnerHandler(c echo.Context) error {
 	data, err := GetAllPartnerService()
 	if err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve", err.Error()) }
@@ -182,6 +261,15 @@ func GetPartnerByIDHandler(c echo.Context) error {
 	if err != nil { return utils.SendError(c, http.StatusNotFound, "Not found", err.Error()) }
 	return utils.SendSuccess(c, http.StatusOK, "Retrieved successfully", data)
 }
+// @Summary Update Partner
+// @Description Update an existing Partner
+// @Tags core-base
+// @Accept json
+// @Produce json
+// @Param id path int true "Partner ID"
+// @Success 200 {object} map[string]interface{}
+// @Router /api/core/base/partner/{id} [put]
+// @Security BearerAuth
 func UpdatePartnerHandler(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
 	data, err := GetPartnerByIDService(uint(id))
@@ -190,6 +278,14 @@ func UpdatePartnerHandler(c echo.Context) error {
 	if err := UpdatePartnerService(data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to update", err.Error()) }
 	return utils.SendSuccess(c, http.StatusOK, "Updated successfully", data)
 }
+// @Summary Delete Partner
+// @Description Delete Partner by ID
+// @Tags core-base
+// @Produce json
+// @Param id path int true "Partner ID"
+// @Success 200 {object} map[string]interface{}
+// @Router /api/core/base/partner/{id} [delete]
+// @Security BearerAuth
 func DeletePartnerHandler(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
 	if err := DeletePartnerService(uint(id)); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to delete", err.Error()) }

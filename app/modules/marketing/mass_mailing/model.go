@@ -1,26 +1,23 @@
-package mass_mailing
+﻿package mass_mailing
 
-import (
-	"ERP-System/config"
-	"time"
-)
+import "ERP-System/config"
 
+// 4. Mass Mailing & Tracking
 type MailingCampaign struct {
-	ID        uint      `gorm:"primaryKey" json:"id"`
-	Name      string    `gorm:"type:varchar(255);not null" json:"name"`
-	Subject   string    `gorm:"type:varchar(255)" json:"subject"`
-	BodyHtml  string    `gorm:"type:text" json:"body_html"`
-	State     string    `gorm:"type:varchar(20);default:'draft'" json:"state"` // draft, in_queue, sending, done
-	CreatedAt time.Time `json:"created_at"`
+	ID           uint   `gorm:"primaryKey" json:"id"`
+	Name         string `gorm:"type:varchar(255)" json:"name"`
+	SentCount    int    `gorm:"default:0" json:"sent_count"`
+	OpenedCount  int    `gorm:"default:0" json:"opened_count"`
+	ClickedCount int    `gorm:"default:0" json:"clicked_count"`
 }
 
-type MailingContact struct {
-	ID        uint      `gorm:"primaryKey" json:"id"`
-	Name      string    `gorm:"type:varchar(255)" json:"name"`
-	Email     string    `gorm:"type:varchar(255);not null;unique" json:"email"`
-	CreatedAt time.Time `json:"created_at"`
+// 10. UTM Link Tracker
+type UtmTracker struct {
+	ID               uint    `gorm:"primaryKey" json:"id"`
+	CampaignID       uint    `json:"campaign_id"`
+	UtmSource        string  `gorm:"type:varchar(50)" json:"utm_source"` // misal: facebook
+	UtmMedium        string  `gorm:"type:varchar(50)" json:"utm_medium"` // misal: cpc
+	GeneratedRevenue float64 `gorm:"type:numeric(15,2)" json:"generated_revenue"` // Untung dari link ini
 }
 
-func init() {
-	config.ModelsToMigrate = append(config.ModelsToMigrate, &MailingCampaign{}, &MailingContact{})
-}
+func init() { config.ModelsToMigrate = append(config.ModelsToMigrate, &MailingCampaign{}, &UtmTracker{}) }

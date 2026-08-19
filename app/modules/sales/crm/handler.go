@@ -103,12 +103,27 @@ func DeleteLeadHandler(c echo.Context) error {
 	return utils.SendSuccess(c, http.StatusOK, "Data deleted successfully", nil)
 }
 
+// @Summary Create SalesTeam
+// @Description Create a new SalesTeam
+// @Tags sales-crm
+// @Accept json
+// @Produce json
+// @Success 201 {object} map[string]interface{}
+// @Router /api/sales/crm/salesteam [post]
+// @Security BearerAuth
 func CreateSalesTeamHandler(c echo.Context) error {
 	var data SalesTeam
 	if err := c.Bind(&data); err != nil { return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error()) }
 	if err := CreateSalesTeamService(&data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to create", err.Error()) }
 	return utils.SendSuccess(c, http.StatusCreated, "Created successfully", data)
 }
+// @Summary Get all SalesTeam
+// @Description Retrieve a list of all SalesTeam
+// @Tags sales-crm
+// @Produce json
+// @Success 200 {object} map[string]interface{}
+// @Router /api/sales/crm/salesteam [get]
+// @Security BearerAuth
 func GetAllSalesTeamHandler(c echo.Context) error {
 	data, err := GetAllSalesTeamService()
 	if err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve", err.Error()) }
@@ -120,6 +135,15 @@ func GetSalesTeamByIDHandler(c echo.Context) error {
 	if err != nil { return utils.SendError(c, http.StatusNotFound, "Not found", err.Error()) }
 	return utils.SendSuccess(c, http.StatusOK, "Retrieved successfully", data)
 }
+// @Summary Update SalesTeam
+// @Description Update an existing SalesTeam
+// @Tags sales-crm
+// @Accept json
+// @Produce json
+// @Param id path int true "SalesTeam ID"
+// @Success 200 {object} map[string]interface{}
+// @Router /api/sales/crm/salesteam/{id} [put]
+// @Security BearerAuth
 func UpdateSalesTeamHandler(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
 	data, err := GetSalesTeamByIDService(uint(id))
@@ -128,18 +152,41 @@ func UpdateSalesTeamHandler(c echo.Context) error {
 	if err := UpdateSalesTeamService(data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to update", err.Error()) }
 	return utils.SendSuccess(c, http.StatusOK, "Updated successfully", data)
 }
+// @Summary Delete SalesTeam
+// @Description Delete SalesTeam by ID
+// @Tags sales-crm
+// @Produce json
+// @Param id path int true "SalesTeam ID"
+// @Success 200 {object} map[string]interface{}
+// @Router /api/sales/crm/salesteam/{id} [delete]
+// @Security BearerAuth
 func DeleteSalesTeamHandler(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
 	if err := DeleteSalesTeamService(uint(id)); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to delete", err.Error()) }
 	return utils.SendSuccess(c, http.StatusOK, "Deleted successfully", nil)
 }
 
+// @Summary Create Stage
+// @Description Create a new Stage
+// @Tags sales-crm
+// @Accept json
+// @Produce json
+// @Success 201 {object} map[string]interface{}
+// @Router /api/sales/crm/stage [post]
+// @Security BearerAuth
 func CreateStageHandler(c echo.Context) error {
 	var data Stage
 	if err := c.Bind(&data); err != nil { return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error()) }
 	if err := CreateStageService(&data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to create", err.Error()) }
 	return utils.SendSuccess(c, http.StatusCreated, "Created successfully", data)
 }
+// @Summary Get all Stage
+// @Description Retrieve a list of all Stage
+// @Tags sales-crm
+// @Produce json
+// @Success 200 {object} map[string]interface{}
+// @Router /api/sales/crm/stage [get]
+// @Security BearerAuth
 func GetAllStageHandler(c echo.Context) error {
 	data, err := GetAllStageService()
 	if err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve", err.Error()) }
@@ -151,6 +198,15 @@ func GetStageByIDHandler(c echo.Context) error {
 	if err != nil { return utils.SendError(c, http.StatusNotFound, "Not found", err.Error()) }
 	return utils.SendSuccess(c, http.StatusOK, "Retrieved successfully", data)
 }
+// @Summary Update Stage
+// @Description Update an existing Stage
+// @Tags sales-crm
+// @Accept json
+// @Produce json
+// @Param id path int true "Stage ID"
+// @Success 200 {object} map[string]interface{}
+// @Router /api/sales/crm/stage/{id} [put]
+// @Security BearerAuth
 func UpdateStageHandler(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
 	data, err := GetStageByIDService(uint(id))
@@ -159,18 +215,41 @@ func UpdateStageHandler(c echo.Context) error {
 	if err := UpdateStageService(data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to update", err.Error()) }
 	return utils.SendSuccess(c, http.StatusOK, "Updated successfully", data)
 }
+// @Summary Delete Stage
+// @Description Delete Stage by ID
+// @Tags sales-crm
+// @Produce json
+// @Param id path int true "Stage ID"
+// @Success 200 {object} map[string]interface{}
+// @Router /api/sales/crm/stage/{id} [delete]
+// @Security BearerAuth
 func DeleteStageHandler(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
 	if err := DeleteStageService(uint(id)); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to delete", err.Error()) }
 	return utils.SendSuccess(c, http.StatusOK, "Deleted successfully", nil)
 }
 
+// @Summary Create Activity
+// @Description Create a new Activity
+// @Tags sales-crm
+// @Accept json
+// @Produce json
+// @Success 201 {object} map[string]interface{}
+// @Router /api/sales/crm/activity [post]
+// @Security BearerAuth
 func CreateActivityHandler(c echo.Context) error {
 	var data Activity
 	if err := c.Bind(&data); err != nil { return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error()) }
 	if err := CreateActivityService(&data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to create", err.Error()) }
 	return utils.SendSuccess(c, http.StatusCreated, "Created successfully", data)
 }
+// @Summary Get all Activity
+// @Description Retrieve a list of all Activity
+// @Tags sales-crm
+// @Produce json
+// @Success 200 {object} map[string]interface{}
+// @Router /api/sales/crm/activity [get]
+// @Security BearerAuth
 func GetAllActivityHandler(c echo.Context) error {
 	data, err := GetAllActivityService()
 	if err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve", err.Error()) }
@@ -182,6 +261,15 @@ func GetActivityByIDHandler(c echo.Context) error {
 	if err != nil { return utils.SendError(c, http.StatusNotFound, "Not found", err.Error()) }
 	return utils.SendSuccess(c, http.StatusOK, "Retrieved successfully", data)
 }
+// @Summary Update Activity
+// @Description Update an existing Activity
+// @Tags sales-crm
+// @Accept json
+// @Produce json
+// @Param id path int true "Activity ID"
+// @Success 200 {object} map[string]interface{}
+// @Router /api/sales/crm/activity/{id} [put]
+// @Security BearerAuth
 func UpdateActivityHandler(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
 	data, err := GetActivityByIDService(uint(id))
@@ -190,18 +278,41 @@ func UpdateActivityHandler(c echo.Context) error {
 	if err := UpdateActivityService(data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to update", err.Error()) }
 	return utils.SendSuccess(c, http.StatusOK, "Updated successfully", data)
 }
+// @Summary Delete Activity
+// @Description Delete Activity by ID
+// @Tags sales-crm
+// @Produce json
+// @Param id path int true "Activity ID"
+// @Success 200 {object} map[string]interface{}
+// @Router /api/sales/crm/activity/{id} [delete]
+// @Security BearerAuth
 func DeleteActivityHandler(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
 	if err := DeleteActivityService(uint(id)); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to delete", err.Error()) }
 	return utils.SendSuccess(c, http.StatusOK, "Deleted successfully", nil)
 }
 
+// @Summary Create SalesCommission
+// @Description Create a new SalesCommission
+// @Tags sales-crm
+// @Accept json
+// @Produce json
+// @Success 201 {object} map[string]interface{}
+// @Router /api/sales/crm/salescommission [post]
+// @Security BearerAuth
 func CreateSalesCommissionHandler(c echo.Context) error {
 	var data SalesCommission
 	if err := c.Bind(&data); err != nil { return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error()) }
 	if err := CreateSalesCommissionService(&data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to create", err.Error()) }
 	return utils.SendSuccess(c, http.StatusCreated, "Created successfully", data)
 }
+// @Summary Get all SalesCommission
+// @Description Retrieve a list of all SalesCommission
+// @Tags sales-crm
+// @Produce json
+// @Success 200 {object} map[string]interface{}
+// @Router /api/sales/crm/salescommission [get]
+// @Security BearerAuth
 func GetAllSalesCommissionHandler(c echo.Context) error {
 	data, err := GetAllSalesCommissionService()
 	if err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve", err.Error()) }
@@ -213,6 +324,15 @@ func GetSalesCommissionByIDHandler(c echo.Context) error {
 	if err != nil { return utils.SendError(c, http.StatusNotFound, "Not found", err.Error()) }
 	return utils.SendSuccess(c, http.StatusOK, "Retrieved successfully", data)
 }
+// @Summary Update SalesCommission
+// @Description Update an existing SalesCommission
+// @Tags sales-crm
+// @Accept json
+// @Produce json
+// @Param id path int true "SalesCommission ID"
+// @Success 200 {object} map[string]interface{}
+// @Router /api/sales/crm/salescommission/{id} [put]
+// @Security BearerAuth
 func UpdateSalesCommissionHandler(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
 	data, err := GetSalesCommissionByIDService(uint(id))
@@ -221,6 +341,14 @@ func UpdateSalesCommissionHandler(c echo.Context) error {
 	if err := UpdateSalesCommissionService(data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to update", err.Error()) }
 	return utils.SendSuccess(c, http.StatusOK, "Updated successfully", data)
 }
+// @Summary Delete SalesCommission
+// @Description Delete SalesCommission by ID
+// @Tags sales-crm
+// @Produce json
+// @Param id path int true "SalesCommission ID"
+// @Success 200 {object} map[string]interface{}
+// @Router /api/sales/crm/salescommission/{id} [delete]
+// @Security BearerAuth
 func DeleteSalesCommissionHandler(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
 	if err := DeleteSalesCommissionService(uint(id)); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to delete", err.Error()) }

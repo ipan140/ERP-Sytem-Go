@@ -103,12 +103,27 @@ func DeleteRentalOrderHandler(c echo.Context) error {
 	return utils.SendSuccess(c, http.StatusOK, "Data deleted successfully", nil)
 }
 
+// @Summary Create RentalOrderLine
+// @Description Create a new RentalOrderLine
+// @Tags sales-rental
+// @Accept json
+// @Produce json
+// @Success 201 {object} map[string]interface{}
+// @Router /api/sales/rental/rentalorderline [post]
+// @Security BearerAuth
 func CreateRentalOrderLineHandler(c echo.Context) error {
 	var data RentalOrderLine
 	if err := c.Bind(&data); err != nil { return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error()) }
 	if err := CreateRentalOrderLineService(&data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to create", err.Error()) }
 	return utils.SendSuccess(c, http.StatusCreated, "Created successfully", data)
 }
+// @Summary Get all RentalOrderLine
+// @Description Retrieve a list of all RentalOrderLine
+// @Tags sales-rental
+// @Produce json
+// @Success 200 {object} map[string]interface{}
+// @Router /api/sales/rental/rentalorderline [get]
+// @Security BearerAuth
 func GetAllRentalOrderLineHandler(c echo.Context) error {
 	data, err := GetAllRentalOrderLineService()
 	if err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve", err.Error()) }
@@ -120,6 +135,15 @@ func GetRentalOrderLineByIDHandler(c echo.Context) error {
 	if err != nil { return utils.SendError(c, http.StatusNotFound, "Not found", err.Error()) }
 	return utils.SendSuccess(c, http.StatusOK, "Retrieved successfully", data)
 }
+// @Summary Update RentalOrderLine
+// @Description Update an existing RentalOrderLine
+// @Tags sales-rental
+// @Accept json
+// @Produce json
+// @Param id path int true "RentalOrderLine ID"
+// @Success 200 {object} map[string]interface{}
+// @Router /api/sales/rental/rentalorderline/{id} [put]
+// @Security BearerAuth
 func UpdateRentalOrderLineHandler(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
 	data, err := GetRentalOrderLineByIDService(uint(id))
@@ -128,6 +152,14 @@ func UpdateRentalOrderLineHandler(c echo.Context) error {
 	if err := UpdateRentalOrderLineService(data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to update", err.Error()) }
 	return utils.SendSuccess(c, http.StatusOK, "Updated successfully", data)
 }
+// @Summary Delete RentalOrderLine
+// @Description Delete RentalOrderLine by ID
+// @Tags sales-rental
+// @Produce json
+// @Param id path int true "RentalOrderLine ID"
+// @Success 200 {object} map[string]interface{}
+// @Router /api/sales/rental/rentalorderline/{id} [delete]
+// @Security BearerAuth
 func DeleteRentalOrderLineHandler(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
 	if err := DeleteRentalOrderLineService(uint(id)); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to delete", err.Error()) }
