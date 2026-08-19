@@ -166,11 +166,12 @@ func main() {
 			"status":  "running",
 		})
 	})
-	
 
 	// 5. Start Server
 	port := config.GetEnv("PORT", "8080")
-	log.Printf("Starting server on port %s", port)
+	log.Printf("✅ Server running at http://localhost:" + port)
+	log.Printf("✅ Swagger (Standard) -> http://localhost:" + port + "/swagger/index.html")
+	log.Printf("✅ Swagger (Custom)  -> http://localhost:" + port + "/docs")
 	e.Logger.Fatal(e.Start(":" + port))
 }
 

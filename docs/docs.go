@@ -388,6 +388,378 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/core/base/country": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve a list of all Country",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "core-base"
+                ],
+                "summary": "Get all Country",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create a new Country",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "core-base"
+                ],
+                "summary": "Create Country",
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/core/base/country/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update an existing Country",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "core-base"
+                ],
+                "summary": "Update Country",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Country ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete Country by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "core-base"
+                ],
+                "summary": "Delete Country",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Country ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/core/base/countrystate": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve a list of all CountryState",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "core-base"
+                ],
+                "summary": "Get all CountryState",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create a new CountryState",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "core-base"
+                ],
+                "summary": "Create CountryState",
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/core/base/countrystate/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update an existing CountryState",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "core-base"
+                ],
+                "summary": "Update CountryState",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "CountryState ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete CountryState by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "core-base"
+                ],
+                "summary": "Delete CountryState",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "CountryState ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/core/base/partner": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve a list of all Partner",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "core-base"
+                ],
+                "summary": "Get all Partner",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create a new Partner",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "core-base"
+                ],
+                "summary": "Create Partner",
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/core/base/partner/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update an existing Partner",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "core-base"
+                ],
+                "summary": "Update Partner",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Partner ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete Partner by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "core-base"
+                ],
+                "summary": "Delete Partner",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Partner ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
         "/api/core/mailer": {
             "get": {
                 "security": [
@@ -1383,6 +1755,502 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/finance/accounting/accountincoterms": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve a list of all AccountIncoterms",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "finance-accounting"
+                ],
+                "summary": "Get all AccountIncoterms",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create a new AccountIncoterms",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "finance-accounting"
+                ],
+                "summary": "Create AccountIncoterms",
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/finance/accounting/accountincoterms/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update an existing AccountIncoterms",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "finance-accounting"
+                ],
+                "summary": "Update AccountIncoterms",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "AccountIncoterms ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete AccountIncoterms by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "finance-accounting"
+                ],
+                "summary": "Delete AccountIncoterms",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "AccountIncoterms ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/finance/accounting/accountlockdate": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve a list of all AccountLockDate",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "finance-accounting"
+                ],
+                "summary": "Get all AccountLockDate",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create a new AccountLockDate",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "finance-accounting"
+                ],
+                "summary": "Create AccountLockDate",
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/finance/accounting/accountlockdate/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update an existing AccountLockDate",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "finance-accounting"
+                ],
+                "summary": "Update AccountLockDate",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "AccountLockDate ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete AccountLockDate by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "finance-accounting"
+                ],
+                "summary": "Delete AccountLockDate",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "AccountLockDate ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/finance/accounting/accountreconcilemodel": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve a list of all AccountReconcileModel",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "finance-accounting"
+                ],
+                "summary": "Get all AccountReconcileModel",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create a new AccountReconcileModel",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "finance-accounting"
+                ],
+                "summary": "Create AccountReconcileModel",
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/finance/accounting/accountreconcilemodel/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update an existing AccountReconcileModel",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "finance-accounting"
+                ],
+                "summary": "Update AccountReconcileModel",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "AccountReconcileModel ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete AccountReconcileModel by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "finance-accounting"
+                ],
+                "summary": "Delete AccountReconcileModel",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "AccountReconcileModel ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/finance/accounting/followuprule": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve a list of all FollowupRule",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "finance-accounting"
+                ],
+                "summary": "Get all FollowupRule",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create a new FollowupRule",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "finance-accounting"
+                ],
+                "summary": "Create FollowupRule",
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/finance/accounting/followuprule/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update an existing FollowupRule",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "finance-accounting"
+                ],
+                "summary": "Update FollowupRule",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "FollowupRule ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete FollowupRule by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "finance-accounting"
+                ],
+                "summary": "Delete FollowupRule",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "FollowupRule ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
         "/api/finance/accounting/ledger": {
             "get": {
                 "security": [
@@ -1398,6 +2266,254 @@ const docTemplate = `{
                     "finance-accounting"
                 ],
                 "summary": "Get General Ledger",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/finance/accounting/paymentacquirer": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve a list of all PaymentAcquirer",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "finance-accounting"
+                ],
+                "summary": "Get all PaymentAcquirer",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create a new PaymentAcquirer",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "finance-accounting"
+                ],
+                "summary": "Create PaymentAcquirer",
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/finance/accounting/paymentacquirer/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update an existing PaymentAcquirer",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "finance-accounting"
+                ],
+                "summary": "Update PaymentAcquirer",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "PaymentAcquirer ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete PaymentAcquirer by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "finance-accounting"
+                ],
+                "summary": "Delete PaymentAcquirer",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "PaymentAcquirer ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/finance/accounting/paymenttransaction": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve a list of all PaymentTransaction",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "finance-accounting"
+                ],
+                "summary": "Get all PaymentTransaction",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create a new PaymentTransaction",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "finance-accounting"
+                ],
+                "summary": "Create PaymentTransaction",
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/finance/accounting/paymenttransaction/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update an existing PaymentTransaction",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "finance-accounting"
+                ],
+                "summary": "Update PaymentTransaction",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "PaymentTransaction ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete PaymentTransaction by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "finance-accounting"
+                ],
+                "summary": "Delete PaymentTransaction",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "PaymentTransaction ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -1922,6 +3038,130 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/finance/expenses/expensesheet": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve a list of all ExpenseSheet",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "finance-expenses"
+                ],
+                "summary": "Get all ExpenseSheet",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create a new ExpenseSheet",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "finance-expenses"
+                ],
+                "summary": "Create ExpenseSheet",
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/finance/expenses/expensesheet/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update an existing ExpenseSheet",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "finance-expenses"
+                ],
+                "summary": "Update ExpenseSheet",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ExpenseSheet ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete ExpenseSheet by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "finance-expenses"
+                ],
+                "summary": "Delete ExpenseSheet",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ExpenseSheet ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
         "/api/finance/expenses/{id}": {
             "get": {
                 "security": [
@@ -2094,6 +3334,254 @@ const docTemplate = `{
                     "finance-invoicing"
                 ],
                 "summary": "Trigger Dunning Process",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/finance/invoicing/paymenttermline": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve a list of all PaymentTermLine",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "finance-invoicing"
+                ],
+                "summary": "Get all PaymentTermLine",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create a new PaymentTermLine",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "finance-invoicing"
+                ],
+                "summary": "Create PaymentTermLine",
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/finance/invoicing/paymenttermline/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update an existing PaymentTermLine",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "finance-invoicing"
+                ],
+                "summary": "Update PaymentTermLine",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "PaymentTermLine ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete PaymentTermLine by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "finance-invoicing"
+                ],
+                "summary": "Delete PaymentTermLine",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "PaymentTermLine ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/finance/invoicing/taxrepartitionline": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve a list of all TaxRepartitionLine",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "finance-invoicing"
+                ],
+                "summary": "Get all TaxRepartitionLine",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create a new TaxRepartitionLine",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "finance-invoicing"
+                ],
+                "summary": "Create TaxRepartitionLine",
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/finance/invoicing/taxrepartitionline/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update an existing TaxRepartitionLine",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "finance-invoicing"
+                ],
+                "summary": "Update TaxRepartitionLine",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "TaxRepartitionLine ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete TaxRepartitionLine by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "finance-invoicing"
+                ],
+                "summary": "Delete TaxRepartitionLine",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "TaxRepartitionLine ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -2593,6 +4081,163 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/hr/ReferralRewards": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve a list of all ReferralReward",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "hr-ReferralRewards"
+                ],
+                "summary": "Get all ReferralReward",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create a new ReferralReward in the system",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "hr-ReferralRewards"
+                ],
+                "summary": "Create a new ReferralReward",
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/hr/ReferralRewards/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve a specific ReferralReward by its ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "hr-ReferralRewards"
+                ],
+                "summary": "Get a ReferralReward by ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ReferralReward ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update an existing ReferralReward",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "hr-ReferralRewards"
+                ],
+                "summary": "Update a ReferralReward",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ReferralReward ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete a ReferralReward by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "hr-ReferralRewards"
+                ],
+                "summary": "Delete a ReferralReward",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ReferralReward ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
         "/api/hr/appraisals": {
             "get": {
                 "security": [
@@ -2803,6 +4448,130 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/hr/attendances/overtime": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve a list of all Overtime",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "hr-attendances"
+                ],
+                "summary": "Get all Overtime",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create a new Overtime",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "hr-attendances"
+                ],
+                "summary": "Create Overtime",
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/hr/attendances/overtime/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update an existing Overtime",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "hr-attendances"
+                ],
+                "summary": "Update Overtime",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Overtime ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete Overtime by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "hr-attendances"
+                ],
+                "summary": "Delete Overtime",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Overtime ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
         "/api/hr/attendances/{id}": {
             "get": {
                 "security": [
@@ -2960,6 +4729,874 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/hr/employees/contract": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve a list of all Contract",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "hr-employees"
+                ],
+                "summary": "Get all Contract",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create a new Contract",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "hr-employees"
+                ],
+                "summary": "Create Contract",
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/hr/employees/contract/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update an existing Contract",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "hr-employees"
+                ],
+                "summary": "Update Contract",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Contract ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete Contract by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "hr-employees"
+                ],
+                "summary": "Delete Contract",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Contract ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/hr/employees/employeeskill": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve a list of all EmployeeSkill",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "hr-employees"
+                ],
+                "summary": "Get all EmployeeSkill",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create a new EmployeeSkill",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "hr-employees"
+                ],
+                "summary": "Create EmployeeSkill",
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/hr/employees/employeeskill/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update an existing EmployeeSkill",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "hr-employees"
+                ],
+                "summary": "Update EmployeeSkill",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "EmployeeSkill ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete EmployeeSkill by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "hr-employees"
+                ],
+                "summary": "Delete EmployeeSkill",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "EmployeeSkill ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/hr/employees/jobposition": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve a list of all JobPosition",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "hr-employees"
+                ],
+                "summary": "Get all JobPosition",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create a new JobPosition",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "hr-employees"
+                ],
+                "summary": "Create JobPosition",
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/hr/employees/jobposition/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update an existing JobPosition",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "hr-employees"
+                ],
+                "summary": "Update JobPosition",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "JobPosition ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete JobPosition by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "hr-employees"
+                ],
+                "summary": "Delete JobPosition",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "JobPosition ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/hr/employees/resumeline": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve a list of all ResumeLine",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "hr-employees"
+                ],
+                "summary": "Get all ResumeLine",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create a new ResumeLine",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "hr-employees"
+                ],
+                "summary": "Create ResumeLine",
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/hr/employees/resumeline/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update an existing ResumeLine",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "hr-employees"
+                ],
+                "summary": "Update ResumeLine",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ResumeLine ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete ResumeLine by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "hr-employees"
+                ],
+                "summary": "Delete ResumeLine",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ResumeLine ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/hr/employees/skill": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve a list of all Skill",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "hr-employees"
+                ],
+                "summary": "Get all Skill",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create a new Skill",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "hr-employees"
+                ],
+                "summary": "Create Skill",
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/hr/employees/skill/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update an existing Skill",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "hr-employees"
+                ],
+                "summary": "Update Skill",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Skill ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete Skill by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "hr-employees"
+                ],
+                "summary": "Delete Skill",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Skill ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/hr/employees/skilllevel": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve a list of all SkillLevel",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "hr-employees"
+                ],
+                "summary": "Get all SkillLevel",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create a new SkillLevel",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "hr-employees"
+                ],
+                "summary": "Create SkillLevel",
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/hr/employees/skilllevel/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update an existing SkillLevel",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "hr-employees"
+                ],
+                "summary": "Update SkillLevel",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "SkillLevel ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete SkillLevel by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "hr-employees"
+                ],
+                "summary": "Delete SkillLevel",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "SkillLevel ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/hr/employees/workingschedule": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve a list of all WorkingSchedule",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "hr-employees"
+                ],
+                "summary": "Get all WorkingSchedule",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create a new WorkingSchedule",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "hr-employees"
+                ],
+                "summary": "Create WorkingSchedule",
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/hr/employees/workingschedule/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update an existing WorkingSchedule",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "hr-employees"
+                ],
+                "summary": "Update WorkingSchedule",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "WorkingSchedule ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete WorkingSchedule by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "hr-employees"
+                ],
+                "summary": "Delete WorkingSchedule",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "WorkingSchedule ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
         "/api/hr/employees/{id}": {
             "get": {
                 "security": [
@@ -3071,14 +5708,14 @@ const docTemplate = `{
                         "BearerAuth": []
                     }
                 ],
-                "description": "Retrieve a list of all FleetVehicle",
+                "description": "Retrieve a list of all Vehicle",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "hr-fleet"
                 ],
-                "summary": "Get all FleetVehicle",
+                "summary": "Get all Vehicle",
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -3095,7 +5732,7 @@ const docTemplate = `{
                         "BearerAuth": []
                     }
                 ],
-                "description": "Create a new FleetVehicle in the system",
+                "description": "Create a new Vehicle in the system",
                 "consumes": [
                     "application/json"
                 ],
@@ -3105,7 +5742,7 @@ const docTemplate = `{
                 "tags": [
                     "hr-fleet"
                 ],
-                "summary": "Create a new FleetVehicle",
+                "summary": "Create a new Vehicle",
                 "responses": {
                     "201": {
                         "description": "Created",
@@ -3117,30 +5754,21 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/hr/fleet/{id}": {
+        "/api/hr/fleet/vehiclelogcontract": {
             "get": {
                 "security": [
                     {
                         "BearerAuth": []
                     }
                 ],
-                "description": "Retrieve a specific FleetVehicle by its ID",
+                "description": "Retrieve a list of all VehicleLogContract",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "hr-fleet"
                 ],
-                "summary": "Get a FleetVehicle by ID",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "FleetVehicle ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
+                "summary": "Get all VehicleLogContract",
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -3151,13 +5779,13 @@ const docTemplate = `{
                     }
                 }
             },
-            "put": {
+            "post": {
                 "security": [
                     {
                         "BearerAuth": []
                     }
                 ],
-                "description": "Update an existing FleetVehicle",
+                "description": "Create a new VehicleLogContract",
                 "consumes": [
                     "application/json"
                 ],
@@ -3167,11 +5795,40 @@ const docTemplate = `{
                 "tags": [
                     "hr-fleet"
                 ],
-                "summary": "Update a FleetVehicle",
+                "summary": "Create VehicleLogContract",
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/hr/fleet/vehiclelogcontract/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update an existing VehicleLogContract",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "hr-fleet"
+                ],
+                "summary": "Update VehicleLogContract",
                 "parameters": [
                     {
                         "type": "integer",
-                        "description": "FleetVehicle ID",
+                        "description": "VehicleLogContract ID",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -3193,18 +5850,370 @@ const docTemplate = `{
                         "BearerAuth": []
                     }
                 ],
-                "description": "Delete a FleetVehicle by ID",
+                "description": "Delete VehicleLogContract by ID",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "hr-fleet"
                 ],
-                "summary": "Delete a FleetVehicle",
+                "summary": "Delete VehicleLogContract",
                 "parameters": [
                     {
                         "type": "integer",
-                        "description": "FleetVehicle ID",
+                        "description": "VehicleLogContract ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/hr/fleet/vehiclelogfuel": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve a list of all VehicleLogFuel",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "hr-fleet"
+                ],
+                "summary": "Get all VehicleLogFuel",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create a new VehicleLogFuel",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "hr-fleet"
+                ],
+                "summary": "Create VehicleLogFuel",
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/hr/fleet/vehiclelogfuel/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update an existing VehicleLogFuel",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "hr-fleet"
+                ],
+                "summary": "Update VehicleLogFuel",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "VehicleLogFuel ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete VehicleLogFuel by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "hr-fleet"
+                ],
+                "summary": "Delete VehicleLogFuel",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "VehicleLogFuel ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/hr/fleet/vehiclelogservices": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve a list of all VehicleLogServices",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "hr-fleet"
+                ],
+                "summary": "Get all VehicleLogServices",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create a new VehicleLogServices",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "hr-fleet"
+                ],
+                "summary": "Create VehicleLogServices",
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/hr/fleet/vehiclelogservices/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update an existing VehicleLogServices",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "hr-fleet"
+                ],
+                "summary": "Update VehicleLogServices",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "VehicleLogServices ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete VehicleLogServices by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "hr-fleet"
+                ],
+                "summary": "Delete VehicleLogServices",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "VehicleLogServices ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/hr/fleet/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve a specific Vehicle by its ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "hr-fleet"
+                ],
+                "summary": "Get a Vehicle by ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Vehicle ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update an existing Vehicle",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "hr-fleet"
+                ],
+                "summary": "Update a Vehicle",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Vehicle ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete a Vehicle by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "hr-fleet"
+                ],
+                "summary": "Delete a Vehicle",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Vehicle ID",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -3266,6 +6275,130 @@ const docTemplate = `{
                 "responses": {
                     "201": {
                         "description": "Created",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/hr/lunch/lunchcashmove": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve a list of all LunchCashmove",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "hr-lunch"
+                ],
+                "summary": "Get all LunchCashmove",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create a new LunchCashmove",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "hr-lunch"
+                ],
+                "summary": "Create LunchCashmove",
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/hr/lunch/lunchcashmove/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update an existing LunchCashmove",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "hr-lunch"
+                ],
+                "summary": "Update LunchCashmove",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "LunchCashmove ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete LunchCashmove by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "hr-lunch"
+                ],
+                "summary": "Delete LunchCashmove",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "LunchCashmove ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
                         "schema": {
                             "type": "object",
                             "additionalProperties": true
@@ -3431,6 +6564,254 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/hr/payroll/payslipline": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve a list of all PayslipLine",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "hr-payroll"
+                ],
+                "summary": "Get all PayslipLine",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create a new PayslipLine",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "hr-payroll"
+                ],
+                "summary": "Create PayslipLine",
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/hr/payroll/payslipline/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update an existing PayslipLine",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "hr-payroll"
+                ],
+                "summary": "Update PayslipLine",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "PayslipLine ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete PayslipLine by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "hr-payroll"
+                ],
+                "summary": "Delete PayslipLine",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "PayslipLine ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/hr/payroll/salaryrule": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve a list of all SalaryRule",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "hr-payroll"
+                ],
+                "summary": "Get all SalaryRule",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create a new SalaryRule",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "hr-payroll"
+                ],
+                "summary": "Create SalaryRule",
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/hr/payroll/salaryrule/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update an existing SalaryRule",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "hr-payroll"
+                ],
+                "summary": "Update SalaryRule",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "SalaryRule ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete SalaryRule by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "hr-payroll"
+                ],
+                "summary": "Delete SalaryRule",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "SalaryRule ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
         "/api/hr/payroll/{id}": {
             "get": {
                 "security": [
@@ -3542,14 +6923,14 @@ const docTemplate = `{
                         "BearerAuth": []
                     }
                 ],
-                "description": "Retrieve a list of all JobApplicant",
+                "description": "Retrieve a list of all Applicant",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "hr-recruitment"
                 ],
-                "summary": "Get all JobApplicant",
+                "summary": "Get all Applicant",
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -3566,7 +6947,7 @@ const docTemplate = `{
                         "BearerAuth": []
                     }
                 ],
-                "description": "Create a new JobApplicant in the system",
+                "description": "Create a new Applicant in the system",
                 "consumes": [
                     "application/json"
                 ],
@@ -3576,7 +6957,7 @@ const docTemplate = `{
                 "tags": [
                     "hr-recruitment"
                 ],
-                "summary": "Create a new JobApplicant",
+                "summary": "Create a new Applicant",
                 "responses": {
                     "201": {
                         "description": "Created",
@@ -3595,18 +6976,18 @@ const docTemplate = `{
                         "BearerAuth": []
                     }
                 ],
-                "description": "Retrieve a specific JobApplicant by its ID",
+                "description": "Retrieve a specific Applicant by its ID",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "hr-recruitment"
                 ],
-                "summary": "Get a JobApplicant by ID",
+                "summary": "Get a Applicant by ID",
                 "parameters": [
                     {
                         "type": "integer",
-                        "description": "JobApplicant ID",
+                        "description": "Applicant ID",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -3628,7 +7009,7 @@ const docTemplate = `{
                         "BearerAuth": []
                     }
                 ],
-                "description": "Update an existing JobApplicant",
+                "description": "Update an existing Applicant",
                 "consumes": [
                     "application/json"
                 ],
@@ -3638,11 +7019,11 @@ const docTemplate = `{
                 "tags": [
                     "hr-recruitment"
                 ],
-                "summary": "Update a JobApplicant",
+                "summary": "Update a Applicant",
                 "parameters": [
                     {
                         "type": "integer",
-                        "description": "JobApplicant ID",
+                        "description": "Applicant ID",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -3664,18 +7045,18 @@ const docTemplate = `{
                         "BearerAuth": []
                     }
                 ],
-                "description": "Delete a JobApplicant by ID",
+                "description": "Delete a Applicant by ID",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "hr-recruitment"
                 ],
-                "summary": "Delete a JobApplicant",
+                "summary": "Delete a Applicant",
                 "parameters": [
                     {
                         "type": "integer",
-                        "description": "JobApplicant ID",
+                        "description": "Applicant ID",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -3692,21 +7073,21 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/hr/referrals": {
+        "/api/hr/referrals/referralpoint": {
             "get": {
                 "security": [
                     {
                         "BearerAuth": []
                     }
                 ],
-                "description": "Retrieve a list of all Referral",
+                "description": "Retrieve a list of all ReferralPoint",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "hr-referrals"
                 ],
-                "summary": "Get all Referral",
+                "summary": "Get all ReferralPoint",
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -3723,7 +7104,7 @@ const docTemplate = `{
                         "BearerAuth": []
                     }
                 ],
-                "description": "Create a new Referral in the system",
+                "description": "Create a new ReferralPoint",
                 "consumes": [
                     "application/json"
                 ],
@@ -3733,7 +7114,7 @@ const docTemplate = `{
                 "tags": [
                     "hr-referrals"
                 ],
-                "summary": "Create a new Referral",
+                "summary": "Create ReferralPoint",
                 "responses": {
                     "201": {
                         "description": "Created",
@@ -3745,47 +7126,14 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/hr/referrals/{id}": {
-            "get": {
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ],
-                "description": "Retrieve a specific Referral by its ID",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "hr-referrals"
-                ],
-                "summary": "Get a Referral by ID",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "Referral ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": true
-                        }
-                    }
-                }
-            },
+        "/api/hr/referrals/referralpoint/{id}": {
             "put": {
                 "security": [
                     {
                         "BearerAuth": []
                     }
                 ],
-                "description": "Update an existing Referral",
+                "description": "Update an existing ReferralPoint",
                 "consumes": [
                     "application/json"
                 ],
@@ -3795,11 +7143,11 @@ const docTemplate = `{
                 "tags": [
                     "hr-referrals"
                 ],
-                "summary": "Update a Referral",
+                "summary": "Update ReferralPoint",
                 "parameters": [
                     {
                         "type": "integer",
-                        "description": "Referral ID",
+                        "description": "ReferralPoint ID",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -3821,18 +7169,18 @@ const docTemplate = `{
                         "BearerAuth": []
                     }
                 ],
-                "description": "Delete a Referral by ID",
+                "description": "Delete ReferralPoint by ID",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "hr-referrals"
                 ],
-                "summary": "Delete a Referral",
+                "summary": "Delete ReferralPoint",
                 "parameters": [
                     {
                         "type": "integer",
-                        "description": "Referral ID",
+                        "description": "ReferralPoint ID",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -3894,6 +7242,254 @@ const docTemplate = `{
                 "responses": {
                     "201": {
                         "description": "Created",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/hr/time_off/leaveallocation": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve a list of all LeaveAllocation",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "hr-time_off"
+                ],
+                "summary": "Get all LeaveAllocation",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create a new LeaveAllocation",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "hr-time_off"
+                ],
+                "summary": "Create LeaveAllocation",
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/hr/time_off/leaveallocation/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update an existing LeaveAllocation",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "hr-time_off"
+                ],
+                "summary": "Update LeaveAllocation",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "LeaveAllocation ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete LeaveAllocation by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "hr-time_off"
+                ],
+                "summary": "Delete LeaveAllocation",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "LeaveAllocation ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/hr/time_off/leavetype": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve a list of all LeaveType",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "hr-time_off"
+                ],
+                "summary": "Get all LeaveType",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create a new LeaveType",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "hr-time_off"
+                ],
+                "summary": "Create LeaveType",
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/hr/time_off/leavetype/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update an existing LeaveType",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "hr-time_off"
+                ],
+                "summary": "Update LeaveType",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "LeaveType ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete LeaveType by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "hr-time_off"
+                ],
+                "summary": "Delete LeaveType",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "LeaveType ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
                         "schema": {
                             "type": "object",
                             "additionalProperties": true
@@ -4373,6 +7969,130 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/marketing/events/eventticket": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve a list of all EventTicket",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "marketing-events"
+                ],
+                "summary": "Get all EventTicket",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create a new EventTicket",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "marketing-events"
+                ],
+                "summary": "Create EventTicket",
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/marketing/events/eventticket/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update an existing EventTicket",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "marketing-events"
+                ],
+                "summary": "Update EventTicket",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "EventTicket ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete EventTicket by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "marketing-events"
+                ],
+                "summary": "Delete EventTicket",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "EventTicket ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
         "/api/marketing/events/{id}": {
             "get": {
                 "security": [
@@ -4530,6 +8250,130 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/marketing/marketing_automation/workflowactivity": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve a list of all WorkflowActivity",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "marketing-marketing_automation"
+                ],
+                "summary": "Get all WorkflowActivity",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create a new WorkflowActivity",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "marketing-marketing_automation"
+                ],
+                "summary": "Create WorkflowActivity",
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/marketing/marketing_automation/workflowactivity/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update an existing WorkflowActivity",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "marketing-marketing_automation"
+                ],
+                "summary": "Update WorkflowActivity",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "WorkflowActivity ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete WorkflowActivity by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "marketing-marketing_automation"
+                ],
+                "summary": "Delete WorkflowActivity",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "WorkflowActivity ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
         "/api/marketing/marketing_automation/{id}": {
             "get": {
                 "security": [
@@ -4679,6 +8523,130 @@ const docTemplate = `{
                 "responses": {
                     "201": {
                         "description": "Created",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/marketing/mass_mailing/utmtracker": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve a list of all UtmTracker",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "marketing-mass_mailing"
+                ],
+                "summary": "Get all UtmTracker",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create a new UtmTracker",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "marketing-mass_mailing"
+                ],
+                "summary": "Create UtmTracker",
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/marketing/mass_mailing/utmtracker/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update an existing UtmTracker",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "marketing-mass_mailing"
+                ],
+                "summary": "Update UtmTracker",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "UtmTracker ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete UtmTracker by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "marketing-mass_mailing"
+                ],
+                "summary": "Delete UtmTracker",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "UtmTracker ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
                         "schema": {
                             "type": "object",
                             "additionalProperties": true
@@ -5315,6 +9283,502 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/sales/crm/activity": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve a list of all Activity",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sales-crm"
+                ],
+                "summary": "Get all Activity",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create a new Activity",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sales-crm"
+                ],
+                "summary": "Create Activity",
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/sales/crm/activity/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update an existing Activity",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sales-crm"
+                ],
+                "summary": "Update Activity",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Activity ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete Activity by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sales-crm"
+                ],
+                "summary": "Delete Activity",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Activity ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/sales/crm/salescommission": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve a list of all SalesCommission",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sales-crm"
+                ],
+                "summary": "Get all SalesCommission",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create a new SalesCommission",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sales-crm"
+                ],
+                "summary": "Create SalesCommission",
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/sales/crm/salescommission/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update an existing SalesCommission",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sales-crm"
+                ],
+                "summary": "Update SalesCommission",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "SalesCommission ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete SalesCommission by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sales-crm"
+                ],
+                "summary": "Delete SalesCommission",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "SalesCommission ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/sales/crm/salesteam": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve a list of all SalesTeam",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sales-crm"
+                ],
+                "summary": "Get all SalesTeam",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create a new SalesTeam",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sales-crm"
+                ],
+                "summary": "Create SalesTeam",
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/sales/crm/salesteam/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update an existing SalesTeam",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sales-crm"
+                ],
+                "summary": "Update SalesTeam",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "SalesTeam ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete SalesTeam by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sales-crm"
+                ],
+                "summary": "Delete SalesTeam",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "SalesTeam ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/sales/crm/stage": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve a list of all Stage",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sales-crm"
+                ],
+                "summary": "Get all Stage",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create a new Stage",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sales-crm"
+                ],
+                "summary": "Create Stage",
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/sales/crm/stage/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update an existing Stage",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sales-crm"
+                ],
+                "summary": "Update Stage",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Stage ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete Stage by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sales-crm"
+                ],
+                "summary": "Delete Stage",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Stage ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
         "/api/sales/crm/{id}": {
             "get": {
                 "security": [
@@ -5464,6 +9928,626 @@ const docTemplate = `{
                 "responses": {
                     "201": {
                         "description": "Created",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/sales/point_of_sale/loyaltyprogram": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve a list of all LoyaltyProgram",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sales-point_of_sale"
+                ],
+                "summary": "Get all LoyaltyProgram",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create a new LoyaltyProgram",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sales-point_of_sale"
+                ],
+                "summary": "Create LoyaltyProgram",
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/sales/point_of_sale/loyaltyprogram/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update an existing LoyaltyProgram",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sales-point_of_sale"
+                ],
+                "summary": "Update LoyaltyProgram",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "LoyaltyProgram ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete LoyaltyProgram by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sales-point_of_sale"
+                ],
+                "summary": "Delete LoyaltyProgram",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "LoyaltyProgram ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/sales/point_of_sale/posconfig": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve a list of all PosConfig",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sales-point_of_sale"
+                ],
+                "summary": "Get all PosConfig",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create a new PosConfig",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sales-point_of_sale"
+                ],
+                "summary": "Create PosConfig",
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/sales/point_of_sale/posconfig/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update an existing PosConfig",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sales-point_of_sale"
+                ],
+                "summary": "Update PosConfig",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "PosConfig ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete PosConfig by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sales-point_of_sale"
+                ],
+                "summary": "Delete PosConfig",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "PosConfig ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/sales/point_of_sale/posorder": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve a list of all PosOrder",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sales-point_of_sale"
+                ],
+                "summary": "Get all PosOrder",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create a new PosOrder",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sales-point_of_sale"
+                ],
+                "summary": "Create PosOrder",
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/sales/point_of_sale/posorder/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update an existing PosOrder",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sales-point_of_sale"
+                ],
+                "summary": "Update PosOrder",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "PosOrder ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete PosOrder by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sales-point_of_sale"
+                ],
+                "summary": "Delete PosOrder",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "PosOrder ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/sales/point_of_sale/posorderline": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve a list of all PosOrderLine",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sales-point_of_sale"
+                ],
+                "summary": "Get all PosOrderLine",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create a new PosOrderLine",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sales-point_of_sale"
+                ],
+                "summary": "Create PosOrderLine",
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/sales/point_of_sale/posorderline/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update an existing PosOrderLine",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sales-point_of_sale"
+                ],
+                "summary": "Update PosOrderLine",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "PosOrderLine ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete PosOrderLine by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sales-point_of_sale"
+                ],
+                "summary": "Delete PosOrderLine",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "PosOrderLine ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/sales/point_of_sale/pospayment": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve a list of all PosPayment",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sales-point_of_sale"
+                ],
+                "summary": "Get all PosPayment",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create a new PosPayment",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sales-point_of_sale"
+                ],
+                "summary": "Create PosPayment",
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/sales/point_of_sale/pospayment/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update an existing PosPayment",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sales-point_of_sale"
+                ],
+                "summary": "Update PosPayment",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "PosPayment ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete PosPayment by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sales-point_of_sale"
+                ],
+                "summary": "Delete PosPayment",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "PosPayment ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
                         "schema": {
                             "type": "object",
                             "additionalProperties": true
@@ -5629,6 +10713,130 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/sales/rental/rentalorderline": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve a list of all RentalOrderLine",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sales-rental"
+                ],
+                "summary": "Get all RentalOrderLine",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create a new RentalOrderLine",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sales-rental"
+                ],
+                "summary": "Create RentalOrderLine",
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/sales/rental/rentalorderline/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update an existing RentalOrderLine",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sales-rental"
+                ],
+                "summary": "Update RentalOrderLine",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "RentalOrderLine ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete RentalOrderLine by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sales-rental"
+                ],
+                "summary": "Delete RentalOrderLine",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "RentalOrderLine ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
         "/api/sales/rental/{id}": {
             "get": {
                 "security": [
@@ -5786,6 +10994,626 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/sales/sales_core/deliverymethod": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve a list of all DeliveryMethod",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sales-sales_core"
+                ],
+                "summary": "Get all DeliveryMethod",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create a new DeliveryMethod",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sales-sales_core"
+                ],
+                "summary": "Create DeliveryMethod",
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/sales/sales_core/deliverymethod/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update an existing DeliveryMethod",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sales-sales_core"
+                ],
+                "summary": "Update DeliveryMethod",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "DeliveryMethod ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete DeliveryMethod by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sales-sales_core"
+                ],
+                "summary": "Delete DeliveryMethod",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "DeliveryMethod ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/sales/sales_core/pricelist": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve a list of all Pricelist",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sales-sales_core"
+                ],
+                "summary": "Get all Pricelist",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create a new Pricelist",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sales-sales_core"
+                ],
+                "summary": "Create Pricelist",
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/sales/sales_core/pricelist/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update an existing Pricelist",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sales-sales_core"
+                ],
+                "summary": "Update Pricelist",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Pricelist ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete Pricelist by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sales-sales_core"
+                ],
+                "summary": "Delete Pricelist",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Pricelist ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/sales/sales_core/pricelistitem": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve a list of all PricelistItem",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sales-sales_core"
+                ],
+                "summary": "Get all PricelistItem",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create a new PricelistItem",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sales-sales_core"
+                ],
+                "summary": "Create PricelistItem",
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/sales/sales_core/pricelistitem/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update an existing PricelistItem",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sales-sales_core"
+                ],
+                "summary": "Update PricelistItem",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "PricelistItem ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete PricelistItem by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sales-sales_core"
+                ],
+                "summary": "Delete PricelistItem",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "PricelistItem ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/sales/sales_core/quotationtemplate": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve a list of all QuotationTemplate",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sales-sales_core"
+                ],
+                "summary": "Get all QuotationTemplate",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create a new QuotationTemplate",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sales-sales_core"
+                ],
+                "summary": "Create QuotationTemplate",
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/sales/sales_core/quotationtemplate/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update an existing QuotationTemplate",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sales-sales_core"
+                ],
+                "summary": "Update QuotationTemplate",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "QuotationTemplate ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete QuotationTemplate by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sales-sales_core"
+                ],
+                "summary": "Delete QuotationTemplate",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "QuotationTemplate ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/sales/sales_core/saleorderline": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve a list of all SaleOrderLine",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sales-sales_core"
+                ],
+                "summary": "Get all SaleOrderLine",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create a new SaleOrderLine",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sales-sales_core"
+                ],
+                "summary": "Create SaleOrderLine",
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/sales/sales_core/saleorderline/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update an existing SaleOrderLine",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sales-sales_core"
+                ],
+                "summary": "Update SaleOrderLine",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "SaleOrderLine ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete SaleOrderLine by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sales-sales_core"
+                ],
+                "summary": "Delete SaleOrderLine",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "SaleOrderLine ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
         "/api/sales/sales_core/{id}": {
             "get": {
                 "security": [
@@ -5935,6 +11763,130 @@ const docTemplate = `{
                 "responses": {
                     "201": {
                         "description": "Created",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/sales/subscriptions/subscriptionplan": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve a list of all SubscriptionPlan",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sales-subscriptions"
+                ],
+                "summary": "Get all SubscriptionPlan",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create a new SubscriptionPlan",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sales-subscriptions"
+                ],
+                "summary": "Create SubscriptionPlan",
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/sales/subscriptions/subscriptionplan/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update an existing SubscriptionPlan",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sales-subscriptions"
+                ],
+                "summary": "Update SubscriptionPlan",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "SubscriptionPlan ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete SubscriptionPlan by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sales-subscriptions"
+                ],
+                "summary": "Delete SubscriptionPlan",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "SubscriptionPlan ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
                         "schema": {
                             "type": "object",
                             "additionalProperties": true
@@ -6414,6 +12366,254 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/services/helpdesk/helpdeskcannedresponse": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve a list of all HelpdeskCannedResponse",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "services-helpdesk"
+                ],
+                "summary": "Get all HelpdeskCannedResponse",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create a new HelpdeskCannedResponse",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "services-helpdesk"
+                ],
+                "summary": "Create HelpdeskCannedResponse",
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/services/helpdesk/helpdeskcannedresponse/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update an existing HelpdeskCannedResponse",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "services-helpdesk"
+                ],
+                "summary": "Update HelpdeskCannedResponse",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "HelpdeskCannedResponse ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete HelpdeskCannedResponse by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "services-helpdesk"
+                ],
+                "summary": "Delete HelpdeskCannedResponse",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "HelpdeskCannedResponse ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/services/helpdesk/helpdesksla": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve a list of all HelpdeskSLA",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "services-helpdesk"
+                ],
+                "summary": "Get all HelpdeskSLA",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create a new HelpdeskSLA",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "services-helpdesk"
+                ],
+                "summary": "Create HelpdeskSLA",
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/services/helpdesk/helpdesksla/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update an existing HelpdeskSLA",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "services-helpdesk"
+                ],
+                "summary": "Update HelpdeskSLA",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "HelpdeskSLA ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete HelpdeskSLA by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "services-helpdesk"
+                ],
+                "summary": "Delete HelpdeskSLA",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "HelpdeskSLA ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
         "/api/services/helpdesk/{id}": {
             "get": {
                 "security": [
@@ -6720,6 +12920,378 @@ const docTemplate = `{
                 "responses": {
                     "201": {
                         "description": "Created",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/services/project/projectmilestone": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve a list of all ProjectMilestone",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "services-project"
+                ],
+                "summary": "Get all ProjectMilestone",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create a new ProjectMilestone",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "services-project"
+                ],
+                "summary": "Create ProjectMilestone",
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/services/project/projectmilestone/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update an existing ProjectMilestone",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "services-project"
+                ],
+                "summary": "Update ProjectMilestone",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ProjectMilestone ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete ProjectMilestone by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "services-project"
+                ],
+                "summary": "Delete ProjectMilestone",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ProjectMilestone ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/services/project/resourceforecast": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve a list of all ResourceForecast",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "services-project"
+                ],
+                "summary": "Get all ResourceForecast",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create a new ResourceForecast",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "services-project"
+                ],
+                "summary": "Create ResourceForecast",
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/services/project/resourceforecast/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update an existing ResourceForecast",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "services-project"
+                ],
+                "summary": "Update ResourceForecast",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ResourceForecast ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete ResourceForecast by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "services-project"
+                ],
+                "summary": "Delete ResourceForecast",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ResourceForecast ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/services/project/taskdependency": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve a list of all TaskDependency",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "services-project"
+                ],
+                "summary": "Get all TaskDependency",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create a new TaskDependency",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "services-project"
+                ],
+                "summary": "Create TaskDependency",
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/services/project/taskdependency/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update an existing TaskDependency",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "services-project"
+                ],
+                "summary": "Update TaskDependency",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "TaskDependency ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete TaskDependency by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "services-project"
+                ],
+                "summary": "Delete TaskDependency",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "TaskDependency ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
                         "schema": {
                             "type": "object",
                             "additionalProperties": true
@@ -7153,14 +13725,14 @@ const docTemplate = `{
                         "BearerAuth": []
                     }
                 ],
-                "description": "Retrieve a list of all BarcodeConfig",
+                "description": "Retrieve a list of all BarcodeNomenclature",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "supply_chain-barcode"
                 ],
-                "summary": "Get all BarcodeConfig",
+                "summary": "Get all BarcodeNomenclature",
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -7177,7 +13749,7 @@ const docTemplate = `{
                         "BearerAuth": []
                     }
                 ],
-                "description": "Create a new BarcodeConfig in the system",
+                "description": "Create a new BarcodeNomenclature in the system",
                 "consumes": [
                     "application/json"
                 ],
@@ -7187,7 +13759,7 @@ const docTemplate = `{
                 "tags": [
                     "supply_chain-barcode"
                 ],
-                "summary": "Create a new BarcodeConfig",
+                "summary": "Create a new BarcodeNomenclature",
                 "responses": {
                     "201": {
                         "description": "Created",
@@ -7206,18 +13778,18 @@ const docTemplate = `{
                         "BearerAuth": []
                     }
                 ],
-                "description": "Retrieve a specific BarcodeConfig by its ID",
+                "description": "Retrieve a specific BarcodeNomenclature by its ID",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "supply_chain-barcode"
                 ],
-                "summary": "Get a BarcodeConfig by ID",
+                "summary": "Get a BarcodeNomenclature by ID",
                 "parameters": [
                     {
                         "type": "integer",
-                        "description": "BarcodeConfig ID",
+                        "description": "BarcodeNomenclature ID",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -7239,7 +13811,7 @@ const docTemplate = `{
                         "BearerAuth": []
                     }
                 ],
-                "description": "Update an existing BarcodeConfig",
+                "description": "Update an existing BarcodeNomenclature",
                 "consumes": [
                     "application/json"
                 ],
@@ -7249,11 +13821,11 @@ const docTemplate = `{
                 "tags": [
                     "supply_chain-barcode"
                 ],
-                "summary": "Update a BarcodeConfig",
+                "summary": "Update a BarcodeNomenclature",
                 "parameters": [
                     {
                         "type": "integer",
-                        "description": "BarcodeConfig ID",
+                        "description": "BarcodeNomenclature ID",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -7275,18 +13847,18 @@ const docTemplate = `{
                         "BearerAuth": []
                     }
                 ],
-                "description": "Delete a BarcodeConfig by ID",
+                "description": "Delete a BarcodeNomenclature by ID",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "supply_chain-barcode"
                 ],
-                "summary": "Delete a BarcodeConfig",
+                "summary": "Delete a BarcodeNomenclature",
                 "parameters": [
                     {
                         "type": "integer",
-                        "description": "BarcodeConfig ID",
+                        "description": "BarcodeNomenclature ID",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -7348,6 +13920,1618 @@ const docTemplate = `{
                 "responses": {
                     "201": {
                         "description": "Created",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/supply_chain/inventory/productattribute": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve a list of all ProductAttribute",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-inventory"
+                ],
+                "summary": "Get all ProductAttribute",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create a new ProductAttribute",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-inventory"
+                ],
+                "summary": "Create ProductAttribute",
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/supply_chain/inventory/productattribute/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update an existing ProductAttribute",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-inventory"
+                ],
+                "summary": "Update ProductAttribute",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ProductAttribute ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete ProductAttribute by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-inventory"
+                ],
+                "summary": "Delete ProductAttribute",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ProductAttribute ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/supply_chain/inventory/productattributevalue": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve a list of all ProductAttributeValue",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-inventory"
+                ],
+                "summary": "Get all ProductAttributeValue",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create a new ProductAttributeValue",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-inventory"
+                ],
+                "summary": "Create ProductAttributeValue",
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/supply_chain/inventory/productattributevalue/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update an existing ProductAttributeValue",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-inventory"
+                ],
+                "summary": "Update ProductAttributeValue",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ProductAttributeValue ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete ProductAttributeValue by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-inventory"
+                ],
+                "summary": "Delete ProductAttributeValue",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ProductAttributeValue ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/supply_chain/inventory/productcategory": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve a list of all ProductCategory",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-inventory"
+                ],
+                "summary": "Get all ProductCategory",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create a new ProductCategory",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-inventory"
+                ],
+                "summary": "Create ProductCategory",
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/supply_chain/inventory/productcategory/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update an existing ProductCategory",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-inventory"
+                ],
+                "summary": "Update ProductCategory",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ProductCategory ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete ProductCategory by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-inventory"
+                ],
+                "summary": "Delete ProductCategory",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ProductCategory ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/supply_chain/inventory/producttemplate": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve a list of all ProductTemplate",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-inventory"
+                ],
+                "summary": "Get all ProductTemplate",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create a new ProductTemplate",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-inventory"
+                ],
+                "summary": "Create ProductTemplate",
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/supply_chain/inventory/producttemplate/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update an existing ProductTemplate",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-inventory"
+                ],
+                "summary": "Update ProductTemplate",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ProductTemplate ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete ProductTemplate by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-inventory"
+                ],
+                "summary": "Delete ProductTemplate",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ProductTemplate ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/supply_chain/inventory/stocklocation": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve a list of all StockLocation",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-inventory"
+                ],
+                "summary": "Get all StockLocation",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create a new StockLocation",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-inventory"
+                ],
+                "summary": "Create StockLocation",
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/supply_chain/inventory/stocklocation/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update an existing StockLocation",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-inventory"
+                ],
+                "summary": "Update StockLocation",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "StockLocation ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete StockLocation by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-inventory"
+                ],
+                "summary": "Delete StockLocation",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "StockLocation ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/supply_chain/inventory/stocklot": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve a list of all StockLot",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-inventory"
+                ],
+                "summary": "Get all StockLot",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create a new StockLot",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-inventory"
+                ],
+                "summary": "Create StockLot",
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/supply_chain/inventory/stocklot/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update an existing StockLot",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-inventory"
+                ],
+                "summary": "Update StockLot",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "StockLot ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete StockLot by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-inventory"
+                ],
+                "summary": "Delete StockLot",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "StockLot ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/supply_chain/inventory/stockpicking": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve a list of all StockPicking",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-inventory"
+                ],
+                "summary": "Get all StockPicking",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create a new StockPicking",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-inventory"
+                ],
+                "summary": "Create StockPicking",
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/supply_chain/inventory/stockpicking/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update an existing StockPicking",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-inventory"
+                ],
+                "summary": "Update StockPicking",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "StockPicking ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete StockPicking by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-inventory"
+                ],
+                "summary": "Delete StockPicking",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "StockPicking ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/supply_chain/inventory/stockputawayrule": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve a list of all StockPutawayRule",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-inventory"
+                ],
+                "summary": "Get all StockPutawayRule",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create a new StockPutawayRule",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-inventory"
+                ],
+                "summary": "Create StockPutawayRule",
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/supply_chain/inventory/stockputawayrule/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update an existing StockPutawayRule",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-inventory"
+                ],
+                "summary": "Update StockPutawayRule",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "StockPutawayRule ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete StockPutawayRule by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-inventory"
+                ],
+                "summary": "Delete StockPutawayRule",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "StockPutawayRule ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/supply_chain/inventory/stockquant": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve a list of all StockQuant",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-inventory"
+                ],
+                "summary": "Get all StockQuant",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create a new StockQuant",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-inventory"
+                ],
+                "summary": "Create StockQuant",
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/supply_chain/inventory/stockquant/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update an existing StockQuant",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-inventory"
+                ],
+                "summary": "Update StockQuant",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "StockQuant ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete StockQuant by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-inventory"
+                ],
+                "summary": "Delete StockQuant",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "StockQuant ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/supply_chain/inventory/stockvaluationlayer": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve a list of all StockValuationLayer",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-inventory"
+                ],
+                "summary": "Get all StockValuationLayer",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create a new StockValuationLayer",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-inventory"
+                ],
+                "summary": "Create StockValuationLayer",
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/supply_chain/inventory/stockvaluationlayer/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update an existing StockValuationLayer",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-inventory"
+                ],
+                "summary": "Update StockValuationLayer",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "StockValuationLayer ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete StockValuationLayer by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-inventory"
+                ],
+                "summary": "Delete StockValuationLayer",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "StockValuationLayer ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/supply_chain/inventory/stockwarehouse": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve a list of all StockWarehouse",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-inventory"
+                ],
+                "summary": "Get all StockWarehouse",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create a new StockWarehouse",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-inventory"
+                ],
+                "summary": "Create StockWarehouse",
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/supply_chain/inventory/stockwarehouse/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update an existing StockWarehouse",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-inventory"
+                ],
+                "summary": "Update StockWarehouse",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "StockWarehouse ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete StockWarehouse by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-inventory"
+                ],
+                "summary": "Delete StockWarehouse",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "StockWarehouse ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/supply_chain/inventory/uom": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve a list of all UoM",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-inventory"
+                ],
+                "summary": "Get all UoM",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create a new UoM",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-inventory"
+                ],
+                "summary": "Create UoM",
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/supply_chain/inventory/uom/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update an existing UoM",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-inventory"
+                ],
+                "summary": "Update UoM",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "UoM ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete UoM by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-inventory"
+                ],
+                "summary": "Delete UoM",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "UoM ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/supply_chain/inventory/uomcategory": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve a list of all UoMCategory",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-inventory"
+                ],
+                "summary": "Get all UoMCategory",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create a new UoMCategory",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-inventory"
+                ],
+                "summary": "Create UoMCategory",
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/supply_chain/inventory/uomcategory/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update an existing UoMCategory",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-inventory"
+                ],
+                "summary": "Update UoMCategory",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "UoMCategory ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete UoMCategory by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-inventory"
+                ],
+                "summary": "Delete UoMCategory",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "UoMCategory ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
                         "schema": {
                             "type": "object",
                             "additionalProperties": true
@@ -7624,14 +15808,14 @@ const docTemplate = `{
                         "BearerAuth": []
                     }
                 ],
-                "description": "Retrieve a list of all ManufacturingOrder",
+                "description": "Retrieve a list of all MrpProduction",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "supply_chain-manufacturing"
                 ],
-                "summary": "Get all ManufacturingOrder",
+                "summary": "Get all MrpProduction",
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -7648,7 +15832,7 @@ const docTemplate = `{
                         "BearerAuth": []
                     }
                 ],
-                "description": "Create a new ManufacturingOrder in the system",
+                "description": "Create a new MrpProduction in the system",
                 "consumes": [
                     "application/json"
                 ],
@@ -7658,7 +15842,7 @@ const docTemplate = `{
                 "tags": [
                     "supply_chain-manufacturing"
                 ],
-                "summary": "Create a new ManufacturingOrder",
+                "summary": "Create a new MrpProduction",
                 "responses": {
                     "201": {
                         "description": "Created",
@@ -7670,30 +15854,21 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/supply_chain/manufacturing/{id}": {
+        "/api/supply_chain/manufacturing/mrpbom": {
             "get": {
                 "security": [
                     {
                         "BearerAuth": []
                     }
                 ],
-                "description": "Retrieve a specific ManufacturingOrder by its ID",
+                "description": "Retrieve a list of all MrpBom",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "supply_chain-manufacturing"
                 ],
-                "summary": "Get a ManufacturingOrder by ID",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "ManufacturingOrder ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
+                "summary": "Get all MrpBom",
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -7704,13 +15879,13 @@ const docTemplate = `{
                     }
                 }
             },
-            "put": {
+            "post": {
                 "security": [
                     {
                         "BearerAuth": []
                     }
                 ],
-                "description": "Update an existing ManufacturingOrder",
+                "description": "Create a new MrpBom",
                 "consumes": [
                     "application/json"
                 ],
@@ -7720,11 +15895,40 @@ const docTemplate = `{
                 "tags": [
                     "supply_chain-manufacturing"
                 ],
-                "summary": "Update a ManufacturingOrder",
+                "summary": "Create MrpBom",
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/supply_chain/manufacturing/mrpbom/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update an existing MrpBom",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-manufacturing"
+                ],
+                "summary": "Update MrpBom",
                 "parameters": [
                     {
                         "type": "integer",
-                        "description": "ManufacturingOrder ID",
+                        "description": "MrpBom ID",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -7746,18 +15950,618 @@ const docTemplate = `{
                         "BearerAuth": []
                     }
                 ],
-                "description": "Delete a ManufacturingOrder by ID",
+                "description": "Delete MrpBom by ID",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "supply_chain-manufacturing"
                 ],
-                "summary": "Delete a ManufacturingOrder",
+                "summary": "Delete MrpBom",
                 "parameters": [
                     {
                         "type": "integer",
-                        "description": "ManufacturingOrder ID",
+                        "description": "MrpBom ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/supply_chain/manufacturing/mrpbombyproduct": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve a list of all MrpBomByproduct",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-manufacturing"
+                ],
+                "summary": "Get all MrpBomByproduct",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create a new MrpBomByproduct",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-manufacturing"
+                ],
+                "summary": "Create MrpBomByproduct",
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/supply_chain/manufacturing/mrpbombyproduct/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update an existing MrpBomByproduct",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-manufacturing"
+                ],
+                "summary": "Update MrpBomByproduct",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "MrpBomByproduct ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete MrpBomByproduct by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-manufacturing"
+                ],
+                "summary": "Delete MrpBomByproduct",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "MrpBomByproduct ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/supply_chain/manufacturing/mrpbomline": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve a list of all MrpBomLine",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-manufacturing"
+                ],
+                "summary": "Get all MrpBomLine",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create a new MrpBomLine",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-manufacturing"
+                ],
+                "summary": "Create MrpBomLine",
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/supply_chain/manufacturing/mrpbomline/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update an existing MrpBomLine",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-manufacturing"
+                ],
+                "summary": "Update MrpBomLine",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "MrpBomLine ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete MrpBomLine by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-manufacturing"
+                ],
+                "summary": "Delete MrpBomLine",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "MrpBomLine ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/supply_chain/manufacturing/mrpworkcenter": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve a list of all MrpWorkcenter",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-manufacturing"
+                ],
+                "summary": "Get all MrpWorkcenter",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create a new MrpWorkcenter",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-manufacturing"
+                ],
+                "summary": "Create MrpWorkcenter",
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/supply_chain/manufacturing/mrpworkcenter/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update an existing MrpWorkcenter",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-manufacturing"
+                ],
+                "summary": "Update MrpWorkcenter",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "MrpWorkcenter ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete MrpWorkcenter by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-manufacturing"
+                ],
+                "summary": "Delete MrpWorkcenter",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "MrpWorkcenter ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/supply_chain/manufacturing/mrpworkorder": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve a list of all MrpWorkorder",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-manufacturing"
+                ],
+                "summary": "Get all MrpWorkorder",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create a new MrpWorkorder",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-manufacturing"
+                ],
+                "summary": "Create MrpWorkorder",
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/supply_chain/manufacturing/mrpworkorder/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update an existing MrpWorkorder",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-manufacturing"
+                ],
+                "summary": "Update MrpWorkorder",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "MrpWorkorder ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete MrpWorkorder by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-manufacturing"
+                ],
+                "summary": "Delete MrpWorkorder",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "MrpWorkorder ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/supply_chain/manufacturing/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve a specific MrpProduction by its ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-manufacturing"
+                ],
+                "summary": "Get a MrpProduction by ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "MrpProduction ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update an existing MrpProduction",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-manufacturing"
+                ],
+                "summary": "Update a MrpProduction",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "MrpProduction ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete a MrpProduction by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-manufacturing"
+                ],
+                "summary": "Delete a MrpProduction",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "MrpProduction ID",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -7781,14 +16585,14 @@ const docTemplate = `{
                         "BearerAuth": []
                     }
                 ],
-                "description": "Retrieve a list of all Bom",
+                "description": "Retrieve a list of all PlmEco",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "supply_chain-plm"
                 ],
-                "summary": "Get all Bom",
+                "summary": "Get all PlmEco",
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -7805,7 +16609,7 @@ const docTemplate = `{
                         "BearerAuth": []
                     }
                 ],
-                "description": "Create a new Bom in the system",
+                "description": "Create a new PlmEco in the system",
                 "consumes": [
                     "application/json"
                 ],
@@ -7815,7 +16619,7 @@ const docTemplate = `{
                 "tags": [
                     "supply_chain-plm"
                 ],
-                "summary": "Create a new Bom",
+                "summary": "Create a new PlmEco",
                 "responses": {
                     "201": {
                         "description": "Created",
@@ -7834,18 +16638,18 @@ const docTemplate = `{
                         "BearerAuth": []
                     }
                 ],
-                "description": "Retrieve a specific Bom by its ID",
+                "description": "Retrieve a specific PlmEco by its ID",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "supply_chain-plm"
                 ],
-                "summary": "Get a Bom by ID",
+                "summary": "Get a PlmEco by ID",
                 "parameters": [
                     {
                         "type": "integer",
-                        "description": "Bom ID",
+                        "description": "PlmEco ID",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -7867,7 +16671,7 @@ const docTemplate = `{
                         "BearerAuth": []
                     }
                 ],
-                "description": "Update an existing Bom",
+                "description": "Update an existing PlmEco",
                 "consumes": [
                     "application/json"
                 ],
@@ -7877,11 +16681,11 @@ const docTemplate = `{
                 "tags": [
                     "supply_chain-plm"
                 ],
-                "summary": "Update a Bom",
+                "summary": "Update a PlmEco",
                 "parameters": [
                     {
                         "type": "integer",
-                        "description": "Bom ID",
+                        "description": "PlmEco ID",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -7903,18 +16707,18 @@ const docTemplate = `{
                         "BearerAuth": []
                     }
                 ],
-                "description": "Delete a Bom by ID",
+                "description": "Delete a PlmEco by ID",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "supply_chain-plm"
                 ],
-                "summary": "Delete a Bom",
+                "summary": "Delete a PlmEco",
                 "parameters": [
                     {
                         "type": "integer",
-                        "description": "Bom ID",
+                        "description": "PlmEco ID",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -7976,6 +16780,378 @@ const docTemplate = `{
                 "responses": {
                     "201": {
                         "description": "Created",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/supply_chain/purchase/productsupplierinfo": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve a list of all ProductSupplierInfo",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-purchase"
+                ],
+                "summary": "Get all ProductSupplierInfo",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create a new ProductSupplierInfo",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-purchase"
+                ],
+                "summary": "Create ProductSupplierInfo",
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/supply_chain/purchase/productsupplierinfo/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update an existing ProductSupplierInfo",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-purchase"
+                ],
+                "summary": "Update ProductSupplierInfo",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ProductSupplierInfo ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete ProductSupplierInfo by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-purchase"
+                ],
+                "summary": "Delete ProductSupplierInfo",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ProductSupplierInfo ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/supply_chain/purchase/purchaseorderline": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve a list of all PurchaseOrderLine",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-purchase"
+                ],
+                "summary": "Get all PurchaseOrderLine",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create a new PurchaseOrderLine",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-purchase"
+                ],
+                "summary": "Create PurchaseOrderLine",
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/supply_chain/purchase/purchaseorderline/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update an existing PurchaseOrderLine",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-purchase"
+                ],
+                "summary": "Update PurchaseOrderLine",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "PurchaseOrderLine ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete PurchaseOrderLine by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-purchase"
+                ],
+                "summary": "Delete PurchaseOrderLine",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "PurchaseOrderLine ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/supply_chain/purchase/purchaserequisition": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve a list of all PurchaseRequisition",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-purchase"
+                ],
+                "summary": "Get all PurchaseRequisition",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create a new PurchaseRequisition",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-purchase"
+                ],
+                "summary": "Create PurchaseRequisition",
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/supply_chain/purchase/purchaserequisition/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update an existing PurchaseRequisition",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-purchase"
+                ],
+                "summary": "Update PurchaseRequisition",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "PurchaseRequisition ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete PurchaseRequisition by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-purchase"
+                ],
+                "summary": "Delete PurchaseRequisition",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "PurchaseRequisition ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
                         "schema": {
                             "type": "object",
                             "additionalProperties": true
@@ -8612,6 +17788,378 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/website/ecommerce/cartitem": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve a list of all CartItem",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "website-ecommerce"
+                ],
+                "summary": "Get all CartItem",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create a new CartItem",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "website-ecommerce"
+                ],
+                "summary": "Create CartItem",
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/website/ecommerce/cartitem/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update an existing CartItem",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "website-ecommerce"
+                ],
+                "summary": "Update CartItem",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "CartItem ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete CartItem by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "website-ecommerce"
+                ],
+                "summary": "Delete CartItem",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "CartItem ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/website/ecommerce/portaluser": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve a list of all PortalUser",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "website-ecommerce"
+                ],
+                "summary": "Get all PortalUser",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create a new PortalUser",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "website-ecommerce"
+                ],
+                "summary": "Create PortalUser",
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/website/ecommerce/portaluser/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update an existing PortalUser",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "website-ecommerce"
+                ],
+                "summary": "Update PortalUser",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "PortalUser ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete PortalUser by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "website-ecommerce"
+                ],
+                "summary": "Delete PortalUser",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "PortalUser ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/website/ecommerce/shoppingcart": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve a list of all ShoppingCart",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "website-ecommerce"
+                ],
+                "summary": "Get all ShoppingCart",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create a new ShoppingCart",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "website-ecommerce"
+                ],
+                "summary": "Create ShoppingCart",
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/website/ecommerce/shoppingcart/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update an existing ShoppingCart",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "website-ecommerce"
+                ],
+                "summary": "Update ShoppingCart",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ShoppingCart ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete ShoppingCart by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "website-ecommerce"
+                ],
+                "summary": "Delete ShoppingCart",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ShoppingCart ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
         "/api/website/ecommerce/{id}": {
             "get": {
                 "security": [
@@ -8761,6 +18309,254 @@ const docTemplate = `{
                 "responses": {
                     "201": {
                         "description": "Created",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/website/elearning/certification": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve a list of all Certification",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "website-elearning"
+                ],
+                "summary": "Get all Certification",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create a new Certification",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "website-elearning"
+                ],
+                "summary": "Create Certification",
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/website/elearning/certification/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update an existing Certification",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "website-elearning"
+                ],
+                "summary": "Update Certification",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Certification ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete Certification by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "website-elearning"
+                ],
+                "summary": "Delete Certification",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Certification ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/website/elearning/slide": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve a list of all Slide",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "website-elearning"
+                ],
+                "summary": "Get all Slide",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create a new Slide",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "website-elearning"
+                ],
+                "summary": "Create Slide",
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/website/elearning/slide/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update an existing Slide",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "website-elearning"
+                ],
+                "summary": "Update Slide",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Slide ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete Slide by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "website-elearning"
+                ],
+                "summary": "Delete Slide",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Slide ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
                         "schema": {
                             "type": "object",
                             "additionalProperties": true
