@@ -1,11 +1,19 @@
 package sales_core
 
-import "ERP-System/config"
+import (
+	"ERP-System/config"
+	"ERP-System/app/modules/services/project"
+)
 
 func CreateSaleOrderService(data *SaleOrder) error { return CreateSaleOrder(data) }
 func GetAllSaleOrderService() ([]SaleOrder, error) { return GetAllSaleOrder() }
 func GetSaleOrderByIDService(id uint) (*SaleOrder, error) { return GetSaleOrderByID(id) }
-func UpdateSaleOrderService(data *SaleOrder) error { return UpdateSaleOrder(data) }
+func UpdateSaleOrderService(data *SaleOrder) error {
+	if data.State == "sale" {
+		project.AutoCreateProjectFromSales(data.ID, data.PartnerID, data.Name)
+	}
+	return UpdateSaleOrder(data)
+}
 func DeleteSaleOrderService(id uint) error { return DeleteSaleOrder(id) }
 
 func CreatePricelistService(data *Pricelist) error { return CreatePricelist(data) }
@@ -72,3 +80,5 @@ func RecalculateSaleOrder(orderID uint) error {
 		"amount_total":   amountTotal,
 	}).Error
 }
+
+

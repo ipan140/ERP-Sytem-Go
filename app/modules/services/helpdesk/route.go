@@ -12,4 +12,16 @@ func RegisterRoutes(e *echo.Echo) {
 	api.GET("/:id", GetTicketByIDHandler)
 	api.PUT("/:id", UpdateTicketHandler)
 	api.DELETE("/:id", DeleteTicketHandler)
+
+	api.POST("/helpdesksla", CreateHelpdeskSLAHandler)
+	api.GET("/helpdesksla", GetAllHelpdeskSLAHandler)
+	api.GET("/helpdesksla/:id", GetHelpdeskSLAByIDHandler)
+	api.PUT("/helpdesksla/:id", UpdateHelpdeskSLAHandler)
+	api.DELETE("/helpdesksla/:id", DeleteHelpdeskSLAHandler)
+	api.POST("/helpdeskcannedresponse", CreateHelpdeskCannedResponseHandler)
+	api.GET("/helpdeskcannedresponse", GetAllHelpdeskCannedResponseHandler)
+	api.GET("/helpdeskcannedresponse/:id", GetHelpdeskCannedResponseByIDHandler)
+	api.PUT("/helpdeskcannedresponse/:id", UpdateHelpdeskCannedResponseHandler)
+	api.DELETE("/helpdeskcannedresponse/:id", DeleteHelpdeskCannedResponseHandler)
+
 }
