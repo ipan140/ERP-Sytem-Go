@@ -13,7 +13,7 @@ func LoadEnv() {
 	if err != nil {
 		log.Println("No .env file found, relying on environment variables")
 	}
-	
+
 	// Populate the global struct
 	LoadConfig()
 }

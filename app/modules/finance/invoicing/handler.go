@@ -2,6 +2,11 @@ package invoicing
 
 import (
 	"ERP-System/common/utils"
+	"ERP-System/config"
+	"ERP-System/pkg/pdfgen"
+	"bytes"
+	"fmt"
+	"html/template"
 	"net/http"
 	"strconv"
 
@@ -315,4 +320,140 @@ func DeleteTaxRepartitionLineHandler(c echo.Context) error {
 		return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error())
 	}
 	return utils.SendSuccess(c, http.StatusOK, "Success", nil)
+}
+
+// Struktur Data untuk disuntikkan ke Template HTML
+type InvoiceData struct {
+	InvoiceNumber   string
+	Date            string
+	CustomerName    string
+	CustomerAddress string
+	TotalAmount     string
+	Items           []InvoiceItem
+}
+type InvoiceItem struct {
+	Name     string
+	Qty      int
+	Price    string
+	Subtotal string
+}
+
+// ExportInvoicePDFHandler mendemokan fitur Templating untuk ekspor PDF dinamis
+func ExportInvoicePDFHandler(c echo.Context) error {
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		return c.String(http.StatusBadRequest, "Invalid ID")
+	}
+
+	invoice, err := GetInvoiceByIDService(uint(id))
+	if err != nil {
+		return c.String(http.StatusNotFound, "Faktur tidak ditemukan: "+err.Error())
+	}
+
+	var partner struct {
+		Name   string
+		Street string
+	}
+	config.DB.Table("partners").Select("name, street").Where("id = ?", invoice.PartnerID).Scan(&partner)
+
+	var lines []InvoiceLine
+	config.DB.Where("invoice_id = ?", invoice.ID).Find(&lines)
+
+	var items []InvoiceItem
+	for _, line := range lines {
+		items = append(items, InvoiceItem{
+			Name:     line.Description,
+			Qty:      int(line.Quantity),
+			Price:    fmt.Sprintf("Rp %.2f", line.UnitPrice),
+			Subtotal: fmt.Sprintf("Rp %.2f", line.SubTotal),
+		})
+	}
+
+	data := InvoiceData{
+		InvoiceNumber:   invoice.Name,
+		Date:            invoice.InvoiceDate.Format("02 January 2006"),
+		CustomerName:    partner.Name,
+		CustomerAddress: partner.Street,
+		TotalAmount:     fmt.Sprintf("Rp %.2f", invoice.AmountTotal),
+		Items:           items,
+	}
+
+	tmpl, err := template.ParseFiles("app/templates/invoice.html")
+	if err != nil {
+		return c.String(http.StatusInternalServerError, "Template HTML tidak ditemukan: "+err.Error())
+	}
+
+	var htmlBuffer bytes.Buffer
+	err = tmpl.Execute(&htmlBuffer, data)
+	if err != nil {
+		return c.String(http.StatusInternalServerError, "Gagal merender template")
+	}
+
+	pdfBytes, err := pdfgen.GeneratePDF(htmlBuffer.String(), "A4", "Portrait")
+	if err != nil {
+		return c.String(http.StatusInternalServerError, "Gagal mencetak PDF")
+	}
+
+	c.Response().Header().Set("Content-Type", "application/pdf")
+	c.Response().Header().Set("Content-Disposition", "attachment; filename="+invoice.Name+".pdf")
+	_, err = c.Response().Writer.Write(pdfBytes)
+	return err
+}
+
+// ExportInvoiceExcelHTMLHandler mengekspor invoice sebagai file Excel (.xls) menggunakan template HTML murni
+func ExportInvoiceExcelHTMLHandler(c echo.Context) error {
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		return c.String(http.StatusBadRequest, "Invalid ID")
+	}
+
+	invoice, err := GetInvoiceByIDService(uint(id))
+	if err != nil {
+		return c.String(http.StatusNotFound, "Faktur tidak ditemukan: "+err.Error())
+	}
+
+	var partner struct {
+		Name   string
+		Street string
+	}
+	config.DB.Table("partners").Select("name, street").Where("id = ?", invoice.PartnerID).Scan(&partner)
+
+	var lines []InvoiceLine
+	config.DB.Where("invoice_id = ?", invoice.ID).Find(&lines)
+
+	var items []InvoiceItem
+	for _, line := range lines {
+		items = append(items, InvoiceItem{
+			Name:     line.Description,
+			Qty:      int(line.Quantity),
+			Price:    fmt.Sprintf("Rp %.2f", line.UnitPrice),
+			Subtotal: fmt.Sprintf("Rp %.2f", line.SubTotal),
+		})
+	}
+
+	data := InvoiceData{
+		InvoiceNumber:   invoice.Name,
+		Date:            invoice.InvoiceDate.Format("02 January 2006"),
+		CustomerName:    partner.Name,
+		CustomerAddress: partner.Street,
+		TotalAmount:     fmt.Sprintf("Rp %.2f", invoice.AmountTotal),
+		Items:           items,
+	}
+
+	tmpl, err := template.ParseFiles("app/templates/invoice.html")
+	if err != nil {
+		return c.String(http.StatusInternalServerError, "Template HTML tidak ditemukan: "+err.Error())
+	}
+
+	var htmlBuffer bytes.Buffer
+	err = tmpl.Execute(&htmlBuffer, data)
+	if err != nil {
+		return c.String(http.StatusInternalServerError, "Gagal merender template")
+	}
+
+	// Ubah header ke format Excel agar browser mengunduhnya sebagai file .xls
+	c.Response().Header().Set("Content-Type", "application/vnd.ms-excel")
+	c.Response().Header().Set("Content-Disposition", "attachment; filename="+invoice.Name+".xls")
+	_, err = c.Response().Writer.Write(htmlBuffer.Bytes())
+	return err
 }

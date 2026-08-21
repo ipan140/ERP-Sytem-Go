@@ -1,8 +1,8 @@
 package utils
 
 import (
-	"time"
 	"ERP-System/config"
+	"time"
 
 	"github.com/golang-jwt/jwt/v5"
 )

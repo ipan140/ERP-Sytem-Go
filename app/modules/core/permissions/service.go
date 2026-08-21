@@ -1,14 +1,14 @@
 package permissions
 
 import (
-	"errors"
 	"ERP-System/config"
+	"errors"
 )
 
 // Pastikan tabel role_permissions sudah ada (AutoMigrate)
 func init() {
 	// Menghindari panic saat DB belum terkoneksi penuh, biasanya AutoMigrate ditaruh di main
-	// Tapi untuk simulasi cepat, kita taruh di fungsi helper atau abaikan sementara 
+	// Tapi untuk simulasi cepat, kita taruh di fungsi helper atau abaikan sementara
 }
 
 func GetAllPermissionsService() ([]RolePermission, error) {
@@ -29,7 +29,7 @@ func TogglePermissionService(req TogglePermissionRequest) error {
 	if config.DB == nil {
 		return errors.New("database belum siap")
 	}
-	err := config.DB.AutoMigrate(&RolePermission{}) 
+	err := config.DB.AutoMigrate(&RolePermission{})
 	if err != nil {
 		return err
 	}
@@ -40,10 +40,10 @@ func TogglePermissionService(req TogglePermissionRequest) error {
 	if err != nil {
 		// Jika belum ada, buat baru (Default false semua)
 		perm = RolePermission{
-			RoleName: req.RoleName,
-			Module:   req.Module,
-			CanRead:  false,
-			CanWrite: false,
+			RoleName:  req.RoleName,
+			Module:    req.Module,
+			CanRead:   false,
+			CanWrite:  false,
 			CanDelete: false,
 		}
 	}

@@ -8,35 +8,44 @@ import (
 )
 
 // GeneratePDF merender string HTML menjadi byte PDF asli menggunakan wkhtmltopdf.
-// Fungsi ini bersifat generik dan bisa dipanggil oleh modul mana pun (misal: Report Invoice, Payslip).
-func GeneratePDF(htmlContent string) ([]byte, error) {
+// Mendukung ukuran kertas (misal: "A4", "A5", "Letter") dan orientasi ("Portrait", "Landscape").
+func GeneratePDF(htmlContent string, pageSize string, orientation string) ([]byte, error) {
 	log.Println("Memulai render PDF dari HTML...")
 
-	// Inisialisasi generator
 	pdfg, err := wkhtmltopdf.NewPDFGenerator()
 	if err != nil {
-		log.Printf("❌ Gagal inisialisasi PDF Generator (Pastikan software wkhtmltopdf terinstal di OS Anda): %v\n", err)
+		log.Printf("Gagal inisialisasi PDF Generator: %v\n", err)
 		return nil, err
 	}
 
-	// Buat halaman (page) pembaca dari HTML string
+	// 1. Pengaturan Kertas & Orientasi
+	if pageSize == "" {
+		pageSize = "A4"
+	}
+	if orientation == "" {
+		orientation = "Portrait"
+	}
+	pdfg.PageSize.Set(pageSize)
+	pdfg.Orientation.Set(orientation)
+	
+	// Pengaturan Margin Standar
+	pdfg.MarginTop.Set(10)
+	pdfg.MarginBottom.Set(10)
+	pdfg.MarginLeft.Set(10)
+	pdfg.MarginRight.Set(10)
+
+	// 2. Buat halaman dari HTML
 	page := wkhtmltopdf.NewPageReader(bytes.NewReader([]byte(htmlContent)))
-
-	// Set opsi halaman agar terlihat rapi
 	page.EnableLocalFileAccess.Set(true)
-
-	// Tambahkan halaman ke generator
 	pdfg.AddPage(page)
 
-	// Proses pembuatan PDF (Merender HTML menjadi PDF)
+	// 3. Merender HTML menjadi PDF
 	err = pdfg.Create()
 	if err != nil {
-		log.Printf("❌ Gagal membuat PDF: %v\n", err)
+		log.Printf("Gagal membuat PDF: %v\n", err)
 		return nil, err
 	}
 
-	log.Println("✅ File PDF berhasil dibuat dari HTML!")
-
-	// Kembalikan hasil buffer sebagai byte array yang siap dikirim via API
+	log.Println("File PDF berhasil dibuat!")
 	return pdfg.Bytes(), nil
 }

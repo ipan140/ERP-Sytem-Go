@@ -917,163 +917,6 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/core/report": {
-            "get": {
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ],
-                "description": "Retrieve a list of all Report",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "core-report"
-                ],
-                "summary": "Get all Report",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": true
-                        }
-                    }
-                }
-            },
-            "post": {
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ],
-                "description": "Create a new Report in the system",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "core-report"
-                ],
-                "summary": "Create a new Report",
-                "responses": {
-                    "201": {
-                        "description": "Created",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": true
-                        }
-                    }
-                }
-            }
-        },
-        "/api/core/report/{id}": {
-            "get": {
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ],
-                "description": "Retrieve a specific Report by its ID",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "core-report"
-                ],
-                "summary": "Get a Report by ID",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "Report ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": true
-                        }
-                    }
-                }
-            },
-            "put": {
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ],
-                "description": "Update an existing Report",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "core-report"
-                ],
-                "summary": "Update a Report",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "Report ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": true
-                        }
-                    }
-                }
-            },
-            "delete": {
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ],
-                "description": "Delete a Report by ID",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "core-report"
-                ],
-                "summary": "Delete a Report",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "Report ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": true
-                        }
-                    }
-                }
-            }
-        },
         "/api/core/storage": {
             "get": {
                 "security": [
@@ -3250,507 +3093,6 @@ const docTemplate = `{
                     {
                         "type": "integer",
                         "description": "Expense ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": true
-                        }
-                    }
-                }
-            }
-        },
-        "/api/finance/invoicing": {
-            "get": {
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ],
-                "description": "Retrieve a list of all Invoice",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "finance-invoicing"
-                ],
-                "summary": "Get all Invoice",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": true
-                        }
-                    }
-                }
-            },
-            "post": {
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ],
-                "description": "Create a new Invoice in the system",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "finance-invoicing"
-                ],
-                "summary": "Create a new Invoice",
-                "responses": {
-                    "201": {
-                        "description": "Created",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": true
-                        }
-                    }
-                }
-            }
-        },
-        "/api/finance/invoicing/dunning": {
-            "post": {
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ],
-                "description": "Scan overdue invoices and increment their threat level",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "finance-invoicing"
-                ],
-                "summary": "Trigger Dunning Process",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": true
-                        }
-                    }
-                }
-            }
-        },
-        "/api/finance/invoicing/paymenttermline": {
-            "get": {
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ],
-                "description": "Retrieve a list of all PaymentTermLine",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "finance-invoicing"
-                ],
-                "summary": "Get all PaymentTermLine",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": true
-                        }
-                    }
-                }
-            },
-            "post": {
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ],
-                "description": "Create a new PaymentTermLine",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "finance-invoicing"
-                ],
-                "summary": "Create PaymentTermLine",
-                "responses": {
-                    "201": {
-                        "description": "Created",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": true
-                        }
-                    }
-                }
-            }
-        },
-        "/api/finance/invoicing/paymenttermline/{id}": {
-            "put": {
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ],
-                "description": "Update an existing PaymentTermLine",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "finance-invoicing"
-                ],
-                "summary": "Update PaymentTermLine",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "PaymentTermLine ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": true
-                        }
-                    }
-                }
-            },
-            "delete": {
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ],
-                "description": "Delete PaymentTermLine by ID",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "finance-invoicing"
-                ],
-                "summary": "Delete PaymentTermLine",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "PaymentTermLine ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": true
-                        }
-                    }
-                }
-            }
-        },
-        "/api/finance/invoicing/taxrepartitionline": {
-            "get": {
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ],
-                "description": "Retrieve a list of all TaxRepartitionLine",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "finance-invoicing"
-                ],
-                "summary": "Get all TaxRepartitionLine",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": true
-                        }
-                    }
-                }
-            },
-            "post": {
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ],
-                "description": "Create a new TaxRepartitionLine",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "finance-invoicing"
-                ],
-                "summary": "Create TaxRepartitionLine",
-                "responses": {
-                    "201": {
-                        "description": "Created",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": true
-                        }
-                    }
-                }
-            }
-        },
-        "/api/finance/invoicing/taxrepartitionline/{id}": {
-            "put": {
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ],
-                "description": "Update an existing TaxRepartitionLine",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "finance-invoicing"
-                ],
-                "summary": "Update TaxRepartitionLine",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "TaxRepartitionLine ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": true
-                        }
-                    }
-                }
-            },
-            "delete": {
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ],
-                "description": "Delete TaxRepartitionLine by ID",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "finance-invoicing"
-                ],
-                "summary": "Delete TaxRepartitionLine",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "TaxRepartitionLine ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": true
-                        }
-                    }
-                }
-            }
-        },
-        "/api/finance/invoicing/{id}": {
-            "get": {
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ],
-                "description": "Retrieve a specific Invoice by its ID",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "finance-invoicing"
-                ],
-                "summary": "Get a Invoice by ID",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "Invoice ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": true
-                        }
-                    }
-                }
-            },
-            "put": {
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ],
-                "description": "Update an existing Invoice",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "finance-invoicing"
-                ],
-                "summary": "Update a Invoice",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "Invoice ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": true
-                        }
-                    }
-                }
-            },
-            "delete": {
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ],
-                "description": "Delete a Invoice by ID",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "finance-invoicing"
-                ],
-                "summary": "Delete a Invoice",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "Invoice ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": true
-                        }
-                    }
-                }
-            }
-        },
-        "/api/finance/invoicing/{id}/post": {
-            "post": {
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ],
-                "description": "Post an invoice and trigger auto-journal entry in accounting",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "finance-invoicing"
-                ],
-                "summary": "Confirm and Post Invoice",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "Invoice ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": true
-                        }
-                    }
-                }
-            }
-        },
-        "/api/finance/invoicing/{id}/refund": {
-            "post": {
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ],
-                "description": "Refund a posted invoice and create a reversal journal",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "finance-invoicing"
-                ],
-                "summary": "Create a Refund / Credit Note",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "Invoice ID",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -19395,6 +18737,84 @@ const docTemplate = `{
                 }
             }
         },
+        "/core/report/excel": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Accepts dynamic headers and rows, returns an Excel file (.xlsx)",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                ],
+                "tags": [
+                    "Core - Report"
+                ],
+                "summary": "Generate dynamic Excel file",
+                "parameters": [
+                    {
+                        "description": "Excel Data Payload",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/report.DynamicExcelRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "file"
+                        }
+                    }
+                }
+            }
+        },
+        "/core/report/pdf": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Accepts raw HTML content and renders it into a PDF file",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/pdf"
+                ],
+                "tags": [
+                    "Core - Report"
+                ],
+                "summary": "Generate dynamic PDF file",
+                "parameters": [
+                    {
+                        "description": "PDF HTML Payload",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/report.DynamicPDFRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "file"
+                        }
+                    }
+                }
+            }
+        },
         "/core/user_roles": {
             "get": {
                 "security": [
@@ -19502,6 +18922,49 @@ const docTemplate = `{
                 "value": {
                     "description": "true (On) / false (Off)",
                     "type": "boolean"
+                }
+            }
+        },
+        "report.DynamicExcelRequest": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "type": "array",
+                        "items": {}
+                    }
+                },
+                "file_name": {
+                    "type": "string"
+                },
+                "headers": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "sheet_name": {
+                    "type": "string"
+                }
+            }
+        },
+        "report.DynamicPDFRequest": {
+            "type": "object",
+            "properties": {
+                "file_name": {
+                    "type": "string"
+                },
+                "html_content": {
+                    "type": "string"
+                },
+                "orientation": {
+                    "description": "Contoh: \"Portrait\", \"Landscape\"",
+                    "type": "string"
+                },
+                "page_size": {
+                    "description": "Contoh: \"A4\", \"A5\", \"Letter\"",
+                    "type": "string"
                 }
             }
         },

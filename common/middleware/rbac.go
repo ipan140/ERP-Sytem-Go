@@ -18,12 +18,12 @@ func RequireRoles(allowedRoles ...constants.Role) echo.MiddlewareFunc {
 			// 1. Ambil data role user dari Token (JWT) yang sedang login.
 			// Biasanya saat login, role disimpan di JWT Claims.
 			// Untuk contoh ini, kita asumsikan Anda menyimpannya dalam header atau konteks.
-			
+
 			// Misal Anda mengambilnya dari context yang di-set oleh JWT Middleware:
 			// userClaims := c.Get("user").(*jwt.Token).Claims.(*JwtCustomClaims)
-			// userRoles := userClaims.Roles 
-			
-			// SIMULASI SEMENTARA: Kita ambil dari Header "X-User-Roles" 
+			// userRoles := userClaims.Roles
+
+			// SIMULASI SEMENTARA: Kita ambil dari Header "X-User-Roles"
 			// (Ganti bagian ini nanti dengan penarikan JWT sungguhan Anda)
 			roleString := c.Request().Header.Get("X-User-Roles")
 			if roleString == "" {

@@ -13,10 +13,10 @@ import (
 	"ERP-System/app/modules/core/iot"
 	"ERP-System/app/modules/core/knowledge"
 	"ERP-System/app/modules/core/mailer"
+	"ERP-System/app/modules/core/permissions"
 	"ERP-System/app/modules/core/report"
 	"ERP-System/app/modules/core/storage"
 	"ERP-System/app/modules/core/user_roles"
-	"ERP-System/app/modules/core/permissions"
 	"ERP-System/app/modules/core/voip"
 	"ERP-System/app/modules/core/whatsapp"
 	"ERP-System/app/modules/finance/accounting"
@@ -254,6 +254,3 @@ function showBanner() {
 </html>`
 	return c.HTML(200, html)
 }
-
-
-

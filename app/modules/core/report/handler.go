@@ -1,105 +1,79 @@
 package report
 
 import (
-	"ERP-System/common/utils"
 	"net/http"
-	"strconv"
+
+	"ERP-System/common/utils"
+	"ERP-System/pkg/excelgen"
+	"ERP-System/pkg/pdfgen"
 
 	"github.com/labstack/echo/v4"
 )
 
-// CreateReport godoc
-// @Summary Create a new Report
-// @Description Create a new Report in the system
-// @Tags core-report
+// GenerateDynamicExcelHandler godoc
+// @Summary Generate dynamic Excel file
+// @Description Accepts dynamic headers and rows, returns an Excel file (.xlsx)
+// @Tags Core - Report
 // @Accept json
-// @Produce json
-// @Success 201 {object} map[string]interface{}
-// @Router /api/core/report [post]
+// @Produce application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
+// @Param body body DynamicExcelRequest true "Excel Data Payload"
+// @Success 200 {file} file
 // @Security BearerAuth
-func CreateReportHandler(c echo.Context) error {
-	var data Report
-	if err := c.Bind(&data); err != nil {
-		return utils.SendError(c, http.StatusBadRequest, "Invalid request payload", err.Error())
+// @Router /core/report/excel [post]
+func GenerateDynamicExcelHandler(c echo.Context) error {
+	var req DynamicExcelRequest
+	if err := c.Bind(&req); err != nil {
+		return utils.SendError(c, http.StatusBadRequest, "Format Data Salah", err.Error())
 	}
-	if err := CreateReportService(&data); err != nil {
-		return utils.SendError(c, http.StatusInternalServerError, "Failed to create data", err.Error())
-	}
-	return utils.SendSuccess(c, http.StatusCreated, "Data created successfully", data)
-}
 
-// GetAllReport godoc
-// @Summary Get all Report
-// @Description Retrieve a list of all Report
-// @Tags core-report
-// @Produce json
-// @Success 200 {object} map[string]interface{}
-// @Router /api/core/report [get]
-// @Security BearerAuth
-func GetAllReportHandler(c echo.Context) error {
-	data, err := GetAllReportService()
+	if req.FileName == "" {
+		req.FileName = "Laporan_Dinamis.xlsx"
+	}
+	if req.SheetName == "" {
+		req.SheetName = "Sheet1"
+	}
+
+	excelBytes, err := excelgen.GenerateExcel(req.SheetName, req.Headers, req.Data)
 	if err != nil {
-		return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve data", err.Error())
+		return utils.SendError(c, http.StatusInternalServerError, "Gagal merender Excel", err.Error())
 	}
-	return utils.SendSuccess(c, http.StatusOK, "Data retrieved successfully", data)
+
+	c.Response().Header().Set("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+	c.Response().Header().Set("Content-Disposition", "attachment; filename="+req.FileName)
+
+	_, err = c.Response().Writer.Write(excelBytes)
+	return err
 }
 
-// GetReportByID godoc
-// @Summary Get a Report by ID
-// @Description Retrieve a specific Report by its ID
-// @Tags core-report
-// @Produce json
-// @Param id path int true "Report ID"
-// @Success 200 {object} map[string]interface{}
-// @Router /api/core/report/{id} [get]
-// @Security BearerAuth
-func GetReportByIDHandler(c echo.Context) error {
-	id, _ := strconv.Atoi(c.Param("id"))
-	data, err := GetReportByIDService(uint(id))
-	if err != nil {
-		return utils.SendError(c, http.StatusNotFound, "Data not found", err.Error())
-	}
-	return utils.SendSuccess(c, http.StatusOK, "Data retrieved successfully", data)
-}
-
-// UpdateReport godoc
-// @Summary Update a Report
-// @Description Update an existing Report
-// @Tags core-report
+// GenerateDynamicPDFHandler godoc
+// @Summary Generate dynamic PDF file
+// @Description Accepts raw HTML content and renders it into a PDF file
+// @Tags Core - Report
 // @Accept json
-// @Produce json
-// @Param id path int true "Report ID"
-// @Success 200 {object} map[string]interface{}
-// @Router /api/core/report/{id} [put]
+// @Produce application/pdf
+// @Param body body DynamicPDFRequest true "PDF HTML Payload"
+// @Success 200 {file} file
 // @Security BearerAuth
-func UpdateReportHandler(c echo.Context) error {
-	id, _ := strconv.Atoi(c.Param("id"))
-	data, err := GetReportByIDService(uint(id))
+// @Router /core/report/pdf [post]
+func GenerateDynamicPDFHandler(c echo.Context) error {
+	var req DynamicPDFRequest
+	if err := c.Bind(&req); err != nil {
+		return utils.SendError(c, http.StatusBadRequest, "Format Data Salah", err.Error())
+	}
+
+	if req.FileName == "" {
+		req.FileName = "Laporan_Dinamis.pdf"
+	}
+
+	pdfBytes, err := pdfgen.GeneratePDF(req.HTMLContent, req.PageSize, req.Orientation)
 	if err != nil {
-		return utils.SendError(c, http.StatusNotFound, "Data not found", err.Error())
+		return utils.SendError(c, http.StatusInternalServerError, "Gagal merender PDF", err.Error())
 	}
-	if err := c.Bind(data); err != nil {
-		return utils.SendError(c, http.StatusBadRequest, "Invalid request payload", err.Error())
-	}
-	if err := UpdateReportService(data); err != nil {
-		return utils.SendError(c, http.StatusInternalServerError, "Failed to update data", err.Error())
-	}
-	return utils.SendSuccess(c, http.StatusOK, "Data updated successfully", data)
+
+	c.Response().Header().Set("Content-Type", "application/pdf")
+	c.Response().Header().Set("Content-Disposition", "attachment; filename="+req.FileName)
+
+	_, err = c.Response().Writer.Write(pdfBytes)
+	return err
 }
 
-// DeleteReport godoc
-// @Summary Delete a Report
-// @Description Delete a Report by ID
-// @Tags core-report
-// @Produce json
-// @Param id path int true "Report ID"
-// @Success 200 {object} map[string]interface{}
-// @Router /api/core/report/{id} [delete]
-// @Security BearerAuth
-func DeleteReportHandler(c echo.Context) error {
-	id, _ := strconv.Atoi(c.Param("id"))
-	if err := DeleteReportService(uint(id)); err != nil {
-		return utils.SendError(c, http.StatusInternalServerError, "Failed to delete data", err.Error())
-	}
-	return utils.SendSuccess(c, http.StatusOK, "Data deleted successfully", nil)
-}

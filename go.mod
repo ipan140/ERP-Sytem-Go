@@ -17,6 +17,8 @@ require (
 	gorm.io/gorm v1.31.2
 )
 
+require github.com/jung-kurt/gofpdf v1.16.2 // indirect
+
 require (
 	github.com/KyleBanks/depth v1.2.1 // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect

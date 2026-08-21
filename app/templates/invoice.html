@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Invoice {{.InvoiceNumber}}</title>
+    <style>
+        body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; color: #333; margin: 0; padding: 40px; }
+        .invoice-box { max-width: 800px; margin: auto; padding: 30px; border: 1px solid #eee; box-shadow: 0 0 10px rgba(0, 0, 0, 0.15); }
+        .header { display: flex; justify-content: space-between; margin-bottom: 40px; }
+        .header h1 { margin: 0; color: #2c3e50; font-size: 40px; }
+        .company-info { text-align: right; color: #777; }
+        .billing-info { margin-bottom: 40px; }
+        .billing-info strong { color: #2c3e50; }
+        table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+        table th, table td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; }
+        table th { background-color: #f8f9fa; color: #2c3e50; }
+        .total-row td { font-weight: bold; color: #2c3e50; border-bottom: none; font-size: 18px; }
+        .footer { margin-top: 50px; text-align: center; color: #777; font-size: 12px; border-top: 1px solid #eee; padding-top: 20px; }
+    </style>
+</head>
+<body>
+    <div class="invoice-box">
+        <table cellpadding="0" cellspacing="0" style="border:none; margin-bottom: 0;">
+            <tr style="border:none;">
+                <td style="border:none; padding:0;">
+                    <h1 style="color:#2c3e50; margin:0; font-size: 36px;">INVOICE</h1>
+                    <p style="margin:5px 0;"><strong>No:</strong> {{.InvoiceNumber}}<br>
+                    <strong>Tanggal:</strong> {{.Date}}</p>
+                </td>
+                <td style="border:none; padding:0; text-align:right; color:#777;">
+                    <strong>PT. ERP SOLUSI NUSANTARA</strong><br>
+                    Jl. Teknologi Modern No. 99<br>
+                    Jakarta, Indonesia 12345
+                </td>
+            </tr>
+        </table>
+        
+        <div class="billing-info" style="margin-top:40px;">
+            <p><strong>Ditagihkan Kepada:</strong><br>
+            {{.CustomerName}}<br>
+            {{.CustomerAddress}}</p>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Deskripsi Barang / Layanan</th>
+                    <th>Qty</th>
+                    <th>Harga Satuan</th>
+                    <th style="text-align:right;">Subtotal</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{range .Items}}
+                <tr>
+                    <td>{{.Name}}</td>
+                    <td>{{.Qty}}</td>
+                    <td>{{.Price}}</td>
+                    <td style="text-align:right;">{{.Subtotal}}</td>
+                </tr>
+                {{end}}
+                <tr class="total-row">
+                    <td colspan="3" style="text-align:right; border:none;">TOTAL TAGIHAN:</td>
+                    <td style="text-align:right; border:none; font-size: 20px;">{{.TotalAmount}}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="footer">
+            Harap lakukan pembayaran maksimal 14 hari sejak tanggal invoice diterbitkan.<br>
+            Terima kasih atas kepercayaan Anda kepada kami.
+        </div>
+    </div>
+</body>
+</html>

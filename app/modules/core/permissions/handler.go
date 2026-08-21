@@ -59,28 +59,28 @@ func TogglePermissionHandler(c echo.Context) error {
 // @Router /core/permissions/modules [get]
 func GetAvailableModulesHandler(c echo.Context) error {
 	modules := []string{
-		"core/artificial_intelligence", "core/base", "core/dashboards", "core/discuss", 
-		"core/documents", "core/iot", "core/knowledge", "core/mailer", "core/permissions", 
+		"core/artificial_intelligence", "core/base", "core/dashboards", "core/discuss",
+		"core/documents", "core/iot", "core/knowledge", "core/mailer", "core/permissions",
 		"core/report", "core/storage", "core/user_roles", "core/voip", "core/whatsapp",
-		
+
 		"finance/accounting", "finance/approvals", "finance/consolidation", "finance/documents",
 		"finance/expenses", "finance/invoicing", "finance/sign", "finance/spreadsheet_bi",
-		
-		"hr/appraisals", "hr/attendances", "hr/employees", "hr/fleet", "hr/lunch", 
+
+		"hr/appraisals", "hr/attendances", "hr/employees", "hr/fleet", "hr/lunch",
 		"hr/payroll", "hr/recruitment", "hr/referrals", "hr/time_off",
-		
-		"marketing/events", "marketing/marketing_automation", "marketing/mass_mailing", 
+
+		"marketing/events", "marketing/marketing_automation", "marketing/mass_mailing",
 		"marketing/sms_marketing", "marketing/social_marketing", "marketing/surveys",
-		
+
 		"sales/crm", "sales/point_of_sale", "sales/rental", "sales/sales_core", "sales/subscriptions",
-		
+
 		"services/appointments", "services/field_service", "services/helpdesk", "services/planning",
 		"services/project", "services/repairs", "services/timesheets",
-		
-		"supply_chain/barcode", "supply_chain/inventory", "supply_chain/maintenance", 
+
+		"supply_chain/barcode", "supply_chain/inventory", "supply_chain/maintenance",
 		"supply_chain/manufacturing", "supply_chain/plm", "supply_chain/purchase", "supply_chain/quality",
-		
-		"website/blog", "website/ecommerce", "website/elearning", "website/forum", 
+
+		"website/blog", "website/ecommerce", "website/elearning", "website/forum",
 		"website/live_chat", "website/website_builder",
 	}
 	return utils.SendSuccess(c, http.StatusOK, "Daftar modul ERP berhasil diambil", modules)

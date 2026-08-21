@@ -14,6 +14,8 @@ func RegisterRoutes(e *echo.Echo) {
 	api.GET("/:id", GetInvoiceByIDHandler)
 	api.PUT("/:id", UpdateInvoiceHandler)
 	api.DELETE("/:id", DeleteInvoiceHandler)
+	api.GET("/:id/export", ExportInvoicePDFHandler)
+	api.GET("/:id/export/excel", ExportInvoiceExcelHTMLHandler)
 	api.POST("/:id/post", PostInvoiceHandler)
 	api.POST("/:id/refund", RefundInvoiceHandler)
 	api.POST("/dunning", TriggerDunningHandler)
@@ -29,3 +31,4 @@ func RegisterRoutes(e *echo.Echo) {
 	api.PUT("/taxrepartitionline/:id", UpdateTaxRepartitionLineHandler)
 	api.DELETE("/taxrepartitionline/:id", DeleteTaxRepartitionLineHandler)
 }
+
