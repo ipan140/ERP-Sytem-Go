@@ -1,13 +1,14 @@
 package time_off
 
 import (
+	"ERP-System/common/constants"
 	"ERP-System/common/middleware"
 
 	"github.com/labstack/echo/v4"
 )
 
 func RegisterRoutes(e *echo.Echo) {
-	api := e.Group("/api/hr/time_off", middleware.Auth())
+	api := e.Group("/api/hr/time_off", middleware.Auth(), middleware.RequireRoles(constants.RoleHRManager, constants.RoleFleetManager, constants.RoleEmployee))
 	api.POST("", CreateLeaveRequestHandler)
 	api.GET("", GetAllLeaveRequestHandler)
 	api.GET("/:id", GetLeaveRequestByIDHandler)

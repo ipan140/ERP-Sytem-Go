@@ -1,58 +1,73 @@
 package employees
 
 import (
+	"ERP-System/common/constants"
 	"ERP-System/common/middleware"
 
 	"github.com/labstack/echo/v4"
 )
 
 func RegisterRoutes(e *echo.Echo) {
-	api := e.Group("/api/hr/employees", middleware.Auth())
-	api.POST("", CreateEmployeeHandler)
+	// 1. Group HR Dasar: Minimal harus punya role EMPLOYEE (Karyawan) atau HR_MANAGER
+	api := e.Group("/api/hr/employees", middleware.Auth(), middleware.RequireRoles(
+		constants.RoleEmployee,
+		constants.RoleHRManager,
+		constants.RoleDirector, // Director juga boleh lihat daftar karyawan
+	))
+
+	// Karyawan biasa boleh melihat profil (GET)
 	api.GET("", GetAllEmployeeHandler)
 	api.GET("/:id", GetEmployeeByIDHandler)
-	api.PUT("/:id", UpdateEmployeeHandler)
-	api.DELETE("/:id", DeleteEmployeeHandler)
-
-	api.POST("/jobposition", CreateJobPositionHandler)
 	api.GET("/jobposition", GetAllJobPositionHandler)
 	api.GET("/jobposition/:id", GetJobPositionByIDHandler)
-	api.PUT("/jobposition/:id", UpdateJobPositionHandler)
-	api.DELETE("/jobposition/:id", DeleteJobPositionHandler)
-
-	api.POST("/workingschedule", CreateWorkingScheduleHandler)
 	api.GET("/workingschedule", GetAllWorkingScheduleHandler)
 	api.GET("/workingschedule/:id", GetWorkingScheduleByIDHandler)
-	api.PUT("/workingschedule/:id", UpdateWorkingScheduleHandler)
-	api.DELETE("/workingschedule/:id", DeleteWorkingScheduleHandler)
-
-	api.POST("/contract", CreateContractHandler)
-	api.GET("/contract", GetAllContractHandler)
-	api.GET("/contract/:id", GetContractByIDHandler)
-	api.PUT("/contract/:id", UpdateContractHandler)
-	api.DELETE("/contract/:id", DeleteContractHandler)
-
-	api.POST("/skill", CreateSkillHandler)
 	api.GET("/skill", GetAllSkillHandler)
 	api.GET("/skill/:id", GetSkillByIDHandler)
-	api.PUT("/skill/:id", UpdateSkillHandler)
-	api.DELETE("/skill/:id", DeleteSkillHandler)
-
-	api.POST("/skilllevel", CreateSkillLevelHandler)
 	api.GET("/skilllevel", GetAllSkillLevelHandler)
 	api.GET("/skilllevel/:id", GetSkillLevelByIDHandler)
-	api.PUT("/skilllevel/:id", UpdateSkillLevelHandler)
-	api.DELETE("/skilllevel/:id", DeleteSkillLevelHandler)
-
-	api.POST("/employeeskill", CreateEmployeeSkillHandler)
 	api.GET("/employeeskill", GetAllEmployeeSkillHandler)
 	api.GET("/employeeskill/:id", GetEmployeeSkillByIDHandler)
-	api.PUT("/employeeskill/:id", UpdateEmployeeSkillHandler)
-	api.DELETE("/employeeskill/:id", DeleteEmployeeSkillHandler)
-
-	api.POST("/resumeline", CreateResumeLineHandler)
 	api.GET("/resumeline", GetAllResumeLineHandler)
 	api.GET("/resumeline/:id", GetResumeLineByIDHandler)
-	api.PUT("/resumeline/:id", UpdateResumeLineHandler)
-	api.DELETE("/resumeline/:id", DeleteResumeLineHandler)
+
+	// 2. Group HR Spesifik: HANYA BOLEH DIAKSES OLEH HR MANAGER (Create/Update/Delete)
+	hrAdmin := api.Group("", middleware.RequireRoles(constants.RoleHRManager))
+
+	// Karyawan biasa (EMPLOYEE) akan diblokir (403 Forbidden) jika mengakses endpoint di bawah ini:
+	hrAdmin.POST("", CreateEmployeeHandler)
+	hrAdmin.PUT("/:id", UpdateEmployeeHandler)
+	hrAdmin.DELETE("/:id", DeleteEmployeeHandler)
+
+	hrAdmin.POST("/jobposition", CreateJobPositionHandler)
+	hrAdmin.PUT("/jobposition/:id", UpdateJobPositionHandler)
+	hrAdmin.DELETE("/jobposition/:id", DeleteJobPositionHandler)
+
+	hrAdmin.POST("/workingschedule", CreateWorkingScheduleHandler)
+	hrAdmin.PUT("/workingschedule/:id", UpdateWorkingScheduleHandler)
+	hrAdmin.DELETE("/workingschedule/:id", DeleteWorkingScheduleHandler)
+
+	hrAdmin.POST("/skill", CreateSkillHandler)
+	hrAdmin.PUT("/skill/:id", UpdateSkillHandler)
+	hrAdmin.DELETE("/skill/:id", DeleteSkillHandler)
+
+	hrAdmin.POST("/skilllevel", CreateSkillLevelHandler)
+	hrAdmin.PUT("/skilllevel/:id", UpdateSkillLevelHandler)
+	hrAdmin.DELETE("/skilllevel/:id", DeleteSkillLevelHandler)
+
+	hrAdmin.POST("/employeeskill", CreateEmployeeSkillHandler)
+	hrAdmin.PUT("/employeeskill/:id", UpdateEmployeeSkillHandler)
+	hrAdmin.DELETE("/employeeskill/:id", DeleteEmployeeSkillHandler)
+
+	hrAdmin.POST("/resumeline", CreateResumeLineHandler)
+	hrAdmin.PUT("/resumeline/:id", UpdateResumeLineHandler)
+	hrAdmin.DELETE("/resumeline/:id", DeleteResumeLineHandler)
+
+	// 3. Group Super Rahasia: KONTRAK KERJA (Hanya HR Manager)
+	contract := e.Group("/api/hr/employees/contract", middleware.Auth(), middleware.RequireRoles(constants.RoleHRManager))
+	contract.POST("", CreateContractHandler)
+	contract.GET("", GetAllContractHandler)
+	contract.GET("/:id", GetContractByIDHandler)
+	contract.PUT("/:id", UpdateContractHandler)
+	contract.DELETE("/:id", DeleteContractHandler)
 }

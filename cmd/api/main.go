@@ -15,6 +15,7 @@ import (
 	"ERP-System/app/modules/core/mailer"
 	"ERP-System/app/modules/core/report"
 	"ERP-System/app/modules/core/storage"
+	"ERP-System/app/modules/core/user_roles"
 	"ERP-System/app/modules/core/voip"
 	"ERP-System/app/modules/core/whatsapp"
 	"ERP-System/app/modules/finance/accounting"
@@ -105,6 +106,7 @@ func main() {
 	whatsapp.RegisterRoutes(e)
 	artificial_intelligence.RegisterRoutes(e)
 	storage.RegisterRoutes(e)
+	user_roles.RegisterRoutes(e)
 	report.RegisterRoutes(e)
 	mailer.RegisterRoutes(e)
 	accounting.RegisterRoutes(e)
@@ -249,3 +251,4 @@ function showBanner() {
 </html>`
 	return c.HTML(200, html)
 }
+
