@@ -1,9 +1,10 @@
 package marketing_automation
 
 import (
+	"ERP-System/common/utils"
 	"net/http"
 	"strconv"
-	"ERP-System/common/utils"
+
 	"github.com/labstack/echo/v4"
 )
 
@@ -111,7 +112,17 @@ func DeleteAutomationCampaignHandler(c echo.Context) error {
 // @Success 201 {object} map[string]interface{}
 // @Router /api/marketing/marketing_automation/workflowactivity [post]
 // @Security BearerAuth
-func CreateWorkflowActivityHandler(c echo.Context) error { var data WorkflowActivity; if err := c.Bind(&data); err != nil { return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error()) }; if err := CreateWorkflowActivityService(&data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error()) }; return utils.SendSuccess(c, http.StatusCreated, "Success", data) }
+func CreateWorkflowActivityHandler(c echo.Context) error {
+	var data WorkflowActivity
+	if err := c.Bind(&data); err != nil {
+		return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error())
+	}
+	if err := CreateWorkflowActivityService(&data); err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusCreated, "Success", data)
+}
+
 // @Summary Get all WorkflowActivity
 // @Description Retrieve a list of all WorkflowActivity
 // @Tags marketing-marketing_automation
@@ -119,8 +130,22 @@ func CreateWorkflowActivityHandler(c echo.Context) error { var data WorkflowActi
 // @Success 200 {object} map[string]interface{}
 // @Router /api/marketing/marketing_automation/workflowactivity [get]
 // @Security BearerAuth
-func GetAllWorkflowActivityHandler(c echo.Context) error { data, err := GetAllWorkflowActivityService(); if err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error()) }; return utils.SendSuccess(c, http.StatusOK, "Success", data) }
-func GetWorkflowActivityByIDHandler(c echo.Context) error { id, _ := strconv.Atoi(c.Param("id")); data, err := GetWorkflowActivityByIDService(uint(id)); if err != nil { return utils.SendError(c, http.StatusNotFound, "Not found", err.Error()) }; return utils.SendSuccess(c, http.StatusOK, "Success", data) }
+func GetAllWorkflowActivityHandler(c echo.Context) error {
+	data, err := GetAllWorkflowActivityService()
+	if err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Success", data)
+}
+func GetWorkflowActivityByIDHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	data, err := GetWorkflowActivityByIDService(uint(id))
+	if err != nil {
+		return utils.SendError(c, http.StatusNotFound, "Not found", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Success", data)
+}
+
 // @Summary Update WorkflowActivity
 // @Description Update an existing WorkflowActivity
 // @Tags marketing-marketing_automation
@@ -130,7 +155,21 @@ func GetWorkflowActivityByIDHandler(c echo.Context) error { id, _ := strconv.Ato
 // @Success 200 {object} map[string]interface{}
 // @Router /api/marketing/marketing_automation/workflowactivity/{id} [put]
 // @Security BearerAuth
-func UpdateWorkflowActivityHandler(c echo.Context) error { id, _ := strconv.Atoi(c.Param("id")); data, err := GetWorkflowActivityByIDService(uint(id)); if err != nil { return utils.SendError(c, http.StatusNotFound, "Not found", err.Error()) }; if err := c.Bind(data); err != nil { return utils.SendError(c, http.StatusBadRequest, "Invalid", err.Error()) }; if err := UpdateWorkflowActivityService(data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error()) }; return utils.SendSuccess(c, http.StatusOK, "Success", data) }
+func UpdateWorkflowActivityHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	data, err := GetWorkflowActivityByIDService(uint(id))
+	if err != nil {
+		return utils.SendError(c, http.StatusNotFound, "Not found", err.Error())
+	}
+	if err := c.Bind(data); err != nil {
+		return utils.SendError(c, http.StatusBadRequest, "Invalid", err.Error())
+	}
+	if err := UpdateWorkflowActivityService(data); err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Success", data)
+}
+
 // @Summary Delete WorkflowActivity
 // @Description Delete WorkflowActivity by ID
 // @Tags marketing-marketing_automation
@@ -139,5 +178,10 @@ func UpdateWorkflowActivityHandler(c echo.Context) error { id, _ := strconv.Atoi
 // @Success 200 {object} map[string]interface{}
 // @Router /api/marketing/marketing_automation/workflowactivity/{id} [delete]
 // @Security BearerAuth
-func DeleteWorkflowActivityHandler(c echo.Context) error { id, _ := strconv.Atoi(c.Param("id")); if err := DeleteWorkflowActivityService(uint(id)); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error()) }; return utils.SendSuccess(c, http.StatusOK, "Success", nil) }
-
+func DeleteWorkflowActivityHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	if err := DeleteWorkflowActivityService(uint(id)); err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Success", nil)
+}

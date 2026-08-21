@@ -1,9 +1,10 @@
 package helpdesk
 
 import (
+	"ERP-System/common/utils"
 	"net/http"
 	"strconv"
-	"ERP-System/common/utils"
+
 	"github.com/labstack/echo/v4"
 )
 
@@ -111,7 +112,17 @@ func DeleteTicketHandler(c echo.Context) error {
 // @Success 201 {object} map[string]interface{}
 // @Router /api/services/helpdesk/helpdesksla [post]
 // @Security BearerAuth
-func CreateHelpdeskSLAHandler(c echo.Context) error { var data HelpdeskSLA; if err := c.Bind(&data); err != nil { return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error()) }; if err := CreateHelpdeskSLAService(&data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error()) }; return utils.SendSuccess(c, http.StatusCreated, "Success", data) }
+func CreateHelpdeskSLAHandler(c echo.Context) error {
+	var data HelpdeskSLA
+	if err := c.Bind(&data); err != nil {
+		return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error())
+	}
+	if err := CreateHelpdeskSLAService(&data); err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusCreated, "Success", data)
+}
+
 // @Summary Get all HelpdeskSLA
 // @Description Retrieve a list of all HelpdeskSLA
 // @Tags services-helpdesk
@@ -119,8 +130,22 @@ func CreateHelpdeskSLAHandler(c echo.Context) error { var data HelpdeskSLA; if e
 // @Success 200 {object} map[string]interface{}
 // @Router /api/services/helpdesk/helpdesksla [get]
 // @Security BearerAuth
-func GetAllHelpdeskSLAHandler(c echo.Context) error { data, err := GetAllHelpdeskSLAService(); if err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error()) }; return utils.SendSuccess(c, http.StatusOK, "Success", data) }
-func GetHelpdeskSLAByIDHandler(c echo.Context) error { id, _ := strconv.Atoi(c.Param("id")); data, err := GetHelpdeskSLAByIDService(uint(id)); if err != nil { return utils.SendError(c, http.StatusNotFound, "Not found", err.Error()) }; return utils.SendSuccess(c, http.StatusOK, "Success", data) }
+func GetAllHelpdeskSLAHandler(c echo.Context) error {
+	data, err := GetAllHelpdeskSLAService()
+	if err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Success", data)
+}
+func GetHelpdeskSLAByIDHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	data, err := GetHelpdeskSLAByIDService(uint(id))
+	if err != nil {
+		return utils.SendError(c, http.StatusNotFound, "Not found", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Success", data)
+}
+
 // @Summary Update HelpdeskSLA
 // @Description Update an existing HelpdeskSLA
 // @Tags services-helpdesk
@@ -130,7 +155,21 @@ func GetHelpdeskSLAByIDHandler(c echo.Context) error { id, _ := strconv.Atoi(c.P
 // @Success 200 {object} map[string]interface{}
 // @Router /api/services/helpdesk/helpdesksla/{id} [put]
 // @Security BearerAuth
-func UpdateHelpdeskSLAHandler(c echo.Context) error { id, _ := strconv.Atoi(c.Param("id")); data, err := GetHelpdeskSLAByIDService(uint(id)); if err != nil { return utils.SendError(c, http.StatusNotFound, "Not found", err.Error()) }; if err := c.Bind(data); err != nil { return utils.SendError(c, http.StatusBadRequest, "Invalid", err.Error()) }; if err := UpdateHelpdeskSLAService(data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error()) }; return utils.SendSuccess(c, http.StatusOK, "Success", data) }
+func UpdateHelpdeskSLAHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	data, err := GetHelpdeskSLAByIDService(uint(id))
+	if err != nil {
+		return utils.SendError(c, http.StatusNotFound, "Not found", err.Error())
+	}
+	if err := c.Bind(data); err != nil {
+		return utils.SendError(c, http.StatusBadRequest, "Invalid", err.Error())
+	}
+	if err := UpdateHelpdeskSLAService(data); err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Success", data)
+}
+
 // @Summary Delete HelpdeskSLA
 // @Description Delete HelpdeskSLA by ID
 // @Tags services-helpdesk
@@ -139,7 +178,13 @@ func UpdateHelpdeskSLAHandler(c echo.Context) error { id, _ := strconv.Atoi(c.Pa
 // @Success 200 {object} map[string]interface{}
 // @Router /api/services/helpdesk/helpdesksla/{id} [delete]
 // @Security BearerAuth
-func DeleteHelpdeskSLAHandler(c echo.Context) error { id, _ := strconv.Atoi(c.Param("id")); if err := DeleteHelpdeskSLAService(uint(id)); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error()) }; return utils.SendSuccess(c, http.StatusOK, "Success", nil) }
+func DeleteHelpdeskSLAHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	if err := DeleteHelpdeskSLAService(uint(id)); err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Success", nil)
+}
 
 // @Summary Create HelpdeskCannedResponse
 // @Description Create a new HelpdeskCannedResponse
@@ -149,7 +194,17 @@ func DeleteHelpdeskSLAHandler(c echo.Context) error { id, _ := strconv.Atoi(c.Pa
 // @Success 201 {object} map[string]interface{}
 // @Router /api/services/helpdesk/helpdeskcannedresponse [post]
 // @Security BearerAuth
-func CreateHelpdeskCannedResponseHandler(c echo.Context) error { var data HelpdeskCannedResponse; if err := c.Bind(&data); err != nil { return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error()) }; if err := CreateHelpdeskCannedResponseService(&data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error()) }; return utils.SendSuccess(c, http.StatusCreated, "Success", data) }
+func CreateHelpdeskCannedResponseHandler(c echo.Context) error {
+	var data HelpdeskCannedResponse
+	if err := c.Bind(&data); err != nil {
+		return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error())
+	}
+	if err := CreateHelpdeskCannedResponseService(&data); err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusCreated, "Success", data)
+}
+
 // @Summary Get all HelpdeskCannedResponse
 // @Description Retrieve a list of all HelpdeskCannedResponse
 // @Tags services-helpdesk
@@ -157,8 +212,22 @@ func CreateHelpdeskCannedResponseHandler(c echo.Context) error { var data Helpde
 // @Success 200 {object} map[string]interface{}
 // @Router /api/services/helpdesk/helpdeskcannedresponse [get]
 // @Security BearerAuth
-func GetAllHelpdeskCannedResponseHandler(c echo.Context) error { data, err := GetAllHelpdeskCannedResponseService(); if err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error()) }; return utils.SendSuccess(c, http.StatusOK, "Success", data) }
-func GetHelpdeskCannedResponseByIDHandler(c echo.Context) error { id, _ := strconv.Atoi(c.Param("id")); data, err := GetHelpdeskCannedResponseByIDService(uint(id)); if err != nil { return utils.SendError(c, http.StatusNotFound, "Not found", err.Error()) }; return utils.SendSuccess(c, http.StatusOK, "Success", data) }
+func GetAllHelpdeskCannedResponseHandler(c echo.Context) error {
+	data, err := GetAllHelpdeskCannedResponseService()
+	if err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Success", data)
+}
+func GetHelpdeskCannedResponseByIDHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	data, err := GetHelpdeskCannedResponseByIDService(uint(id))
+	if err != nil {
+		return utils.SendError(c, http.StatusNotFound, "Not found", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Success", data)
+}
+
 // @Summary Update HelpdeskCannedResponse
 // @Description Update an existing HelpdeskCannedResponse
 // @Tags services-helpdesk
@@ -168,7 +237,21 @@ func GetHelpdeskCannedResponseByIDHandler(c echo.Context) error { id, _ := strco
 // @Success 200 {object} map[string]interface{}
 // @Router /api/services/helpdesk/helpdeskcannedresponse/{id} [put]
 // @Security BearerAuth
-func UpdateHelpdeskCannedResponseHandler(c echo.Context) error { id, _ := strconv.Atoi(c.Param("id")); data, err := GetHelpdeskCannedResponseByIDService(uint(id)); if err != nil { return utils.SendError(c, http.StatusNotFound, "Not found", err.Error()) }; if err := c.Bind(data); err != nil { return utils.SendError(c, http.StatusBadRequest, "Invalid", err.Error()) }; if err := UpdateHelpdeskCannedResponseService(data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error()) }; return utils.SendSuccess(c, http.StatusOK, "Success", data) }
+func UpdateHelpdeskCannedResponseHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	data, err := GetHelpdeskCannedResponseByIDService(uint(id))
+	if err != nil {
+		return utils.SendError(c, http.StatusNotFound, "Not found", err.Error())
+	}
+	if err := c.Bind(data); err != nil {
+		return utils.SendError(c, http.StatusBadRequest, "Invalid", err.Error())
+	}
+	if err := UpdateHelpdeskCannedResponseService(data); err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Success", data)
+}
+
 // @Summary Delete HelpdeskCannedResponse
 // @Description Delete HelpdeskCannedResponse by ID
 // @Tags services-helpdesk
@@ -177,5 +260,10 @@ func UpdateHelpdeskCannedResponseHandler(c echo.Context) error { id, _ := strcon
 // @Success 200 {object} map[string]interface{}
 // @Router /api/services/helpdesk/helpdeskcannedresponse/{id} [delete]
 // @Security BearerAuth
-func DeleteHelpdeskCannedResponseHandler(c echo.Context) error { id, _ := strconv.Atoi(c.Param("id")); if err := DeleteHelpdeskCannedResponseService(uint(id)); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error()) }; return utils.SendSuccess(c, http.StatusOK, "Success", nil) }
-
+func DeleteHelpdeskCannedResponseHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	if err := DeleteHelpdeskCannedResponseService(uint(id)); err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Success", nil)
+}

@@ -1,4 +1,4 @@
-﻿package project
+package project
 
 import (
 	"ERP-System/config"
@@ -36,7 +36,7 @@ func CanStartTask(taskID uint) bool {
 	config.DB.Table("task_dependencies").
 		Joins("JOIN tasks ON tasks.id = task_dependencies.blocks_task_id").
 		Where("task_dependencies.task_id = ? AND tasks.stage != 'done'", taskID).Count(&count)
-	
+
 	if count > 0 {
 		fmt.Printf("[ENGINE] Peringatan: Tugas %d tidak bisa dimulai! Ada %d tugas prasyarat yang belum selesai.\n", taskID, count)
 		return false

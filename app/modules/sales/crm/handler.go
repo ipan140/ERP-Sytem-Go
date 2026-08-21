@@ -1,9 +1,10 @@
 package crm
 
 import (
+	"ERP-System/common/utils"
 	"net/http"
 	"strconv"
-	"ERP-System/common/utils"
+
 	"github.com/labstack/echo/v4"
 )
 
@@ -113,10 +114,15 @@ func DeleteLeadHandler(c echo.Context) error {
 // @Security BearerAuth
 func CreateSalesTeamHandler(c echo.Context) error {
 	var data SalesTeam
-	if err := c.Bind(&data); err != nil { return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error()) }
-	if err := CreateSalesTeamService(&data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to create", err.Error()) }
+	if err := c.Bind(&data); err != nil {
+		return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error())
+	}
+	if err := CreateSalesTeamService(&data); err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed to create", err.Error())
+	}
 	return utils.SendSuccess(c, http.StatusCreated, "Created successfully", data)
 }
+
 // @Summary Get all SalesTeam
 // @Description Retrieve a list of all SalesTeam
 // @Tags sales-crm
@@ -126,15 +132,20 @@ func CreateSalesTeamHandler(c echo.Context) error {
 // @Security BearerAuth
 func GetAllSalesTeamHandler(c echo.Context) error {
 	data, err := GetAllSalesTeamService()
-	if err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve", err.Error()) }
+	if err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve", err.Error())
+	}
 	return utils.SendSuccess(c, http.StatusOK, "Retrieved successfully", data)
 }
 func GetSalesTeamByIDHandler(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
 	data, err := GetSalesTeamByIDService(uint(id))
-	if err != nil { return utils.SendError(c, http.StatusNotFound, "Not found", err.Error()) }
+	if err != nil {
+		return utils.SendError(c, http.StatusNotFound, "Not found", err.Error())
+	}
 	return utils.SendSuccess(c, http.StatusOK, "Retrieved successfully", data)
 }
+
 // @Summary Update SalesTeam
 // @Description Update an existing SalesTeam
 // @Tags sales-crm
@@ -147,11 +158,18 @@ func GetSalesTeamByIDHandler(c echo.Context) error {
 func UpdateSalesTeamHandler(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
 	data, err := GetSalesTeamByIDService(uint(id))
-	if err != nil { return utils.SendError(c, http.StatusNotFound, "Not found", err.Error()) }
-	if err := c.Bind(data); err != nil { return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error()) }
-	if err := UpdateSalesTeamService(data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to update", err.Error()) }
+	if err != nil {
+		return utils.SendError(c, http.StatusNotFound, "Not found", err.Error())
+	}
+	if err := c.Bind(data); err != nil {
+		return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error())
+	}
+	if err := UpdateSalesTeamService(data); err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed to update", err.Error())
+	}
 	return utils.SendSuccess(c, http.StatusOK, "Updated successfully", data)
 }
+
 // @Summary Delete SalesTeam
 // @Description Delete SalesTeam by ID
 // @Tags sales-crm
@@ -162,7 +180,9 @@ func UpdateSalesTeamHandler(c echo.Context) error {
 // @Security BearerAuth
 func DeleteSalesTeamHandler(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
-	if err := DeleteSalesTeamService(uint(id)); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to delete", err.Error()) }
+	if err := DeleteSalesTeamService(uint(id)); err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed to delete", err.Error())
+	}
 	return utils.SendSuccess(c, http.StatusOK, "Deleted successfully", nil)
 }
 
@@ -176,10 +196,15 @@ func DeleteSalesTeamHandler(c echo.Context) error {
 // @Security BearerAuth
 func CreateStageHandler(c echo.Context) error {
 	var data Stage
-	if err := c.Bind(&data); err != nil { return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error()) }
-	if err := CreateStageService(&data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to create", err.Error()) }
+	if err := c.Bind(&data); err != nil {
+		return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error())
+	}
+	if err := CreateStageService(&data); err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed to create", err.Error())
+	}
 	return utils.SendSuccess(c, http.StatusCreated, "Created successfully", data)
 }
+
 // @Summary Get all Stage
 // @Description Retrieve a list of all Stage
 // @Tags sales-crm
@@ -189,15 +214,20 @@ func CreateStageHandler(c echo.Context) error {
 // @Security BearerAuth
 func GetAllStageHandler(c echo.Context) error {
 	data, err := GetAllStageService()
-	if err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve", err.Error()) }
+	if err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve", err.Error())
+	}
 	return utils.SendSuccess(c, http.StatusOK, "Retrieved successfully", data)
 }
 func GetStageByIDHandler(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
 	data, err := GetStageByIDService(uint(id))
-	if err != nil { return utils.SendError(c, http.StatusNotFound, "Not found", err.Error()) }
+	if err != nil {
+		return utils.SendError(c, http.StatusNotFound, "Not found", err.Error())
+	}
 	return utils.SendSuccess(c, http.StatusOK, "Retrieved successfully", data)
 }
+
 // @Summary Update Stage
 // @Description Update an existing Stage
 // @Tags sales-crm
@@ -210,11 +240,18 @@ func GetStageByIDHandler(c echo.Context) error {
 func UpdateStageHandler(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
 	data, err := GetStageByIDService(uint(id))
-	if err != nil { return utils.SendError(c, http.StatusNotFound, "Not found", err.Error()) }
-	if err := c.Bind(data); err != nil { return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error()) }
-	if err := UpdateStageService(data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to update", err.Error()) }
+	if err != nil {
+		return utils.SendError(c, http.StatusNotFound, "Not found", err.Error())
+	}
+	if err := c.Bind(data); err != nil {
+		return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error())
+	}
+	if err := UpdateStageService(data); err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed to update", err.Error())
+	}
 	return utils.SendSuccess(c, http.StatusOK, "Updated successfully", data)
 }
+
 // @Summary Delete Stage
 // @Description Delete Stage by ID
 // @Tags sales-crm
@@ -225,7 +262,9 @@ func UpdateStageHandler(c echo.Context) error {
 // @Security BearerAuth
 func DeleteStageHandler(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
-	if err := DeleteStageService(uint(id)); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to delete", err.Error()) }
+	if err := DeleteStageService(uint(id)); err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed to delete", err.Error())
+	}
 	return utils.SendSuccess(c, http.StatusOK, "Deleted successfully", nil)
 }
 
@@ -239,10 +278,15 @@ func DeleteStageHandler(c echo.Context) error {
 // @Security BearerAuth
 func CreateActivityHandler(c echo.Context) error {
 	var data Activity
-	if err := c.Bind(&data); err != nil { return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error()) }
-	if err := CreateActivityService(&data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to create", err.Error()) }
+	if err := c.Bind(&data); err != nil {
+		return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error())
+	}
+	if err := CreateActivityService(&data); err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed to create", err.Error())
+	}
 	return utils.SendSuccess(c, http.StatusCreated, "Created successfully", data)
 }
+
 // @Summary Get all Activity
 // @Description Retrieve a list of all Activity
 // @Tags sales-crm
@@ -252,15 +296,20 @@ func CreateActivityHandler(c echo.Context) error {
 // @Security BearerAuth
 func GetAllActivityHandler(c echo.Context) error {
 	data, err := GetAllActivityService()
-	if err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve", err.Error()) }
+	if err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve", err.Error())
+	}
 	return utils.SendSuccess(c, http.StatusOK, "Retrieved successfully", data)
 }
 func GetActivityByIDHandler(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
 	data, err := GetActivityByIDService(uint(id))
-	if err != nil { return utils.SendError(c, http.StatusNotFound, "Not found", err.Error()) }
+	if err != nil {
+		return utils.SendError(c, http.StatusNotFound, "Not found", err.Error())
+	}
 	return utils.SendSuccess(c, http.StatusOK, "Retrieved successfully", data)
 }
+
 // @Summary Update Activity
 // @Description Update an existing Activity
 // @Tags sales-crm
@@ -273,11 +322,18 @@ func GetActivityByIDHandler(c echo.Context) error {
 func UpdateActivityHandler(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
 	data, err := GetActivityByIDService(uint(id))
-	if err != nil { return utils.SendError(c, http.StatusNotFound, "Not found", err.Error()) }
-	if err := c.Bind(data); err != nil { return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error()) }
-	if err := UpdateActivityService(data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to update", err.Error()) }
+	if err != nil {
+		return utils.SendError(c, http.StatusNotFound, "Not found", err.Error())
+	}
+	if err := c.Bind(data); err != nil {
+		return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error())
+	}
+	if err := UpdateActivityService(data); err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed to update", err.Error())
+	}
 	return utils.SendSuccess(c, http.StatusOK, "Updated successfully", data)
 }
+
 // @Summary Delete Activity
 // @Description Delete Activity by ID
 // @Tags sales-crm
@@ -288,7 +344,9 @@ func UpdateActivityHandler(c echo.Context) error {
 // @Security BearerAuth
 func DeleteActivityHandler(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
-	if err := DeleteActivityService(uint(id)); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to delete", err.Error()) }
+	if err := DeleteActivityService(uint(id)); err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed to delete", err.Error())
+	}
 	return utils.SendSuccess(c, http.StatusOK, "Deleted successfully", nil)
 }
 
@@ -302,10 +360,15 @@ func DeleteActivityHandler(c echo.Context) error {
 // @Security BearerAuth
 func CreateSalesCommissionHandler(c echo.Context) error {
 	var data SalesCommission
-	if err := c.Bind(&data); err != nil { return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error()) }
-	if err := CreateSalesCommissionService(&data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to create", err.Error()) }
+	if err := c.Bind(&data); err != nil {
+		return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error())
+	}
+	if err := CreateSalesCommissionService(&data); err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed to create", err.Error())
+	}
 	return utils.SendSuccess(c, http.StatusCreated, "Created successfully", data)
 }
+
 // @Summary Get all SalesCommission
 // @Description Retrieve a list of all SalesCommission
 // @Tags sales-crm
@@ -315,15 +378,20 @@ func CreateSalesCommissionHandler(c echo.Context) error {
 // @Security BearerAuth
 func GetAllSalesCommissionHandler(c echo.Context) error {
 	data, err := GetAllSalesCommissionService()
-	if err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve", err.Error()) }
+	if err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve", err.Error())
+	}
 	return utils.SendSuccess(c, http.StatusOK, "Retrieved successfully", data)
 }
 func GetSalesCommissionByIDHandler(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
 	data, err := GetSalesCommissionByIDService(uint(id))
-	if err != nil { return utils.SendError(c, http.StatusNotFound, "Not found", err.Error()) }
+	if err != nil {
+		return utils.SendError(c, http.StatusNotFound, "Not found", err.Error())
+	}
 	return utils.SendSuccess(c, http.StatusOK, "Retrieved successfully", data)
 }
+
 // @Summary Update SalesCommission
 // @Description Update an existing SalesCommission
 // @Tags sales-crm
@@ -336,11 +404,18 @@ func GetSalesCommissionByIDHandler(c echo.Context) error {
 func UpdateSalesCommissionHandler(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
 	data, err := GetSalesCommissionByIDService(uint(id))
-	if err != nil { return utils.SendError(c, http.StatusNotFound, "Not found", err.Error()) }
-	if err := c.Bind(data); err != nil { return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error()) }
-	if err := UpdateSalesCommissionService(data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to update", err.Error()) }
+	if err != nil {
+		return utils.SendError(c, http.StatusNotFound, "Not found", err.Error())
+	}
+	if err := c.Bind(data); err != nil {
+		return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error())
+	}
+	if err := UpdateSalesCommissionService(data); err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed to update", err.Error())
+	}
 	return utils.SendSuccess(c, http.StatusOK, "Updated successfully", data)
 }
+
 // @Summary Delete SalesCommission
 // @Description Delete SalesCommission by ID
 // @Tags sales-crm
@@ -351,6 +426,8 @@ func UpdateSalesCommissionHandler(c echo.Context) error {
 // @Security BearerAuth
 func DeleteSalesCommissionHandler(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
-	if err := DeleteSalesCommissionService(uint(id)); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to delete", err.Error()) }
+	if err := DeleteSalesCommissionService(uint(id)); err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed to delete", err.Error())
+	}
 	return utils.SendSuccess(c, http.StatusOK, "Deleted successfully", nil)
 }

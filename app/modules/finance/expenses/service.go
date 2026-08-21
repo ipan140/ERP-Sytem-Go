@@ -20,8 +20,8 @@ func DeleteExpenseService(id uint) error {
 	return DeleteExpense(id)
 }
 
-func CreateExpenseSheetService(data *ExpenseSheet) error { return CreateExpenseSheet(data) }
-func GetAllExpenseSheetService() ([]ExpenseSheet, error) { return GetAllExpenseSheet() }
+func CreateExpenseSheetService(data *ExpenseSheet) error        { return CreateExpenseSheet(data) }
+func GetAllExpenseSheetService() ([]ExpenseSheet, error)        { return GetAllExpenseSheet() }
 func GetExpenseSheetByIDService(id uint) (*ExpenseSheet, error) { return GetExpenseSheetByID(id) }
-func UpdateExpenseSheetService(data *ExpenseSheet) error { return UpdateExpenseSheet(data) }
-func DeleteExpenseSheetService(id uint) error { return DeleteExpenseSheet(id) }
+func UpdateExpenseSheetService(data *ExpenseSheet) error        { return UpdateExpenseSheet(data) }
+func DeleteExpenseSheetService(id uint) error                   { return DeleteExpenseSheet(id) }

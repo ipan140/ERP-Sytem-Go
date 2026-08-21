@@ -68,14 +68,13 @@ type AnalyticLine struct {
 	Amount    float64 `gorm:"type:numeric(15,2)" json:"amount"` // Biaya atau Pendapatan Analitik
 }
 
-
 // ---- FITUR ODOO MEDIUM (Ditambahkan Manual) ----
 
 type AccountReconcileModel struct {
 	ID          uint    `gorm:"primaryKey" json:"id"`
 	Name        string  `gorm:"type:varchar(255);not null" json:"name"`
 	MatchText   string  `gorm:"type:varchar(255)" json:"match_text"` // Kata kunci mutasi bank
-	AccountID   uint    `json:"account_id"` // Akun tujuan
+	AccountID   uint    `json:"account_id"`                          // Akun tujuan
 	AmountType  string  `gorm:"type:varchar(20);default:'percentage'" json:"amount_type"`
 	AmountValue float64 `gorm:"type:numeric(15,2);default:100" json:"amount_value"`
 }
@@ -83,7 +82,7 @@ type AccountReconcileModel struct {
 type FollowupRule struct {
 	ID         uint   `gorm:"primaryKey" json:"id"`
 	Name       string `gorm:"type:varchar(100);not null" json:"name"` // e.g. Peringatan 1
-	DelayDays  int    `json:"delay_days"` // Telat berapa hari
+	DelayDays  int    `json:"delay_days"`                             // Telat berapa hari
 	SendEmail  bool   `gorm:"default:true" json:"send_email"`
 	SendLetter bool   `gorm:"default:false" json:"send_letter"`
 }
@@ -92,17 +91,17 @@ type AccountLockDate struct {
 	ID                 uint      `gorm:"primaryKey" json:"id"`
 	CompanyID          uint      `json:"company_id"`
 	FiscalYearLockDate time.Time `json:"fiscal_year_lock_date"` // Kunci Mutlak
-	TaxLockDate        time.Time `json:"tax_lock_date"` // Kunci Pajak Saja
+	TaxLockDate        time.Time `json:"tax_lock_date"`         // Kunci Pajak Saja
 }
 
 // ---- FITUR PAYMENT GATEWAY (Ditambahkan Manual) ----
 
 type PaymentAcquirer struct {
-	ID        uint      `gorm:"primaryKey" json:"id"`
-	Name      string    `gorm:"type:varchar(100);not null" json:"name"` // e.g. Midtrans, Stripe
-	Provider  string    `gorm:"type:varchar(50);not null" json:"provider"` // midtrans, stripe, paypal
-	State     string    `gorm:"type:varchar(20);default:'test'" json:"state"` // test, enabled, disabled
-	APIKey    string    `gorm:"type:varchar(255)" json:"api_key"` // Secret Key dari Provider
+	ID       uint   `gorm:"primaryKey" json:"id"`
+	Name     string `gorm:"type:varchar(100);not null" json:"name"`       // e.g. Midtrans, Stripe
+	Provider string `gorm:"type:varchar(50);not null" json:"provider"`    // midtrans, stripe, paypal
+	State    string `gorm:"type:varchar(20);default:'test'" json:"state"` // test, enabled, disabled
+	APIKey   string `gorm:"type:varchar(255)" json:"api_key"`             // Secret Key dari Provider
 }
 
 type PaymentTransaction struct {
@@ -110,9 +109,9 @@ type PaymentTransaction struct {
 	AcquirerID           uint      `json:"acquirer_id"`
 	Reference            string    `gorm:"type:varchar(100);unique" json:"reference"` // Nomor referensi internal
 	Amount               float64   `gorm:"type:numeric(15,2);not null" json:"amount"`
-	PartnerID            uint      `json:"partner_id"` // Pelanggan yang membayar
-	InvoiceID            *uint     `json:"invoice_id"` // Tagihan yang dibayar
-	State                string    `gorm:"type:varchar(20);default:'draft'" json:"state"` // draft, pending, authorized, done, error
+	PartnerID            uint      `json:"partner_id"`                                      // Pelanggan yang membayar
+	InvoiceID            *uint     `json:"invoice_id"`                                      // Tagihan yang dibayar
+	State                string    `gorm:"type:varchar(20);default:'draft'" json:"state"`   // draft, pending, authorized, done, error
 	GatewayTransactionID string    `gorm:"type:varchar(100)" json:"gateway_transaction_id"` // ID unik dari Midtrans/Stripe
 	CreatedAt            time.Time `json:"created_at"`
 }
@@ -122,6 +121,7 @@ type AccountIncoterms struct {
 	Code string `gorm:"type:varchar(3);not null;unique" json:"code"` // EXW, FOB, CIF
 	Name string `gorm:"type:varchar(255);not null" json:"name"`
 }
+
 func init() {
 	config.ModelsToMigrate = append(config.ModelsToMigrate, &Account{}, &Journal{}, &JournalEntry{}, &JournalItem{}, &BankStatement{}, &BankStatementLine{}, &AnalyticAccount{}, &AnalyticLine{}, &AccountReconcileModel{}, &FollowupRule{}, &AccountLockDate{}, &PaymentAcquirer{}, &PaymentTransaction{}, &AccountIncoterms{})
 }
@@ -236,7 +236,3 @@ type BudgetLine struct {
 	AnalyticAccountID uint    `json:"analytic_account_id"` // Pusat Biaya
 	PlannedAmount     float64 `gorm:"type:numeric(15,2)" json:"planned_amount"`
 }
-
-
-
-

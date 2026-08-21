@@ -20,7 +20,7 @@ type MaintenanceRequest struct {
 	Name         string    `gorm:"type:varchar(255);not null" json:"name"` // Mesin Potong Rusak
 	EquipmentID  uint      `json:"equipment_id"`
 	Type         string    `gorm:"type:varchar(50);default:'corrective'" json:"type"` // corrective (rusak), preventive (servis rutin)
-	State        string    `gorm:"type:varchar(50);default:'todo'" json:"state"` // todo, progress, done, cancel
+	State        string    `gorm:"type:varchar(50);default:'todo'" json:"state"`      // todo, progress, done, cancel
 	ScheduleDate time.Time `json:"schedule_date"`
 	Duration     float64   `gorm:"type:numeric(5,2);default:0" json:"duration"` // Lama perbaikan dalam jam
 	CreatedAt    time.Time `json:"created_at"`

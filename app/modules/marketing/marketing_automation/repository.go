@@ -29,8 +29,15 @@ func DeleteAutomationCampaign(id uint) error {
 }
 
 func CreateWorkflowActivity(data *WorkflowActivity) error { return config.DB.Create(data).Error }
-func GetAllWorkflowActivity() ([]WorkflowActivity, error) { var list []WorkflowActivity; err := config.DB.Find(&list).Error; return list, err }
-func GetWorkflowActivityByID(id uint) (*WorkflowActivity, error) { var data WorkflowActivity; err := config.DB.First(&data, id).Error; return &data, err }
+func GetAllWorkflowActivity() ([]WorkflowActivity, error) {
+	var list []WorkflowActivity
+	err := config.DB.Find(&list).Error
+	return list, err
+}
+func GetWorkflowActivityByID(id uint) (*WorkflowActivity, error) {
+	var data WorkflowActivity
+	err := config.DB.First(&data, id).Error
+	return &data, err
+}
 func UpdateWorkflowActivity(data *WorkflowActivity) error { return config.DB.Save(data).Error }
-func DeleteWorkflowActivity(id uint) error { return config.DB.Delete(&WorkflowActivity{}, id).Error }
-
+func DeleteWorkflowActivity(id uint) error                { return config.DB.Delete(&WorkflowActivity{}, id).Error }

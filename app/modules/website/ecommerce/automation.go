@@ -1,4 +1,4 @@
-﻿package ecommerce
+package ecommerce
 
 import "fmt"
 

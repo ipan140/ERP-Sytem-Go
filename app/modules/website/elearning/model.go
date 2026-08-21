@@ -1,7 +1,5 @@
 package elearning
 
-
-
 import "ERP-System/config"
 
 // 9. eLearning Certification
@@ -15,7 +13,9 @@ type Certification struct {
 
 func init() { config.ModelsToMigrate = append(config.ModelsToMigrate, &Certification{}) }
 
-
-type Course struct { ID uint `gorm:"primaryKey"` }
-type Slide struct { ID uint `gorm:"primaryKey"` }
-
+type Course struct {
+	ID uint `gorm:"primaryKey"`
+}
+type Slide struct {
+	ID uint `gorm:"primaryKey"`
+}

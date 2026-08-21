@@ -7,7 +7,7 @@ import (
 
 type SubscriptionPlan struct {
 	ID            uint   `gorm:"primaryKey" json:"id"`
-	Name          string `gorm:"type:varchar(255);not null" json:"name"` // e.g. Monthly Basic
+	Name          string `gorm:"type:varchar(255);not null" json:"name"`          // e.g. Monthly Basic
 	BillingPeriod string `gorm:"type:varchar(50);not null" json:"billing_period"` // monthly, yearly
 }
 

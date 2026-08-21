@@ -20,8 +20,8 @@ func DeleteLunchOrderService(id uint) error {
 	return DeleteLunchOrder(id)
 }
 
-func CreateLunchCashmoveService(data *LunchCashmove) error { return CreateLunchCashmove(data) }
-func GetAllLunchCashmoveService() ([]LunchCashmove, error) { return GetAllLunchCashmove() }
+func CreateLunchCashmoveService(data *LunchCashmove) error        { return CreateLunchCashmove(data) }
+func GetAllLunchCashmoveService() ([]LunchCashmove, error)        { return GetAllLunchCashmove() }
 func GetLunchCashmoveByIDService(id uint) (*LunchCashmove, error) { return GetLunchCashmoveByID(id) }
-func UpdateLunchCashmoveService(data *LunchCashmove) error { return UpdateLunchCashmove(data) }
-func DeleteLunchCashmoveService(id uint) error { return DeleteLunchCashmove(id) }
+func UpdateLunchCashmoveService(data *LunchCashmove) error        { return UpdateLunchCashmove(data) }
+func DeleteLunchCashmoveService(id uint) error                    { return DeleteLunchCashmove(id) }

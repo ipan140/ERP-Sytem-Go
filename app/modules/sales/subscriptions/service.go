@@ -22,6 +22,8 @@ func DeleteSubscriptionService(id uint) error {
 
 func CreateSubscriptionPlanService(data *SubscriptionPlan) error { return CreateSubscriptionPlan(data) }
 func GetAllSubscriptionPlanService() ([]SubscriptionPlan, error) { return GetAllSubscriptionPlan() }
-func GetSubscriptionPlanByIDService(id uint) (*SubscriptionPlan, error) { return GetSubscriptionPlanByID(id) }
+func GetSubscriptionPlanByIDService(id uint) (*SubscriptionPlan, error) {
+	return GetSubscriptionPlanByID(id)
+}
 func UpdateSubscriptionPlanService(data *SubscriptionPlan) error { return UpdateSubscriptionPlan(data) }
-func DeleteSubscriptionPlanService(id uint) error { return DeleteSubscriptionPlan(id) }
+func DeleteSubscriptionPlanService(id uint) error                { return DeleteSubscriptionPlan(id) }

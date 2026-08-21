@@ -1,9 +1,10 @@
 package fleet
 
 import (
+	"ERP-System/common/utils"
 	"net/http"
 	"strconv"
-	"ERP-System/common/utils"
+
 	"github.com/labstack/echo/v4"
 )
 
@@ -113,10 +114,15 @@ func DeleteVehicleHandler(c echo.Context) error {
 // @Security BearerAuth
 func CreateVehicleLogContractHandler(c echo.Context) error {
 	var data VehicleLogContract
-	if err := c.Bind(&data); err != nil { return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error()) }
-	if err := CreateVehicleLogContractService(&data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to create", err.Error()) }
+	if err := c.Bind(&data); err != nil {
+		return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error())
+	}
+	if err := CreateVehicleLogContractService(&data); err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed to create", err.Error())
+	}
 	return utils.SendSuccess(c, http.StatusCreated, "Created successfully", data)
 }
+
 // @Summary Get all VehicleLogContract
 // @Description Retrieve a list of all VehicleLogContract
 // @Tags hr-fleet
@@ -126,15 +132,20 @@ func CreateVehicleLogContractHandler(c echo.Context) error {
 // @Security BearerAuth
 func GetAllVehicleLogContractHandler(c echo.Context) error {
 	data, err := GetAllVehicleLogContractService()
-	if err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve", err.Error()) }
+	if err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve", err.Error())
+	}
 	return utils.SendSuccess(c, http.StatusOK, "Retrieved successfully", data)
 }
 func GetVehicleLogContractByIDHandler(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
 	data, err := GetVehicleLogContractByIDService(uint(id))
-	if err != nil { return utils.SendError(c, http.StatusNotFound, "Not found", err.Error()) }
+	if err != nil {
+		return utils.SendError(c, http.StatusNotFound, "Not found", err.Error())
+	}
 	return utils.SendSuccess(c, http.StatusOK, "Retrieved successfully", data)
 }
+
 // @Summary Update VehicleLogContract
 // @Description Update an existing VehicleLogContract
 // @Tags hr-fleet
@@ -147,11 +158,18 @@ func GetVehicleLogContractByIDHandler(c echo.Context) error {
 func UpdateVehicleLogContractHandler(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
 	data, err := GetVehicleLogContractByIDService(uint(id))
-	if err != nil { return utils.SendError(c, http.StatusNotFound, "Not found", err.Error()) }
-	if err := c.Bind(data); err != nil { return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error()) }
-	if err := UpdateVehicleLogContractService(data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to update", err.Error()) }
+	if err != nil {
+		return utils.SendError(c, http.StatusNotFound, "Not found", err.Error())
+	}
+	if err := c.Bind(data); err != nil {
+		return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error())
+	}
+	if err := UpdateVehicleLogContractService(data); err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed to update", err.Error())
+	}
 	return utils.SendSuccess(c, http.StatusOK, "Updated successfully", data)
 }
+
 // @Summary Delete VehicleLogContract
 // @Description Delete VehicleLogContract by ID
 // @Tags hr-fleet
@@ -162,7 +180,9 @@ func UpdateVehicleLogContractHandler(c echo.Context) error {
 // @Security BearerAuth
 func DeleteVehicleLogContractHandler(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
-	if err := DeleteVehicleLogContractService(uint(id)); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to delete", err.Error()) }
+	if err := DeleteVehicleLogContractService(uint(id)); err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed to delete", err.Error())
+	}
 	return utils.SendSuccess(c, http.StatusOK, "Deleted successfully", nil)
 }
 
@@ -176,10 +196,15 @@ func DeleteVehicleLogContractHandler(c echo.Context) error {
 // @Security BearerAuth
 func CreateVehicleLogFuelHandler(c echo.Context) error {
 	var data VehicleLogFuel
-	if err := c.Bind(&data); err != nil { return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error()) }
-	if err := CreateVehicleLogFuelService(&data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to create", err.Error()) }
+	if err := c.Bind(&data); err != nil {
+		return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error())
+	}
+	if err := CreateVehicleLogFuelService(&data); err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed to create", err.Error())
+	}
 	return utils.SendSuccess(c, http.StatusCreated, "Created successfully", data)
 }
+
 // @Summary Get all VehicleLogFuel
 // @Description Retrieve a list of all VehicleLogFuel
 // @Tags hr-fleet
@@ -189,15 +214,20 @@ func CreateVehicleLogFuelHandler(c echo.Context) error {
 // @Security BearerAuth
 func GetAllVehicleLogFuelHandler(c echo.Context) error {
 	data, err := GetAllVehicleLogFuelService()
-	if err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve", err.Error()) }
+	if err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve", err.Error())
+	}
 	return utils.SendSuccess(c, http.StatusOK, "Retrieved successfully", data)
 }
 func GetVehicleLogFuelByIDHandler(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
 	data, err := GetVehicleLogFuelByIDService(uint(id))
-	if err != nil { return utils.SendError(c, http.StatusNotFound, "Not found", err.Error()) }
+	if err != nil {
+		return utils.SendError(c, http.StatusNotFound, "Not found", err.Error())
+	}
 	return utils.SendSuccess(c, http.StatusOK, "Retrieved successfully", data)
 }
+
 // @Summary Update VehicleLogFuel
 // @Description Update an existing VehicleLogFuel
 // @Tags hr-fleet
@@ -210,11 +240,18 @@ func GetVehicleLogFuelByIDHandler(c echo.Context) error {
 func UpdateVehicleLogFuelHandler(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
 	data, err := GetVehicleLogFuelByIDService(uint(id))
-	if err != nil { return utils.SendError(c, http.StatusNotFound, "Not found", err.Error()) }
-	if err := c.Bind(data); err != nil { return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error()) }
-	if err := UpdateVehicleLogFuelService(data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to update", err.Error()) }
+	if err != nil {
+		return utils.SendError(c, http.StatusNotFound, "Not found", err.Error())
+	}
+	if err := c.Bind(data); err != nil {
+		return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error())
+	}
+	if err := UpdateVehicleLogFuelService(data); err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed to update", err.Error())
+	}
 	return utils.SendSuccess(c, http.StatusOK, "Updated successfully", data)
 }
+
 // @Summary Delete VehicleLogFuel
 // @Description Delete VehicleLogFuel by ID
 // @Tags hr-fleet
@@ -225,7 +262,9 @@ func UpdateVehicleLogFuelHandler(c echo.Context) error {
 // @Security BearerAuth
 func DeleteVehicleLogFuelHandler(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
-	if err := DeleteVehicleLogFuelService(uint(id)); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to delete", err.Error()) }
+	if err := DeleteVehicleLogFuelService(uint(id)); err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed to delete", err.Error())
+	}
 	return utils.SendSuccess(c, http.StatusOK, "Deleted successfully", nil)
 }
 
@@ -239,10 +278,15 @@ func DeleteVehicleLogFuelHandler(c echo.Context) error {
 // @Security BearerAuth
 func CreateVehicleLogServicesHandler(c echo.Context) error {
 	var data VehicleLogServices
-	if err := c.Bind(&data); err != nil { return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error()) }
-	if err := CreateVehicleLogServicesService(&data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to create", err.Error()) }
+	if err := c.Bind(&data); err != nil {
+		return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error())
+	}
+	if err := CreateVehicleLogServicesService(&data); err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed to create", err.Error())
+	}
 	return utils.SendSuccess(c, http.StatusCreated, "Created successfully", data)
 }
+
 // @Summary Get all VehicleLogServices
 // @Description Retrieve a list of all VehicleLogServices
 // @Tags hr-fleet
@@ -252,15 +296,20 @@ func CreateVehicleLogServicesHandler(c echo.Context) error {
 // @Security BearerAuth
 func GetAllVehicleLogServicesHandler(c echo.Context) error {
 	data, err := GetAllVehicleLogServicesService()
-	if err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve", err.Error()) }
+	if err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve", err.Error())
+	}
 	return utils.SendSuccess(c, http.StatusOK, "Retrieved successfully", data)
 }
 func GetVehicleLogServicesByIDHandler(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
 	data, err := GetVehicleLogServicesByIDService(uint(id))
-	if err != nil { return utils.SendError(c, http.StatusNotFound, "Not found", err.Error()) }
+	if err != nil {
+		return utils.SendError(c, http.StatusNotFound, "Not found", err.Error())
+	}
 	return utils.SendSuccess(c, http.StatusOK, "Retrieved successfully", data)
 }
+
 // @Summary Update VehicleLogServices
 // @Description Update an existing VehicleLogServices
 // @Tags hr-fleet
@@ -273,11 +322,18 @@ func GetVehicleLogServicesByIDHandler(c echo.Context) error {
 func UpdateVehicleLogServicesHandler(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
 	data, err := GetVehicleLogServicesByIDService(uint(id))
-	if err != nil { return utils.SendError(c, http.StatusNotFound, "Not found", err.Error()) }
-	if err := c.Bind(data); err != nil { return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error()) }
-	if err := UpdateVehicleLogServicesService(data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to update", err.Error()) }
+	if err != nil {
+		return utils.SendError(c, http.StatusNotFound, "Not found", err.Error())
+	}
+	if err := c.Bind(data); err != nil {
+		return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error())
+	}
+	if err := UpdateVehicleLogServicesService(data); err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed to update", err.Error())
+	}
 	return utils.SendSuccess(c, http.StatusOK, "Updated successfully", data)
 }
+
 // @Summary Delete VehicleLogServices
 // @Description Delete VehicleLogServices by ID
 // @Tags hr-fleet
@@ -288,6 +344,8 @@ func UpdateVehicleLogServicesHandler(c echo.Context) error {
 // @Security BearerAuth
 func DeleteVehicleLogServicesHandler(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
-	if err := DeleteVehicleLogServicesService(uint(id)); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to delete", err.Error()) }
+	if err := DeleteVehicleLogServicesService(uint(id)); err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed to delete", err.Error())
+	}
 	return utils.SendSuccess(c, http.StatusOK, "Deleted successfully", nil)
 }

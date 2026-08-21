@@ -20,9 +20,9 @@ type UoMCategory struct {
 type UoM struct {
 	ID         uint    `gorm:"primaryKey" json:"id"`
 	CategoryID uint    `json:"category_id"`
-	Name       string  `gorm:"type:varchar(255);not null" json:"name"` // kg, cm, pcs
+	Name       string  `gorm:"type:varchar(255);not null" json:"name"`           // kg, cm, pcs
 	Type       string  `gorm:"type:varchar(50);default:'reference'" json:"type"` // reference, bigger, smaller
-	Factor     float64 `gorm:"type:numeric(15,4);default:1" json:"factor"` // Ratio to reference UoM
+	Factor     float64 `gorm:"type:numeric(15,4);default:1" json:"factor"`       // Ratio to reference UoM
 }
 
 type ProductTemplate struct {
@@ -31,10 +31,10 @@ type ProductTemplate struct {
 	Type          string    `gorm:"type:varchar(50);default:'product'" json:"type"` // product (storable), consu (consumable), service
 	CategoryID    uint      `json:"category_id"`
 	UoMID         uint      `json:"uom_id"`
-	UoMPoID       uint      `json:"uom_po_id"` // UoM for Purchase
-	ListPrice     float64   `gorm:"type:numeric(15,2);default:0" json:"list_price"` // Default Sale Price
+	UoMPoID       uint      `json:"uom_po_id"`                                          // UoM for Purchase
+	ListPrice     float64   `gorm:"type:numeric(15,2);default:0" json:"list_price"`     // Default Sale Price
 	StandardPrice float64   `gorm:"type:numeric(15,2);default:0" json:"standard_price"` // Cost
-	Tracking      string    `gorm:"type:varchar(50);default:'none'" json:"tracking"` // none, lot, serial
+	Tracking      string    `gorm:"type:varchar(50);default:'none'" json:"tracking"`    // none, lot, serial
 	CreatedAt     time.Time `json:"created_at"`
 }
 
@@ -79,10 +79,10 @@ type StockLocation struct {
 
 type StockPicking struct {
 	ID             uint      `gorm:"primaryKey" json:"id"`
-	Name           string    `gorm:"type:varchar(100);not null" json:"name"` // WH/OUT/0001
-	LocationID     uint      `json:"location_id"`                            // Source
-	LocationDestID uint      `json:"location_dest_id"`                       // Destination
-	PartnerID      *uint     `json:"partner_id"`                             // Customer/Vendor
+	Name           string    `gorm:"type:varchar(100);not null" json:"name"`        // WH/OUT/0001
+	LocationID     uint      `json:"location_id"`                                   // Source
+	LocationDestID uint      `json:"location_dest_id"`                              // Destination
+	PartnerID      *uint     `json:"partner_id"`                                    // Customer/Vendor
 	State          string    `gorm:"type:varchar(50);default:'draft'" json:"state"` // draft, waiting, confirmed, assigned, done, cancel
 	ScheduledDate  time.Time `json:"scheduled_date"`
 	CreatedAt      time.Time `json:"created_at"`
@@ -119,11 +119,11 @@ type StockQuant struct {
 }
 
 type StockPutawayRule struct {
-	ID             uint `gorm:"primaryKey" json:"id"`
-	ProductID      uint `json:"product_id"`
-	CategoryID     uint `json:"category_id"`
-	LocationInID   uint `json:"location_in_id"`   // When arriving here...
-	LocationOutID  uint `json:"location_out_id"`  // Put it here automatically
+	ID            uint `gorm:"primaryKey" json:"id"`
+	ProductID     uint `json:"product_id"`
+	CategoryID    uint `json:"category_id"`
+	LocationInID  uint `json:"location_in_id"`  // When arriving here...
+	LocationOutID uint `json:"location_out_id"` // Put it here automatically
 }
 
 type StockValuationLayer struct {
@@ -137,12 +137,12 @@ type StockValuationLayer struct {
 }
 
 type StockInventory struct {
-	ID          uint      `gorm:"primaryKey" json:"id"`
-	Name        string    `gorm:"type:varchar(255);not null" json:"name"` // INV/2026/001
-	LocationID  uint      `json:"location_id"`
-	Date        time.Time `json:"date"`
-	State       string    `gorm:"type:varchar(50);default:'draft'" json:"state"` // draft, confirm, done
-	CompanyID   uint      `json:"company_id"`
+	ID         uint      `gorm:"primaryKey" json:"id"`
+	Name       string    `gorm:"type:varchar(255);not null" json:"name"` // INV/2026/001
+	LocationID uint      `json:"location_id"`
+	Date       time.Time `json:"date"`
+	State      string    `gorm:"type:varchar(50);default:'draft'" json:"state"` // draft, confirm, done
+	CompanyID  uint      `json:"company_id"`
 }
 
 type StockInventoryLine struct {
@@ -155,14 +155,14 @@ type StockInventoryLine struct {
 }
 
 type StockScrap struct {
-	ID          uint      `gorm:"primaryKey" json:"id"`
-	Name        string    `gorm:"type:varchar(100);not null" json:"name"` // SP/0001
-	ProductID   uint      `json:"product_id"`
-	ScrapQty    float64   `gorm:"type:numeric(15,2);not null;default:1" json:"scrap_qty"`
-	LocationID  uint      `json:"location_id"`       // Dari mana asalnya
-	ScrapLocID  uint      `json:"scrap_location_id"` // Lokasi pembuangan (Virtual)
-	State       string    `gorm:"type:varchar(50);default:'draft'" json:"state"` // draft, done
-	CreatedAt   time.Time `json:"created_at"`
+	ID         uint      `gorm:"primaryKey" json:"id"`
+	Name       string    `gorm:"type:varchar(100);not null" json:"name"` // SP/0001
+	ProductID  uint      `json:"product_id"`
+	ScrapQty   float64   `gorm:"type:numeric(15,2);not null;default:1" json:"scrap_qty"`
+	LocationID uint      `json:"location_id"`                                   // Dari mana asalnya
+	ScrapLocID uint      `json:"scrap_location_id"`                             // Lokasi pembuangan (Virtual)
+	State      string    `gorm:"type:varchar(50);default:'draft'" json:"state"` // draft, done
+	CreatedAt  time.Time `json:"created_at"`
 }
 
 // ---- FITUR ODOO ENTERPRISE/DEWA (Ditambahkan Manual) ----
@@ -200,7 +200,7 @@ type StockLandedCost struct {
 type StockLandedCostLine struct {
 	ID          uint    `gorm:"primaryKey" json:"id"`
 	CostID      uint    `json:"cost_id"`
-	ProductID   uint    `json:"product_id"` // Biaya (misal: Cukai, Ongkir Kapal)
+	ProductID   uint    `json:"product_id"`                                           // Biaya (misal: Cukai, Ongkir Kapal)
 	SplitMethod string  `gorm:"type:varchar(50);default:'equal'" json:"split_method"` // equal, by_quantity, by_weight, by_volume
 	PriceUnit   float64 `gorm:"type:numeric(15,2);not null;default:0" json:"price_unit"`
 }

@@ -1,9 +1,10 @@
 package payroll
 
 import (
+	"ERP-System/common/utils"
 	"net/http"
 	"strconv"
-	"ERP-System/common/utils"
+
 	"github.com/labstack/echo/v4"
 )
 
@@ -113,10 +114,15 @@ func DeletePayslipHandler(c echo.Context) error {
 // @Security BearerAuth
 func CreatePayslipLineHandler(c echo.Context) error {
 	var data PayslipLine
-	if err := c.Bind(&data); err != nil { return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error()) }
-	if err := CreatePayslipLineService(&data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to create", err.Error()) }
+	if err := c.Bind(&data); err != nil {
+		return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error())
+	}
+	if err := CreatePayslipLineService(&data); err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed to create", err.Error())
+	}
 	return utils.SendSuccess(c, http.StatusCreated, "Created successfully", data)
 }
+
 // @Summary Get all PayslipLine
 // @Description Retrieve a list of all PayslipLine
 // @Tags hr-payroll
@@ -126,15 +132,20 @@ func CreatePayslipLineHandler(c echo.Context) error {
 // @Security BearerAuth
 func GetAllPayslipLineHandler(c echo.Context) error {
 	data, err := GetAllPayslipLineService()
-	if err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve", err.Error()) }
+	if err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve", err.Error())
+	}
 	return utils.SendSuccess(c, http.StatusOK, "Retrieved successfully", data)
 }
 func GetPayslipLineByIDHandler(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
 	data, err := GetPayslipLineByIDService(uint(id))
-	if err != nil { return utils.SendError(c, http.StatusNotFound, "Not found", err.Error()) }
+	if err != nil {
+		return utils.SendError(c, http.StatusNotFound, "Not found", err.Error())
+	}
 	return utils.SendSuccess(c, http.StatusOK, "Retrieved successfully", data)
 }
+
 // @Summary Update PayslipLine
 // @Description Update an existing PayslipLine
 // @Tags hr-payroll
@@ -147,11 +158,18 @@ func GetPayslipLineByIDHandler(c echo.Context) error {
 func UpdatePayslipLineHandler(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
 	data, err := GetPayslipLineByIDService(uint(id))
-	if err != nil { return utils.SendError(c, http.StatusNotFound, "Not found", err.Error()) }
-	if err := c.Bind(data); err != nil { return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error()) }
-	if err := UpdatePayslipLineService(data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to update", err.Error()) }
+	if err != nil {
+		return utils.SendError(c, http.StatusNotFound, "Not found", err.Error())
+	}
+	if err := c.Bind(data); err != nil {
+		return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error())
+	}
+	if err := UpdatePayslipLineService(data); err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed to update", err.Error())
+	}
 	return utils.SendSuccess(c, http.StatusOK, "Updated successfully", data)
 }
+
 // @Summary Delete PayslipLine
 // @Description Delete PayslipLine by ID
 // @Tags hr-payroll
@@ -162,7 +180,9 @@ func UpdatePayslipLineHandler(c echo.Context) error {
 // @Security BearerAuth
 func DeletePayslipLineHandler(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
-	if err := DeletePayslipLineService(uint(id)); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to delete", err.Error()) }
+	if err := DeletePayslipLineService(uint(id)); err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed to delete", err.Error())
+	}
 	return utils.SendSuccess(c, http.StatusOK, "Deleted successfully", nil)
 }
 
@@ -176,10 +196,15 @@ func DeletePayslipLineHandler(c echo.Context) error {
 // @Security BearerAuth
 func CreateSalaryRuleHandler(c echo.Context) error {
 	var data SalaryRule
-	if err := c.Bind(&data); err != nil { return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error()) }
-	if err := CreateSalaryRuleService(&data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to create", err.Error()) }
+	if err := c.Bind(&data); err != nil {
+		return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error())
+	}
+	if err := CreateSalaryRuleService(&data); err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed to create", err.Error())
+	}
 	return utils.SendSuccess(c, http.StatusCreated, "Created successfully", data)
 }
+
 // @Summary Get all SalaryRule
 // @Description Retrieve a list of all SalaryRule
 // @Tags hr-payroll
@@ -189,15 +214,20 @@ func CreateSalaryRuleHandler(c echo.Context) error {
 // @Security BearerAuth
 func GetAllSalaryRuleHandler(c echo.Context) error {
 	data, err := GetAllSalaryRuleService()
-	if err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve", err.Error()) }
+	if err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve", err.Error())
+	}
 	return utils.SendSuccess(c, http.StatusOK, "Retrieved successfully", data)
 }
 func GetSalaryRuleByIDHandler(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
 	data, err := GetSalaryRuleByIDService(uint(id))
-	if err != nil { return utils.SendError(c, http.StatusNotFound, "Not found", err.Error()) }
+	if err != nil {
+		return utils.SendError(c, http.StatusNotFound, "Not found", err.Error())
+	}
 	return utils.SendSuccess(c, http.StatusOK, "Retrieved successfully", data)
 }
+
 // @Summary Update SalaryRule
 // @Description Update an existing SalaryRule
 // @Tags hr-payroll
@@ -210,11 +240,18 @@ func GetSalaryRuleByIDHandler(c echo.Context) error {
 func UpdateSalaryRuleHandler(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
 	data, err := GetSalaryRuleByIDService(uint(id))
-	if err != nil { return utils.SendError(c, http.StatusNotFound, "Not found", err.Error()) }
-	if err := c.Bind(data); err != nil { return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error()) }
-	if err := UpdateSalaryRuleService(data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to update", err.Error()) }
+	if err != nil {
+		return utils.SendError(c, http.StatusNotFound, "Not found", err.Error())
+	}
+	if err := c.Bind(data); err != nil {
+		return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error())
+	}
+	if err := UpdateSalaryRuleService(data); err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed to update", err.Error())
+	}
 	return utils.SendSuccess(c, http.StatusOK, "Updated successfully", data)
 }
+
 // @Summary Delete SalaryRule
 // @Description Delete SalaryRule by ID
 // @Tags hr-payroll
@@ -225,6 +262,8 @@ func UpdateSalaryRuleHandler(c echo.Context) error {
 // @Security BearerAuth
 func DeleteSalaryRuleHandler(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
-	if err := DeleteSalaryRuleService(uint(id)); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to delete", err.Error()) }
+	if err := DeleteSalaryRuleService(uint(id)); err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed to delete", err.Error())
+	}
 	return utils.SendSuccess(c, http.StatusOK, "Deleted successfully", nil)
 }

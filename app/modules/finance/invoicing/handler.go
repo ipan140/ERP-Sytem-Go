@@ -2,9 +2,10 @@ package invoicing
 
 import (
 	"ERP-System/common/utils"
-	"github.com/labstack/echo/v4"
 	"net/http"
 	"strconv"
+
+	"github.com/labstack/echo/v4"
 )
 
 // CreateInvoice godoc
@@ -160,7 +161,17 @@ func TriggerDunningHandler(c echo.Context) error {
 // @Success 201 {object} map[string]interface{}
 // @Router /api/finance/invoicing/paymenttermline [post]
 // @Security BearerAuth
-func CreatePaymentTermLineHandler(c echo.Context) error { var data PaymentTermLine; if err := c.Bind(&data); err != nil { return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error()) }; if err := CreatePaymentTermLineService(&data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error()) }; return utils.SendSuccess(c, http.StatusCreated, "Success", data) }
+func CreatePaymentTermLineHandler(c echo.Context) error {
+	var data PaymentTermLine
+	if err := c.Bind(&data); err != nil {
+		return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error())
+	}
+	if err := CreatePaymentTermLineService(&data); err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusCreated, "Success", data)
+}
+
 // @Summary Get all PaymentTermLine
 // @Description Retrieve a list of all PaymentTermLine
 // @Tags finance-invoicing
@@ -168,8 +179,22 @@ func CreatePaymentTermLineHandler(c echo.Context) error { var data PaymentTermLi
 // @Success 200 {object} map[string]interface{}
 // @Router /api/finance/invoicing/paymenttermline [get]
 // @Security BearerAuth
-func GetAllPaymentTermLineHandler(c echo.Context) error { data, err := GetAllPaymentTermLineService(); if err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error()) }; return utils.SendSuccess(c, http.StatusOK, "Success", data) }
-func GetPaymentTermLineByIDHandler(c echo.Context) error { id, _ := strconv.Atoi(c.Param("id")); data, err := GetPaymentTermLineByIDService(uint(id)); if err != nil { return utils.SendError(c, http.StatusNotFound, "Not found", err.Error()) }; return utils.SendSuccess(c, http.StatusOK, "Success", data) }
+func GetAllPaymentTermLineHandler(c echo.Context) error {
+	data, err := GetAllPaymentTermLineService()
+	if err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Success", data)
+}
+func GetPaymentTermLineByIDHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	data, err := GetPaymentTermLineByIDService(uint(id))
+	if err != nil {
+		return utils.SendError(c, http.StatusNotFound, "Not found", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Success", data)
+}
+
 // @Summary Update PaymentTermLine
 // @Description Update an existing PaymentTermLine
 // @Tags finance-invoicing
@@ -179,7 +204,21 @@ func GetPaymentTermLineByIDHandler(c echo.Context) error { id, _ := strconv.Atoi
 // @Success 200 {object} map[string]interface{}
 // @Router /api/finance/invoicing/paymenttermline/{id} [put]
 // @Security BearerAuth
-func UpdatePaymentTermLineHandler(c echo.Context) error { id, _ := strconv.Atoi(c.Param("id")); data, err := GetPaymentTermLineByIDService(uint(id)); if err != nil { return utils.SendError(c, http.StatusNotFound, "Not found", err.Error()) }; if err := c.Bind(data); err != nil { return utils.SendError(c, http.StatusBadRequest, "Invalid", err.Error()) }; if err := UpdatePaymentTermLineService(data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error()) }; return utils.SendSuccess(c, http.StatusOK, "Success", data) }
+func UpdatePaymentTermLineHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	data, err := GetPaymentTermLineByIDService(uint(id))
+	if err != nil {
+		return utils.SendError(c, http.StatusNotFound, "Not found", err.Error())
+	}
+	if err := c.Bind(data); err != nil {
+		return utils.SendError(c, http.StatusBadRequest, "Invalid", err.Error())
+	}
+	if err := UpdatePaymentTermLineService(data); err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Success", data)
+}
+
 // @Summary Delete PaymentTermLine
 // @Description Delete PaymentTermLine by ID
 // @Tags finance-invoicing
@@ -188,7 +227,13 @@ func UpdatePaymentTermLineHandler(c echo.Context) error { id, _ := strconv.Atoi(
 // @Success 200 {object} map[string]interface{}
 // @Router /api/finance/invoicing/paymenttermline/{id} [delete]
 // @Security BearerAuth
-func DeletePaymentTermLineHandler(c echo.Context) error { id, _ := strconv.Atoi(c.Param("id")); if err := DeletePaymentTermLineService(uint(id)); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error()) }; return utils.SendSuccess(c, http.StatusOK, "Success", nil) }
+func DeletePaymentTermLineHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	if err := DeletePaymentTermLineService(uint(id)); err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Success", nil)
+}
 
 // @Summary Create TaxRepartitionLine
 // @Description Create a new TaxRepartitionLine
@@ -198,7 +243,17 @@ func DeletePaymentTermLineHandler(c echo.Context) error { id, _ := strconv.Atoi(
 // @Success 201 {object} map[string]interface{}
 // @Router /api/finance/invoicing/taxrepartitionline [post]
 // @Security BearerAuth
-func CreateTaxRepartitionLineHandler(c echo.Context) error { var data TaxRepartitionLine; if err := c.Bind(&data); err != nil { return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error()) }; if err := CreateTaxRepartitionLineService(&data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error()) }; return utils.SendSuccess(c, http.StatusCreated, "Success", data) }
+func CreateTaxRepartitionLineHandler(c echo.Context) error {
+	var data TaxRepartitionLine
+	if err := c.Bind(&data); err != nil {
+		return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error())
+	}
+	if err := CreateTaxRepartitionLineService(&data); err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusCreated, "Success", data)
+}
+
 // @Summary Get all TaxRepartitionLine
 // @Description Retrieve a list of all TaxRepartitionLine
 // @Tags finance-invoicing
@@ -206,8 +261,22 @@ func CreateTaxRepartitionLineHandler(c echo.Context) error { var data TaxReparti
 // @Success 200 {object} map[string]interface{}
 // @Router /api/finance/invoicing/taxrepartitionline [get]
 // @Security BearerAuth
-func GetAllTaxRepartitionLineHandler(c echo.Context) error { data, err := GetAllTaxRepartitionLineService(); if err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error()) }; return utils.SendSuccess(c, http.StatusOK, "Success", data) }
-func GetTaxRepartitionLineByIDHandler(c echo.Context) error { id, _ := strconv.Atoi(c.Param("id")); data, err := GetTaxRepartitionLineByIDService(uint(id)); if err != nil { return utils.SendError(c, http.StatusNotFound, "Not found", err.Error()) }; return utils.SendSuccess(c, http.StatusOK, "Success", data) }
+func GetAllTaxRepartitionLineHandler(c echo.Context) error {
+	data, err := GetAllTaxRepartitionLineService()
+	if err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Success", data)
+}
+func GetTaxRepartitionLineByIDHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	data, err := GetTaxRepartitionLineByIDService(uint(id))
+	if err != nil {
+		return utils.SendError(c, http.StatusNotFound, "Not found", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Success", data)
+}
+
 // @Summary Update TaxRepartitionLine
 // @Description Update an existing TaxRepartitionLine
 // @Tags finance-invoicing
@@ -217,7 +286,21 @@ func GetTaxRepartitionLineByIDHandler(c echo.Context) error { id, _ := strconv.A
 // @Success 200 {object} map[string]interface{}
 // @Router /api/finance/invoicing/taxrepartitionline/{id} [put]
 // @Security BearerAuth
-func UpdateTaxRepartitionLineHandler(c echo.Context) error { id, _ := strconv.Atoi(c.Param("id")); data, err := GetTaxRepartitionLineByIDService(uint(id)); if err != nil { return utils.SendError(c, http.StatusNotFound, "Not found", err.Error()) }; if err := c.Bind(data); err != nil { return utils.SendError(c, http.StatusBadRequest, "Invalid", err.Error()) }; if err := UpdateTaxRepartitionLineService(data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error()) }; return utils.SendSuccess(c, http.StatusOK, "Success", data) }
+func UpdateTaxRepartitionLineHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	data, err := GetTaxRepartitionLineByIDService(uint(id))
+	if err != nil {
+		return utils.SendError(c, http.StatusNotFound, "Not found", err.Error())
+	}
+	if err := c.Bind(data); err != nil {
+		return utils.SendError(c, http.StatusBadRequest, "Invalid", err.Error())
+	}
+	if err := UpdateTaxRepartitionLineService(data); err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Success", data)
+}
+
 // @Summary Delete TaxRepartitionLine
 // @Description Delete TaxRepartitionLine by ID
 // @Tags finance-invoicing
@@ -226,4 +309,10 @@ func UpdateTaxRepartitionLineHandler(c echo.Context) error { id, _ := strconv.At
 // @Success 200 {object} map[string]interface{}
 // @Router /api/finance/invoicing/taxrepartitionline/{id} [delete]
 // @Security BearerAuth
-func DeleteTaxRepartitionLineHandler(c echo.Context) error { id, _ := strconv.Atoi(c.Param("id")); if err := DeleteTaxRepartitionLineService(uint(id)); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error()) }; return utils.SendSuccess(c, http.StatusOK, "Success", nil) }
+func DeleteTaxRepartitionLineHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	if err := DeleteTaxRepartitionLineService(uint(id)); err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Success", nil)
+}

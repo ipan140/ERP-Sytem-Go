@@ -2,11 +2,12 @@ package accounting
 
 import (
 	"ERP-System/common/utils"
-	"github.com/labstack/echo/v4"
-	"net/http"
-	"fmt"
 	"ERP-System/config"
+	"fmt"
+	"net/http"
 	"strconv"
+
+	"github.com/labstack/echo/v4"
 )
 
 // CreateJournalEntry godoc
@@ -129,7 +130,17 @@ func GetGeneralLedgerHandler(c echo.Context) error {
 // @Success 201 {object} map[string]interface{}
 // @Router /api/finance/accounting/accountreconcilemodel [post]
 // @Security BearerAuth
-func CreateAccountReconcileModelHandler(c echo.Context) error { var data AccountReconcileModel; if err := c.Bind(&data); err != nil { return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error()) }; if err := CreateAccountReconcileModelService(&data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error()) }; return utils.SendSuccess(c, http.StatusCreated, "Success", data) }
+func CreateAccountReconcileModelHandler(c echo.Context) error {
+	var data AccountReconcileModel
+	if err := c.Bind(&data); err != nil {
+		return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error())
+	}
+	if err := CreateAccountReconcileModelService(&data); err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusCreated, "Success", data)
+}
+
 // @Summary Get all AccountReconcileModel
 // @Description Retrieve a list of all AccountReconcileModel
 // @Tags finance-accounting
@@ -137,8 +148,22 @@ func CreateAccountReconcileModelHandler(c echo.Context) error { var data Account
 // @Success 200 {object} map[string]interface{}
 // @Router /api/finance/accounting/accountreconcilemodel [get]
 // @Security BearerAuth
-func GetAllAccountReconcileModelHandler(c echo.Context) error { data, err := GetAllAccountReconcileModelService(); if err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error()) }; return utils.SendSuccess(c, http.StatusOK, "Success", data) }
-func GetAccountReconcileModelByIDHandler(c echo.Context) error { id, _ := strconv.Atoi(c.Param("id")); data, err := GetAccountReconcileModelByIDService(uint(id)); if err != nil { return utils.SendError(c, http.StatusNotFound, "Not found", err.Error()) }; return utils.SendSuccess(c, http.StatusOK, "Success", data) }
+func GetAllAccountReconcileModelHandler(c echo.Context) error {
+	data, err := GetAllAccountReconcileModelService()
+	if err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Success", data)
+}
+func GetAccountReconcileModelByIDHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	data, err := GetAccountReconcileModelByIDService(uint(id))
+	if err != nil {
+		return utils.SendError(c, http.StatusNotFound, "Not found", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Success", data)
+}
+
 // @Summary Update AccountReconcileModel
 // @Description Update an existing AccountReconcileModel
 // @Tags finance-accounting
@@ -148,7 +173,21 @@ func GetAccountReconcileModelByIDHandler(c echo.Context) error { id, _ := strcon
 // @Success 200 {object} map[string]interface{}
 // @Router /api/finance/accounting/accountreconcilemodel/{id} [put]
 // @Security BearerAuth
-func UpdateAccountReconcileModelHandler(c echo.Context) error { id, _ := strconv.Atoi(c.Param("id")); data, err := GetAccountReconcileModelByIDService(uint(id)); if err != nil { return utils.SendError(c, http.StatusNotFound, "Not found", err.Error()) }; if err := c.Bind(data); err != nil { return utils.SendError(c, http.StatusBadRequest, "Invalid", err.Error()) }; if err := UpdateAccountReconcileModelService(data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error()) }; return utils.SendSuccess(c, http.StatusOK, "Success", data) }
+func UpdateAccountReconcileModelHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	data, err := GetAccountReconcileModelByIDService(uint(id))
+	if err != nil {
+		return utils.SendError(c, http.StatusNotFound, "Not found", err.Error())
+	}
+	if err := c.Bind(data); err != nil {
+		return utils.SendError(c, http.StatusBadRequest, "Invalid", err.Error())
+	}
+	if err := UpdateAccountReconcileModelService(data); err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Success", data)
+}
+
 // @Summary Delete AccountReconcileModel
 // @Description Delete AccountReconcileModel by ID
 // @Tags finance-accounting
@@ -157,7 +196,13 @@ func UpdateAccountReconcileModelHandler(c echo.Context) error { id, _ := strconv
 // @Success 200 {object} map[string]interface{}
 // @Router /api/finance/accounting/accountreconcilemodel/{id} [delete]
 // @Security BearerAuth
-func DeleteAccountReconcileModelHandler(c echo.Context) error { id, _ := strconv.Atoi(c.Param("id")); if err := DeleteAccountReconcileModelService(uint(id)); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error()) }; return utils.SendSuccess(c, http.StatusOK, "Success", nil) }
+func DeleteAccountReconcileModelHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	if err := DeleteAccountReconcileModelService(uint(id)); err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Success", nil)
+}
 
 // @Summary Create FollowupRule
 // @Description Create a new FollowupRule
@@ -167,7 +212,17 @@ func DeleteAccountReconcileModelHandler(c echo.Context) error { id, _ := strconv
 // @Success 201 {object} map[string]interface{}
 // @Router /api/finance/accounting/followuprule [post]
 // @Security BearerAuth
-func CreateFollowupRuleHandler(c echo.Context) error { var data FollowupRule; if err := c.Bind(&data); err != nil { return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error()) }; if err := CreateFollowupRuleService(&data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error()) }; return utils.SendSuccess(c, http.StatusCreated, "Success", data) }
+func CreateFollowupRuleHandler(c echo.Context) error {
+	var data FollowupRule
+	if err := c.Bind(&data); err != nil {
+		return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error())
+	}
+	if err := CreateFollowupRuleService(&data); err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusCreated, "Success", data)
+}
+
 // @Summary Get all FollowupRule
 // @Description Retrieve a list of all FollowupRule
 // @Tags finance-accounting
@@ -175,8 +230,22 @@ func CreateFollowupRuleHandler(c echo.Context) error { var data FollowupRule; if
 // @Success 200 {object} map[string]interface{}
 // @Router /api/finance/accounting/followuprule [get]
 // @Security BearerAuth
-func GetAllFollowupRuleHandler(c echo.Context) error { data, err := GetAllFollowupRuleService(); if err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error()) }; return utils.SendSuccess(c, http.StatusOK, "Success", data) }
-func GetFollowupRuleByIDHandler(c echo.Context) error { id, _ := strconv.Atoi(c.Param("id")); data, err := GetFollowupRuleByIDService(uint(id)); if err != nil { return utils.SendError(c, http.StatusNotFound, "Not found", err.Error()) }; return utils.SendSuccess(c, http.StatusOK, "Success", data) }
+func GetAllFollowupRuleHandler(c echo.Context) error {
+	data, err := GetAllFollowupRuleService()
+	if err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Success", data)
+}
+func GetFollowupRuleByIDHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	data, err := GetFollowupRuleByIDService(uint(id))
+	if err != nil {
+		return utils.SendError(c, http.StatusNotFound, "Not found", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Success", data)
+}
+
 // @Summary Update FollowupRule
 // @Description Update an existing FollowupRule
 // @Tags finance-accounting
@@ -186,7 +255,21 @@ func GetFollowupRuleByIDHandler(c echo.Context) error { id, _ := strconv.Atoi(c.
 // @Success 200 {object} map[string]interface{}
 // @Router /api/finance/accounting/followuprule/{id} [put]
 // @Security BearerAuth
-func UpdateFollowupRuleHandler(c echo.Context) error { id, _ := strconv.Atoi(c.Param("id")); data, err := GetFollowupRuleByIDService(uint(id)); if err != nil { return utils.SendError(c, http.StatusNotFound, "Not found", err.Error()) }; if err := c.Bind(data); err != nil { return utils.SendError(c, http.StatusBadRequest, "Invalid", err.Error()) }; if err := UpdateFollowupRuleService(data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error()) }; return utils.SendSuccess(c, http.StatusOK, "Success", data) }
+func UpdateFollowupRuleHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	data, err := GetFollowupRuleByIDService(uint(id))
+	if err != nil {
+		return utils.SendError(c, http.StatusNotFound, "Not found", err.Error())
+	}
+	if err := c.Bind(data); err != nil {
+		return utils.SendError(c, http.StatusBadRequest, "Invalid", err.Error())
+	}
+	if err := UpdateFollowupRuleService(data); err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Success", data)
+}
+
 // @Summary Delete FollowupRule
 // @Description Delete FollowupRule by ID
 // @Tags finance-accounting
@@ -195,7 +278,13 @@ func UpdateFollowupRuleHandler(c echo.Context) error { id, _ := strconv.Atoi(c.P
 // @Success 200 {object} map[string]interface{}
 // @Router /api/finance/accounting/followuprule/{id} [delete]
 // @Security BearerAuth
-func DeleteFollowupRuleHandler(c echo.Context) error { id, _ := strconv.Atoi(c.Param("id")); if err := DeleteFollowupRuleService(uint(id)); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error()) }; return utils.SendSuccess(c, http.StatusOK, "Success", nil) }
+func DeleteFollowupRuleHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	if err := DeleteFollowupRuleService(uint(id)); err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Success", nil)
+}
 
 // @Summary Create AccountLockDate
 // @Description Create a new AccountLockDate
@@ -205,7 +294,17 @@ func DeleteFollowupRuleHandler(c echo.Context) error { id, _ := strconv.Atoi(c.P
 // @Success 201 {object} map[string]interface{}
 // @Router /api/finance/accounting/accountlockdate [post]
 // @Security BearerAuth
-func CreateAccountLockDateHandler(c echo.Context) error { var data AccountLockDate; if err := c.Bind(&data); err != nil { return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error()) }; if err := CreateAccountLockDateService(&data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error()) }; return utils.SendSuccess(c, http.StatusCreated, "Success", data) }
+func CreateAccountLockDateHandler(c echo.Context) error {
+	var data AccountLockDate
+	if err := c.Bind(&data); err != nil {
+		return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error())
+	}
+	if err := CreateAccountLockDateService(&data); err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusCreated, "Success", data)
+}
+
 // @Summary Get all AccountLockDate
 // @Description Retrieve a list of all AccountLockDate
 // @Tags finance-accounting
@@ -213,8 +312,22 @@ func CreateAccountLockDateHandler(c echo.Context) error { var data AccountLockDa
 // @Success 200 {object} map[string]interface{}
 // @Router /api/finance/accounting/accountlockdate [get]
 // @Security BearerAuth
-func GetAllAccountLockDateHandler(c echo.Context) error { data, err := GetAllAccountLockDateService(); if err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error()) }; return utils.SendSuccess(c, http.StatusOK, "Success", data) }
-func GetAccountLockDateByIDHandler(c echo.Context) error { id, _ := strconv.Atoi(c.Param("id")); data, err := GetAccountLockDateByIDService(uint(id)); if err != nil { return utils.SendError(c, http.StatusNotFound, "Not found", err.Error()) }; return utils.SendSuccess(c, http.StatusOK, "Success", data) }
+func GetAllAccountLockDateHandler(c echo.Context) error {
+	data, err := GetAllAccountLockDateService()
+	if err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Success", data)
+}
+func GetAccountLockDateByIDHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	data, err := GetAccountLockDateByIDService(uint(id))
+	if err != nil {
+		return utils.SendError(c, http.StatusNotFound, "Not found", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Success", data)
+}
+
 // @Summary Update AccountLockDate
 // @Description Update an existing AccountLockDate
 // @Tags finance-accounting
@@ -224,7 +337,21 @@ func GetAccountLockDateByIDHandler(c echo.Context) error { id, _ := strconv.Atoi
 // @Success 200 {object} map[string]interface{}
 // @Router /api/finance/accounting/accountlockdate/{id} [put]
 // @Security BearerAuth
-func UpdateAccountLockDateHandler(c echo.Context) error { id, _ := strconv.Atoi(c.Param("id")); data, err := GetAccountLockDateByIDService(uint(id)); if err != nil { return utils.SendError(c, http.StatusNotFound, "Not found", err.Error()) }; if err := c.Bind(data); err != nil { return utils.SendError(c, http.StatusBadRequest, "Invalid", err.Error()) }; if err := UpdateAccountLockDateService(data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error()) }; return utils.SendSuccess(c, http.StatusOK, "Success", data) }
+func UpdateAccountLockDateHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	data, err := GetAccountLockDateByIDService(uint(id))
+	if err != nil {
+		return utils.SendError(c, http.StatusNotFound, "Not found", err.Error())
+	}
+	if err := c.Bind(data); err != nil {
+		return utils.SendError(c, http.StatusBadRequest, "Invalid", err.Error())
+	}
+	if err := UpdateAccountLockDateService(data); err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Success", data)
+}
+
 // @Summary Delete AccountLockDate
 // @Description Delete AccountLockDate by ID
 // @Tags finance-accounting
@@ -233,7 +360,13 @@ func UpdateAccountLockDateHandler(c echo.Context) error { id, _ := strconv.Atoi(
 // @Success 200 {object} map[string]interface{}
 // @Router /api/finance/accounting/accountlockdate/{id} [delete]
 // @Security BearerAuth
-func DeleteAccountLockDateHandler(c echo.Context) error { id, _ := strconv.Atoi(c.Param("id")); if err := DeleteAccountLockDateService(uint(id)); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error()) }; return utils.SendSuccess(c, http.StatusOK, "Success", nil) }
+func DeleteAccountLockDateHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	if err := DeleteAccountLockDateService(uint(id)); err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Success", nil)
+}
 
 // @Summary Create PaymentAcquirer
 // @Description Create a new PaymentAcquirer
@@ -243,7 +376,17 @@ func DeleteAccountLockDateHandler(c echo.Context) error { id, _ := strconv.Atoi(
 // @Success 201 {object} map[string]interface{}
 // @Router /api/finance/accounting/paymentacquirer [post]
 // @Security BearerAuth
-func CreatePaymentAcquirerHandler(c echo.Context) error { var data PaymentAcquirer; if err := c.Bind(&data); err != nil { return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error()) }; if err := CreatePaymentAcquirerService(&data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error()) }; return utils.SendSuccess(c, http.StatusCreated, "Success", data) }
+func CreatePaymentAcquirerHandler(c echo.Context) error {
+	var data PaymentAcquirer
+	if err := c.Bind(&data); err != nil {
+		return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error())
+	}
+	if err := CreatePaymentAcquirerService(&data); err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusCreated, "Success", data)
+}
+
 // @Summary Get all PaymentAcquirer
 // @Description Retrieve a list of all PaymentAcquirer
 // @Tags finance-accounting
@@ -251,8 +394,22 @@ func CreatePaymentAcquirerHandler(c echo.Context) error { var data PaymentAcquir
 // @Success 200 {object} map[string]interface{}
 // @Router /api/finance/accounting/paymentacquirer [get]
 // @Security BearerAuth
-func GetAllPaymentAcquirerHandler(c echo.Context) error { data, err := GetAllPaymentAcquirerService(); if err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error()) }; return utils.SendSuccess(c, http.StatusOK, "Success", data) }
-func GetPaymentAcquirerByIDHandler(c echo.Context) error { id, _ := strconv.Atoi(c.Param("id")); data, err := GetPaymentAcquirerByIDService(uint(id)); if err != nil { return utils.SendError(c, http.StatusNotFound, "Not found", err.Error()) }; return utils.SendSuccess(c, http.StatusOK, "Success", data) }
+func GetAllPaymentAcquirerHandler(c echo.Context) error {
+	data, err := GetAllPaymentAcquirerService()
+	if err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Success", data)
+}
+func GetPaymentAcquirerByIDHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	data, err := GetPaymentAcquirerByIDService(uint(id))
+	if err != nil {
+		return utils.SendError(c, http.StatusNotFound, "Not found", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Success", data)
+}
+
 // @Summary Update PaymentAcquirer
 // @Description Update an existing PaymentAcquirer
 // @Tags finance-accounting
@@ -262,7 +419,21 @@ func GetPaymentAcquirerByIDHandler(c echo.Context) error { id, _ := strconv.Atoi
 // @Success 200 {object} map[string]interface{}
 // @Router /api/finance/accounting/paymentacquirer/{id} [put]
 // @Security BearerAuth
-func UpdatePaymentAcquirerHandler(c echo.Context) error { id, _ := strconv.Atoi(c.Param("id")); data, err := GetPaymentAcquirerByIDService(uint(id)); if err != nil { return utils.SendError(c, http.StatusNotFound, "Not found", err.Error()) }; if err := c.Bind(data); err != nil { return utils.SendError(c, http.StatusBadRequest, "Invalid", err.Error()) }; if err := UpdatePaymentAcquirerService(data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error()) }; return utils.SendSuccess(c, http.StatusOK, "Success", data) }
+func UpdatePaymentAcquirerHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	data, err := GetPaymentAcquirerByIDService(uint(id))
+	if err != nil {
+		return utils.SendError(c, http.StatusNotFound, "Not found", err.Error())
+	}
+	if err := c.Bind(data); err != nil {
+		return utils.SendError(c, http.StatusBadRequest, "Invalid", err.Error())
+	}
+	if err := UpdatePaymentAcquirerService(data); err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Success", data)
+}
+
 // @Summary Delete PaymentAcquirer
 // @Description Delete PaymentAcquirer by ID
 // @Tags finance-accounting
@@ -271,7 +442,13 @@ func UpdatePaymentAcquirerHandler(c echo.Context) error { id, _ := strconv.Atoi(
 // @Success 200 {object} map[string]interface{}
 // @Router /api/finance/accounting/paymentacquirer/{id} [delete]
 // @Security BearerAuth
-func DeletePaymentAcquirerHandler(c echo.Context) error { id, _ := strconv.Atoi(c.Param("id")); if err := DeletePaymentAcquirerService(uint(id)); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error()) }; return utils.SendSuccess(c, http.StatusOK, "Success", nil) }
+func DeletePaymentAcquirerHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	if err := DeletePaymentAcquirerService(uint(id)); err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Success", nil)
+}
 
 // @Summary Create PaymentTransaction
 // @Description Create a new PaymentTransaction
@@ -281,7 +458,17 @@ func DeletePaymentAcquirerHandler(c echo.Context) error { id, _ := strconv.Atoi(
 // @Success 201 {object} map[string]interface{}
 // @Router /api/finance/accounting/paymenttransaction [post]
 // @Security BearerAuth
-func CreatePaymentTransactionHandler(c echo.Context) error { var data PaymentTransaction; if err := c.Bind(&data); err != nil { return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error()) }; if err := CreatePaymentTransactionService(&data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error()) }; return utils.SendSuccess(c, http.StatusCreated, "Success", data) }
+func CreatePaymentTransactionHandler(c echo.Context) error {
+	var data PaymentTransaction
+	if err := c.Bind(&data); err != nil {
+		return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error())
+	}
+	if err := CreatePaymentTransactionService(&data); err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusCreated, "Success", data)
+}
+
 // @Summary Get all PaymentTransaction
 // @Description Retrieve a list of all PaymentTransaction
 // @Tags finance-accounting
@@ -289,8 +476,22 @@ func CreatePaymentTransactionHandler(c echo.Context) error { var data PaymentTra
 // @Success 200 {object} map[string]interface{}
 // @Router /api/finance/accounting/paymenttransaction [get]
 // @Security BearerAuth
-func GetAllPaymentTransactionHandler(c echo.Context) error { data, err := GetAllPaymentTransactionService(); if err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error()) }; return utils.SendSuccess(c, http.StatusOK, "Success", data) }
-func GetPaymentTransactionByIDHandler(c echo.Context) error { id, _ := strconv.Atoi(c.Param("id")); data, err := GetPaymentTransactionByIDService(uint(id)); if err != nil { return utils.SendError(c, http.StatusNotFound, "Not found", err.Error()) }; return utils.SendSuccess(c, http.StatusOK, "Success", data) }
+func GetAllPaymentTransactionHandler(c echo.Context) error {
+	data, err := GetAllPaymentTransactionService()
+	if err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Success", data)
+}
+func GetPaymentTransactionByIDHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	data, err := GetPaymentTransactionByIDService(uint(id))
+	if err != nil {
+		return utils.SendError(c, http.StatusNotFound, "Not found", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Success", data)
+}
+
 // @Summary Update PaymentTransaction
 // @Description Update an existing PaymentTransaction
 // @Tags finance-accounting
@@ -300,7 +501,21 @@ func GetPaymentTransactionByIDHandler(c echo.Context) error { id, _ := strconv.A
 // @Success 200 {object} map[string]interface{}
 // @Router /api/finance/accounting/paymenttransaction/{id} [put]
 // @Security BearerAuth
-func UpdatePaymentTransactionHandler(c echo.Context) error { id, _ := strconv.Atoi(c.Param("id")); data, err := GetPaymentTransactionByIDService(uint(id)); if err != nil { return utils.SendError(c, http.StatusNotFound, "Not found", err.Error()) }; if err := c.Bind(data); err != nil { return utils.SendError(c, http.StatusBadRequest, "Invalid", err.Error()) }; if err := UpdatePaymentTransactionService(data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error()) }; return utils.SendSuccess(c, http.StatusOK, "Success", data) }
+func UpdatePaymentTransactionHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	data, err := GetPaymentTransactionByIDService(uint(id))
+	if err != nil {
+		return utils.SendError(c, http.StatusNotFound, "Not found", err.Error())
+	}
+	if err := c.Bind(data); err != nil {
+		return utils.SendError(c, http.StatusBadRequest, "Invalid", err.Error())
+	}
+	if err := UpdatePaymentTransactionService(data); err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Success", data)
+}
+
 // @Summary Delete PaymentTransaction
 // @Description Delete PaymentTransaction by ID
 // @Tags finance-accounting
@@ -309,7 +524,13 @@ func UpdatePaymentTransactionHandler(c echo.Context) error { id, _ := strconv.At
 // @Success 200 {object} map[string]interface{}
 // @Router /api/finance/accounting/paymenttransaction/{id} [delete]
 // @Security BearerAuth
-func DeletePaymentTransactionHandler(c echo.Context) error { id, _ := strconv.Atoi(c.Param("id")); if err := DeletePaymentTransactionService(uint(id)); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error()) }; return utils.SendSuccess(c, http.StatusOK, "Success", nil) }
+func DeletePaymentTransactionHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	if err := DeletePaymentTransactionService(uint(id)); err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Success", nil)
+}
 
 // @Summary Create AccountIncoterms
 // @Description Create a new AccountIncoterms
@@ -319,7 +540,17 @@ func DeletePaymentTransactionHandler(c echo.Context) error { id, _ := strconv.At
 // @Success 201 {object} map[string]interface{}
 // @Router /api/finance/accounting/accountincoterms [post]
 // @Security BearerAuth
-func CreateAccountIncotermsHandler(c echo.Context) error { var data AccountIncoterms; if err := c.Bind(&data); err != nil { return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error()) }; if err := CreateAccountIncotermsService(&data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error()) }; return utils.SendSuccess(c, http.StatusCreated, "Success", data) }
+func CreateAccountIncotermsHandler(c echo.Context) error {
+	var data AccountIncoterms
+	if err := c.Bind(&data); err != nil {
+		return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error())
+	}
+	if err := CreateAccountIncotermsService(&data); err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusCreated, "Success", data)
+}
+
 // @Summary Get all AccountIncoterms
 // @Description Retrieve a list of all AccountIncoterms
 // @Tags finance-accounting
@@ -327,8 +558,22 @@ func CreateAccountIncotermsHandler(c echo.Context) error { var data AccountIncot
 // @Success 200 {object} map[string]interface{}
 // @Router /api/finance/accounting/accountincoterms [get]
 // @Security BearerAuth
-func GetAllAccountIncotermsHandler(c echo.Context) error { data, err := GetAllAccountIncotermsService(); if err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error()) }; return utils.SendSuccess(c, http.StatusOK, "Success", data) }
-func GetAccountIncotermsByIDHandler(c echo.Context) error { id, _ := strconv.Atoi(c.Param("id")); data, err := GetAccountIncotermsByIDService(uint(id)); if err != nil { return utils.SendError(c, http.StatusNotFound, "Not found", err.Error()) }; return utils.SendSuccess(c, http.StatusOK, "Success", data) }
+func GetAllAccountIncotermsHandler(c echo.Context) error {
+	data, err := GetAllAccountIncotermsService()
+	if err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Success", data)
+}
+func GetAccountIncotermsByIDHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	data, err := GetAccountIncotermsByIDService(uint(id))
+	if err != nil {
+		return utils.SendError(c, http.StatusNotFound, "Not found", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Success", data)
+}
+
 // @Summary Update AccountIncoterms
 // @Description Update an existing AccountIncoterms
 // @Tags finance-accounting
@@ -338,7 +583,21 @@ func GetAccountIncotermsByIDHandler(c echo.Context) error { id, _ := strconv.Ato
 // @Success 200 {object} map[string]interface{}
 // @Router /api/finance/accounting/accountincoterms/{id} [put]
 // @Security BearerAuth
-func UpdateAccountIncotermsHandler(c echo.Context) error { id, _ := strconv.Atoi(c.Param("id")); data, err := GetAccountIncotermsByIDService(uint(id)); if err != nil { return utils.SendError(c, http.StatusNotFound, "Not found", err.Error()) }; if err := c.Bind(data); err != nil { return utils.SendError(c, http.StatusBadRequest, "Invalid", err.Error()) }; if err := UpdateAccountIncotermsService(data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error()) }; return utils.SendSuccess(c, http.StatusOK, "Success", data) }
+func UpdateAccountIncotermsHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	data, err := GetAccountIncotermsByIDService(uint(id))
+	if err != nil {
+		return utils.SendError(c, http.StatusNotFound, "Not found", err.Error())
+	}
+	if err := c.Bind(data); err != nil {
+		return utils.SendError(c, http.StatusBadRequest, "Invalid", err.Error())
+	}
+	if err := UpdateAccountIncotermsService(data); err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Success", data)
+}
+
 // @Summary Delete AccountIncoterms
 // @Description Delete AccountIncoterms by ID
 // @Tags finance-accounting
@@ -347,7 +606,13 @@ func UpdateAccountIncotermsHandler(c echo.Context) error { id, _ := strconv.Atoi
 // @Success 200 {object} map[string]interface{}
 // @Router /api/finance/accounting/accountincoterms/{id} [delete]
 // @Security BearerAuth
-func DeleteAccountIncotermsHandler(c echo.Context) error { id, _ := strconv.Atoi(c.Param("id")); if err := DeleteAccountIncotermsService(uint(id)); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error()) }; return utils.SendSuccess(c, http.StatusOK, "Success", nil) }
+func DeleteAccountIncotermsHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	if err := DeleteAccountIncotermsService(uint(id)); err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Success", nil)
+}
 
 // MidtransWebhookHandler adalah CCTV 24 Jam yang menerima sinyal dari Server Midtrans
 func MidtransWebhookHandler(c echo.Context) error {
@@ -364,7 +629,7 @@ func MidtransWebhookHandler(c echo.Context) error {
 		// 2. Cari Transaksi berdasarkan OrderID (Reference)
 		var trx PaymentTransaction
 		if err := config.DB.Where("reference = ?", orderID).First(&trx).Error; err == nil {
-			
+
 			// 3. Ubah status Transaksi jadi DONE
 			trx.State = "done"
 			config.DB.Save(&trx)
@@ -381,4 +646,3 @@ func MidtransWebhookHandler(c echo.Context) error {
 	// Midtrans mewajibkan kita membalas dengan status 200 OK
 	return c.JSON(http.StatusOK, map[string]string{"status": "success"})
 }
-

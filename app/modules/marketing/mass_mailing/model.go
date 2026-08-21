@@ -1,4 +1,4 @@
-﻿package mass_mailing
+package mass_mailing
 
 import "ERP-System/config"
 
@@ -15,9 +15,11 @@ type MailingCampaign struct {
 type UtmTracker struct {
 	ID               uint    `gorm:"primaryKey" json:"id"`
 	CampaignID       uint    `json:"campaign_id"`
-	UtmSource        string  `gorm:"type:varchar(50)" json:"utm_source"` // misal: facebook
-	UtmMedium        string  `gorm:"type:varchar(50)" json:"utm_medium"` // misal: cpc
+	UtmSource        string  `gorm:"type:varchar(50)" json:"utm_source"`          // misal: facebook
+	UtmMedium        string  `gorm:"type:varchar(50)" json:"utm_medium"`          // misal: cpc
 	GeneratedRevenue float64 `gorm:"type:numeric(15,2)" json:"generated_revenue"` // Untung dari link ini
 }
 
-func init() { config.ModelsToMigrate = append(config.ModelsToMigrate, &MailingCampaign{}, &UtmTracker{}) }
+func init() {
+	config.ModelsToMigrate = append(config.ModelsToMigrate, &MailingCampaign{}, &UtmTracker{})
+}

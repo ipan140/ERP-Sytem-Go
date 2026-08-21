@@ -1,9 +1,10 @@
 package documents
 
 import (
+	"ERP-System/common/utils"
 	"net/http"
 	"strconv"
-	"ERP-System/common/utils"
+
 	"github.com/labstack/echo/v4"
 )
 
@@ -19,10 +20,10 @@ import (
 func CreateWorkspaceHandler(c echo.Context) error {
 	var data Workspace
 	if err := c.Bind(&data); err != nil {
-		return utils.SendError(c,  http.StatusBadRequest, "Invalid request payload", err.Error())
+		return utils.SendError(c, http.StatusBadRequest, "Invalid request payload", err.Error())
 	}
 	if err := CreateWorkspaceService(&data); err != nil {
-		return utils.SendError(c,  http.StatusInternalServerError, "Failed to create data", err.Error())
+		return utils.SendError(c, http.StatusInternalServerError, "Failed to create data", err.Error())
 	}
 	return utils.SendSuccess(c, http.StatusCreated, "Data created successfully", data)
 }
@@ -38,7 +39,7 @@ func CreateWorkspaceHandler(c echo.Context) error {
 func GetAllWorkspaceHandler(c echo.Context) error {
 	data, err := GetAllWorkspaceService()
 	if err != nil {
-		return utils.SendError(c,  http.StatusInternalServerError, "Failed to retrieve data", err.Error())
+		return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve data", err.Error())
 	}
 	return utils.SendSuccess(c, http.StatusOK, "Data retrieved successfully", data)
 }
@@ -56,7 +57,7 @@ func GetWorkspaceByIDHandler(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
 	data, err := GetWorkspaceByIDService(uint(id))
 	if err != nil {
-		return utils.SendError(c,  http.StatusNotFound, "Data not found", err.Error())
+		return utils.SendError(c, http.StatusNotFound, "Data not found", err.Error())
 	}
 	return utils.SendSuccess(c, http.StatusOK, "Data retrieved successfully", data)
 }
@@ -75,13 +76,13 @@ func UpdateWorkspaceHandler(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
 	data, err := GetWorkspaceByIDService(uint(id))
 	if err != nil {
-		return utils.SendError(c,  http.StatusNotFound, "Data not found", err.Error())
+		return utils.SendError(c, http.StatusNotFound, "Data not found", err.Error())
 	}
 	if err := c.Bind(data); err != nil {
-		return utils.SendError(c,  http.StatusBadRequest, "Invalid request payload", err.Error())
+		return utils.SendError(c, http.StatusBadRequest, "Invalid request payload", err.Error())
 	}
 	if err := UpdateWorkspaceService(data); err != nil {
-		return utils.SendError(c,  http.StatusInternalServerError, "Failed to update data", err.Error())
+		return utils.SendError(c, http.StatusInternalServerError, "Failed to update data", err.Error())
 	}
 	return utils.SendSuccess(c, http.StatusOK, "Data updated successfully", data)
 }
@@ -98,7 +99,7 @@ func UpdateWorkspaceHandler(c echo.Context) error {
 func DeleteWorkspaceHandler(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
 	if err := DeleteWorkspaceService(uint(id)); err != nil {
-		return utils.SendError(c,  http.StatusInternalServerError, "Failed to delete data", err.Error())
+		return utils.SendError(c, http.StatusInternalServerError, "Failed to delete data", err.Error())
 	}
 	return utils.SendSuccess(c, http.StatusOK, "Data deleted successfully", nil)
 }

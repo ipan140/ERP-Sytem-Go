@@ -50,17 +50,17 @@ type SaleOrder struct {
 }
 
 type SaleOrderLine struct {
-	ID          uint    `gorm:"primaryKey" json:"id"`
-	OrderID     uint    `json:"order_id"`
-	ProductID   uint    `json:"product_id"`
-	Description string  `gorm:"type:varchar(255)" json:"description"`
-	Quantity    float64 `gorm:"type:numeric(15,2);default:1" json:"quantity"`
+	ID           uint    `gorm:"primaryKey" json:"id"`
+	OrderID      uint    `json:"order_id"`
+	ProductID    uint    `json:"product_id"`
+	Description  string  `gorm:"type:varchar(255)" json:"description"`
+	Quantity     float64 `gorm:"type:numeric(15,2);default:1" json:"quantity"`
 	DeliveredQty float64 `gorm:"type:numeric(15,2);default:0" json:"delivered_qty"`
-	InvoicedQty float64 `gorm:"type:numeric(15,2);default:0" json:"invoiced_qty"`
-	UnitPrice   float64 `gorm:"type:numeric(15,2);default:0" json:"unit_price"`
-	Discount    float64 `gorm:"type:numeric(5,2);default:0" json:"discount"` // Percentage
-	SubTotal    float64 `gorm:"type:numeric(15,2);default:0" json:"sub_total"`
-	IsOptional  bool    `gorm:"default:false" json:"is_optional"` // Upselling item
+	InvoicedQty  float64 `gorm:"type:numeric(15,2);default:0" json:"invoiced_qty"`
+	UnitPrice    float64 `gorm:"type:numeric(15,2);default:0" json:"unit_price"`
+	Discount     float64 `gorm:"type:numeric(5,2);default:0" json:"discount"` // Percentage
+	SubTotal     float64 `gorm:"type:numeric(15,2);default:0" json:"sub_total"`
+	IsOptional   bool    `gorm:"default:false" json:"is_optional"` // Upselling item
 }
 
 func init() {

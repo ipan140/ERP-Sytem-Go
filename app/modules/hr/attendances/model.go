@@ -15,12 +15,12 @@ type Attendance struct {
 }
 
 type Overtime struct {
-	ID          uint      `gorm:"primaryKey" json:"id"`
-	EmployeeID  uint      `json:"employee_id"`
-	Date        time.Time `json:"date"`
-	Hours       float64   `gorm:"type:numeric(15,2);default:0" json:"hours"`
-	State       string    `gorm:"type:varchar(50);default:'draft'" json:"state"` // draft, approved
-	CreatedAt   time.Time `json:"created_at"`
+	ID         uint      `gorm:"primaryKey" json:"id"`
+	EmployeeID uint      `json:"employee_id"`
+	Date       time.Time `json:"date"`
+	Hours      float64   `gorm:"type:numeric(15,2);default:0" json:"hours"`
+	State      string    `gorm:"type:varchar(50);default:'draft'" json:"state"` // draft, approved
+	CreatedAt  time.Time `json:"created_at"`
 }
 
 func init() {

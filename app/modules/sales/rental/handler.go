@@ -1,9 +1,10 @@
 package rental
 
 import (
+	"ERP-System/common/utils"
 	"net/http"
 	"strconv"
-	"ERP-System/common/utils"
+
 	"github.com/labstack/echo/v4"
 )
 
@@ -113,10 +114,15 @@ func DeleteRentalOrderHandler(c echo.Context) error {
 // @Security BearerAuth
 func CreateRentalOrderLineHandler(c echo.Context) error {
 	var data RentalOrderLine
-	if err := c.Bind(&data); err != nil { return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error()) }
-	if err := CreateRentalOrderLineService(&data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to create", err.Error()) }
+	if err := c.Bind(&data); err != nil {
+		return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error())
+	}
+	if err := CreateRentalOrderLineService(&data); err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed to create", err.Error())
+	}
 	return utils.SendSuccess(c, http.StatusCreated, "Created successfully", data)
 }
+
 // @Summary Get all RentalOrderLine
 // @Description Retrieve a list of all RentalOrderLine
 // @Tags sales-rental
@@ -126,15 +132,20 @@ func CreateRentalOrderLineHandler(c echo.Context) error {
 // @Security BearerAuth
 func GetAllRentalOrderLineHandler(c echo.Context) error {
 	data, err := GetAllRentalOrderLineService()
-	if err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve", err.Error()) }
+	if err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve", err.Error())
+	}
 	return utils.SendSuccess(c, http.StatusOK, "Retrieved successfully", data)
 }
 func GetRentalOrderLineByIDHandler(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
 	data, err := GetRentalOrderLineByIDService(uint(id))
-	if err != nil { return utils.SendError(c, http.StatusNotFound, "Not found", err.Error()) }
+	if err != nil {
+		return utils.SendError(c, http.StatusNotFound, "Not found", err.Error())
+	}
 	return utils.SendSuccess(c, http.StatusOK, "Retrieved successfully", data)
 }
+
 // @Summary Update RentalOrderLine
 // @Description Update an existing RentalOrderLine
 // @Tags sales-rental
@@ -147,11 +158,18 @@ func GetRentalOrderLineByIDHandler(c echo.Context) error {
 func UpdateRentalOrderLineHandler(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
 	data, err := GetRentalOrderLineByIDService(uint(id))
-	if err != nil { return utils.SendError(c, http.StatusNotFound, "Not found", err.Error()) }
-	if err := c.Bind(data); err != nil { return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error()) }
-	if err := UpdateRentalOrderLineService(data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to update", err.Error()) }
+	if err != nil {
+		return utils.SendError(c, http.StatusNotFound, "Not found", err.Error())
+	}
+	if err := c.Bind(data); err != nil {
+		return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error())
+	}
+	if err := UpdateRentalOrderLineService(data); err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed to update", err.Error())
+	}
 	return utils.SendSuccess(c, http.StatusOK, "Updated successfully", data)
 }
+
 // @Summary Delete RentalOrderLine
 // @Description Delete RentalOrderLine by ID
 // @Tags sales-rental
@@ -162,6 +180,8 @@ func UpdateRentalOrderLineHandler(c echo.Context) error {
 // @Security BearerAuth
 func DeleteRentalOrderLineHandler(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
-	if err := DeleteRentalOrderLineService(uint(id)); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to delete", err.Error()) }
+	if err := DeleteRentalOrderLineService(uint(id)); err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed to delete", err.Error())
+	}
 	return utils.SendSuccess(c, http.StatusOK, "Deleted successfully", nil)
 }

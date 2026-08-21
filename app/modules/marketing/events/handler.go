@@ -1,9 +1,10 @@
 package events
 
 import (
+	"ERP-System/common/utils"
 	"net/http"
 	"strconv"
-	"ERP-System/common/utils"
+
 	"github.com/labstack/echo/v4"
 )
 
@@ -111,7 +112,17 @@ func DeleteEventHandler(c echo.Context) error {
 // @Success 201 {object} map[string]interface{}
 // @Router /api/marketing/events/eventticket [post]
 // @Security BearerAuth
-func CreateEventTicketHandler(c echo.Context) error { var data EventTicket; if err := c.Bind(&data); err != nil { return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error()) }; if err := CreateEventTicketService(&data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error()) }; return utils.SendSuccess(c, http.StatusCreated, "Success", data) }
+func CreateEventTicketHandler(c echo.Context) error {
+	var data EventTicket
+	if err := c.Bind(&data); err != nil {
+		return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error())
+	}
+	if err := CreateEventTicketService(&data); err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusCreated, "Success", data)
+}
+
 // @Summary Get all EventTicket
 // @Description Retrieve a list of all EventTicket
 // @Tags marketing-events
@@ -119,8 +130,22 @@ func CreateEventTicketHandler(c echo.Context) error { var data EventTicket; if e
 // @Success 200 {object} map[string]interface{}
 // @Router /api/marketing/events/eventticket [get]
 // @Security BearerAuth
-func GetAllEventTicketHandler(c echo.Context) error { data, err := GetAllEventTicketService(); if err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error()) }; return utils.SendSuccess(c, http.StatusOK, "Success", data) }
-func GetEventTicketByIDHandler(c echo.Context) error { id, _ := strconv.Atoi(c.Param("id")); data, err := GetEventTicketByIDService(uint(id)); if err != nil { return utils.SendError(c, http.StatusNotFound, "Not found", err.Error()) }; return utils.SendSuccess(c, http.StatusOK, "Success", data) }
+func GetAllEventTicketHandler(c echo.Context) error {
+	data, err := GetAllEventTicketService()
+	if err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Success", data)
+}
+func GetEventTicketByIDHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	data, err := GetEventTicketByIDService(uint(id))
+	if err != nil {
+		return utils.SendError(c, http.StatusNotFound, "Not found", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Success", data)
+}
+
 // @Summary Update EventTicket
 // @Description Update an existing EventTicket
 // @Tags marketing-events
@@ -130,7 +155,21 @@ func GetEventTicketByIDHandler(c echo.Context) error { id, _ := strconv.Atoi(c.P
 // @Success 200 {object} map[string]interface{}
 // @Router /api/marketing/events/eventticket/{id} [put]
 // @Security BearerAuth
-func UpdateEventTicketHandler(c echo.Context) error { id, _ := strconv.Atoi(c.Param("id")); data, err := GetEventTicketByIDService(uint(id)); if err != nil { return utils.SendError(c, http.StatusNotFound, "Not found", err.Error()) }; if err := c.Bind(data); err != nil { return utils.SendError(c, http.StatusBadRequest, "Invalid", err.Error()) }; if err := UpdateEventTicketService(data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error()) }; return utils.SendSuccess(c, http.StatusOK, "Success", data) }
+func UpdateEventTicketHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	data, err := GetEventTicketByIDService(uint(id))
+	if err != nil {
+		return utils.SendError(c, http.StatusNotFound, "Not found", err.Error())
+	}
+	if err := c.Bind(data); err != nil {
+		return utils.SendError(c, http.StatusBadRequest, "Invalid", err.Error())
+	}
+	if err := UpdateEventTicketService(data); err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Success", data)
+}
+
 // @Summary Delete EventTicket
 // @Description Delete EventTicket by ID
 // @Tags marketing-events
@@ -139,5 +178,10 @@ func UpdateEventTicketHandler(c echo.Context) error { id, _ := strconv.Atoi(c.Pa
 // @Success 200 {object} map[string]interface{}
 // @Router /api/marketing/events/eventticket/{id} [delete]
 // @Security BearerAuth
-func DeleteEventTicketHandler(c echo.Context) error { id, _ := strconv.Atoi(c.Param("id")); if err := DeleteEventTicketService(uint(id)); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error()) }; return utils.SendSuccess(c, http.StatusOK, "Success", nil) }
-
+func DeleteEventTicketHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	if err := DeleteEventTicketService(uint(id)); err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Success", nil)
+}

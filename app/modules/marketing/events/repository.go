@@ -29,8 +29,15 @@ func DeleteEvent(id uint) error {
 }
 
 func CreateEventTicket(data *EventTicket) error { return config.DB.Create(data).Error }
-func GetAllEventTicket() ([]EventTicket, error) { var list []EventTicket; err := config.DB.Find(&list).Error; return list, err }
-func GetEventTicketByID(id uint) (*EventTicket, error) { var data EventTicket; err := config.DB.First(&data, id).Error; return &data, err }
+func GetAllEventTicket() ([]EventTicket, error) {
+	var list []EventTicket
+	err := config.DB.Find(&list).Error
+	return list, err
+}
+func GetEventTicketByID(id uint) (*EventTicket, error) {
+	var data EventTicket
+	err := config.DB.First(&data, id).Error
+	return &data, err
+}
 func UpdateEventTicket(data *EventTicket) error { return config.DB.Save(data).Error }
-func DeleteEventTicket(id uint) error { return config.DB.Delete(&EventTicket{}, id).Error }
-
+func DeleteEventTicket(id uint) error           { return config.DB.Delete(&EventTicket{}, id).Error }

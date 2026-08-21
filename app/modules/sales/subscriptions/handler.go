@@ -1,9 +1,10 @@
 package subscriptions
 
 import (
+	"ERP-System/common/utils"
 	"net/http"
 	"strconv"
-	"ERP-System/common/utils"
+
 	"github.com/labstack/echo/v4"
 )
 
@@ -113,10 +114,15 @@ func DeleteSubscriptionHandler(c echo.Context) error {
 // @Security BearerAuth
 func CreateSubscriptionPlanHandler(c echo.Context) error {
 	var data SubscriptionPlan
-	if err := c.Bind(&data); err != nil { return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error()) }
-	if err := CreateSubscriptionPlanService(&data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to create", err.Error()) }
+	if err := c.Bind(&data); err != nil {
+		return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error())
+	}
+	if err := CreateSubscriptionPlanService(&data); err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed to create", err.Error())
+	}
 	return utils.SendSuccess(c, http.StatusCreated, "Created successfully", data)
 }
+
 // @Summary Get all SubscriptionPlan
 // @Description Retrieve a list of all SubscriptionPlan
 // @Tags sales-subscriptions
@@ -126,15 +132,20 @@ func CreateSubscriptionPlanHandler(c echo.Context) error {
 // @Security BearerAuth
 func GetAllSubscriptionPlanHandler(c echo.Context) error {
 	data, err := GetAllSubscriptionPlanService()
-	if err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve", err.Error()) }
+	if err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve", err.Error())
+	}
 	return utils.SendSuccess(c, http.StatusOK, "Retrieved successfully", data)
 }
 func GetSubscriptionPlanByIDHandler(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
 	data, err := GetSubscriptionPlanByIDService(uint(id))
-	if err != nil { return utils.SendError(c, http.StatusNotFound, "Not found", err.Error()) }
+	if err != nil {
+		return utils.SendError(c, http.StatusNotFound, "Not found", err.Error())
+	}
 	return utils.SendSuccess(c, http.StatusOK, "Retrieved successfully", data)
 }
+
 // @Summary Update SubscriptionPlan
 // @Description Update an existing SubscriptionPlan
 // @Tags sales-subscriptions
@@ -147,11 +158,18 @@ func GetSubscriptionPlanByIDHandler(c echo.Context) error {
 func UpdateSubscriptionPlanHandler(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
 	data, err := GetSubscriptionPlanByIDService(uint(id))
-	if err != nil { return utils.SendError(c, http.StatusNotFound, "Not found", err.Error()) }
-	if err := c.Bind(data); err != nil { return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error()) }
-	if err := UpdateSubscriptionPlanService(data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to update", err.Error()) }
+	if err != nil {
+		return utils.SendError(c, http.StatusNotFound, "Not found", err.Error())
+	}
+	if err := c.Bind(data); err != nil {
+		return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error())
+	}
+	if err := UpdateSubscriptionPlanService(data); err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed to update", err.Error())
+	}
 	return utils.SendSuccess(c, http.StatusOK, "Updated successfully", data)
 }
+
 // @Summary Delete SubscriptionPlan
 // @Description Delete SubscriptionPlan by ID
 // @Tags sales-subscriptions
@@ -162,6 +180,8 @@ func UpdateSubscriptionPlanHandler(c echo.Context) error {
 // @Security BearerAuth
 func DeleteSubscriptionPlanHandler(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
-	if err := DeleteSubscriptionPlanService(uint(id)); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to delete", err.Error()) }
+	if err := DeleteSubscriptionPlanService(uint(id)); err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed to delete", err.Error())
+	}
 	return utils.SendSuccess(c, http.StatusOK, "Deleted successfully", nil)
 }

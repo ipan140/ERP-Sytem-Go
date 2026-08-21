@@ -58,38 +58,60 @@ func GetGeneralLedgerService() ([]LedgerResult, error) {
 	return results, nil
 }
 
-func CreateAccountReconcileModelService(data *AccountReconcileModel) error { return CreateAccountReconcileModel(data) }
-func GetAllAccountReconcileModelService() ([]AccountReconcileModel, error) { return GetAllAccountReconcileModel() }
-func GetAccountReconcileModelByIDService(id uint) (*AccountReconcileModel, error) { return GetAccountReconcileModelByID(id) }
-func UpdateAccountReconcileModelService(data *AccountReconcileModel) error { return UpdateAccountReconcileModel(data) }
+func CreateAccountReconcileModelService(data *AccountReconcileModel) error {
+	return CreateAccountReconcileModel(data)
+}
+func GetAllAccountReconcileModelService() ([]AccountReconcileModel, error) {
+	return GetAllAccountReconcileModel()
+}
+func GetAccountReconcileModelByIDService(id uint) (*AccountReconcileModel, error) {
+	return GetAccountReconcileModelByID(id)
+}
+func UpdateAccountReconcileModelService(data *AccountReconcileModel) error {
+	return UpdateAccountReconcileModel(data)
+}
 func DeleteAccountReconcileModelService(id uint) error { return DeleteAccountReconcileModel(id) }
 
-func CreateFollowupRuleService(data *FollowupRule) error { return CreateFollowupRule(data) }
-func GetAllFollowupRuleService() ([]FollowupRule, error) { return GetAllFollowupRule() }
+func CreateFollowupRuleService(data *FollowupRule) error        { return CreateFollowupRule(data) }
+func GetAllFollowupRuleService() ([]FollowupRule, error)        { return GetAllFollowupRule() }
 func GetFollowupRuleByIDService(id uint) (*FollowupRule, error) { return GetFollowupRuleByID(id) }
-func UpdateFollowupRuleService(data *FollowupRule) error { return UpdateFollowupRule(data) }
-func DeleteFollowupRuleService(id uint) error { return DeleteFollowupRule(id) }
+func UpdateFollowupRuleService(data *FollowupRule) error        { return UpdateFollowupRule(data) }
+func DeleteFollowupRuleService(id uint) error                   { return DeleteFollowupRule(id) }
 
 func CreateAccountLockDateService(data *AccountLockDate) error { return CreateAccountLockDate(data) }
 func GetAllAccountLockDateService() ([]AccountLockDate, error) { return GetAllAccountLockDate() }
-func GetAccountLockDateByIDService(id uint) (*AccountLockDate, error) { return GetAccountLockDateByID(id) }
+func GetAccountLockDateByIDService(id uint) (*AccountLockDate, error) {
+	return GetAccountLockDateByID(id)
+}
 func UpdateAccountLockDateService(data *AccountLockDate) error { return UpdateAccountLockDate(data) }
-func DeleteAccountLockDateService(id uint) error { return DeleteAccountLockDate(id) }
+func DeleteAccountLockDateService(id uint) error               { return DeleteAccountLockDate(id) }
 
 func CreatePaymentAcquirerService(data *PaymentAcquirer) error { return CreatePaymentAcquirer(data) }
 func GetAllPaymentAcquirerService() ([]PaymentAcquirer, error) { return GetAllPaymentAcquirer() }
-func GetPaymentAcquirerByIDService(id uint) (*PaymentAcquirer, error) { return GetPaymentAcquirerByID(id) }
+func GetPaymentAcquirerByIDService(id uint) (*PaymentAcquirer, error) {
+	return GetPaymentAcquirerByID(id)
+}
 func UpdatePaymentAcquirerService(data *PaymentAcquirer) error { return UpdatePaymentAcquirer(data) }
-func DeletePaymentAcquirerService(id uint) error { return DeletePaymentAcquirer(id) }
+func DeletePaymentAcquirerService(id uint) error               { return DeletePaymentAcquirer(id) }
 
-func CreatePaymentTransactionService(data *PaymentTransaction) error { return CreatePaymentTransaction(data) }
-func GetAllPaymentTransactionService() ([]PaymentTransaction, error) { return GetAllPaymentTransaction() }
-func GetPaymentTransactionByIDService(id uint) (*PaymentTransaction, error) { return GetPaymentTransactionByID(id) }
-func UpdatePaymentTransactionService(data *PaymentTransaction) error { return UpdatePaymentTransaction(data) }
+func CreatePaymentTransactionService(data *PaymentTransaction) error {
+	return CreatePaymentTransaction(data)
+}
+func GetAllPaymentTransactionService() ([]PaymentTransaction, error) {
+	return GetAllPaymentTransaction()
+}
+func GetPaymentTransactionByIDService(id uint) (*PaymentTransaction, error) {
+	return GetPaymentTransactionByID(id)
+}
+func UpdatePaymentTransactionService(data *PaymentTransaction) error {
+	return UpdatePaymentTransaction(data)
+}
 func DeletePaymentTransactionService(id uint) error { return DeletePaymentTransaction(id) }
 
 func CreateAccountIncotermsService(data *AccountIncoterms) error { return CreateAccountIncoterms(data) }
 func GetAllAccountIncotermsService() ([]AccountIncoterms, error) { return GetAllAccountIncoterms() }
-func GetAccountIncotermsByIDService(id uint) (*AccountIncoterms, error) { return GetAccountIncotermsByID(id) }
+func GetAccountIncotermsByIDService(id uint) (*AccountIncoterms, error) {
+	return GetAccountIncotermsByID(id)
+}
 func UpdateAccountIncotermsService(data *AccountIncoterms) error { return UpdateAccountIncoterms(data) }
-func DeleteAccountIncotermsService(id uint) error { return DeleteAccountIncoterms(id) }
+func DeleteAccountIncotermsService(id uint) error                { return DeleteAccountIncoterms(id) }

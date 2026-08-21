@@ -1,4 +1,4 @@
-﻿package marketing_automation
+package marketing_automation
 
 import "fmt"
 

@@ -1,7 +1,5 @@
 package ecommerce
 
-
-
 import (
 	"ERP-System/config"
 	"time"
@@ -17,12 +15,12 @@ type PortalUser struct {
 
 // 8. Abandoned Cart Recovery (Penyelamat Keranjang)
 type ShoppingCart struct {
-	ID          uint      `gorm:"primaryKey" json:"id"`
-	CustomerID  *uint     `json:"customer_id"`
-	SessionID   string    `gorm:"type:varchar(255)" json:"session_id"`
-	IsAbandoned bool      `gorm:"default:false" json:"is_abandoned"`
-	RecoverySent bool     `gorm:"default:false" json:"recovery_sent"`
-	UpdatedAt   time.Time `json:"updated_at"`
+	ID           uint      `gorm:"primaryKey" json:"id"`
+	CustomerID   *uint     `json:"customer_id"`
+	SessionID    string    `gorm:"type:varchar(255)" json:"session_id"`
+	IsAbandoned  bool      `gorm:"default:false" json:"is_abandoned"`
+	RecoverySent bool      `gorm:"default:false" json:"recovery_sent"`
+	UpdatedAt    time.Time `json:"updated_at"`
 }
 
 type CartItem struct {
@@ -36,6 +34,6 @@ func init() {
 	config.ModelsToMigrate = append(config.ModelsToMigrate, &PortalUser{}, &ShoppingCart{}, &CartItem{})
 }
 
-
-type Cart struct { ID uint `gorm:"primaryKey"` }
-
+type Cart struct {
+	ID uint `gorm:"primaryKey"`
+}

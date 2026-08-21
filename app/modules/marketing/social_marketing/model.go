@@ -1,4 +1,4 @@
-﻿package social_marketing
+package social_marketing
 
 import "ERP-System/config"
 

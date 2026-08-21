@@ -173,12 +173,22 @@ func AutoSwapTax(invoiceLine *InvoiceLine, isForeignCustomer bool) {
 
 func CreatePaymentTermLineService(data *PaymentTermLine) error { return CreatePaymentTermLine(data) }
 func GetAllPaymentTermLineService() ([]PaymentTermLine, error) { return GetAllPaymentTermLine() }
-func GetPaymentTermLineByIDService(id uint) (*PaymentTermLine, error) { return GetPaymentTermLineByID(id) }
+func GetPaymentTermLineByIDService(id uint) (*PaymentTermLine, error) {
+	return GetPaymentTermLineByID(id)
+}
 func UpdatePaymentTermLineService(data *PaymentTermLine) error { return UpdatePaymentTermLine(data) }
-func DeletePaymentTermLineService(id uint) error { return DeletePaymentTermLine(id) }
+func DeletePaymentTermLineService(id uint) error               { return DeletePaymentTermLine(id) }
 
-func CreateTaxRepartitionLineService(data *TaxRepartitionLine) error { return CreateTaxRepartitionLine(data) }
-func GetAllTaxRepartitionLineService() ([]TaxRepartitionLine, error) { return GetAllTaxRepartitionLine() }
-func GetTaxRepartitionLineByIDService(id uint) (*TaxRepartitionLine, error) { return GetTaxRepartitionLineByID(id) }
-func UpdateTaxRepartitionLineService(data *TaxRepartitionLine) error { return UpdateTaxRepartitionLine(data) }
+func CreateTaxRepartitionLineService(data *TaxRepartitionLine) error {
+	return CreateTaxRepartitionLine(data)
+}
+func GetAllTaxRepartitionLineService() ([]TaxRepartitionLine, error) {
+	return GetAllTaxRepartitionLine()
+}
+func GetTaxRepartitionLineByIDService(id uint) (*TaxRepartitionLine, error) {
+	return GetTaxRepartitionLineByID(id)
+}
+func UpdateTaxRepartitionLineService(data *TaxRepartitionLine) error {
+	return UpdateTaxRepartitionLine(data)
+}
 func DeleteTaxRepartitionLineService(id uint) error { return DeleteTaxRepartitionLine(id) }

@@ -1,9 +1,10 @@
 package ecommerce
 
 import (
+	"ERP-System/common/utils"
 	"net/http"
 	"strconv"
-	"ERP-System/common/utils"
+
 	"github.com/labstack/echo/v4"
 )
 
@@ -111,7 +112,17 @@ func DeleteCartHandler(c echo.Context) error {
 // @Success 201 {object} map[string]interface{}
 // @Router /api/website/ecommerce/portaluser [post]
 // @Security BearerAuth
-func CreatePortalUserHandler(c echo.Context) error { var data PortalUser; if err := c.Bind(&data); err != nil { return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error()) }; if err := CreatePortalUserService(&data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error()) }; return utils.SendSuccess(c, http.StatusCreated, "Success", data) }
+func CreatePortalUserHandler(c echo.Context) error {
+	var data PortalUser
+	if err := c.Bind(&data); err != nil {
+		return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error())
+	}
+	if err := CreatePortalUserService(&data); err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusCreated, "Success", data)
+}
+
 // @Summary Get all PortalUser
 // @Description Retrieve a list of all PortalUser
 // @Tags website-ecommerce
@@ -119,8 +130,22 @@ func CreatePortalUserHandler(c echo.Context) error { var data PortalUser; if err
 // @Success 200 {object} map[string]interface{}
 // @Router /api/website/ecommerce/portaluser [get]
 // @Security BearerAuth
-func GetAllPortalUserHandler(c echo.Context) error { data, err := GetAllPortalUserService(); if err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error()) }; return utils.SendSuccess(c, http.StatusOK, "Success", data) }
-func GetPortalUserByIDHandler(c echo.Context) error { id, _ := strconv.Atoi(c.Param("id")); data, err := GetPortalUserByIDService(uint(id)); if err != nil { return utils.SendError(c, http.StatusNotFound, "Not found", err.Error()) }; return utils.SendSuccess(c, http.StatusOK, "Success", data) }
+func GetAllPortalUserHandler(c echo.Context) error {
+	data, err := GetAllPortalUserService()
+	if err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Success", data)
+}
+func GetPortalUserByIDHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	data, err := GetPortalUserByIDService(uint(id))
+	if err != nil {
+		return utils.SendError(c, http.StatusNotFound, "Not found", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Success", data)
+}
+
 // @Summary Update PortalUser
 // @Description Update an existing PortalUser
 // @Tags website-ecommerce
@@ -130,7 +155,21 @@ func GetPortalUserByIDHandler(c echo.Context) error { id, _ := strconv.Atoi(c.Pa
 // @Success 200 {object} map[string]interface{}
 // @Router /api/website/ecommerce/portaluser/{id} [put]
 // @Security BearerAuth
-func UpdatePortalUserHandler(c echo.Context) error { id, _ := strconv.Atoi(c.Param("id")); data, err := GetPortalUserByIDService(uint(id)); if err != nil { return utils.SendError(c, http.StatusNotFound, "Not found", err.Error()) }; if err := c.Bind(data); err != nil { return utils.SendError(c, http.StatusBadRequest, "Invalid", err.Error()) }; if err := UpdatePortalUserService(data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error()) }; return utils.SendSuccess(c, http.StatusOK, "Success", data) }
+func UpdatePortalUserHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	data, err := GetPortalUserByIDService(uint(id))
+	if err != nil {
+		return utils.SendError(c, http.StatusNotFound, "Not found", err.Error())
+	}
+	if err := c.Bind(data); err != nil {
+		return utils.SendError(c, http.StatusBadRequest, "Invalid", err.Error())
+	}
+	if err := UpdatePortalUserService(data); err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Success", data)
+}
+
 // @Summary Delete PortalUser
 // @Description Delete PortalUser by ID
 // @Tags website-ecommerce
@@ -139,7 +178,13 @@ func UpdatePortalUserHandler(c echo.Context) error { id, _ := strconv.Atoi(c.Par
 // @Success 200 {object} map[string]interface{}
 // @Router /api/website/ecommerce/portaluser/{id} [delete]
 // @Security BearerAuth
-func DeletePortalUserHandler(c echo.Context) error { id, _ := strconv.Atoi(c.Param("id")); if err := DeletePortalUserService(uint(id)); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error()) }; return utils.SendSuccess(c, http.StatusOK, "Success", nil) }
+func DeletePortalUserHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	if err := DeletePortalUserService(uint(id)); err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Success", nil)
+}
 
 // @Summary Create ShoppingCart
 // @Description Create a new ShoppingCart
@@ -149,7 +194,17 @@ func DeletePortalUserHandler(c echo.Context) error { id, _ := strconv.Atoi(c.Par
 // @Success 201 {object} map[string]interface{}
 // @Router /api/website/ecommerce/shoppingcart [post]
 // @Security BearerAuth
-func CreateShoppingCartHandler(c echo.Context) error { var data ShoppingCart; if err := c.Bind(&data); err != nil { return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error()) }; if err := CreateShoppingCartService(&data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error()) }; return utils.SendSuccess(c, http.StatusCreated, "Success", data) }
+func CreateShoppingCartHandler(c echo.Context) error {
+	var data ShoppingCart
+	if err := c.Bind(&data); err != nil {
+		return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error())
+	}
+	if err := CreateShoppingCartService(&data); err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusCreated, "Success", data)
+}
+
 // @Summary Get all ShoppingCart
 // @Description Retrieve a list of all ShoppingCart
 // @Tags website-ecommerce
@@ -157,8 +212,22 @@ func CreateShoppingCartHandler(c echo.Context) error { var data ShoppingCart; if
 // @Success 200 {object} map[string]interface{}
 // @Router /api/website/ecommerce/shoppingcart [get]
 // @Security BearerAuth
-func GetAllShoppingCartHandler(c echo.Context) error { data, err := GetAllShoppingCartService(); if err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error()) }; return utils.SendSuccess(c, http.StatusOK, "Success", data) }
-func GetShoppingCartByIDHandler(c echo.Context) error { id, _ := strconv.Atoi(c.Param("id")); data, err := GetShoppingCartByIDService(uint(id)); if err != nil { return utils.SendError(c, http.StatusNotFound, "Not found", err.Error()) }; return utils.SendSuccess(c, http.StatusOK, "Success", data) }
+func GetAllShoppingCartHandler(c echo.Context) error {
+	data, err := GetAllShoppingCartService()
+	if err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Success", data)
+}
+func GetShoppingCartByIDHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	data, err := GetShoppingCartByIDService(uint(id))
+	if err != nil {
+		return utils.SendError(c, http.StatusNotFound, "Not found", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Success", data)
+}
+
 // @Summary Update ShoppingCart
 // @Description Update an existing ShoppingCart
 // @Tags website-ecommerce
@@ -168,7 +237,21 @@ func GetShoppingCartByIDHandler(c echo.Context) error { id, _ := strconv.Atoi(c.
 // @Success 200 {object} map[string]interface{}
 // @Router /api/website/ecommerce/shoppingcart/{id} [put]
 // @Security BearerAuth
-func UpdateShoppingCartHandler(c echo.Context) error { id, _ := strconv.Atoi(c.Param("id")); data, err := GetShoppingCartByIDService(uint(id)); if err != nil { return utils.SendError(c, http.StatusNotFound, "Not found", err.Error()) }; if err := c.Bind(data); err != nil { return utils.SendError(c, http.StatusBadRequest, "Invalid", err.Error()) }; if err := UpdateShoppingCartService(data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error()) }; return utils.SendSuccess(c, http.StatusOK, "Success", data) }
+func UpdateShoppingCartHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	data, err := GetShoppingCartByIDService(uint(id))
+	if err != nil {
+		return utils.SendError(c, http.StatusNotFound, "Not found", err.Error())
+	}
+	if err := c.Bind(data); err != nil {
+		return utils.SendError(c, http.StatusBadRequest, "Invalid", err.Error())
+	}
+	if err := UpdateShoppingCartService(data); err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Success", data)
+}
+
 // @Summary Delete ShoppingCart
 // @Description Delete ShoppingCart by ID
 // @Tags website-ecommerce
@@ -177,7 +260,13 @@ func UpdateShoppingCartHandler(c echo.Context) error { id, _ := strconv.Atoi(c.P
 // @Success 200 {object} map[string]interface{}
 // @Router /api/website/ecommerce/shoppingcart/{id} [delete]
 // @Security BearerAuth
-func DeleteShoppingCartHandler(c echo.Context) error { id, _ := strconv.Atoi(c.Param("id")); if err := DeleteShoppingCartService(uint(id)); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error()) }; return utils.SendSuccess(c, http.StatusOK, "Success", nil) }
+func DeleteShoppingCartHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	if err := DeleteShoppingCartService(uint(id)); err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Success", nil)
+}
 
 // @Summary Create CartItem
 // @Description Create a new CartItem
@@ -187,7 +276,17 @@ func DeleteShoppingCartHandler(c echo.Context) error { id, _ := strconv.Atoi(c.P
 // @Success 201 {object} map[string]interface{}
 // @Router /api/website/ecommerce/cartitem [post]
 // @Security BearerAuth
-func CreateCartItemHandler(c echo.Context) error { var data CartItem; if err := c.Bind(&data); err != nil { return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error()) }; if err := CreateCartItemService(&data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error()) }; return utils.SendSuccess(c, http.StatusCreated, "Success", data) }
+func CreateCartItemHandler(c echo.Context) error {
+	var data CartItem
+	if err := c.Bind(&data); err != nil {
+		return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error())
+	}
+	if err := CreateCartItemService(&data); err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusCreated, "Success", data)
+}
+
 // @Summary Get all CartItem
 // @Description Retrieve a list of all CartItem
 // @Tags website-ecommerce
@@ -195,8 +294,22 @@ func CreateCartItemHandler(c echo.Context) error { var data CartItem; if err := 
 // @Success 200 {object} map[string]interface{}
 // @Router /api/website/ecommerce/cartitem [get]
 // @Security BearerAuth
-func GetAllCartItemHandler(c echo.Context) error { data, err := GetAllCartItemService(); if err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error()) }; return utils.SendSuccess(c, http.StatusOK, "Success", data) }
-func GetCartItemByIDHandler(c echo.Context) error { id, _ := strconv.Atoi(c.Param("id")); data, err := GetCartItemByIDService(uint(id)); if err != nil { return utils.SendError(c, http.StatusNotFound, "Not found", err.Error()) }; return utils.SendSuccess(c, http.StatusOK, "Success", data) }
+func GetAllCartItemHandler(c echo.Context) error {
+	data, err := GetAllCartItemService()
+	if err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Success", data)
+}
+func GetCartItemByIDHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	data, err := GetCartItemByIDService(uint(id))
+	if err != nil {
+		return utils.SendError(c, http.StatusNotFound, "Not found", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Success", data)
+}
+
 // @Summary Update CartItem
 // @Description Update an existing CartItem
 // @Tags website-ecommerce
@@ -206,7 +319,21 @@ func GetCartItemByIDHandler(c echo.Context) error { id, _ := strconv.Atoi(c.Para
 // @Success 200 {object} map[string]interface{}
 // @Router /api/website/ecommerce/cartitem/{id} [put]
 // @Security BearerAuth
-func UpdateCartItemHandler(c echo.Context) error { id, _ := strconv.Atoi(c.Param("id")); data, err := GetCartItemByIDService(uint(id)); if err != nil { return utils.SendError(c, http.StatusNotFound, "Not found", err.Error()) }; if err := c.Bind(data); err != nil { return utils.SendError(c, http.StatusBadRequest, "Invalid", err.Error()) }; if err := UpdateCartItemService(data); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error()) }; return utils.SendSuccess(c, http.StatusOK, "Success", data) }
+func UpdateCartItemHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	data, err := GetCartItemByIDService(uint(id))
+	if err != nil {
+		return utils.SendError(c, http.StatusNotFound, "Not found", err.Error())
+	}
+	if err := c.Bind(data); err != nil {
+		return utils.SendError(c, http.StatusBadRequest, "Invalid", err.Error())
+	}
+	if err := UpdateCartItemService(data); err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Success", data)
+}
+
 // @Summary Delete CartItem
 // @Description Delete CartItem by ID
 // @Tags website-ecommerce
@@ -215,5 +342,10 @@ func UpdateCartItemHandler(c echo.Context) error { id, _ := strconv.Atoi(c.Param
 // @Success 200 {object} map[string]interface{}
 // @Router /api/website/ecommerce/cartitem/{id} [delete]
 // @Security BearerAuth
-func DeleteCartItemHandler(c echo.Context) error { id, _ := strconv.Atoi(c.Param("id")); if err := DeleteCartItemService(uint(id)); err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error()) }; return utils.SendSuccess(c, http.StatusOK, "Success", nil) }
-
+func DeleteCartItemHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	if err := DeleteCartItemService(uint(id)); err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Success", nil)
+}

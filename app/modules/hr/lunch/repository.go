@@ -29,7 +29,15 @@ func DeleteLunchOrder(id uint) error {
 }
 
 func CreateLunchCashmove(data *LunchCashmove) error { return config.DB.Create(data).Error }
-func GetAllLunchCashmove() ([]LunchCashmove, error) { var list []LunchCashmove; err := config.DB.Find(&list).Error; return list, err }
-func GetLunchCashmoveByID(id uint) (*LunchCashmove, error) { var data LunchCashmove; err := config.DB.First(&data, id).Error; return &data, err }
+func GetAllLunchCashmove() ([]LunchCashmove, error) {
+	var list []LunchCashmove
+	err := config.DB.Find(&list).Error
+	return list, err
+}
+func GetLunchCashmoveByID(id uint) (*LunchCashmove, error) {
+	var data LunchCashmove
+	err := config.DB.First(&data, id).Error
+	return &data, err
+}
 func UpdateLunchCashmove(data *LunchCashmove) error { return config.DB.Save(data).Error }
-func DeleteLunchCashmove(id uint) error { return config.DB.Delete(&LunchCashmove{}, id).Error }
+func DeleteLunchCashmove(id uint) error             { return config.DB.Delete(&LunchCashmove{}, id).Error }

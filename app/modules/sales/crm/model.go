@@ -6,11 +6,11 @@ import (
 )
 
 type SalesTeam struct {
-	ID             uint      `gorm:"primaryKey" json:"id"`
-	Name           string    `gorm:"type:varchar(100);not null" json:"name"`
-	ManagerID      *uint     `json:"manager_id"` // HR Employee ID
-	InvoicingTarget float64  `gorm:"type:numeric(15,2);default:0" json:"invoicing_target"`
-	CreatedAt      time.Time `json:"created_at"`
+	ID              uint      `gorm:"primaryKey" json:"id"`
+	Name            string    `gorm:"type:varchar(100);not null" json:"name"`
+	ManagerID       *uint     `json:"manager_id"` // HR Employee ID
+	InvoicingTarget float64   `gorm:"type:numeric(15,2);default:0" json:"invoicing_target"`
+	CreatedAt       time.Time `json:"created_at"`
 }
 
 type Stage struct {

@@ -7,7 +7,7 @@ import (
 
 type SalaryRule struct {
 	ID   uint   `gorm:"primaryKey" json:"id"`
-	Name string `gorm:"type:varchar(255);not null" json:"name"` // e.g. Basic Salary, Tax Deduction
+	Name string `gorm:"type:varchar(255);not null" json:"name"`       // e.g. Basic Salary, Tax Deduction
 	Code string `gorm:"type:varchar(50);not null;unique" json:"code"` // BASIC, TAX
 }
 

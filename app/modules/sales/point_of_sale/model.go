@@ -40,16 +40,16 @@ type PosOrderLine struct {
 }
 
 type PosPayment struct {
-	ID        uint    `gorm:"primaryKey" json:"id"`
-	OrderID   uint    `json:"order_id"`
-	Method    string  `gorm:"type:varchar(50);not null" json:"method"` // Cash, Bank, QRIS
-	Amount    float64 `gorm:"type:numeric(15,2);not null" json:"amount"`
+	ID      uint    `gorm:"primaryKey" json:"id"`
+	OrderID uint    `json:"order_id"`
+	Method  string  `gorm:"type:varchar(50);not null" json:"method"` // Cash, Bank, QRIS
+	Amount  float64 `gorm:"type:numeric(15,2);not null" json:"amount"`
 }
 
 type LoyaltyProgram struct {
-	ID        uint   `gorm:"primaryKey" json:"id"`
-	Name      string `gorm:"type:varchar(255);not null" json:"name"` // e.g. Buy 2 Get 1, Points
-	Type      string `gorm:"type:varchar(50);not null" json:"type"`  // promotion, coupon, loyalty
+	ID   uint   `gorm:"primaryKey" json:"id"`
+	Name string `gorm:"type:varchar(255);not null" json:"name"` // e.g. Buy 2 Get 1, Points
+	Type string `gorm:"type:varchar(50);not null" json:"type"`  // promotion, coupon, loyalty
 }
 
 func init() {

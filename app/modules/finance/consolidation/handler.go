@@ -2,8 +2,9 @@ package consolidation
 
 import (
 	"ERP-System/common/utils"
-	"github.com/labstack/echo/v4"
 	"net/http"
+
+	"github.com/labstack/echo/v4"
 )
 
 // GenerateConsolidationHandler godoc

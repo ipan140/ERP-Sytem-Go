@@ -1,7 +1,5 @@
 package events
 
-
-
 import "ERP-System/config"
 
 // 5. Event Ticketing & Barcode
@@ -15,6 +13,6 @@ type EventTicket struct {
 
 func init() { config.ModelsToMigrate = append(config.ModelsToMigrate, &EventTicket{}) }
 
-
-type Event struct { ID uint `gorm:"primaryKey"` }
-
+type Event struct {
+	ID uint `gorm:"primaryKey"`
+}
