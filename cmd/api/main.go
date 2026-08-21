@@ -16,6 +16,7 @@ import (
 	"ERP-System/app/modules/core/report"
 	"ERP-System/app/modules/core/storage"
 	"ERP-System/app/modules/core/user_roles"
+	"ERP-System/app/modules/core/permissions"
 	"ERP-System/app/modules/core/voip"
 	"ERP-System/app/modules/core/whatsapp"
 	"ERP-System/app/modules/finance/accounting"
@@ -107,6 +108,7 @@ func main() {
 	artificial_intelligence.RegisterRoutes(e)
 	storage.RegisterRoutes(e)
 	user_roles.RegisterRoutes(e)
+	permissions.RegisterRoutes(e)
 	report.RegisterRoutes(e)
 	mailer.RegisterRoutes(e)
 	accounting.RegisterRoutes(e)
@@ -212,6 +214,7 @@ const ui = SwaggerUIBundle({
   presets: [SwaggerUIBundle.presets.apis, SwaggerUIBundle.SwaggerUIStandalonePreset],
   layout: "BaseLayout",
   persistAuthorization: true,
+  defaultModelsExpandDepth: -1, // Menyembunyikan section 'Models' di bagian bawah
   onComplete: function() {
     if (savedToken) {
       ui.preauthorizeApiKey("BearerAuth", "Bearer " + savedToken);
@@ -251,4 +254,6 @@ function showBanner() {
 </html>`
 	return c.HTML(200, html)
 }
+
+
 

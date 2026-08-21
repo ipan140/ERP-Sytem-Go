@@ -19296,6 +19296,173 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/core/permissions": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve a list of all role permissions and their toggle states",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Core - Permissions (Dynamic RBAC)"
+                ],
+                "summary": "Get all role permissions",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/core/permissions/modules": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve a list of all ERP modules available for permission toggling",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Core - Permissions (Dynamic RBAC)"
+                ],
+                "summary": "Get list of available modules",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/core/permissions/toggle": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Turn a permission (read, write, delete) ON or OFF for a specific role and module",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Core - Permissions (Dynamic RBAC)"
+                ],
+                "summary": "Toggle a specific permission",
+                "parameters": [
+                    {
+                        "description": "Toggle Request Payload",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/permissions.TogglePermissionRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/core/user_roles": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve a list of all users and their assigned roles (Superadmin only)",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Core - User Roles"
+                ],
+                "summary": "Get all users with their roles",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/core/user_roles/assign": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Assign multiple roles to a specific user by their ID (Superadmin only)",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Core - User Roles"
+                ],
+                "summary": "Assign roles to a user",
+                "parameters": [
+                    {
+                        "description": "Assign Role Request Payload",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/user_roles.AssignRoleRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -19311,6 +19478,48 @@ const docTemplate = `{
                 },
                 "password": {
                     "type": "string"
+                }
+            }
+        },
+        "permissions.TogglePermissionRequest": {
+            "type": "object",
+            "required": [
+                "action",
+                "module",
+                "role_name"
+            ],
+            "properties": {
+                "action": {
+                    "description": "\"read\", \"write\", \"delete\"",
+                    "type": "string"
+                },
+                "module": {
+                    "type": "string"
+                },
+                "role_name": {
+                    "type": "string"
+                },
+                "value": {
+                    "description": "true (On) / false (Off)",
+                    "type": "boolean"
+                }
+            }
+        },
+        "user_roles.AssignRoleRequest": {
+            "type": "object",
+            "required": [
+                "roles",
+                "user_id"
+            ],
+            "properties": {
+                "roles": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "user_id": {
+                    "type": "integer"
                 }
             }
         }
