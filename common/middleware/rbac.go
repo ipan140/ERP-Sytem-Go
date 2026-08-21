@@ -10,24 +10,19 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-// RequireRoles adalah Satpam Utama.
 // Fungsi ini menerima daftar role apa saja yang diperbolehkan masuk ke rute tertentu.
 func RequireRoles(allowedRoles ...constants.Role) echo.MiddlewareFunc {
 	return func(next echo.HandlerFunc) echo.HandlerFunc {
 		return func(c echo.Context) error {
-			// 1. Ambil data role user dari Token (JWT) yang sedang login.
-			// Biasanya saat login, role disimpan di JWT Claims.
-			// Untuk contoh ini, kita asumsikan Anda menyimpannya dalam header atau konteks.
+			// 1. Ambil data role user dari Context (diset otomatis oleh middleware Auth JWT)
+			roleVal := c.Get("role")
+			if roleVal == nil {
+				return utils.SendError(c, http.StatusUnauthorized, "Akses Ditolak", "Anda belum login atau sesi telah habis.")
+			}
 
-			// Misal Anda mengambilnya dari context yang di-set oleh JWT Middleware:
-			// userClaims := c.Get("user").(*jwt.Token).Claims.(*JwtCustomClaims)
-			// userRoles := userClaims.Roles
-
-			// SIMULASI SEMENTARA: Kita ambil dari Header "X-User-Roles"
-			// (Ganti bagian ini nanti dengan penarikan JWT sungguhan Anda)
-			roleString := c.Request().Header.Get("X-User-Roles")
-			if roleString == "" {
-				return utils.SendError(c, http.StatusUnauthorized, "Akses Ditolak", "Anda belum login atau tidak memiliki tiket akses.")
+			roleString, ok := roleVal.(string)
+			if !ok || roleString == "" {
+				return utils.SendError(c, http.StatusUnauthorized, "Akses Ditolak", "Role tidak valid atau kosong.")
 			}
 
 			// Anggap satu user bisa punya banyak role (dipisah koma)
@@ -35,7 +30,7 @@ func RequireRoles(allowedRoles ...constants.Role) echo.MiddlewareFunc {
 
 			// 2. Jika dia adalah SUPERADMIN, selalu izinkan masuk tanpa periksa lagi!
 			for _, userRole := range userRoles {
-				if userRole == string(constants.RoleSuperadmin) {
+				if strings.TrimSpace(userRole) == string(constants.RoleSuperadmin) {
 					return next(c)
 				}
 			}
