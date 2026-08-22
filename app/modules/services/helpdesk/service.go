@@ -1,7 +1,20 @@
 package helpdesk
 
+import (
+	"encoding/json"
+	"log"
+
+	"ERP-System/pkg/rabbitmq"
+)
+
 func CreateTicketService(data *Ticket) error {
-	return CreateTicket(data)
+	err := CreateTicket(data)
+	if err == nil && rabbitmq.Channel != nil {
+		body, _ := json.Marshal(data)
+		_ = rabbitmq.PublishDelayedEvent(rabbitmq.Channel, "services_sla_escalation", body, 14400000) // 4 jam delay
+		log.Println("🚨 Event RabbitMQ: Timer SLA 4 Jam dimulai untuk Tiket Baru!")
+	}
+	return err
 }
 
 func GetAllTicketService() ([]Ticket, error) {

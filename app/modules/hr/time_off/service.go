@@ -1,7 +1,21 @@
 package time_off
 
+import (
+	"encoding/json"
+	"log"
+
+	"ERP-System/pkg/rabbitmq"
+)
+
 func CreateLeaveRequestService(data *LeaveRequest) error {
-	return CreateLeaveRequest(data)
+	err := CreateLeaveRequest(data)
+	if err == nil && rabbitmq.Channel != nil {
+		// Asumsi saat karyawan membuat pengajuan cuti pertama kali
+		body, _ := json.Marshal(data)
+		_ = rabbitmq.PublishEvent(rabbitmq.Channel, "hr_leave_notification", body)
+		log.Println("📨 Event RabbitMQ: Pengajuan Cuti Baru dikirim ke antrean!")
+	}
+	return err
 }
 
 func GetAllLeaveRequestService() ([]LeaveRequest, error) {
@@ -13,7 +27,14 @@ func GetLeaveRequestByIDService(id uint) (*LeaveRequest, error) {
 }
 
 func UpdateLeaveRequestService(data *LeaveRequest) error {
-	return UpdateLeaveRequest(data)
+	err := UpdateLeaveRequest(data)
+	if err == nil && rabbitmq.Channel != nil {
+		// Asumsi saat HR menyetujui/menolak pengajuan cuti
+		body, _ := json.Marshal(data)
+		_ = rabbitmq.PublishEvent(rabbitmq.Channel, "hr_leave_notification", body)
+		log.Println("📨 Event RabbitMQ: Update Status Cuti dikirim ke antrean!")
+	}
+	return err
 }
 
 func DeleteLeaveRequestService(id uint) error {

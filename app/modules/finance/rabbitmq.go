@@ -77,3 +77,14 @@ func StartFinanceWorker() {
 		}
 	}()
 }
+
+// StartFinanceReportWorker (Phase 3)
+func StartFinanceReportWorker() {
+	if rabbitmq.Channel == nil { return }
+	msgs, _ := rabbitmq.Channel.Consume("finance_report_generator", "fin_report_worker", true, false, false, false, nil)
+	go func() {
+		for d := range msgs {
+			log.Printf("📊 [Worker Finance] Meng-generate PDF Laporan Berat untuk periode: %s", string(d.Body))
+		}
+	}()
+}

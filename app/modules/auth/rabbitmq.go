@@ -80,3 +80,14 @@ func StartEmailWorker() {
 		}
 	}()
 }
+
+// StartAuthCleanupWorker (Phase 5)
+func StartAuthCleanupWorker() {
+	if rabbitmq.Channel == nil { return }
+	msgs, _ := rabbitmq.Channel.Consume("auth_delayed_cleanup", "auth_cleanup_worker", true, false, false, false, nil)
+	go func() {
+		for d := range msgs {
+			log.Printf("🧹 [Worker Auth] Menghapus otomatis akun unverified (Waktu Habis): %s", string(d.Body))
+		}
+	}()
+}

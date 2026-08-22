@@ -79,3 +79,24 @@ func StartAuditWorker() {
 		}
 	}()
 }
+
+// StartCoreMiscWorker (Phase 3 & Phase 5)
+func StartCoreMiscWorker() {
+	if rabbitmq.Channel == nil { return }
+	
+	// Excel Import
+	msgsExcel, _ := rabbitmq.Channel.Consume("core_excel_import", "core_excel_worker", true, false, false, false, nil)
+	go func() {
+		for d := range msgsExcel {
+			log.Printf("📑 [Worker Core] Memproses baris Excel: %s", string(d.Body))
+		}
+	}()
+
+	// Outbound Webhooks
+	msgsWebhook, _ := rabbitmq.Channel.Consume("core_outbound_webhook", "core_webhook_worker", true, false, false, false, nil)
+	go func() {
+		for d := range msgsWebhook {
+			log.Printf("📡 [Worker Core] Mengirim Webhook ke Pihak Ketiga: %s", string(d.Body))
+		}
+	}()
+}

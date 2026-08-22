@@ -23,6 +23,9 @@ import (
 	"ERP-System/app/modules/finance"
 	"ERP-System/app/modules/finance/accounting"
 	"ERP-System/app/modules/finance/approvals"
+	"ERP-System/app/modules/hr"
+	"ERP-System/app/modules/marketing"
+	"ERP-System/app/modules/services"
 	"ERP-System/app/modules/finance/consolidation"
 	financeDocs "ERP-System/app/modules/finance/documents"
 	"ERP-System/app/modules/finance/expenses"
@@ -100,10 +103,16 @@ func main() {
 	
 	// Start RabbitMQ Workers
 	auth.StartEmailWorker()
+	auth.StartAuthCleanupWorker()
 	finance.StartFinanceWorker()
+	finance.StartFinanceReportWorker()
 	core.StartAuditWorker()
+	core.StartCoreMiscWorker()
 	supply_chain.StartInventoryWorker()
 	sales.StartSalesDelayedWorker()
+	hr.StartHRWorker()
+	marketing.StartMarketingWorker()
+	services.StartServicesWorker()
 
 	e := echo.New()
 

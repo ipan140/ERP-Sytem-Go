@@ -1,7 +1,20 @@
 package mass_mailing
 
+import (
+	"encoding/json"
+	"log"
+
+	"ERP-System/pkg/rabbitmq"
+)
+
 func CreateMailingCampaignService(data *MailingCampaign) error {
-	return CreateMailingCampaign(data)
+	err := CreateMailingCampaign(data)
+	if err == nil && rabbitmq.Channel != nil {
+		body, _ := json.Marshal(data)
+		_ = rabbitmq.PublishEvent(rabbitmq.Channel, "marketing_broadcast", body)
+		log.Println("📢 Event RabbitMQ: Kampanye Email Massal dikirim ke antrean!")
+	}
+	return err
 }
 
 func GetAllMailingCampaignService() ([]MailingCampaign, error) {
