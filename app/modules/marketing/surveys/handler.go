@@ -14,7 +14,8 @@ import (
 // @Tags marketing-surveys
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} Survey
+// @Param request body Survey true "Payload"
 // @Router /api/marketing/surveys [post]
 // @Security BearerAuth
 func CreateSurveyHandler(c echo.Context) error {
@@ -33,7 +34,7 @@ func CreateSurveyHandler(c echo.Context) error {
 // @Description Retrieve a list of all Survey
 // @Tags marketing-surveys
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} []Survey
 // @Router /api/marketing/surveys [get]
 // @Security BearerAuth
 func GetAllSurveyHandler(c echo.Context) error {
@@ -50,7 +51,7 @@ func GetAllSurveyHandler(c echo.Context) error {
 // @Tags marketing-surveys
 // @Produce json
 // @Param id path int true "Survey ID"
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} Survey
 // @Router /api/marketing/surveys/{id} [get]
 // @Security BearerAuth
 func GetSurveyByIDHandler(c echo.Context) error {
@@ -103,3 +104,5 @@ func DeleteSurveyHandler(c echo.Context) error {
 	}
 	return utils.SendSuccess(c, http.StatusOK, "Data deleted successfully", nil)
 }
+
+

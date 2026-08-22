@@ -14,7 +14,8 @@ import (
 // @Tags finance-approvals
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} ApprovalRequest
+// @Param request body ApprovalRequest true "Payload"
 // @Router /api/finance/approvals [post]
 // @Security BearerAuth
 func CreateApprovalRequestHandler(c echo.Context) error {
@@ -33,7 +34,7 @@ func CreateApprovalRequestHandler(c echo.Context) error {
 // @Description Retrieve a list of all ApprovalRequest
 // @Tags finance-approvals
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} []ApprovalRequest
 // @Router /api/finance/approvals [get]
 // @Security BearerAuth
 func GetAllApprovalRequestHandler(c echo.Context) error {
@@ -50,7 +51,7 @@ func GetAllApprovalRequestHandler(c echo.Context) error {
 // @Tags finance-approvals
 // @Produce json
 // @Param id path int true "ApprovalRequest ID"
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} ApprovalRequest
 // @Router /api/finance/approvals/{id} [get]
 // @Security BearerAuth
 func GetApprovalRequestByIDHandler(c echo.Context) error {
@@ -103,3 +104,5 @@ func DeleteApprovalRequestHandler(c echo.Context) error {
 	}
 	return utils.SendSuccess(c, http.StatusOK, "Data deleted successfully", nil)
 }
+
+

@@ -14,7 +14,8 @@ import (
 // @Tags hr-employees
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} Employee
+// @Param request body Employee true "Payload"
 // @Router /api/hr/employees [post]
 // @Security BearerAuth
 func CreateEmployeeHandler(c echo.Context) error {
@@ -33,7 +34,7 @@ func CreateEmployeeHandler(c echo.Context) error {
 // @Description Retrieve a list of all Employee
 // @Tags hr-employees
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} []Employee
 // @Router /api/hr/employees [get]
 // @Security BearerAuth
 func GetAllEmployeeHandler(c echo.Context) error {
@@ -50,7 +51,7 @@ func GetAllEmployeeHandler(c echo.Context) error {
 // @Tags hr-employees
 // @Produce json
 // @Param id path int true "Employee ID"
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} Employee
 // @Router /api/hr/employees/{id} [get]
 // @Security BearerAuth
 func GetEmployeeByIDHandler(c echo.Context) error {
@@ -69,7 +70,7 @@ func GetEmployeeByIDHandler(c echo.Context) error {
 // @Accept json
 // @Produce json
 // @Param id path int true "Employee ID"
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} Employee
 // @Router /api/hr/employees/{id} [put]
 // @Security BearerAuth
 func UpdateEmployeeHandler(c echo.Context) error {
@@ -109,7 +110,8 @@ func DeleteEmployeeHandler(c echo.Context) error {
 // @Tags hr-employees
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} JobPosition
+// @Param request body JobPosition true "Payload"
 // @Router /api/hr/employees/jobposition [post]
 // @Security BearerAuth
 func CreateJobPositionHandler(c echo.Context) error {
@@ -127,7 +129,7 @@ func CreateJobPositionHandler(c echo.Context) error {
 // @Description Retrieve a list of all JobPosition
 // @Tags hr-employees
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} JobPosition
 // @Router /api/hr/employees/jobposition [get]
 // @Security BearerAuth
 func GetAllJobPositionHandler(c echo.Context) error {
@@ -152,7 +154,7 @@ func GetJobPositionByIDHandler(c echo.Context) error {
 // @Accept json
 // @Produce json
 // @Param id path int true "JobPosition ID"
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} JobPosition
 // @Router /api/hr/employees/jobposition/{id} [put]
 // @Security BearerAuth
 func UpdateJobPositionHandler(c echo.Context) error {
@@ -191,7 +193,8 @@ func DeleteJobPositionHandler(c echo.Context) error {
 // @Tags hr-employees
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} WorkingSchedule
+// @Param request body WorkingSchedule true "Payload"
 // @Router /api/hr/employees/workingschedule [post]
 // @Security BearerAuth
 func CreateWorkingScheduleHandler(c echo.Context) error {
@@ -209,7 +212,7 @@ func CreateWorkingScheduleHandler(c echo.Context) error {
 // @Description Retrieve a list of all WorkingSchedule
 // @Tags hr-employees
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} WorkingSchedule
 // @Router /api/hr/employees/workingschedule [get]
 // @Security BearerAuth
 func GetAllWorkingScheduleHandler(c echo.Context) error {
@@ -234,7 +237,7 @@ func GetWorkingScheduleByIDHandler(c echo.Context) error {
 // @Accept json
 // @Produce json
 // @Param id path int true "WorkingSchedule ID"
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} WorkingSchedule
 // @Router /api/hr/employees/workingschedule/{id} [put]
 // @Security BearerAuth
 func UpdateWorkingScheduleHandler(c echo.Context) error {
@@ -273,7 +276,8 @@ func DeleteWorkingScheduleHandler(c echo.Context) error {
 // @Tags hr-employees
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} Contract
+// @Param request body Contract true "Payload"
 // @Router /api/hr/employees/contract [post]
 // @Security BearerAuth
 func CreateContractHandler(c echo.Context) error {
@@ -291,7 +295,7 @@ func CreateContractHandler(c echo.Context) error {
 // @Description Retrieve a list of all Contract
 // @Tags hr-employees
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} Contract
 // @Router /api/hr/employees/contract [get]
 // @Security BearerAuth
 func GetAllContractHandler(c echo.Context) error {
@@ -316,7 +320,7 @@ func GetContractByIDHandler(c echo.Context) error {
 // @Accept json
 // @Produce json
 // @Param id path int true "Contract ID"
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} Contract
 // @Router /api/hr/employees/contract/{id} [put]
 // @Security BearerAuth
 func UpdateContractHandler(c echo.Context) error {
@@ -355,7 +359,8 @@ func DeleteContractHandler(c echo.Context) error {
 // @Tags hr-employees
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} Skill
+// @Param request body Skill true "Payload"
 // @Router /api/hr/employees/skill [post]
 // @Security BearerAuth
 func CreateSkillHandler(c echo.Context) error {
@@ -373,7 +378,7 @@ func CreateSkillHandler(c echo.Context) error {
 // @Description Retrieve a list of all Skill
 // @Tags hr-employees
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} Skill
 // @Router /api/hr/employees/skill [get]
 // @Security BearerAuth
 func GetAllSkillHandler(c echo.Context) error {
@@ -398,7 +403,7 @@ func GetSkillByIDHandler(c echo.Context) error {
 // @Accept json
 // @Produce json
 // @Param id path int true "Skill ID"
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} Skill
 // @Router /api/hr/employees/skill/{id} [put]
 // @Security BearerAuth
 func UpdateSkillHandler(c echo.Context) error {
@@ -437,7 +442,8 @@ func DeleteSkillHandler(c echo.Context) error {
 // @Tags hr-employees
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} SkillLevel
+// @Param request body SkillLevel true "Payload"
 // @Router /api/hr/employees/skilllevel [post]
 // @Security BearerAuth
 func CreateSkillLevelHandler(c echo.Context) error {
@@ -455,7 +461,7 @@ func CreateSkillLevelHandler(c echo.Context) error {
 // @Description Retrieve a list of all SkillLevel
 // @Tags hr-employees
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} SkillLevel
 // @Router /api/hr/employees/skilllevel [get]
 // @Security BearerAuth
 func GetAllSkillLevelHandler(c echo.Context) error {
@@ -480,7 +486,7 @@ func GetSkillLevelByIDHandler(c echo.Context) error {
 // @Accept json
 // @Produce json
 // @Param id path int true "SkillLevel ID"
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} SkillLevel
 // @Router /api/hr/employees/skilllevel/{id} [put]
 // @Security BearerAuth
 func UpdateSkillLevelHandler(c echo.Context) error {
@@ -519,7 +525,8 @@ func DeleteSkillLevelHandler(c echo.Context) error {
 // @Tags hr-employees
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} EmployeeSkill
+// @Param request body EmployeeSkill true "Payload"
 // @Router /api/hr/employees/employeeskill [post]
 // @Security BearerAuth
 func CreateEmployeeSkillHandler(c echo.Context) error {
@@ -537,7 +544,7 @@ func CreateEmployeeSkillHandler(c echo.Context) error {
 // @Description Retrieve a list of all EmployeeSkill
 // @Tags hr-employees
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} EmployeeSkill
 // @Router /api/hr/employees/employeeskill [get]
 // @Security BearerAuth
 func GetAllEmployeeSkillHandler(c echo.Context) error {
@@ -562,7 +569,8 @@ func GetEmployeeSkillByIDHandler(c echo.Context) error {
 // @Accept json
 // @Produce json
 // @Param id path int true "EmployeeSkill ID"
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} EmployeeSkill
+// @Param request body EmployeeSkill true "Payload"
 // @Router /api/hr/employees/employeeskill/{id} [put]
 // @Security BearerAuth
 func UpdateEmployeeSkillHandler(c echo.Context) error {
@@ -601,7 +609,8 @@ func DeleteEmployeeSkillHandler(c echo.Context) error {
 // @Tags hr-employees
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} ResumeLine
+// @Param request body ResumeLine true "Payload"
 // @Router /api/hr/employees/resumeline [post]
 // @Security BearerAuth
 func CreateResumeLineHandler(c echo.Context) error {
@@ -619,7 +628,7 @@ func CreateResumeLineHandler(c echo.Context) error {
 // @Description Retrieve a list of all ResumeLine
 // @Tags hr-employees
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} ResumeLine
 // @Router /api/hr/employees/resumeline [get]
 // @Security BearerAuth
 func GetAllResumeLineHandler(c echo.Context) error {
@@ -644,7 +653,7 @@ func GetResumeLineByIDHandler(c echo.Context) error {
 // @Accept json
 // @Produce json
 // @Param id path int true "ResumeLine ID"
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} ResumeLine
 // @Router /api/hr/employees/resumeline/{id} [put]
 // @Security BearerAuth
 func UpdateResumeLineHandler(c echo.Context) error {
@@ -677,3 +686,6 @@ func DeleteResumeLineHandler(c echo.Context) error {
 	}
 	return utils.SendSuccess(c, http.StatusOK, "Deleted successfully", nil)
 }
+
+
+

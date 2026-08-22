@@ -14,7 +14,8 @@ import (
 // @Tags finance-documents
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} FinanceDocument
+// @Param request body FinanceDocument true "Payload"
 // @Router /api/finance/documents [post]
 // @Security BearerAuth
 func CreateFinanceDocumentHandler(c echo.Context) error {
@@ -33,7 +34,7 @@ func CreateFinanceDocumentHandler(c echo.Context) error {
 // @Description Retrieve a list of all FinanceDocument
 // @Tags finance-documents
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} []FinanceDocument
 // @Router /api/finance/documents [get]
 // @Security BearerAuth
 func GetAllFinanceDocumentHandler(c echo.Context) error {
@@ -50,7 +51,7 @@ func GetAllFinanceDocumentHandler(c echo.Context) error {
 // @Tags finance-documents
 // @Produce json
 // @Param id path int true "FinanceDocument ID"
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} FinanceDocument
 // @Router /api/finance/documents/{id} [get]
 // @Security BearerAuth
 func GetFinanceDocumentByIDHandler(c echo.Context) error {
@@ -103,3 +104,5 @@ func DeleteFinanceDocumentHandler(c echo.Context) error {
 	}
 	return utils.SendSuccess(c, http.StatusOK, "Data deleted successfully", nil)
 }
+
+

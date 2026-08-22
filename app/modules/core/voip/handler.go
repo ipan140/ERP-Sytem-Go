@@ -14,7 +14,8 @@ import (
 // @Tags voip
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} CallRecord
+// @Param request body CallRecord true "Payload"
 // @Router /api/voip [post]
 // @Security BearerAuth
 func CreateCallRecordHandler(c echo.Context) error {
@@ -33,7 +34,7 @@ func CreateCallRecordHandler(c echo.Context) error {
 // @Description Retrieve a list of all CallRecord
 // @Tags voip
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} []CallRecord
 // @Router /api/voip [get]
 // @Security BearerAuth
 func GetAllCallRecordHandler(c echo.Context) error {
@@ -50,7 +51,7 @@ func GetAllCallRecordHandler(c echo.Context) error {
 // @Tags voip
 // @Produce json
 // @Param id path int true "CallRecord ID"
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} CallRecord
 // @Router /api/voip/{id} [get]
 // @Security BearerAuth
 func GetCallRecordByIDHandler(c echo.Context) error {
@@ -103,3 +104,5 @@ func DeleteCallRecordHandler(c echo.Context) error {
 	}
 	return utils.SendSuccess(c, http.StatusOK, "Data deleted successfully", nil)
 }
+
+

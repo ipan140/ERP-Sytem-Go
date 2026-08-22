@@ -14,7 +14,8 @@ import (
 // @Tags marketing-mass_mailing
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} MailingCampaign
+// @Param request body MailingCampaign true "Payload"
 // @Router /api/marketing/mass_mailing [post]
 // @Security BearerAuth
 func CreateMailingCampaignHandler(c echo.Context) error {
@@ -33,7 +34,7 @@ func CreateMailingCampaignHandler(c echo.Context) error {
 // @Description Retrieve a list of all MailingCampaign
 // @Tags marketing-mass_mailing
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} []MailingCampaign
 // @Router /api/marketing/mass_mailing [get]
 // @Security BearerAuth
 func GetAllMailingCampaignHandler(c echo.Context) error {
@@ -50,7 +51,7 @@ func GetAllMailingCampaignHandler(c echo.Context) error {
 // @Tags marketing-mass_mailing
 // @Produce json
 // @Param id path int true "MailingCampaign ID"
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} MailingCampaign
 // @Router /api/marketing/mass_mailing/{id} [get]
 // @Security BearerAuth
 func GetMailingCampaignByIDHandler(c echo.Context) error {
@@ -109,7 +110,8 @@ func DeleteMailingCampaignHandler(c echo.Context) error {
 // @Tags marketing-mass_mailing
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} UtmTracker
+// @Param request body UtmTracker true "Payload"
 // @Router /api/marketing/mass_mailing/utmtracker [post]
 // @Security BearerAuth
 func CreateUtmTrackerHandler(c echo.Context) error {
@@ -127,7 +129,7 @@ func CreateUtmTrackerHandler(c echo.Context) error {
 // @Description Retrieve a list of all UtmTracker
 // @Tags marketing-mass_mailing
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} UtmTracker
 // @Router /api/marketing/mass_mailing/utmtracker [get]
 // @Security BearerAuth
 func GetAllUtmTrackerHandler(c echo.Context) error {
@@ -185,3 +187,5 @@ func DeleteUtmTrackerHandler(c echo.Context) error {
 	}
 	return utils.SendSuccess(c, http.StatusOK, "Success", nil)
 }
+
+

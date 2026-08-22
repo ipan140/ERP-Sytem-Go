@@ -14,7 +14,8 @@ import (
 // @Tags hr-fleet
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} Vehicle
+// @Param request body Vehicle true "Payload"
 // @Router /api/hr/fleet [post]
 // @Security BearerAuth
 func CreateVehicleHandler(c echo.Context) error {
@@ -33,7 +34,7 @@ func CreateVehicleHandler(c echo.Context) error {
 // @Description Retrieve a list of all Vehicle
 // @Tags hr-fleet
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} []Vehicle
 // @Router /api/hr/fleet [get]
 // @Security BearerAuth
 func GetAllVehicleHandler(c echo.Context) error {
@@ -50,7 +51,7 @@ func GetAllVehicleHandler(c echo.Context) error {
 // @Tags hr-fleet
 // @Produce json
 // @Param id path int true "Vehicle ID"
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} Vehicle
 // @Router /api/hr/fleet/{id} [get]
 // @Security BearerAuth
 func GetVehicleByIDHandler(c echo.Context) error {
@@ -109,7 +110,8 @@ func DeleteVehicleHandler(c echo.Context) error {
 // @Tags hr-fleet
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} VehicleLogContract
+// @Param request body VehicleLogContract true "Payload"
 // @Router /api/hr/fleet/vehiclelogcontract [post]
 // @Security BearerAuth
 func CreateVehicleLogContractHandler(c echo.Context) error {
@@ -127,7 +129,7 @@ func CreateVehicleLogContractHandler(c echo.Context) error {
 // @Description Retrieve a list of all VehicleLogContract
 // @Tags hr-fleet
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} VehicleLogContract
 // @Router /api/hr/fleet/vehiclelogcontract [get]
 // @Security BearerAuth
 func GetAllVehicleLogContractHandler(c echo.Context) error {
@@ -191,7 +193,8 @@ func DeleteVehicleLogContractHandler(c echo.Context) error {
 // @Tags hr-fleet
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} VehicleLogFuel
+// @Param request body VehicleLogFuel true "Payload"
 // @Router /api/hr/fleet/vehiclelogfuel [post]
 // @Security BearerAuth
 func CreateVehicleLogFuelHandler(c echo.Context) error {
@@ -209,7 +212,7 @@ func CreateVehicleLogFuelHandler(c echo.Context) error {
 // @Description Retrieve a list of all VehicleLogFuel
 // @Tags hr-fleet
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} VehicleLogFuel
 // @Router /api/hr/fleet/vehiclelogfuel [get]
 // @Security BearerAuth
 func GetAllVehicleLogFuelHandler(c echo.Context) error {
@@ -273,7 +276,8 @@ func DeleteVehicleLogFuelHandler(c echo.Context) error {
 // @Tags hr-fleet
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} VehicleLogServices
+// @Param request body VehicleLogServices true "Payload"
 // @Router /api/hr/fleet/vehiclelogservices [post]
 // @Security BearerAuth
 func CreateVehicleLogServicesHandler(c echo.Context) error {
@@ -291,7 +295,7 @@ func CreateVehicleLogServicesHandler(c echo.Context) error {
 // @Description Retrieve a list of all VehicleLogServices
 // @Tags hr-fleet
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} VehicleLogServices
 // @Router /api/hr/fleet/vehiclelogservices [get]
 // @Security BearerAuth
 func GetAllVehicleLogServicesHandler(c echo.Context) error {
@@ -349,3 +353,5 @@ func DeleteVehicleLogServicesHandler(c echo.Context) error {
 	}
 	return utils.SendSuccess(c, http.StatusOK, "Deleted successfully", nil)
 }
+
+

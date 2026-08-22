@@ -14,7 +14,8 @@ import (
 // @Tags marketing-marketing_automation
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} AutomationCampaign
+// @Param request body AutomationCampaign true "Payload"
 // @Router /api/marketing/marketing_automation [post]
 // @Security BearerAuth
 func CreateAutomationCampaignHandler(c echo.Context) error {
@@ -33,7 +34,7 @@ func CreateAutomationCampaignHandler(c echo.Context) error {
 // @Description Retrieve a list of all AutomationCampaign
 // @Tags marketing-marketing_automation
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} []AutomationCampaign
 // @Router /api/marketing/marketing_automation [get]
 // @Security BearerAuth
 func GetAllAutomationCampaignHandler(c echo.Context) error {
@@ -50,7 +51,7 @@ func GetAllAutomationCampaignHandler(c echo.Context) error {
 // @Tags marketing-marketing_automation
 // @Produce json
 // @Param id path int true "AutomationCampaign ID"
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} AutomationCampaign
 // @Router /api/marketing/marketing_automation/{id} [get]
 // @Security BearerAuth
 func GetAutomationCampaignByIDHandler(c echo.Context) error {
@@ -109,7 +110,8 @@ func DeleteAutomationCampaignHandler(c echo.Context) error {
 // @Tags marketing-marketing_automation
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} WorkflowActivity
+// @Param request body WorkflowActivity true "Payload"
 // @Router /api/marketing/marketing_automation/workflowactivity [post]
 // @Security BearerAuth
 func CreateWorkflowActivityHandler(c echo.Context) error {
@@ -127,7 +129,7 @@ func CreateWorkflowActivityHandler(c echo.Context) error {
 // @Description Retrieve a list of all WorkflowActivity
 // @Tags marketing-marketing_automation
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} WorkflowActivity
 // @Router /api/marketing/marketing_automation/workflowactivity [get]
 // @Security BearerAuth
 func GetAllWorkflowActivityHandler(c echo.Context) error {
@@ -185,3 +187,5 @@ func DeleteWorkflowActivityHandler(c echo.Context) error {
 	}
 	return utils.SendSuccess(c, http.StatusOK, "Success", nil)
 }
+
+

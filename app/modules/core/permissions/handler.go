@@ -13,7 +13,7 @@ import (
 // @Tags Core - Permissions (Dynamic RBAC)
 // @Accept json
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} []RolePermission
 // @Security BearerAuth
 // @Router /core/permissions [get]
 func GetAllPermissionsHandler(c echo.Context) error {
@@ -85,3 +85,9 @@ func GetAvailableModulesHandler(c echo.Context) error {
 	}
 	return utils.SendSuccess(c, http.StatusOK, "Daftar modul ERP berhasil diambil", modules)
 }
+
+
+
+
+
+

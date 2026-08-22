@@ -34,8 +34,10 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/artificial_intelligence.AIPrompt"
+                            }
                         }
                     }
                 }
@@ -57,12 +59,22 @@ const docTemplate = `{
                     "artificial_intelligence"
                 ],
                 "summary": "Create a new AIPrompt",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/artificial_intelligence.AIPrompt"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/artificial_intelligence.AIPrompt"
                         }
                     }
                 }
@@ -96,8 +108,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/artificial_intelligence.AIPrompt"
                         }
                     }
                 }
@@ -250,8 +261,10 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/base.Currency"
+                            }
                         }
                     }
                 }
@@ -273,12 +286,22 @@ const docTemplate = `{
                     "base"
                 ],
                 "summary": "Create a new Currency",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/base.Currency"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/base.Currency"
                         }
                     }
                 }
@@ -312,8 +335,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/base.Currency"
                         }
                     }
                 }
@@ -407,8 +429,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/base.Country"
                         }
                     }
                 }
@@ -430,12 +451,22 @@ const docTemplate = `{
                     "core-base"
                 ],
                 "summary": "Create Country",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/base.Country"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/base.Country"
                         }
                     }
                 }
@@ -531,8 +562,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/base.CountryState"
                         }
                     }
                 }
@@ -554,12 +584,22 @@ const docTemplate = `{
                     "core-base"
                 ],
                 "summary": "Create CountryState",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/base.CountryState"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/base.CountryState"
                         }
                     }
                 }
@@ -655,8 +695,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/base.Partner"
                         }
                     }
                 }
@@ -678,12 +717,22 @@ const docTemplate = `{
                     "core-base"
                 ],
                 "summary": "Create Partner",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/base.Partner"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/base.Partner"
                         }
                     }
                 }
@@ -779,8 +828,10 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/mailer.EmailLog"
+                            }
                         }
                     }
                 }
@@ -802,12 +853,22 @@ const docTemplate = `{
                     "core-mailer"
                 ],
                 "summary": "Create a new EmailLog",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/mailer.EmailLog"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/mailer.EmailLog"
                         }
                     }
                 }
@@ -841,8 +902,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/mailer.EmailLog"
                         }
                     }
                 }
@@ -936,8 +996,10 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/storage.Attachment"
+                            }
                         }
                     }
                 }
@@ -959,12 +1021,22 @@ const docTemplate = `{
                     "core-storage"
                 ],
                 "summary": "Create a new Attachment",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/storage.Attachment"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/storage.Attachment"
                         }
                     }
                 }
@@ -998,8 +1070,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/storage.Attachment"
                         }
                     }
                 }
@@ -1093,8 +1164,10 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/dashboards.Dashboard"
+                            }
                         }
                     }
                 }
@@ -1116,12 +1189,22 @@ const docTemplate = `{
                     "dashboards"
                 ],
                 "summary": "Create a new Dashboard",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dashboards.Dashboard"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/dashboards.Dashboard"
                         }
                     }
                 }
@@ -1155,8 +1238,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/dashboards.Dashboard"
                         }
                     }
                 }
@@ -1250,8 +1332,10 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/discuss.Channel"
+                            }
                         }
                     }
                 }
@@ -1273,12 +1357,22 @@ const docTemplate = `{
                     "discuss"
                 ],
                 "summary": "Create a new Channel",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/discuss.Channel"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/discuss.Channel"
                         }
                     }
                 }
@@ -1312,8 +1406,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/discuss.Channel"
                         }
                     }
                 }
@@ -1407,8 +1500,10 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/documents.Workspace"
+                            }
                         }
                     }
                 }
@@ -1430,12 +1525,22 @@ const docTemplate = `{
                     "documents"
                 ],
                 "summary": "Create a new Workspace",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/documents.Workspace"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/documents.Workspace"
                         }
                     }
                 }
@@ -1469,8 +1574,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/documents.Workspace"
                         }
                     }
                 }
@@ -1564,8 +1668,10 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/accounting.JournalEntry"
+                            }
                         }
                     }
                 }
@@ -1587,12 +1693,22 @@ const docTemplate = `{
                     "finance-accounting"
                 ],
                 "summary": "Create a new JournalEntry",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/accounting.JournalEntry"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/accounting.JournalEntry"
                         }
                     }
                 }
@@ -1617,8 +1733,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/accounting.AccountIncoterms"
                         }
                     }
                 }
@@ -1640,12 +1755,22 @@ const docTemplate = `{
                     "finance-accounting"
                 ],
                 "summary": "Create AccountIncoterms",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/accounting.AccountIncoterms"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/accounting.AccountIncoterms"
                         }
                     }
                 }
@@ -1741,8 +1866,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/accounting.AccountLockDate"
                         }
                     }
                 }
@@ -1764,12 +1888,22 @@ const docTemplate = `{
                     "finance-accounting"
                 ],
                 "summary": "Create AccountLockDate",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/accounting.AccountLockDate"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/accounting.AccountLockDate"
                         }
                     }
                 }
@@ -1865,8 +1999,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/accounting.AccountReconcileModel"
                         }
                     }
                 }
@@ -1888,12 +2021,22 @@ const docTemplate = `{
                     "finance-accounting"
                 ],
                 "summary": "Create AccountReconcileModel",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/accounting.AccountReconcileModel"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/accounting.AccountReconcileModel"
                         }
                     }
                 }
@@ -1989,8 +2132,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/accounting.FollowupRule"
                         }
                     }
                 }
@@ -2012,12 +2154,22 @@ const docTemplate = `{
                     "finance-accounting"
                 ],
                 "summary": "Create FollowupRule",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/accounting.FollowupRule"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/accounting.FollowupRule"
                         }
                     }
                 }
@@ -2139,8 +2291,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/accounting.PaymentAcquirer"
                         }
                     }
                 }
@@ -2162,12 +2313,22 @@ const docTemplate = `{
                     "finance-accounting"
                 ],
                 "summary": "Create PaymentAcquirer",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/accounting.PaymentAcquirer"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/accounting.PaymentAcquirer"
                         }
                     }
                 }
@@ -2263,8 +2424,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/accounting.PaymentTransaction"
                         }
                     }
                 }
@@ -2286,12 +2446,22 @@ const docTemplate = `{
                     "finance-accounting"
                 ],
                 "summary": "Create PaymentTransaction",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/accounting.PaymentTransaction"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/accounting.PaymentTransaction"
                         }
                     }
                 }
@@ -2396,8 +2566,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/accounting.JournalEntry"
                         }
                     }
                 }
@@ -2491,8 +2660,10 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/approvals.ApprovalRequest"
+                            }
                         }
                     }
                 }
@@ -2514,12 +2685,22 @@ const docTemplate = `{
                     "finance-approvals"
                 ],
                 "summary": "Create a new ApprovalRequest",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/approvals.ApprovalRequest"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/approvals.ApprovalRequest"
                         }
                     }
                 }
@@ -2553,8 +2734,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/approvals.ApprovalRequest"
                         }
                     }
                 }
@@ -2690,8 +2870,10 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/documents.FinanceDocument"
+                            }
                         }
                     }
                 }
@@ -2713,12 +2895,22 @@ const docTemplate = `{
                     "finance-documents"
                 ],
                 "summary": "Create a new FinanceDocument",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/documents.FinanceDocument"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/documents.FinanceDocument"
                         }
                     }
                 }
@@ -2752,8 +2944,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/documents.FinanceDocument"
                         }
                     }
                 }
@@ -2847,8 +3038,10 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/expenses.Expense"
+                            }
                         }
                     }
                 }
@@ -2870,12 +3063,22 @@ const docTemplate = `{
                     "finance-expenses"
                 ],
                 "summary": "Create a new Expense",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/expenses.Expense"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/expenses.Expense"
                         }
                     }
                 }
@@ -2900,8 +3103,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/expenses.ExpenseSheet"
                         }
                     }
                 }
@@ -2923,12 +3125,22 @@ const docTemplate = `{
                     "finance-expenses"
                 ],
                 "summary": "Create ExpenseSheet",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/expenses.ExpenseSheet"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/expenses.ExpenseSheet"
                         }
                     }
                 }
@@ -3033,8 +3245,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/expenses.Expense"
                         }
                     }
                 }
@@ -3128,8 +3339,10 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/invoicing.Invoice"
+                            }
                         }
                     }
                 }
@@ -3151,12 +3364,22 @@ const docTemplate = `{
                     "finance-invoicing"
                 ],
                 "summary": "Create a new Invoice",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/invoicing.Invoice"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/invoicing.Invoice"
                         }
                     }
                 }
@@ -3207,8 +3430,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/invoicing.PaymentTermLine"
                         }
                     }
                 }
@@ -3230,12 +3452,22 @@ const docTemplate = `{
                     "finance-invoicing"
                 ],
                 "summary": "Create PaymentTermLine",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/invoicing.PaymentTermLine"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/invoicing.PaymentTermLine"
                         }
                     }
                 }
@@ -3331,8 +3563,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/invoicing.TaxRepartitionLine"
                         }
                     }
                 }
@@ -3354,12 +3585,22 @@ const docTemplate = `{
                     "finance-invoicing"
                 ],
                 "summary": "Create TaxRepartitionLine",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/invoicing.TaxRepartitionLine"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/invoicing.TaxRepartitionLine"
                         }
                     }
                 }
@@ -3464,8 +3705,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/invoicing.Invoice"
                         }
                     }
                 }
@@ -3629,8 +3869,10 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/sign.SignatureRequest"
+                            }
                         }
                     }
                 }
@@ -3652,12 +3894,22 @@ const docTemplate = `{
                     "finance-sign"
                 ],
                 "summary": "Create a new SignatureRequest",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/sign.SignatureRequest"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/sign.SignatureRequest"
                         }
                     }
                 }
@@ -3691,8 +3943,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/sign.SignatureRequest"
                         }
                     }
                 }
@@ -3786,8 +4037,10 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/spreadsheet_bi.Spreadsheet"
+                            }
                         }
                     }
                 }
@@ -3809,12 +4062,22 @@ const docTemplate = `{
                     "finance-spreadsheet_bi"
                 ],
                 "summary": "Create a new Spreadsheet",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/spreadsheet_bi.Spreadsheet"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/spreadsheet_bi.Spreadsheet"
                         }
                     }
                 }
@@ -3848,8 +4111,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/spreadsheet_bi.Spreadsheet"
                         }
                     }
                 }
@@ -3943,8 +4205,10 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/referrals.ReferralReward"
+                            }
                         }
                     }
                 }
@@ -3966,12 +4230,22 @@ const docTemplate = `{
                     "hr-ReferralRewards"
                 ],
                 "summary": "Create a new ReferralReward",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/referrals.ReferralReward"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/referrals.ReferralReward"
                         }
                     }
                 }
@@ -4005,8 +4279,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/referrals.ReferralReward"
                         }
                     }
                 }
@@ -4100,8 +4373,10 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/appraisals.Appraisal"
+                            }
                         }
                     }
                 }
@@ -4123,12 +4398,22 @@ const docTemplate = `{
                     "hr-appraisals"
                 ],
                 "summary": "Create a new Appraisal",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/appraisals.Appraisal"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/appraisals.Appraisal"
                         }
                     }
                 }
@@ -4162,8 +4447,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/appraisals.Appraisal"
                         }
                     }
                 }
@@ -4257,8 +4541,10 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/attendances.Attendance"
+                            }
                         }
                     }
                 }
@@ -4280,12 +4566,22 @@ const docTemplate = `{
                     "hr-attendances"
                 ],
                 "summary": "Create a new Attendance",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/attendances.Attendance"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/attendances.Attendance"
                         }
                     }
                 }
@@ -4310,8 +4606,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/attendances.Overtime"
                         }
                     }
                 }
@@ -4333,12 +4628,22 @@ const docTemplate = `{
                     "hr-attendances"
                 ],
                 "summary": "Create Overtime",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/attendances.Overtime"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/attendances.Overtime"
                         }
                     }
                 }
@@ -4443,8 +4748,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/attendances.Attendance"
                         }
                     }
                 }
@@ -4538,8 +4842,10 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/employees.Employee"
+                            }
                         }
                     }
                 }
@@ -4561,12 +4867,22 @@ const docTemplate = `{
                     "hr-employees"
                 ],
                 "summary": "Create a new Employee",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/employees.Employee"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/employees.Employee"
                         }
                     }
                 }
@@ -4591,8 +4907,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/employees.Contract"
                         }
                     }
                 }
@@ -4614,12 +4929,22 @@ const docTemplate = `{
                     "hr-employees"
                 ],
                 "summary": "Create Contract",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/employees.Contract"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/employees.Contract"
                         }
                     }
                 }
@@ -4656,8 +4981,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/employees.Contract"
                         }
                     }
                 }
@@ -4715,8 +5039,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/employees.EmployeeSkill"
                         }
                     }
                 }
@@ -4738,12 +5061,22 @@ const docTemplate = `{
                     "hr-employees"
                 ],
                 "summary": "Create EmployeeSkill",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/employees.EmployeeSkill"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/employees.EmployeeSkill"
                         }
                     }
                 }
@@ -4774,14 +5107,22 @@ const docTemplate = `{
                         "name": "id",
                         "in": "path",
                         "required": true
+                    },
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/employees.EmployeeSkill"
+                        }
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/employees.EmployeeSkill"
                         }
                     }
                 }
@@ -4839,8 +5180,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/employees.JobPosition"
                         }
                     }
                 }
@@ -4862,12 +5202,22 @@ const docTemplate = `{
                     "hr-employees"
                 ],
                 "summary": "Create JobPosition",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/employees.JobPosition"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/employees.JobPosition"
                         }
                     }
                 }
@@ -4904,8 +5254,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/employees.JobPosition"
                         }
                     }
                 }
@@ -4963,8 +5312,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/employees.ResumeLine"
                         }
                     }
                 }
@@ -4986,12 +5334,22 @@ const docTemplate = `{
                     "hr-employees"
                 ],
                 "summary": "Create ResumeLine",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/employees.ResumeLine"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/employees.ResumeLine"
                         }
                     }
                 }
@@ -5028,8 +5386,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/employees.ResumeLine"
                         }
                     }
                 }
@@ -5087,8 +5444,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/employees.Skill"
                         }
                     }
                 }
@@ -5110,12 +5466,22 @@ const docTemplate = `{
                     "hr-employees"
                 ],
                 "summary": "Create Skill",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/employees.Skill"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/employees.Skill"
                         }
                     }
                 }
@@ -5152,8 +5518,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/employees.Skill"
                         }
                     }
                 }
@@ -5211,8 +5576,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/employees.SkillLevel"
                         }
                     }
                 }
@@ -5234,12 +5598,22 @@ const docTemplate = `{
                     "hr-employees"
                 ],
                 "summary": "Create SkillLevel",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/employees.SkillLevel"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/employees.SkillLevel"
                         }
                     }
                 }
@@ -5276,8 +5650,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/employees.SkillLevel"
                         }
                     }
                 }
@@ -5335,8 +5708,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/employees.WorkingSchedule"
                         }
                     }
                 }
@@ -5358,12 +5730,22 @@ const docTemplate = `{
                     "hr-employees"
                 ],
                 "summary": "Create WorkingSchedule",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/employees.WorkingSchedule"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/employees.WorkingSchedule"
                         }
                     }
                 }
@@ -5400,8 +5782,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/employees.WorkingSchedule"
                         }
                     }
                 }
@@ -5468,8 +5849,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/employees.Employee"
                         }
                     }
                 }
@@ -5504,8 +5884,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/employees.Employee"
                         }
                     }
                 }
@@ -5563,8 +5942,10 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/fleet.Vehicle"
+                            }
                         }
                     }
                 }
@@ -5586,12 +5967,22 @@ const docTemplate = `{
                     "hr-fleet"
                 ],
                 "summary": "Create a new Vehicle",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/fleet.Vehicle"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/fleet.Vehicle"
                         }
                     }
                 }
@@ -5616,8 +6007,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/fleet.VehicleLogContract"
                         }
                     }
                 }
@@ -5639,12 +6029,22 @@ const docTemplate = `{
                     "hr-fleet"
                 ],
                 "summary": "Create VehicleLogContract",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/fleet.VehicleLogContract"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/fleet.VehicleLogContract"
                         }
                     }
                 }
@@ -5740,8 +6140,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/fleet.VehicleLogFuel"
                         }
                     }
                 }
@@ -5763,12 +6162,22 @@ const docTemplate = `{
                     "hr-fleet"
                 ],
                 "summary": "Create VehicleLogFuel",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/fleet.VehicleLogFuel"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/fleet.VehicleLogFuel"
                         }
                     }
                 }
@@ -5864,8 +6273,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/fleet.VehicleLogServices"
                         }
                     }
                 }
@@ -5887,12 +6295,22 @@ const docTemplate = `{
                     "hr-fleet"
                 ],
                 "summary": "Create VehicleLogServices",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/fleet.VehicleLogServices"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/fleet.VehicleLogServices"
                         }
                     }
                 }
@@ -5997,8 +6415,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/fleet.Vehicle"
                         }
                     }
                 }
@@ -6092,8 +6509,10 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/lunch.LunchOrder"
+                            }
                         }
                     }
                 }
@@ -6115,12 +6534,22 @@ const docTemplate = `{
                     "hr-lunch"
                 ],
                 "summary": "Create a new LunchOrder",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/lunch.LunchOrder"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/lunch.LunchOrder"
                         }
                     }
                 }
@@ -6145,8 +6574,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/lunch.LunchCashmove"
                         }
                     }
                 }
@@ -6168,12 +6596,22 @@ const docTemplate = `{
                     "hr-lunch"
                 ],
                 "summary": "Create LunchCashmove",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/lunch.LunchCashmove"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/lunch.LunchCashmove"
                         }
                     }
                 }
@@ -6278,8 +6716,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/lunch.LunchOrder"
                         }
                     }
                 }
@@ -6373,8 +6810,10 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/payroll.Payslip"
+                            }
                         }
                     }
                 }
@@ -6396,12 +6835,22 @@ const docTemplate = `{
                     "hr-payroll"
                 ],
                 "summary": "Create a new Payslip",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/payroll.Payslip"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/payroll.Payslip"
                         }
                     }
                 }
@@ -6426,8 +6875,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/payroll.PayslipLine"
                         }
                     }
                 }
@@ -6449,12 +6897,22 @@ const docTemplate = `{
                     "hr-payroll"
                 ],
                 "summary": "Create PayslipLine",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/payroll.PayslipLine"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/payroll.PayslipLine"
                         }
                     }
                 }
@@ -6550,8 +7008,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/payroll.SalaryRule"
                         }
                     }
                 }
@@ -6573,12 +7030,22 @@ const docTemplate = `{
                     "hr-payroll"
                 ],
                 "summary": "Create SalaryRule",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/payroll.SalaryRule"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/payroll.SalaryRule"
                         }
                     }
                 }
@@ -6683,8 +7150,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/payroll.Payslip"
                         }
                     }
                 }
@@ -6778,8 +7244,10 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/recruitment.Applicant"
+                            }
                         }
                     }
                 }
@@ -6801,12 +7269,22 @@ const docTemplate = `{
                     "hr-recruitment"
                 ],
                 "summary": "Create a new Applicant",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/recruitment.Applicant"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/recruitment.Applicant"
                         }
                     }
                 }
@@ -6840,8 +7318,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/recruitment.Applicant"
                         }
                     }
                 }
@@ -6935,8 +7412,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/referrals.ReferralPoint"
                         }
                     }
                 }
@@ -6958,12 +7434,22 @@ const docTemplate = `{
                     "hr-referrals"
                 ],
                 "summary": "Create ReferralPoint",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/referrals.ReferralPoint"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/referrals.ReferralPoint"
                         }
                     }
                 }
@@ -7059,8 +7545,10 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/time_off.LeaveRequest"
+                            }
                         }
                     }
                 }
@@ -7082,12 +7570,22 @@ const docTemplate = `{
                     "hr-time_off"
                 ],
                 "summary": "Create a new LeaveRequest",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/time_off.LeaveRequest"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/time_off.LeaveRequest"
                         }
                     }
                 }
@@ -7112,8 +7610,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/time_off.LeaveAllocation"
                         }
                     }
                 }
@@ -7135,12 +7632,22 @@ const docTemplate = `{
                     "hr-time_off"
                 ],
                 "summary": "Create LeaveAllocation",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/time_off.LeaveAllocation"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/time_off.LeaveAllocation"
                         }
                     }
                 }
@@ -7236,8 +7743,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/time_off.LeaveType"
                         }
                     }
                 }
@@ -7259,12 +7765,22 @@ const docTemplate = `{
                     "hr-time_off"
                 ],
                 "summary": "Create LeaveType",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/time_off.LeaveType"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/time_off.LeaveType"
                         }
                     }
                 }
@@ -7369,8 +7885,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/time_off.LeaveRequest"
                         }
                     }
                 }
@@ -7464,8 +7979,10 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/iot.IoTDevice"
+                            }
                         }
                     }
                 }
@@ -7487,12 +8004,22 @@ const docTemplate = `{
                     "iot"
                 ],
                 "summary": "Create a new IoTDevice",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/iot.IoTDevice"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/iot.IoTDevice"
                         }
                     }
                 }
@@ -7526,8 +8053,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/iot.IoTDevice"
                         }
                     }
                 }
@@ -7621,8 +8147,10 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/knowledge.Article"
+                            }
                         }
                     }
                 }
@@ -7644,12 +8172,22 @@ const docTemplate = `{
                     "knowledge"
                 ],
                 "summary": "Create a new Article",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/knowledge.Article"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/knowledge.Article"
                         }
                     }
                 }
@@ -7683,8 +8221,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/knowledge.Article"
                         }
                     }
                 }
@@ -7778,8 +8315,10 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/events.Event"
+                            }
                         }
                     }
                 }
@@ -7801,12 +8340,22 @@ const docTemplate = `{
                     "marketing-events"
                 ],
                 "summary": "Create a new Event",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/events.Event"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/events.Event"
                         }
                     }
                 }
@@ -7831,8 +8380,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/events.EventTicket"
                         }
                     }
                 }
@@ -7854,12 +8402,22 @@ const docTemplate = `{
                     "marketing-events"
                 ],
                 "summary": "Create EventTicket",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/events.EventTicket"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/events.EventTicket"
                         }
                     }
                 }
@@ -7964,8 +8522,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/events.Event"
                         }
                     }
                 }
@@ -8059,8 +8616,10 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/marketing_automation.AutomationCampaign"
+                            }
                         }
                     }
                 }
@@ -8082,12 +8641,22 @@ const docTemplate = `{
                     "marketing-marketing_automation"
                 ],
                 "summary": "Create a new AutomationCampaign",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/marketing_automation.AutomationCampaign"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/marketing_automation.AutomationCampaign"
                         }
                     }
                 }
@@ -8112,8 +8681,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/marketing_automation.WorkflowActivity"
                         }
                     }
                 }
@@ -8135,12 +8703,22 @@ const docTemplate = `{
                     "marketing-marketing_automation"
                 ],
                 "summary": "Create WorkflowActivity",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/marketing_automation.WorkflowActivity"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/marketing_automation.WorkflowActivity"
                         }
                     }
                 }
@@ -8245,8 +8823,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/marketing_automation.AutomationCampaign"
                         }
                     }
                 }
@@ -8340,8 +8917,10 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/mass_mailing.MailingCampaign"
+                            }
                         }
                     }
                 }
@@ -8363,12 +8942,22 @@ const docTemplate = `{
                     "marketing-mass_mailing"
                 ],
                 "summary": "Create a new MailingCampaign",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/mass_mailing.MailingCampaign"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/mass_mailing.MailingCampaign"
                         }
                     }
                 }
@@ -8393,8 +8982,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/mass_mailing.UtmTracker"
                         }
                     }
                 }
@@ -8416,12 +9004,22 @@ const docTemplate = `{
                     "marketing-mass_mailing"
                 ],
                 "summary": "Create UtmTracker",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/mass_mailing.UtmTracker"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/mass_mailing.UtmTracker"
                         }
                     }
                 }
@@ -8526,8 +9124,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/mass_mailing.MailingCampaign"
                         }
                     }
                 }
@@ -8621,8 +9218,10 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/sms_marketing.SmsCampaign"
+                            }
                         }
                     }
                 }
@@ -8644,12 +9243,22 @@ const docTemplate = `{
                     "marketing-sms_marketing"
                 ],
                 "summary": "Create a new SmsCampaign",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/sms_marketing.SmsCampaign"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/sms_marketing.SmsCampaign"
                         }
                     }
                 }
@@ -8683,8 +9292,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/sms_marketing.SmsCampaign"
                         }
                     }
                 }
@@ -8778,8 +9386,10 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/social_marketing.SocialPost"
+                            }
                         }
                     }
                 }
@@ -8801,12 +9411,22 @@ const docTemplate = `{
                     "marketing-social_marketing"
                 ],
                 "summary": "Create a new SocialPost",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/social_marketing.SocialPost"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/social_marketing.SocialPost"
                         }
                     }
                 }
@@ -8840,8 +9460,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/social_marketing.SocialPost"
                         }
                     }
                 }
@@ -8935,8 +9554,10 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/surveys.Survey"
+                            }
                         }
                     }
                 }
@@ -8958,12 +9579,22 @@ const docTemplate = `{
                     "marketing-surveys"
                 ],
                 "summary": "Create a new Survey",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/surveys.Survey"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/surveys.Survey"
                         }
                     }
                 }
@@ -8997,8 +9628,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/surveys.Survey"
                         }
                     }
                 }
@@ -9092,8 +9722,10 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/crm.Lead"
+                            }
                         }
                     }
                 }
@@ -9115,12 +9747,22 @@ const docTemplate = `{
                     "sales-crm"
                 ],
                 "summary": "Create a new Lead",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/crm.Lead"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/crm.Lead"
                         }
                     }
                 }
@@ -9145,8 +9787,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/crm.Activity"
                         }
                     }
                 }
@@ -9168,12 +9809,22 @@ const docTemplate = `{
                     "sales-crm"
                 ],
                 "summary": "Create Activity",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/crm.Activity"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/crm.Activity"
                         }
                     }
                 }
@@ -9269,8 +9920,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/crm.SalesCommission"
                         }
                     }
                 }
@@ -9292,12 +9942,22 @@ const docTemplate = `{
                     "sales-crm"
                 ],
                 "summary": "Create SalesCommission",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/crm.SalesCommission"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/crm.SalesCommission"
                         }
                     }
                 }
@@ -9393,8 +10053,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/crm.SalesTeam"
                         }
                     }
                 }
@@ -9416,12 +10075,22 @@ const docTemplate = `{
                     "sales-crm"
                 ],
                 "summary": "Create SalesTeam",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/crm.SalesTeam"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/crm.SalesTeam"
                         }
                     }
                 }
@@ -9517,8 +10186,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/crm.Stage"
                         }
                     }
                 }
@@ -9540,12 +10208,22 @@ const docTemplate = `{
                     "sales-crm"
                 ],
                 "summary": "Create Stage",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/crm.Stage"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/crm.Stage"
                         }
                     }
                 }
@@ -9650,8 +10328,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/crm.Lead"
                         }
                     }
                 }
@@ -9745,8 +10422,10 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/point_of_sale.PosSession"
+                            }
                         }
                     }
                 }
@@ -9768,12 +10447,22 @@ const docTemplate = `{
                     "sales-point_of_sale"
                 ],
                 "summary": "Create a new PosSession",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/point_of_sale.PosSession"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/point_of_sale.PosSession"
                         }
                     }
                 }
@@ -9798,8 +10487,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/point_of_sale.LoyaltyProgram"
                         }
                     }
                 }
@@ -9821,12 +10509,22 @@ const docTemplate = `{
                     "sales-point_of_sale"
                 ],
                 "summary": "Create LoyaltyProgram",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/point_of_sale.LoyaltyProgram"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/point_of_sale.LoyaltyProgram"
                         }
                     }
                 }
@@ -9922,8 +10620,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/point_of_sale.PosConfig"
                         }
                     }
                 }
@@ -9945,12 +10642,22 @@ const docTemplate = `{
                     "sales-point_of_sale"
                 ],
                 "summary": "Create PosConfig",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/point_of_sale.PosConfig"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/point_of_sale.PosConfig"
                         }
                     }
                 }
@@ -10046,8 +10753,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/point_of_sale.PosOrder"
                         }
                     }
                 }
@@ -10069,12 +10775,22 @@ const docTemplate = `{
                     "sales-point_of_sale"
                 ],
                 "summary": "Create PosOrder",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/point_of_sale.PosOrder"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/point_of_sale.PosOrder"
                         }
                     }
                 }
@@ -10170,8 +10886,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/point_of_sale.PosOrderLine"
                         }
                     }
                 }
@@ -10193,12 +10908,22 @@ const docTemplate = `{
                     "sales-point_of_sale"
                 ],
                 "summary": "Create PosOrderLine",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/point_of_sale.PosOrderLine"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/point_of_sale.PosOrderLine"
                         }
                     }
                 }
@@ -10294,8 +11019,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/point_of_sale.PosPayment"
                         }
                     }
                 }
@@ -10317,12 +11041,22 @@ const docTemplate = `{
                     "sales-point_of_sale"
                 ],
                 "summary": "Create PosPayment",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/point_of_sale.PosPayment"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/point_of_sale.PosPayment"
                         }
                     }
                 }
@@ -10427,8 +11161,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/point_of_sale.PosSession"
                         }
                     }
                 }
@@ -10522,8 +11255,10 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/rental.RentalOrder"
+                            }
                         }
                     }
                 }
@@ -10545,12 +11280,22 @@ const docTemplate = `{
                     "sales-rental"
                 ],
                 "summary": "Create a new RentalOrder",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/rental.RentalOrder"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/rental.RentalOrder"
                         }
                     }
                 }
@@ -10575,8 +11320,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/rental.RentalOrderLine"
                         }
                     }
                 }
@@ -10598,12 +11342,22 @@ const docTemplate = `{
                     "sales-rental"
                 ],
                 "summary": "Create RentalOrderLine",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/rental.RentalOrderLine"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/rental.RentalOrderLine"
                         }
                     }
                 }
@@ -10708,8 +11462,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/rental.RentalOrder"
                         }
                     }
                 }
@@ -10803,8 +11556,10 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/sales_core.SaleOrder"
+                            }
                         }
                     }
                 }
@@ -10826,12 +11581,22 @@ const docTemplate = `{
                     "sales-sales_core"
                 ],
                 "summary": "Create a new SaleOrder",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/sales_core.SaleOrder"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/sales_core.SaleOrder"
                         }
                     }
                 }
@@ -10856,8 +11621,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/sales_core.DeliveryMethod"
                         }
                     }
                 }
@@ -10879,12 +11643,22 @@ const docTemplate = `{
                     "sales-sales_core"
                 ],
                 "summary": "Create DeliveryMethod",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/sales_core.DeliveryMethod"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/sales_core.DeliveryMethod"
                         }
                     }
                 }
@@ -10980,8 +11754,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/sales_core.Pricelist"
                         }
                     }
                 }
@@ -11003,12 +11776,22 @@ const docTemplate = `{
                     "sales-sales_core"
                 ],
                 "summary": "Create Pricelist",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/sales_core.Pricelist"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/sales_core.Pricelist"
                         }
                     }
                 }
@@ -11104,8 +11887,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/sales_core.PricelistItem"
                         }
                     }
                 }
@@ -11127,12 +11909,22 @@ const docTemplate = `{
                     "sales-sales_core"
                 ],
                 "summary": "Create PricelistItem",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/sales_core.PricelistItem"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/sales_core.PricelistItem"
                         }
                     }
                 }
@@ -11228,8 +12020,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/sales_core.QuotationTemplate"
                         }
                     }
                 }
@@ -11251,12 +12042,22 @@ const docTemplate = `{
                     "sales-sales_core"
                 ],
                 "summary": "Create QuotationTemplate",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/sales_core.QuotationTemplate"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/sales_core.QuotationTemplate"
                         }
                     }
                 }
@@ -11352,8 +12153,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/sales_core.SaleOrderLine"
                         }
                     }
                 }
@@ -11375,12 +12175,22 @@ const docTemplate = `{
                     "sales-sales_core"
                 ],
                 "summary": "Create SaleOrderLine",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/sales_core.SaleOrderLine"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/sales_core.SaleOrderLine"
                         }
                     }
                 }
@@ -11485,8 +12295,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/sales_core.SaleOrder"
                         }
                     }
                 }
@@ -11580,8 +12389,10 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/subscriptions.Subscription"
+                            }
                         }
                     }
                 }
@@ -11603,12 +12414,22 @@ const docTemplate = `{
                     "sales-subscriptions"
                 ],
                 "summary": "Create a new Subscription",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/subscriptions.Subscription"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/subscriptions.Subscription"
                         }
                     }
                 }
@@ -11633,8 +12454,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/subscriptions.SubscriptionPlan"
                         }
                     }
                 }
@@ -11656,12 +12476,22 @@ const docTemplate = `{
                     "sales-subscriptions"
                 ],
                 "summary": "Create SubscriptionPlan",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/subscriptions.SubscriptionPlan"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/subscriptions.SubscriptionPlan"
                         }
                     }
                 }
@@ -11766,8 +12596,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/subscriptions.Subscription"
                         }
                     }
                 }
@@ -11861,8 +12690,10 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/appointments.Appointment"
+                            }
                         }
                     }
                 }
@@ -11884,12 +12715,22 @@ const docTemplate = `{
                     "services-appointments"
                 ],
                 "summary": "Create a new Appointment",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/appointments.Appointment"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/appointments.Appointment"
                         }
                     }
                 }
@@ -11923,8 +12764,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/appointments.Appointment"
                         }
                     }
                 }
@@ -12018,8 +12858,10 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/field_service.FieldServiceTask"
+                            }
                         }
                     }
                 }
@@ -12041,12 +12883,22 @@ const docTemplate = `{
                     "services-field_service"
                 ],
                 "summary": "Create a new FieldServiceTask",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/field_service.FieldServiceTask"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/field_service.FieldServiceTask"
                         }
                     }
                 }
@@ -12080,8 +12932,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/field_service.FieldServiceTask"
                         }
                     }
                 }
@@ -12175,8 +13026,10 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/helpdesk.Ticket"
+                            }
                         }
                     }
                 }
@@ -12198,12 +13051,22 @@ const docTemplate = `{
                     "services-helpdesk"
                 ],
                 "summary": "Create a new Ticket",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/helpdesk.Ticket"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/helpdesk.Ticket"
                         }
                     }
                 }
@@ -12228,8 +13091,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/helpdesk.HelpdeskCannedResponse"
                         }
                     }
                 }
@@ -12251,12 +13113,22 @@ const docTemplate = `{
                     "services-helpdesk"
                 ],
                 "summary": "Create HelpdeskCannedResponse",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/helpdesk.HelpdeskCannedResponse"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/helpdesk.HelpdeskCannedResponse"
                         }
                     }
                 }
@@ -12352,8 +13224,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/helpdesk.HelpdeskSLA"
                         }
                     }
                 }
@@ -12375,12 +13246,22 @@ const docTemplate = `{
                     "services-helpdesk"
                 ],
                 "summary": "Create HelpdeskSLA",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/helpdesk.HelpdeskSLA"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/helpdesk.HelpdeskSLA"
                         }
                     }
                 }
@@ -12485,8 +13366,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/helpdesk.Ticket"
                         }
                     }
                 }
@@ -12580,8 +13460,10 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/planning.Shift"
+                            }
                         }
                     }
                 }
@@ -12603,12 +13485,22 @@ const docTemplate = `{
                     "services-planning"
                 ],
                 "summary": "Create a new Shift",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/planning.Shift"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/planning.Shift"
                         }
                     }
                 }
@@ -12642,8 +13534,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/planning.Shift"
                         }
                     }
                 }
@@ -12737,8 +13628,10 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/project.Project"
+                            }
                         }
                     }
                 }
@@ -12760,12 +13653,22 @@ const docTemplate = `{
                     "services-project"
                 ],
                 "summary": "Create a new Project",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/project.Project"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/project.Project"
                         }
                     }
                 }
@@ -12790,8 +13693,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/project.ProjectMilestone"
                         }
                     }
                 }
@@ -12813,12 +13715,22 @@ const docTemplate = `{
                     "services-project"
                 ],
                 "summary": "Create ProjectMilestone",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/project.ProjectMilestone"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/project.ProjectMilestone"
                         }
                     }
                 }
@@ -12914,8 +13826,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/project.ResourceForecast"
                         }
                     }
                 }
@@ -12937,12 +13848,22 @@ const docTemplate = `{
                     "services-project"
                 ],
                 "summary": "Create ResourceForecast",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/project.ResourceForecast"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/project.ResourceForecast"
                         }
                     }
                 }
@@ -13038,8 +13959,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/project.TaskDependency"
                         }
                     }
                 }
@@ -13061,12 +13981,22 @@ const docTemplate = `{
                     "services-project"
                 ],
                 "summary": "Create TaskDependency",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/project.TaskDependency"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/project.TaskDependency"
                         }
                     }
                 }
@@ -13171,8 +14101,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/project.Project"
                         }
                     }
                 }
@@ -13266,8 +14195,10 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/repairs.RepairOrder"
+                            }
                         }
                     }
                 }
@@ -13289,12 +14220,22 @@ const docTemplate = `{
                     "services-repairs"
                 ],
                 "summary": "Create a new RepairOrder",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/repairs.RepairOrder"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/repairs.RepairOrder"
                         }
                     }
                 }
@@ -13328,8 +14269,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/repairs.RepairOrder"
                         }
                     }
                 }
@@ -13423,8 +14363,10 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/timesheets.Timesheet"
+                            }
                         }
                     }
                 }
@@ -13446,12 +14388,22 @@ const docTemplate = `{
                     "services-timesheets"
                 ],
                 "summary": "Create a new Timesheet",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/timesheets.Timesheet"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/timesheets.Timesheet"
                         }
                     }
                 }
@@ -13485,8 +14437,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/timesheets.Timesheet"
                         }
                     }
                 }
@@ -13568,20 +14519,22 @@ const docTemplate = `{
                         "BearerAuth": []
                     }
                 ],
-                "description": "Retrieve a list of all BarcodeNomenclature",
+                "description": "Retrieve a list of all BarcodeConfig",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "supply_chain-barcode"
                 ],
-                "summary": "Get all BarcodeNomenclature",
+                "summary": "Get all BarcodeConfig",
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/barcode.BarcodeNomenclature"
+                            }
                         }
                     }
                 }
@@ -13592,7 +14545,7 @@ const docTemplate = `{
                         "BearerAuth": []
                     }
                 ],
-                "description": "Create a new BarcodeNomenclature in the system",
+                "description": "Create a new BarcodeConfig in the system",
                 "consumes": [
                     "application/json"
                 ],
@@ -13602,13 +14555,23 @@ const docTemplate = `{
                 "tags": [
                     "supply_chain-barcode"
                 ],
-                "summary": "Create a new BarcodeNomenclature",
+                "summary": "Create a new BarcodeConfig",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/barcode.BarcodeNomenclature"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/barcode.BarcodeNomenclature"
                         }
                     }
                 }
@@ -13621,18 +14584,18 @@ const docTemplate = `{
                         "BearerAuth": []
                     }
                 ],
-                "description": "Retrieve a specific BarcodeNomenclature by its ID",
+                "description": "Retrieve a specific BarcodeConfig by its ID",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "supply_chain-barcode"
                 ],
-                "summary": "Get a BarcodeNomenclature by ID",
+                "summary": "Get a BarcodeConfig by ID",
                 "parameters": [
                     {
                         "type": "integer",
-                        "description": "BarcodeNomenclature ID",
+                        "description": "BarcodeConfig ID",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -13642,8 +14605,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/barcode.BarcodeNomenclature"
                         }
                     }
                 }
@@ -13654,7 +14616,7 @@ const docTemplate = `{
                         "BearerAuth": []
                     }
                 ],
-                "description": "Update an existing BarcodeNomenclature",
+                "description": "Update an existing BarcodeConfig",
                 "consumes": [
                     "application/json"
                 ],
@@ -13664,11 +14626,11 @@ const docTemplate = `{
                 "tags": [
                     "supply_chain-barcode"
                 ],
-                "summary": "Update a BarcodeNomenclature",
+                "summary": "Update a BarcodeConfig",
                 "parameters": [
                     {
                         "type": "integer",
-                        "description": "BarcodeNomenclature ID",
+                        "description": "BarcodeConfig ID",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -13690,18 +14652,18 @@ const docTemplate = `{
                         "BearerAuth": []
                     }
                 ],
-                "description": "Delete a BarcodeNomenclature by ID",
+                "description": "Delete a BarcodeConfig by ID",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "supply_chain-barcode"
                 ],
-                "summary": "Delete a BarcodeNomenclature",
+                "summary": "Delete a BarcodeConfig",
                 "parameters": [
                     {
                         "type": "integer",
-                        "description": "BarcodeNomenclature ID",
+                        "description": "BarcodeConfig ID",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -13737,8 +14699,10 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/inventory.Product"
+                            }
                         }
                     }
                 }
@@ -13760,12 +14724,22 @@ const docTemplate = `{
                     "supply_chain-inventory"
                 ],
                 "summary": "Create a new Product",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/inventory.Product"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/inventory.Product"
                         }
                     }
                 }
@@ -13790,8 +14764,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/inventory.ProductAttribute"
                         }
                     }
                 }
@@ -13813,12 +14786,22 @@ const docTemplate = `{
                     "supply_chain-inventory"
                 ],
                 "summary": "Create ProductAttribute",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/inventory.ProductAttribute"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/inventory.ProductAttribute"
                         }
                     }
                 }
@@ -13914,8 +14897,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/inventory.ProductAttributeValue"
                         }
                     }
                 }
@@ -13937,12 +14919,22 @@ const docTemplate = `{
                     "supply_chain-inventory"
                 ],
                 "summary": "Create ProductAttributeValue",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/inventory.ProductAttributeValue"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/inventory.ProductAttributeValue"
                         }
                     }
                 }
@@ -14038,8 +15030,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/inventory.ProductCategory"
                         }
                     }
                 }
@@ -14061,12 +15052,22 @@ const docTemplate = `{
                     "supply_chain-inventory"
                 ],
                 "summary": "Create ProductCategory",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/inventory.ProductCategory"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/inventory.ProductCategory"
                         }
                     }
                 }
@@ -14162,8 +15163,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/inventory.ProductTemplate"
                         }
                     }
                 }
@@ -14185,12 +15185,22 @@ const docTemplate = `{
                     "supply_chain-inventory"
                 ],
                 "summary": "Create ProductTemplate",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/inventory.ProductTemplate"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/inventory.ProductTemplate"
                         }
                     }
                 }
@@ -14286,8 +15296,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/inventory.StockLocation"
                         }
                     }
                 }
@@ -14309,12 +15318,22 @@ const docTemplate = `{
                     "supply_chain-inventory"
                 ],
                 "summary": "Create StockLocation",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/inventory.StockLocation"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/inventory.StockLocation"
                         }
                     }
                 }
@@ -14410,8 +15429,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/inventory.StockLot"
                         }
                     }
                 }
@@ -14433,12 +15451,22 @@ const docTemplate = `{
                     "supply_chain-inventory"
                 ],
                 "summary": "Create StockLot",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/inventory.StockLot"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/inventory.StockLot"
                         }
                     }
                 }
@@ -14534,8 +15562,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/inventory.StockPicking"
                         }
                     }
                 }
@@ -14557,12 +15584,22 @@ const docTemplate = `{
                     "supply_chain-inventory"
                 ],
                 "summary": "Create StockPicking",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/inventory.StockPicking"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/inventory.StockPicking"
                         }
                     }
                 }
@@ -14658,8 +15695,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/inventory.StockPutawayRule"
                         }
                     }
                 }
@@ -14681,12 +15717,22 @@ const docTemplate = `{
                     "supply_chain-inventory"
                 ],
                 "summary": "Create StockPutawayRule",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/inventory.StockPutawayRule"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/inventory.StockPutawayRule"
                         }
                     }
                 }
@@ -14782,8 +15828,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/inventory.StockQuant"
                         }
                     }
                 }
@@ -14805,12 +15850,22 @@ const docTemplate = `{
                     "supply_chain-inventory"
                 ],
                 "summary": "Create StockQuant",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/inventory.StockQuant"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/inventory.StockQuant"
                         }
                     }
                 }
@@ -14906,8 +15961,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/inventory.StockValuationLayer"
                         }
                     }
                 }
@@ -14929,12 +15983,22 @@ const docTemplate = `{
                     "supply_chain-inventory"
                 ],
                 "summary": "Create StockValuationLayer",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/inventory.StockValuationLayer"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/inventory.StockValuationLayer"
                         }
                     }
                 }
@@ -15030,8 +16094,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/inventory.StockWarehouse"
                         }
                     }
                 }
@@ -15053,12 +16116,22 @@ const docTemplate = `{
                     "supply_chain-inventory"
                 ],
                 "summary": "Create StockWarehouse",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/inventory.StockWarehouse"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/inventory.StockWarehouse"
                         }
                     }
                 }
@@ -15154,8 +16227,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/inventory.UoM"
                         }
                     }
                 }
@@ -15177,12 +16249,22 @@ const docTemplate = `{
                     "supply_chain-inventory"
                 ],
                 "summary": "Create UoM",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/inventory.UoM"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/inventory.UoM"
                         }
                     }
                 }
@@ -15278,8 +16360,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/inventory.UoMCategory"
                         }
                     }
                 }
@@ -15301,12 +16382,22 @@ const docTemplate = `{
                     "supply_chain-inventory"
                 ],
                 "summary": "Create UoMCategory",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/inventory.UoMCategory"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/inventory.UoMCategory"
                         }
                     }
                 }
@@ -15411,8 +16502,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/inventory.Product"
                         }
                     }
                 }
@@ -15506,8 +16596,10 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/maintenance.MaintenanceRequest"
+                            }
                         }
                     }
                 }
@@ -15529,12 +16621,22 @@ const docTemplate = `{
                     "supply_chain-maintenance"
                 ],
                 "summary": "Create a new MaintenanceRequest",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/maintenance.MaintenanceRequest"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/maintenance.MaintenanceRequest"
                         }
                     }
                 }
@@ -15568,8 +16670,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/maintenance.MaintenanceRequest"
                         }
                     }
                 }
@@ -15663,8 +16764,10 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/manufacturing.MrpProduction"
+                            }
                         }
                     }
                 }
@@ -15686,12 +16789,22 @@ const docTemplate = `{
                     "supply_chain-manufacturing"
                 ],
                 "summary": "Create a new MrpProduction",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/manufacturing.MrpProduction"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/manufacturing.MrpProduction"
                         }
                     }
                 }
@@ -15716,8 +16829,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/manufacturing.MrpBom"
                         }
                     }
                 }
@@ -15739,12 +16851,22 @@ const docTemplate = `{
                     "supply_chain-manufacturing"
                 ],
                 "summary": "Create MrpBom",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/manufacturing.MrpBom"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/manufacturing.MrpBom"
                         }
                     }
                 }
@@ -15840,8 +16962,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/manufacturing.MrpBomByproduct"
                         }
                     }
                 }
@@ -15863,12 +16984,22 @@ const docTemplate = `{
                     "supply_chain-manufacturing"
                 ],
                 "summary": "Create MrpBomByproduct",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/manufacturing.MrpBomByproduct"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/manufacturing.MrpBomByproduct"
                         }
                     }
                 }
@@ -15964,8 +17095,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/manufacturing.MrpBomLine"
                         }
                     }
                 }
@@ -15987,12 +17117,22 @@ const docTemplate = `{
                     "supply_chain-manufacturing"
                 ],
                 "summary": "Create MrpBomLine",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/manufacturing.MrpBomLine"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/manufacturing.MrpBomLine"
                         }
                     }
                 }
@@ -16088,8 +17228,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/manufacturing.MrpWorkcenter"
                         }
                     }
                 }
@@ -16111,12 +17250,22 @@ const docTemplate = `{
                     "supply_chain-manufacturing"
                 ],
                 "summary": "Create MrpWorkcenter",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/manufacturing.MrpWorkcenter"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/manufacturing.MrpWorkcenter"
                         }
                     }
                 }
@@ -16212,8 +17361,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/manufacturing.MrpWorkorder"
                         }
                     }
                 }
@@ -16235,12 +17383,22 @@ const docTemplate = `{
                     "supply_chain-manufacturing"
                 ],
                 "summary": "Create MrpWorkorder",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/manufacturing.MrpWorkorder"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/manufacturing.MrpWorkorder"
                         }
                     }
                 }
@@ -16345,8 +17503,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/manufacturing.MrpProduction"
                         }
                     }
                 }
@@ -16440,8 +17597,11 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "additionalProperties": true
+                            }
                         }
                     }
                 }
@@ -16463,12 +17623,22 @@ const docTemplate = `{
                     "supply_chain-plm"
                 ],
                 "summary": "Create a new PlmEco",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/plm.PlmEco"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/plm.PlmEco"
                         }
                     }
                 }
@@ -16597,8 +17767,10 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/purchase.PurchaseOrder"
+                            }
                         }
                     }
                 }
@@ -16620,12 +17792,22 @@ const docTemplate = `{
                     "supply_chain-purchase"
                 ],
                 "summary": "Create a new PurchaseOrder",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/purchase.PurchaseOrder"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/purchase.PurchaseOrder"
                         }
                     }
                 }
@@ -16650,8 +17832,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/purchase.ProductSupplierInfo"
                         }
                     }
                 }
@@ -16673,12 +17854,22 @@ const docTemplate = `{
                     "supply_chain-purchase"
                 ],
                 "summary": "Create ProductSupplierInfo",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/purchase.ProductSupplierInfo"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/purchase.ProductSupplierInfo"
                         }
                     }
                 }
@@ -16774,8 +17965,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/purchase.PurchaseOrderLine"
                         }
                     }
                 }
@@ -16797,12 +17987,22 @@ const docTemplate = `{
                     "supply_chain-purchase"
                 ],
                 "summary": "Create PurchaseOrderLine",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/purchase.PurchaseOrderLine"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/purchase.PurchaseOrderLine"
                         }
                     }
                 }
@@ -16898,8 +18098,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/purchase.PurchaseRequisition"
                         }
                     }
                 }
@@ -16921,12 +18120,22 @@ const docTemplate = `{
                     "supply_chain-purchase"
                 ],
                 "summary": "Create PurchaseRequisition",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/purchase.PurchaseRequisition"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/purchase.PurchaseRequisition"
                         }
                     }
                 }
@@ -17031,8 +18240,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/purchase.PurchaseOrder"
                         }
                     }
                 }
@@ -17126,8 +18334,10 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/quality.QualityCheck"
+                            }
                         }
                     }
                 }
@@ -17149,12 +18359,22 @@ const docTemplate = `{
                     "supply_chain-quality"
                 ],
                 "summary": "Create a new QualityCheck",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/quality.QualityCheck"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/quality.QualityCheck"
                         }
                     }
                 }
@@ -17188,8 +18408,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/quality.QualityCheck"
                         }
                     }
                 }
@@ -17283,8 +18502,10 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/voip.CallRecord"
+                            }
                         }
                     }
                 }
@@ -17306,12 +18527,22 @@ const docTemplate = `{
                     "voip"
                 ],
                 "summary": "Create a new CallRecord",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/voip.CallRecord"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/voip.CallRecord"
                         }
                     }
                 }
@@ -17345,8 +18576,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/voip.CallRecord"
                         }
                     }
                 }
@@ -17440,8 +18670,10 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/blog.BlogPost"
+                            }
                         }
                     }
                 }
@@ -17463,12 +18695,22 @@ const docTemplate = `{
                     "website-blog"
                 ],
                 "summary": "Create a new BlogPost",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/blog.BlogPost"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/blog.BlogPost"
                         }
                     }
                 }
@@ -17502,8 +18744,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/blog.BlogPost"
                         }
                     }
                 }
@@ -17597,8 +18838,10 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/ecommerce.Cart"
+                            }
                         }
                     }
                 }
@@ -17620,12 +18863,22 @@ const docTemplate = `{
                     "website-ecommerce"
                 ],
                 "summary": "Create a new Cart",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ecommerce.Cart"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/ecommerce.Cart"
                         }
                     }
                 }
@@ -17650,8 +18903,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/ecommerce.CartItem"
                         }
                     }
                 }
@@ -17673,12 +18925,22 @@ const docTemplate = `{
                     "website-ecommerce"
                 ],
                 "summary": "Create CartItem",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ecommerce.CartItem"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/ecommerce.CartItem"
                         }
                     }
                 }
@@ -17774,8 +19036,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/ecommerce.PortalUser"
                         }
                     }
                 }
@@ -17797,12 +19058,22 @@ const docTemplate = `{
                     "website-ecommerce"
                 ],
                 "summary": "Create PortalUser",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ecommerce.PortalUser"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/ecommerce.PortalUser"
                         }
                     }
                 }
@@ -17898,8 +19169,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/ecommerce.ShoppingCart"
                         }
                     }
                 }
@@ -17921,12 +19191,22 @@ const docTemplate = `{
                     "website-ecommerce"
                 ],
                 "summary": "Create ShoppingCart",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ecommerce.ShoppingCart"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/ecommerce.ShoppingCart"
                         }
                     }
                 }
@@ -18031,8 +19311,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/ecommerce.Cart"
                         }
                     }
                 }
@@ -18126,8 +19405,10 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/elearning.Course"
+                            }
                         }
                     }
                 }
@@ -18149,12 +19430,22 @@ const docTemplate = `{
                     "website-elearning"
                 ],
                 "summary": "Create a new Course",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/elearning.Course"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/elearning.Course"
                         }
                     }
                 }
@@ -18179,8 +19470,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/elearning.Certification"
                         }
                     }
                 }
@@ -18202,12 +19492,22 @@ const docTemplate = `{
                     "website-elearning"
                 ],
                 "summary": "Create Certification",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/elearning.Certification"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/elearning.Certification"
                         }
                     }
                 }
@@ -18303,8 +19603,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/elearning.Slide"
                         }
                     }
                 }
@@ -18326,12 +19625,22 @@ const docTemplate = `{
                     "website-elearning"
                 ],
                 "summary": "Create Slide",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/elearning.Slide"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/elearning.Slide"
                         }
                     }
                 }
@@ -18436,8 +19745,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/elearning.Course"
                         }
                     }
                 }
@@ -18531,8 +19839,10 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/forum.ForumPost"
+                            }
                         }
                     }
                 }
@@ -18554,12 +19864,22 @@ const docTemplate = `{
                     "website-forum"
                 ],
                 "summary": "Create a new ForumPost",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/forum.ForumPost"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/forum.ForumPost"
                         }
                     }
                 }
@@ -18593,8 +19913,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/forum.ForumPost"
                         }
                     }
                 }
@@ -18688,8 +20007,10 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/live_chat.ChatSession"
+                            }
                         }
                     }
                 }
@@ -18711,12 +20032,22 @@ const docTemplate = `{
                     "website-live_chat"
                 ],
                 "summary": "Create a new ChatSession",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/live_chat.ChatSession"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/live_chat.ChatSession"
                         }
                     }
                 }
@@ -18750,8 +20081,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/live_chat.ChatSession"
                         }
                     }
                 }
@@ -18845,8 +20175,10 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/website_builder.Page"
+                            }
                         }
                     }
                 }
@@ -18868,12 +20200,22 @@ const docTemplate = `{
                     "website-website_builder"
                 ],
                 "summary": "Create a new Page",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/website_builder.Page"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/website_builder.Page"
                         }
                     }
                 }
@@ -18907,8 +20249,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/website_builder.Page"
                         }
                     }
                 }
@@ -19002,8 +20343,10 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/whatsapp.WaTemplate"
+                            }
                         }
                     }
                 }
@@ -19025,12 +20368,22 @@ const docTemplate = `{
                     "whatsapp"
                 ],
                 "summary": "Create a new WaTemplate",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/whatsapp.WaTemplate"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/whatsapp.WaTemplate"
                         }
                     }
                 }
@@ -19064,8 +20417,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/whatsapp.WaTemplate"
                         }
                     }
                 }
@@ -19162,8 +20514,10 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/permissions.RolePermission"
+                            }
                         }
                     }
                 }
@@ -19338,8 +20692,10 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/user_roles.UserRoleResponse"
+                            }
                         }
                     }
                 }
@@ -19387,6 +20743,293 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "accounting.AccountIncoterms": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "description": "EXW, FOB, CIF",
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "accounting.AccountLockDate": {
+            "type": "object",
+            "properties": {
+                "company_id": {
+                    "type": "integer"
+                },
+                "fiscal_year_lock_date": {
+                    "description": "Kunci Mutlak",
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "tax_lock_date": {
+                    "description": "Kunci Pajak Saja",
+                    "type": "string"
+                }
+            }
+        },
+        "accounting.AccountReconcileModel": {
+            "type": "object",
+            "properties": {
+                "account_id": {
+                    "description": "Akun tujuan",
+                    "type": "integer"
+                },
+                "amount_type": {
+                    "type": "string"
+                },
+                "amount_value": {
+                    "type": "number"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "match_text": {
+                    "description": "Kata kunci mutasi bank",
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "accounting.FollowupRule": {
+            "type": "object",
+            "properties": {
+                "delay_days": {
+                    "description": "Telat berapa hari",
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "description": "e.g. Peringatan 1",
+                    "type": "string"
+                },
+                "send_email": {
+                    "type": "boolean"
+                },
+                "send_letter": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "accounting.JournalEntry": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "date": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "journal_id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "description": "e.g. INV/2026/001",
+                    "type": "string"
+                },
+                "state": {
+                    "description": "draft, posted",
+                    "type": "string"
+                }
+            }
+        },
+        "accounting.PaymentAcquirer": {
+            "type": "object",
+            "properties": {
+                "api_key": {
+                    "description": "Secret Key dari Provider",
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "description": "e.g. Midtrans, Stripe",
+                    "type": "string"
+                },
+                "provider": {
+                    "description": "midtrans, stripe, paypal",
+                    "type": "string"
+                },
+                "state": {
+                    "description": "test, enabled, disabled",
+                    "type": "string"
+                }
+            }
+        },
+        "accounting.PaymentTransaction": {
+            "type": "object",
+            "properties": {
+                "acquirer_id": {
+                    "type": "integer"
+                },
+                "amount": {
+                    "type": "number"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "gateway_transaction_id": {
+                    "description": "ID unik dari Midtrans/Stripe",
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "invoice_id": {
+                    "description": "Tagihan yang dibayar",
+                    "type": "integer"
+                },
+                "partner_id": {
+                    "description": "Pelanggan yang membayar",
+                    "type": "integer"
+                },
+                "reference": {
+                    "description": "Nomor referensi internal",
+                    "type": "string"
+                },
+                "state": {
+                    "description": "draft, pending, authorized, done, error",
+                    "type": "string"
+                }
+            }
+        },
+        "appointments.Appointment": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "appraisals.Appraisal": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "date": {
+                    "type": "string"
+                },
+                "employee_id": {
+                    "type": "integer"
+                },
+                "feedback": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "manager_id": {
+                    "type": "integer"
+                },
+                "score": {
+                    "description": "e.g. 1 to 5",
+                    "type": "number"
+                },
+                "state": {
+                    "description": "draft, pending, done",
+                    "type": "string"
+                }
+            }
+        },
+        "approvals.ApprovalRequest": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "artificial_intelligence.AIPrompt": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "attendances.Attendance": {
+            "type": "object",
+            "properties": {
+                "check_in": {
+                    "type": "string"
+                },
+                "check_out": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "employee_id": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "worked_hours": {
+                    "type": "number"
+                }
+            }
+        },
+        "attendances.Overtime": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "date": {
+                    "type": "string"
+                },
+                "employee_id": {
+                    "type": "integer"
+                },
+                "hours": {
+                    "type": "number"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "state": {
+                    "description": "draft, approved",
+                    "type": "string"
+                }
+            }
+        },
         "auth.LoginRequest": {
             "type": "object",
             "required": [
@@ -19398,6 +21041,1782 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "password": {
+                    "type": "string"
+                }
+            }
+        },
+        "barcode.BarcodeNomenclature": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "description": "e.g. Default Nomenclature, GS1 Nomenclature",
+                    "type": "string"
+                },
+                "upc_ean_conv": {
+                    "description": "always, never, ean13_to_upca",
+                    "type": "string"
+                }
+            }
+        },
+        "base.Country": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "description": "ID, US, SG",
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "base.CountryState": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "description": "JBR, JK",
+                    "type": "string"
+                },
+                "country_id": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "base.Currency": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "description": "e.g. USD, IDR",
+                    "type": "string"
+                },
+                "symbol": {
+                    "type": "string"
+                }
+            }
+        },
+        "base.Partner": {
+            "type": "object",
+            "properties": {
+                "city": {
+                    "type": "string"
+                },
+                "country_id": {
+                    "type": "integer"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "is_company": {
+                    "type": "boolean"
+                },
+                "is_customer": {
+                    "type": "boolean"
+                },
+                "is_vendor": {
+                    "type": "boolean"
+                },
+                "mobile": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "parent_id": {
+                    "description": "Jika kontak ini adalah pegawai dari perusahaan lain",
+                    "type": "integer"
+                },
+                "phone": {
+                    "type": "string"
+                },
+                "state_id": {
+                    "type": "integer"
+                },
+                "street": {
+                    "type": "string"
+                },
+                "street2": {
+                    "type": "string"
+                },
+                "type": {
+                    "description": "contact, invoice, delivery",
+                    "type": "string"
+                },
+                "vat": {
+                    "description": "NPWP / Tax ID",
+                    "type": "string"
+                },
+                "zip": {
+                    "type": "string"
+                }
+            }
+        },
+        "blog.BlogPost": {
+            "type": "object",
+            "properties": {
+                "author_id": {
+                    "type": "integer"
+                },
+                "content": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "published_date": {
+                    "type": "string"
+                },
+                "state": {
+                    "description": "draft, published",
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                }
+            }
+        },
+        "crm.Activity": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "deadline": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "is_done": {
+                    "type": "boolean"
+                },
+                "lead_id": {
+                    "type": "integer"
+                },
+                "summary": {
+                    "type": "string"
+                },
+                "type": {
+                    "description": "Call, Email, Meeting",
+                    "type": "string"
+                }
+            }
+        },
+        "crm.Lead": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "expected_revenue": {
+                    "type": "number"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "description": "Opportunity name",
+                    "type": "string"
+                },
+                "partner_id": {
+                    "description": "Customer ID",
+                    "type": "integer"
+                },
+                "phone": {
+                    "type": "string"
+                },
+                "probability": {
+                    "description": "Percentage",
+                    "type": "number"
+                },
+                "sales_team_id": {
+                    "type": "integer"
+                },
+                "salesperson_id": {
+                    "description": "Link to Employee (HR)",
+                    "type": "integer"
+                },
+                "stage_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "crm.SalesCommission": {
+            "type": "object",
+            "properties": {
+                "amount": {
+                    "type": "number"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "date": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "salesperson_id": {
+                    "type": "integer"
+                },
+                "state": {
+                    "description": "draft, paid",
+                    "type": "string"
+                }
+            }
+        },
+        "crm.SalesTeam": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "invoicing_target": {
+                    "type": "number"
+                },
+                "manager_id": {
+                    "description": "HR Employee ID",
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "crm.Stage": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "description": "New, Meeting, Proposal, Won, Lost",
+                    "type": "string"
+                },
+                "sequence": {
+                    "type": "integer"
+                }
+            }
+        },
+        "dashboards.Dashboard": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "discuss.Channel": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "documents.FinanceDocument": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "documents.Workspace": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "ecommerce.Cart": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "ecommerce.CartItem": {
+            "type": "object",
+            "properties": {
+                "cart_id": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "product_id": {
+                    "type": "integer"
+                },
+                "quantity": {
+                    "type": "number"
+                }
+            }
+        },
+        "ecommerce.PortalUser": {
+            "type": "object",
+            "properties": {
+                "customer_id": {
+                    "description": "Nyambung ke tabel Partner",
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "last_login": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                }
+            }
+        },
+        "ecommerce.ShoppingCart": {
+            "type": "object",
+            "properties": {
+                "customer_id": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "is_abandoned": {
+                    "type": "boolean"
+                },
+                "recovery_sent": {
+                    "type": "boolean"
+                },
+                "session_id": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                }
+            }
+        },
+        "elearning.Certification": {
+            "type": "object",
+            "properties": {
+                "course_id": {
+                    "type": "integer"
+                },
+                "customer_id": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "pdf_url": {
+                    "description": "Link sertifikat",
+                    "type": "string"
+                },
+                "score": {
+                    "type": "number"
+                }
+            }
+        },
+        "elearning.Course": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "elearning.Slide": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "employees.Contract": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "employee_id": {
+                    "type": "integer"
+                },
+                "end_date": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "job_position_id": {
+                    "type": "integer"
+                },
+                "start_date": {
+                    "type": "string"
+                },
+                "state": {
+                    "description": "draft, probation, open, close",
+                    "type": "string"
+                },
+                "wage": {
+                    "description": "Basic Salary",
+                    "type": "number"
+                },
+                "working_schedule_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "employees.Employee": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "department_id": {
+                    "description": "Links to Department",
+                    "type": "integer"
+                },
+                "emergency_contact": {
+                    "type": "string"
+                },
+                "emergency_phone": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "job_position_id": {
+                    "type": "integer"
+                },
+                "manager_id": {
+                    "description": "Self-referential",
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "description": "Links to auth users",
+                    "type": "integer"
+                },
+                "work_email": {
+                    "type": "string"
+                },
+                "work_phone": {
+                    "type": "string"
+                }
+            }
+        },
+        "employees.EmployeeSkill": {
+            "type": "object",
+            "properties": {
+                "employee_id": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "skill_id": {
+                    "type": "integer"
+                },
+                "skill_level_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "employees.JobPosition": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "department_id": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "description": "e.g. Software Engineer",
+                    "type": "string"
+                },
+                "state": {
+                    "description": "recruit, open",
+                    "type": "string"
+                }
+            }
+        },
+        "employees.ResumeLine": {
+            "type": "object",
+            "properties": {
+                "date_end": {
+                    "type": "string"
+                },
+                "date_start": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "employee_id": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "type": {
+                    "description": "experience, education",
+                    "type": "string"
+                }
+            }
+        },
+        "employees.Skill": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "description": "e.g. Golang",
+                    "type": "string"
+                }
+            }
+        },
+        "employees.SkillLevel": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "description": "e.g. Expert, Beginner",
+                    "type": "string"
+                },
+                "skill_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "employees.WorkingSchedule": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "hours_per_week": {
+                    "type": "number"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "description": "e.g. Senin - Jumat, 40 Jam/Minggu",
+                    "type": "string"
+                }
+            }
+        },
+        "events.Event": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "events.EventTicket": {
+            "type": "object",
+            "properties": {
+                "barcode": {
+                    "description": "Di-scan saat acara",
+                    "type": "string"
+                },
+                "customer_id": {
+                    "type": "integer"
+                },
+                "event_id": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "is_scanned": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "expenses.Expense": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "employee_id": {
+                    "type": "integer"
+                },
+                "expense_sheet_id": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "description": "e.g. Flight Ticket",
+                    "type": "string"
+                },
+                "state": {
+                    "description": "draft, reported",
+                    "type": "string"
+                },
+                "total_amount": {
+                    "type": "number"
+                }
+            }
+        },
+        "expenses.ExpenseSheet": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "employee_id": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "description": "e.g. Business Trip to Jakarta",
+                    "type": "string"
+                },
+                "state": {
+                    "description": "draft, submit, approve, post, done",
+                    "type": "string"
+                },
+                "total": {
+                    "type": "number"
+                }
+            }
+        },
+        "field_service.FieldServiceTask": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "fleet.Vehicle": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "employee_id": {
+                    "description": "Driver",
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "license_plate": {
+                    "type": "string"
+                },
+                "model_name": {
+                    "type": "string"
+                },
+                "state": {
+                    "type": "string"
+                }
+            }
+        },
+        "fleet.VehicleLogContract": {
+            "type": "object",
+            "properties": {
+                "cost": {
+                    "type": "number"
+                },
+                "expiration": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "vehicle_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "fleet.VehicleLogFuel": {
+            "type": "object",
+            "properties": {
+                "amount": {
+                    "type": "number"
+                },
+                "date": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "liters": {
+                    "type": "number"
+                },
+                "vehicle_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "fleet.VehicleLogServices": {
+            "type": "object",
+            "properties": {
+                "amount": {
+                    "type": "number"
+                },
+                "date": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "vehicle_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "forum.ForumPost": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "helpdesk.HelpdeskCannedResponse": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "keyword": {
+                    "description": "Kata Kunci, e.g., 'mati_lampu'",
+                    "type": "string"
+                },
+                "response": {
+                    "description": "Template Jawaban Otomatis",
+                    "type": "string"
+                }
+            }
+        },
+        "helpdesk.HelpdeskSLA": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "description": "e.g., Balas VIP \u003c 2 Jam",
+                    "type": "string"
+                },
+                "priority_level": {
+                    "description": "Berlaku untuk prioritas apa",
+                    "type": "string"
+                },
+                "target_hours": {
+                    "type": "number"
+                }
+            }
+        },
+        "helpdesk.Ticket": {
+            "type": "object",
+            "properties": {
+                "assignee_id": {
+                    "description": "Employee ID",
+                    "type": "integer"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "customer_id": {
+                    "description": "Partner ID",
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "issue_description": {
+                    "type": "string"
+                },
+                "name": {
+                    "description": "Issue Title",
+                    "type": "string"
+                },
+                "priority": {
+                    "description": "low, medium, high",
+                    "type": "string"
+                },
+                "state": {
+                    "description": "new, in_progress, solved, closed",
+                    "type": "string"
+                }
+            }
+        },
+        "inventory.Product": {
+            "type": "object",
+            "properties": {
+                "barcode": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "default_code": {
+                    "description": "SKU",
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "product_template_id": {
+                    "type": "integer"
+                },
+                "stock_qty": {
+                    "type": "number"
+                },
+                "volume": {
+                    "type": "number"
+                },
+                "weight": {
+                    "type": "number"
+                }
+            }
+        },
+        "inventory.ProductAttribute": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "description": "e.g. Color, Size",
+                    "type": "string"
+                }
+            }
+        },
+        "inventory.ProductAttributeValue": {
+            "type": "object",
+            "properties": {
+                "attribute_id": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "description": "e.g. Red, XL",
+                    "type": "string"
+                }
+            }
+        },
+        "inventory.ProductCategory": {
+            "type": "object",
+            "properties": {
+                "costing_method": {
+                    "description": "standard, average, fifo",
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "parent_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "inventory.ProductTemplate": {
+            "type": "object",
+            "properties": {
+                "category_id": {
+                    "type": "integer"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "list_price": {
+                    "description": "Default Sale Price",
+                    "type": "number"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "standard_price": {
+                    "description": "Cost",
+                    "type": "number"
+                },
+                "tracking": {
+                    "description": "none, lot, serial",
+                    "type": "string"
+                },
+                "type": {
+                    "description": "product (storable), consu (consumable), service",
+                    "type": "string"
+                },
+                "uom_id": {
+                    "type": "integer"
+                },
+                "uom_po_id": {
+                    "description": "UoM for Purchase",
+                    "type": "integer"
+                }
+            }
+        },
+        "inventory.StockLocation": {
+            "type": "object",
+            "properties": {
+                "barcode": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "description": "Stock, Shelf 1",
+                    "type": "string"
+                },
+                "parent_id": {
+                    "type": "integer"
+                },
+                "usage": {
+                    "description": "supplier, view, internal, customer, inventory, production",
+                    "type": "string"
+                },
+                "warehouse_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "inventory.StockLot": {
+            "type": "object",
+            "properties": {
+                "company_id": {
+                    "type": "integer"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "expiration_date": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "description": "Lot/Serial Number",
+                    "type": "string"
+                },
+                "product_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "inventory.StockPicking": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "location_dest_id": {
+                    "description": "Destination",
+                    "type": "integer"
+                },
+                "location_id": {
+                    "description": "Source",
+                    "type": "integer"
+                },
+                "name": {
+                    "description": "WH/OUT/0001",
+                    "type": "string"
+                },
+                "partner_id": {
+                    "description": "Customer/Vendor",
+                    "type": "integer"
+                },
+                "scheduled_date": {
+                    "type": "string"
+                },
+                "state": {
+                    "description": "draft, waiting, confirmed, assigned, done, cancel",
+                    "type": "string"
+                }
+            }
+        },
+        "inventory.StockPutawayRule": {
+            "type": "object",
+            "properties": {
+                "category_id": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "location_in_id": {
+                    "description": "When arriving here...",
+                    "type": "integer"
+                },
+                "location_out_id": {
+                    "description": "Put it here automatically",
+                    "type": "integer"
+                },
+                "product_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "inventory.StockQuant": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "location_id": {
+                    "type": "integer"
+                },
+                "lot_id": {
+                    "type": "integer"
+                },
+                "product_id": {
+                    "type": "integer"
+                },
+                "quantity": {
+                    "description": "Real-time available",
+                    "type": "number"
+                }
+            }
+        },
+        "inventory.StockValuationLayer": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "product_id": {
+                    "type": "integer"
+                },
+                "quantity": {
+                    "type": "number"
+                },
+                "unit_cost": {
+                    "type": "number"
+                },
+                "value": {
+                    "description": "Qty * UnitCost",
+                    "type": "number"
+                }
+            }
+        },
+        "inventory.StockWarehouse": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "description": "WH",
+                    "type": "string"
+                },
+                "company_id": {
+                    "type": "integer"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "description": "Main Warehouse",
+                    "type": "string"
+                }
+            }
+        },
+        "inventory.UoM": {
+            "type": "object",
+            "properties": {
+                "category_id": {
+                    "type": "integer"
+                },
+                "factor": {
+                    "description": "Ratio to reference UoM",
+                    "type": "number"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "description": "kg, cm, pcs",
+                    "type": "string"
+                },
+                "type": {
+                    "description": "reference, bigger, smaller",
+                    "type": "string"
+                }
+            }
+        },
+        "inventory.UoMCategory": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "description": "Weight, Length, Unit",
+                    "type": "string"
+                }
+            }
+        },
+        "invoicing.Invoice": {
+            "type": "object",
+            "properties": {
+                "amount_tax": {
+                    "type": "number"
+                },
+                "amount_total": {
+                    "type": "number"
+                },
+                "amount_untaxed": {
+                    "type": "number"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "due_date": {
+                    "type": "string"
+                },
+                "follow_up_level": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "incoterm_id": {
+                    "description": "Untuk Ekspor/Impor",
+                    "type": "integer"
+                },
+                "invoice_date": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "partner_id": {
+                    "type": "integer"
+                },
+                "payment_term_id": {
+                    "type": "integer"
+                },
+                "residual_amount": {
+                    "type": "number"
+                },
+                "state": {
+                    "type": "string"
+                }
+            }
+        },
+        "invoicing.PaymentTermLine": {
+            "type": "object",
+            "properties": {
+                "days": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "payment_term_id": {
+                    "type": "integer"
+                },
+                "value_amount": {
+                    "type": "number"
+                },
+                "value_type": {
+                    "description": "percent, fixed, balance",
+                    "type": "string"
+                }
+            }
+        },
+        "invoicing.TaxRepartitionLine": {
+            "type": "object",
+            "properties": {
+                "account_id": {
+                    "description": "Chart of Account Tujuan",
+                    "type": "integer"
+                },
+                "factor_percent": {
+                    "type": "number"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "repartition_type": {
+                    "description": "base, tax",
+                    "type": "string"
+                },
+                "tax_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "iot.IoTDevice": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "knowledge.Article": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "live_chat.ChatSession": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "operator_id": {
+                    "description": "CS yang membalas",
+                    "type": "integer"
+                },
+                "ticket_id": {
+                    "description": "Nyambung ke Helpdesk jika masalah tidak selesai",
+                    "type": "integer"
+                },
+                "visitor_ip": {
+                    "type": "string"
+                }
+            }
+        },
+        "lunch.LunchCashmove": {
+            "type": "object",
+            "properties": {
+                "amount": {
+                    "description": "Positive for deposit/subsidy, Negative for payment",
+                    "type": "number"
+                },
+                "date": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "employee_id": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "lunch.LunchOrder": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "date": {
+                    "type": "string"
+                },
+                "employee_id": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "state": {
+                    "description": "new, confirmed, cancelled",
+                    "type": "string"
+                },
+                "total": {
+                    "type": "number"
+                }
+            }
+        },
+        "mailer.EmailLog": {
+            "type": "object",
+            "properties": {
+                "body": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "recipient": {
+                    "type": "string"
+                },
+                "sent_at": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "subject": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                }
+            }
+        },
+        "maintenance.MaintenanceRequest": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "duration": {
+                    "description": "Lama perbaikan dalam jam",
+                    "type": "number"
+                },
+                "equipment_id": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "description": "Mesin Potong Rusak",
+                    "type": "string"
+                },
+                "schedule_date": {
+                    "type": "string"
+                },
+                "state": {
+                    "description": "todo, progress, done, cancel",
+                    "type": "string"
+                },
+                "type": {
+                    "description": "corrective (rusak), preventive (servis rutin)",
+                    "type": "string"
+                }
+            }
+        },
+        "manufacturing.MrpBom": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "description": "Reference",
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "product_id": {
+                    "type": "integer"
+                },
+                "quantity": {
+                    "description": "Product qty produced",
+                    "type": "number"
+                },
+                "type": {
+                    "description": "normal, phantom",
+                    "type": "string"
+                }
+            }
+        },
+        "manufacturing.MrpBomByproduct": {
+            "type": "object",
+            "properties": {
+                "bom_id": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "product_id": {
+                    "description": "Scrap/byproduct",
+                    "type": "integer"
+                },
+                "quantity": {
+                    "type": "number"
+                }
+            }
+        },
+        "manufacturing.MrpBomLine": {
+            "type": "object",
+            "properties": {
+                "bom_id": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "product_id": {
+                    "type": "integer"
+                },
+                "quantity": {
+                    "description": "Component qty consumed",
+                    "type": "number"
+                }
+            }
+        },
+        "manufacturing.MrpProduction": {
+            "type": "object",
+            "properties": {
+                "bom_id": {
+                    "type": "integer"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "date_planned": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "description": "WH/MO/0001",
+                    "type": "string"
+                },
+                "product_id": {
+                    "type": "integer"
+                },
+                "product_qty": {
+                    "type": "number"
+                },
+                "state": {
+                    "description": "draft, confirmed, progress, to_close, done, cancel",
+                    "type": "string"
+                }
+            }
+        },
+        "manufacturing.MrpWorkcenter": {
+            "type": "object",
+            "properties": {
+                "capacity": {
+                    "type": "number"
+                },
+                "code": {
+                    "type": "string"
+                },
+                "costs_hour": {
+                    "type": "number"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "description": "Assembly Line 1",
+                    "type": "string"
+                },
+                "time_efficiency": {
+                    "type": "number"
+                }
+            }
+        },
+        "manufacturing.MrpWorkorder": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "duration": {
+                    "description": "Actual minutes spent",
+                    "type": "number"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "description": "Operation name (e.g. Cutting)",
+                    "type": "string"
+                },
+                "production_id": {
+                    "type": "integer"
+                },
+                "state": {
+                    "description": "pending, ready, progress, done, cancel",
+                    "type": "string"
+                },
+                "workcenter_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "marketing_automation.AutomationCampaign": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "marketing_automation.WorkflowActivity": {
+            "type": "object",
+            "properties": {
+                "action_type": {
+                    "description": "send_email, send_sms",
+                    "type": "string"
+                },
+                "campaign_id": {
+                    "type": "integer"
+                },
+                "condition": {
+                    "description": "if_opened, if_ignored",
+                    "type": "string"
+                },
+                "delay_hours": {
+                    "description": "Tunggu berapa jam sebelum action",
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "mass_mailing.MailingCampaign": {
+            "type": "object",
+            "properties": {
+                "clicked_count": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "opened_count": {
+                    "type": "integer"
+                },
+                "sent_count": {
+                    "type": "integer"
+                }
+            }
+        },
+        "mass_mailing.UtmTracker": {
+            "type": "object",
+            "properties": {
+                "campaign_id": {
+                    "type": "integer"
+                },
+                "generated_revenue": {
+                    "description": "Untung dari link ini",
+                    "type": "number"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "utm_medium": {
+                    "description": "misal: cpc",
+                    "type": "string"
+                },
+                "utm_source": {
+                    "description": "misal: facebook",
+                    "type": "string"
+                }
+            }
+        },
+        "payroll.Payslip": {
+            "type": "object",
+            "properties": {
+                "contract_id": {
+                    "type": "integer"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "date_from": {
+                    "type": "string"
+                },
+                "date_to": {
+                    "type": "string"
+                },
+                "employee_id": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "description": "SLIP/2026/08/001",
+                    "type": "string"
+                },
+                "state": {
+                    "description": "draft, done",
+                    "type": "string"
+                }
+            }
+        },
+        "payroll.PayslipLine": {
+            "type": "object",
+            "properties": {
+                "amount": {
+                    "type": "number"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "payslip_id": {
+                    "type": "integer"
+                },
+                "salary_rule_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "payroll.SalaryRule": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "description": "BASIC, TAX",
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "description": "e.g. Basic Salary, Tax Deduction",
+                    "type": "string"
+                }
+            }
+        },
+        "permissions.RolePermission": {
+            "type": "object",
+            "required": [
+                "module",
+                "role_name"
+            ],
+            "properties": {
+                "can_delete": {
+                    "description": "Toggle Hapus",
+                    "type": "boolean"
+                },
+                "can_read": {
+                    "description": "Toggle Lihat",
+                    "type": "boolean"
+                },
+                "can_write": {
+                    "description": "Toggle Buat/Edit",
+                    "type": "boolean"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "module": {
+                    "description": "Contoh: \"inventory\" atau \"sales\"",
+                    "type": "string"
+                },
+                "role_name": {
+                    "description": "Contoh: \"SALES_MANAGER\"",
                     "type": "string"
                 }
             }
@@ -19423,6 +22842,576 @@ const docTemplate = `{
                 "value": {
                     "description": "true (On) / false (Off)",
                     "type": "boolean"
+                }
+            }
+        },
+        "planning.Shift": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "plm.PlmEco": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "description": "ECO/2026/001: Ubah Kayu Jadi Plastik",
+                    "type": "string"
+                },
+                "new_bom_id": {
+                    "description": "Resep revisi",
+                    "type": "integer"
+                },
+                "old_bom_id": {
+                    "description": "Resep lama",
+                    "type": "integer"
+                },
+                "product_id": {
+                    "type": "integer"
+                },
+                "state": {
+                    "description": "draft, progress, approved, done",
+                    "type": "string"
+                },
+                "type_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "point_of_sale.LoyaltyProgram": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "description": "e.g. Buy 2 Get 1, Points",
+                    "type": "string"
+                },
+                "type": {
+                    "description": "promotion, coupon, loyalty",
+                    "type": "string"
+                }
+            }
+        },
+        "point_of_sale.PosConfig": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "has_credit": {
+                    "type": "boolean"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "description": "Main Shop",
+                    "type": "string"
+                }
+            }
+        },
+        "point_of_sale.PosOrder": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "description": "Order Ref",
+                    "type": "string"
+                },
+                "partner_id": {
+                    "type": "integer"
+                },
+                "session_id": {
+                    "type": "integer"
+                },
+                "state": {
+                    "description": "draft, paid, done, invoiced",
+                    "type": "string"
+                },
+                "total": {
+                    "type": "number"
+                }
+            }
+        },
+        "point_of_sale.PosOrderLine": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "order_id": {
+                    "type": "integer"
+                },
+                "price_unit": {
+                    "type": "number"
+                },
+                "product_id": {
+                    "type": "integer"
+                },
+                "qty": {
+                    "type": "number"
+                },
+                "sub_total": {
+                    "type": "number"
+                }
+            }
+        },
+        "point_of_sale.PosPayment": {
+            "type": "object",
+            "properties": {
+                "amount": {
+                    "type": "number"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "method": {
+                    "description": "Cash, Bank, QRIS",
+                    "type": "string"
+                },
+                "order_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "point_of_sale.PosSession": {
+            "type": "object",
+            "properties": {
+                "config_id": {
+                    "type": "integer"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "state": {
+                    "description": "opened, closed",
+                    "type": "string"
+                }
+            }
+        },
+        "project.Project": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "customer_id": {
+                    "description": "Partner ID",
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "manager_id": {
+                    "description": "Employee ID",
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "sale_order_id": {
+                    "description": "1. Integrasi Sales (Auto-Create)",
+                    "type": "integer"
+                },
+                "state": {
+                    "description": "active, done, cancelled",
+                    "type": "string"
+                }
+            }
+        },
+        "project.ProjectMilestone": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "invoice_percentage": {
+                    "description": "Berapa % yang ditagihkan saat ini selesai",
+                    "type": "number"
+                },
+                "is_reached": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "description": "e.g., Pondasi Selesai",
+                    "type": "string"
+                },
+                "project_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "project.ResourceForecast": {
+            "type": "object",
+            "properties": {
+                "employee_id": {
+                    "type": "integer"
+                },
+                "end_date": {
+                    "type": "string"
+                },
+                "hours_per_week": {
+                    "type": "number"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "project_id": {
+                    "type": "integer"
+                },
+                "start_date": {
+                    "type": "string"
+                }
+            }
+        },
+        "project.TaskDependency": {
+            "type": "object",
+            "properties": {
+                "blocks_task_id": {
+                    "description": "Menghalangi tugas ini",
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "task_id": {
+                    "description": "Tugas ini",
+                    "type": "integer"
+                }
+            }
+        },
+        "purchase.ProductSupplierInfo": {
+            "type": "object",
+            "properties": {
+                "delay": {
+                    "description": "Delivery lead time in days",
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "min_qty": {
+                    "type": "number"
+                },
+                "partner_id": {
+                    "description": "Vendor",
+                    "type": "integer"
+                },
+                "price": {
+                    "type": "number"
+                },
+                "product_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "purchase.PurchaseOrder": {
+            "type": "object",
+            "properties": {
+                "amount_tax": {
+                    "type": "number"
+                },
+                "amount_total": {
+                    "type": "number"
+                },
+                "amount_untaxed": {
+                    "type": "number"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "date_order": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "description": "PO/2026/001",
+                    "type": "string"
+                },
+                "partner_id": {
+                    "description": "Vendor",
+                    "type": "integer"
+                },
+                "requisition_id": {
+                    "description": "Link to Blanket Order",
+                    "type": "integer"
+                },
+                "state": {
+                    "description": "draft, sent, purchase, done, cancel",
+                    "type": "string"
+                }
+            }
+        },
+        "purchase.PurchaseOrderLine": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "description": "Description",
+                    "type": "string"
+                },
+                "order_id": {
+                    "type": "integer"
+                },
+                "price_subtotal": {
+                    "type": "number"
+                },
+                "price_unit": {
+                    "type": "number"
+                },
+                "product_id": {
+                    "type": "integer"
+                },
+                "qty_invoiced": {
+                    "type": "number"
+                },
+                "qty_received": {
+                    "type": "number"
+                },
+                "quantity": {
+                    "type": "number"
+                },
+                "taxes_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "purchase.PurchaseRequisition": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "date_end": {
+                    "description": "Deadline for vendor bids",
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "description": "TE/2026/001",
+                    "type": "string"
+                },
+                "state": {
+                    "description": "draft, in_progress, open, done, cancel",
+                    "type": "string"
+                }
+            }
+        },
+        "quality.QualityCheck": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "measure_value": {
+                    "type": "number"
+                },
+                "name": {
+                    "description": "QC/001",
+                    "type": "string"
+                },
+                "picking_id": {
+                    "description": "Jika QC saat barang datang",
+                    "type": "integer"
+                },
+                "point_id": {
+                    "type": "integer"
+                },
+                "product_id": {
+                    "type": "integer"
+                },
+                "production_id": {
+                    "description": "Jika QC saat diproduksi",
+                    "type": "integer"
+                },
+                "result": {
+                    "description": "pending, pass, fail",
+                    "type": "string"
+                }
+            }
+        },
+        "recruitment.Applicant": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "expected_salary": {
+                    "type": "number"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "job_position_id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "phone": {
+                    "type": "string"
+                },
+                "stage_id": {
+                    "type": "integer"
+                },
+                "state": {
+                    "description": "in_progress, hired, refused",
+                    "type": "string"
+                }
+            }
+        },
+        "referrals.ReferralPoint": {
+            "type": "object",
+            "properties": {
+                "applicant_id": {
+                    "description": "Who was referred",
+                    "type": "integer"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "employee_id": {
+                    "description": "Who referred",
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "points": {
+                    "type": "integer"
+                },
+                "reason": {
+                    "description": "e.g. Candidate Hired",
+                    "type": "string"
+                }
+            }
+        },
+        "referrals.ReferralReward": {
+            "type": "object",
+            "properties": {
+                "cost": {
+                    "description": "Cost in points",
+                    "type": "integer"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "is_active": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "description": "e.g. iPhone 15 Pro",
+                    "type": "string"
+                }
+            }
+        },
+        "rental.RentalOrder": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "description": "RO/2026/001",
+                    "type": "string"
+                },
+                "partner_id": {
+                    "type": "integer"
+                },
+                "pickup_date": {
+                    "type": "string"
+                },
+                "return_date": {
+                    "type": "string"
+                },
+                "state": {
+                    "description": "draft, reserved, pickedup, returned",
+                    "type": "string"
+                },
+                "total": {
+                    "type": "number"
+                }
+            }
+        },
+        "rental.RentalOrderLine": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "order_id": {
+                    "type": "integer"
+                },
+                "price_unit": {
+                    "type": "number"
+                },
+                "product_id": {
+                    "type": "integer"
+                },
+                "qty": {
+                    "type": "number"
+                },
+                "sub_total": {
+                    "type": "number"
+                }
+            }
+        },
+        "repairs.RepairOrder": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
                 }
             }
         },
@@ -19469,6 +23458,443 @@ const docTemplate = `{
                 }
             }
         },
+        "sales_core.DeliveryMethod": {
+            "type": "object",
+            "properties": {
+                "fixed_cost": {
+                    "type": "number"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "description": "e.g. JNE Regular",
+                    "type": "string"
+                }
+            }
+        },
+        "sales_core.Pricelist": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "currency": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "description": "e.g. VIP Customers",
+                    "type": "string"
+                }
+            }
+        },
+        "sales_core.PricelistItem": {
+            "type": "object",
+            "properties": {
+                "fixed_price": {
+                    "type": "number"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "min_quantity": {
+                    "type": "number"
+                },
+                "pricelist_id": {
+                    "type": "integer"
+                },
+                "product_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "sales_core.QuotationTemplate": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "description": "e.g. Basic Installation Package",
+                    "type": "string"
+                }
+            }
+        },
+        "sales_core.SaleOrder": {
+            "type": "object",
+            "properties": {
+                "amount_tax": {
+                    "type": "number"
+                },
+                "amount_total": {
+                    "type": "number"
+                },
+                "amount_untaxed": {
+                    "type": "number"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "date_order": {
+                    "type": "string"
+                },
+                "delivery_method_id": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "invoicing_policy": {
+                    "description": "ordered, delivered",
+                    "type": "string"
+                },
+                "is_payment_link_sent": {
+                    "type": "boolean"
+                },
+                "is_signed": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "description": "SO/2026/001",
+                    "type": "string"
+                },
+                "partner_id": {
+                    "type": "integer"
+                },
+                "pricelist_id": {
+                    "type": "integer"
+                },
+                "quotation_template_id": {
+                    "type": "integer"
+                },
+                "state": {
+                    "description": "draft, sent, sale, done, cancel",
+                    "type": "string"
+                }
+            }
+        },
+        "sales_core.SaleOrderLine": {
+            "type": "object",
+            "properties": {
+                "delivered_qty": {
+                    "type": "number"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "discount": {
+                    "description": "Percentage",
+                    "type": "number"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "invoiced_qty": {
+                    "type": "number"
+                },
+                "is_optional": {
+                    "description": "Upselling item",
+                    "type": "boolean"
+                },
+                "order_id": {
+                    "type": "integer"
+                },
+                "product_id": {
+                    "type": "integer"
+                },
+                "quantity": {
+                    "type": "number"
+                },
+                "sub_total": {
+                    "type": "number"
+                },
+                "unit_price": {
+                    "type": "number"
+                }
+            }
+        },
+        "sign.SignatureRequest": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "sms_marketing.SmsCampaign": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "social_marketing.SocialPost": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "message": {
+                    "type": "string"
+                },
+                "post_to_facebook": {
+                    "type": "boolean"
+                },
+                "post_to_instagram": {
+                    "type": "boolean"
+                },
+                "post_to_twitter": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "spreadsheet_bi.Spreadsheet": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "storage.Attachment": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "file_name": {
+                    "type": "string"
+                },
+                "file_path": {
+                    "type": "string"
+                },
+                "file_size": {
+                    "type": "integer"
+                },
+                "file_type": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "updated_at": {
+                    "type": "string"
+                },
+                "uploaded_by_id": {
+                    "description": "Siapa yang mengunggah",
+                    "type": "integer"
+                }
+            }
+        },
+        "subscriptions.Subscription": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "next_invoice_date": {
+                    "type": "string"
+                },
+                "partner_id": {
+                    "type": "integer"
+                },
+                "plan_id": {
+                    "type": "integer"
+                },
+                "recurring_total": {
+                    "type": "number"
+                },
+                "start_date": {
+                    "type": "string"
+                },
+                "state": {
+                    "description": "draft, open, closed",
+                    "type": "string"
+                }
+            }
+        },
+        "subscriptions.SubscriptionPlan": {
+            "type": "object",
+            "properties": {
+                "billing_period": {
+                    "description": "monthly, yearly",
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "description": "e.g. Monthly Basic",
+                    "type": "string"
+                }
+            }
+        },
+        "surveys.Survey": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "state": {
+                    "description": "draft, open, closed",
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                }
+            }
+        },
+        "time_off.LeaveAllocation": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "employee_id": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "leave_type_id": {
+                    "type": "integer"
+                },
+                "number_of_days": {
+                    "type": "number"
+                },
+                "state": {
+                    "description": "draft, approved",
+                    "type": "string"
+                }
+            }
+        },
+        "time_off.LeaveRequest": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "employee_id": {
+                    "type": "integer"
+                },
+                "end_date": {
+                    "type": "string"
+                },
+                "hr_approve_id": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "leave_type_id": {
+                    "type": "integer"
+                },
+                "manager_approve_id": {
+                    "type": "integer"
+                },
+                "number_of_days": {
+                    "type": "number"
+                },
+                "start_date": {
+                    "type": "string"
+                },
+                "status": {
+                    "description": "draft, approved, rejected",
+                    "type": "string"
+                }
+            }
+        },
+        "time_off.LeaveType": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "description": "e.g. Sick, Annual",
+                    "type": "string"
+                },
+                "requires_approval": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "timesheets.Timesheet": {
+            "type": "object",
+            "properties": {
+                "cost": {
+                    "description": "Harga Pokok Tenaga Kerja",
+                    "type": "number"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "date": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "employee_id": {
+                    "description": "Who worked",
+                    "type": "integer"
+                },
+                "hours": {
+                    "type": "number"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "is_billable": {
+                    "description": "2. Billable Timesheet \u0026 7. Project Profitability",
+                    "type": "boolean"
+                },
+                "project_id": {
+                    "type": "integer"
+                },
+                "task_id": {
+                    "description": "Optional",
+                    "type": "integer"
+                }
+            }
+        },
         "user_roles.AssignRoleRequest": {
             "type": "object",
             "required": [
@@ -19484,6 +23910,65 @@ const docTemplate = `{
                 },
                 "user_id": {
                     "type": "integer"
+                }
+            }
+        },
+        "user_roles.UserRoleResponse": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "roles": {
+                    "type": "string"
+                }
+            }
+        },
+        "voip.CallRecord": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "website_builder.Page": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "whatsapp.WaTemplate": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
                 }
             }
         }

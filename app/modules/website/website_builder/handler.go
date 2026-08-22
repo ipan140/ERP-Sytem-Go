@@ -14,7 +14,8 @@ import (
 // @Tags website-website_builder
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} Page
+// @Param request body Page true "Payload"
 // @Router /api/website/website_builder [post]
 // @Security BearerAuth
 func CreatePageHandler(c echo.Context) error {
@@ -33,7 +34,7 @@ func CreatePageHandler(c echo.Context) error {
 // @Description Retrieve a list of all Page
 // @Tags website-website_builder
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} []Page
 // @Router /api/website/website_builder [get]
 // @Security BearerAuth
 func GetAllPageHandler(c echo.Context) error {
@@ -50,7 +51,7 @@ func GetAllPageHandler(c echo.Context) error {
 // @Tags website-website_builder
 // @Produce json
 // @Param id path int true "Page ID"
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} Page
 // @Router /api/website/website_builder/{id} [get]
 // @Security BearerAuth
 func GetPageByIDHandler(c echo.Context) error {
@@ -103,3 +104,5 @@ func DeletePageHandler(c echo.Context) error {
 	}
 	return utils.SendSuccess(c, http.StatusOK, "Data deleted successfully", nil)
 }
+
+

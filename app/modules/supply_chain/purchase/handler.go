@@ -14,7 +14,8 @@ import (
 // @Tags supply_chain-purchase
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} PurchaseOrder
+// @Param request body PurchaseOrder true "Payload"
 // @Router /api/supply_chain/purchase [post]
 // @Security BearerAuth
 func CreatePurchaseOrderHandler(c echo.Context) error {
@@ -33,7 +34,7 @@ func CreatePurchaseOrderHandler(c echo.Context) error {
 // @Description Retrieve a list of all PurchaseOrder
 // @Tags supply_chain-purchase
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} []PurchaseOrder
 // @Router /api/supply_chain/purchase [get]
 // @Security BearerAuth
 func GetAllPurchaseOrderHandler(c echo.Context) error {
@@ -50,7 +51,7 @@ func GetAllPurchaseOrderHandler(c echo.Context) error {
 // @Tags supply_chain-purchase
 // @Produce json
 // @Param id path int true "PurchaseOrder ID"
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} PurchaseOrder
 // @Router /api/supply_chain/purchase/{id} [get]
 // @Security BearerAuth
 func GetPurchaseOrderByIDHandler(c echo.Context) error {
@@ -109,7 +110,8 @@ func DeletePurchaseOrderHandler(c echo.Context) error {
 // @Tags supply_chain-purchase
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} PurchaseRequisition
+// @Param request body PurchaseRequisition true "Payload"
 // @Router /api/supply_chain/purchase/purchaserequisition [post]
 // @Security BearerAuth
 func CreatePurchaseRequisitionHandler(c echo.Context) error {
@@ -127,7 +129,7 @@ func CreatePurchaseRequisitionHandler(c echo.Context) error {
 // @Description Retrieve a list of all PurchaseRequisition
 // @Tags supply_chain-purchase
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} PurchaseRequisition
 // @Router /api/supply_chain/purchase/purchaserequisition [get]
 // @Security BearerAuth
 func GetAllPurchaseRequisitionHandler(c echo.Context) error {
@@ -191,7 +193,8 @@ func DeletePurchaseRequisitionHandler(c echo.Context) error {
 // @Tags supply_chain-purchase
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} ProductSupplierInfo
+// @Param request body ProductSupplierInfo true "Payload"
 // @Router /api/supply_chain/purchase/productsupplierinfo [post]
 // @Security BearerAuth
 func CreateProductSupplierInfoHandler(c echo.Context) error {
@@ -209,7 +212,7 @@ func CreateProductSupplierInfoHandler(c echo.Context) error {
 // @Description Retrieve a list of all ProductSupplierInfo
 // @Tags supply_chain-purchase
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} ProductSupplierInfo
 // @Router /api/supply_chain/purchase/productsupplierinfo [get]
 // @Security BearerAuth
 func GetAllProductSupplierInfoHandler(c echo.Context) error {
@@ -273,7 +276,8 @@ func DeleteProductSupplierInfoHandler(c echo.Context) error {
 // @Tags supply_chain-purchase
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} PurchaseOrderLine
+// @Param request body PurchaseOrderLine true "Payload"
 // @Router /api/supply_chain/purchase/purchaseorderline [post]
 // @Security BearerAuth
 func CreatePurchaseOrderLineHandler(c echo.Context) error {
@@ -291,7 +295,7 @@ func CreatePurchaseOrderLineHandler(c echo.Context) error {
 // @Description Retrieve a list of all PurchaseOrderLine
 // @Tags supply_chain-purchase
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} PurchaseOrderLine
 // @Router /api/supply_chain/purchase/purchaseorderline [get]
 // @Security BearerAuth
 func GetAllPurchaseOrderLineHandler(c echo.Context) error {
@@ -349,3 +353,5 @@ func DeletePurchaseOrderLineHandler(c echo.Context) error {
 	}
 	return utils.SendSuccess(c, http.StatusOK, "Deleted successfully", nil)
 }
+
+

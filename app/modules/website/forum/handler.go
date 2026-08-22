@@ -14,7 +14,8 @@ import (
 // @Tags website-forum
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} ForumPost
+// @Param request body ForumPost true "Payload"
 // @Router /api/website/forum [post]
 // @Security BearerAuth
 func CreateForumPostHandler(c echo.Context) error {
@@ -33,7 +34,7 @@ func CreateForumPostHandler(c echo.Context) error {
 // @Description Retrieve a list of all ForumPost
 // @Tags website-forum
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} []ForumPost
 // @Router /api/website/forum [get]
 // @Security BearerAuth
 func GetAllForumPostHandler(c echo.Context) error {
@@ -50,7 +51,7 @@ func GetAllForumPostHandler(c echo.Context) error {
 // @Tags website-forum
 // @Produce json
 // @Param id path int true "ForumPost ID"
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} ForumPost
 // @Router /api/website/forum/{id} [get]
 // @Security BearerAuth
 func GetForumPostByIDHandler(c echo.Context) error {
@@ -103,3 +104,5 @@ func DeleteForumPostHandler(c echo.Context) error {
 	}
 	return utils.SendSuccess(c, http.StatusOK, "Data deleted successfully", nil)
 }
+
+

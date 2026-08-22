@@ -14,7 +14,8 @@ import (
 // @Tags finance-sign
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} SignatureRequest
+// @Param request body SignatureRequest true "Payload"
 // @Router /api/finance/sign [post]
 // @Security BearerAuth
 func CreateSignatureRequestHandler(c echo.Context) error {
@@ -33,7 +34,7 @@ func CreateSignatureRequestHandler(c echo.Context) error {
 // @Description Retrieve a list of all SignatureRequest
 // @Tags finance-sign
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} []SignatureRequest
 // @Router /api/finance/sign [get]
 // @Security BearerAuth
 func GetAllSignatureRequestHandler(c echo.Context) error {
@@ -50,7 +51,7 @@ func GetAllSignatureRequestHandler(c echo.Context) error {
 // @Tags finance-sign
 // @Produce json
 // @Param id path int true "SignatureRequest ID"
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} SignatureRequest
 // @Router /api/finance/sign/{id} [get]
 // @Security BearerAuth
 func GetSignatureRequestByIDHandler(c echo.Context) error {
@@ -103,3 +104,5 @@ func DeleteSignatureRequestHandler(c echo.Context) error {
 	}
 	return utils.SendSuccess(c, http.StatusOK, "Data deleted successfully", nil)
 }
+
+

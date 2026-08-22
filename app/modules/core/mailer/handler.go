@@ -14,7 +14,8 @@ import (
 // @Tags core-mailer
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} EmailLog
+// @Param request body EmailLog true "Payload"
 // @Router /api/core/mailer [post]
 // @Security BearerAuth
 func CreateEmailLogHandler(c echo.Context) error {
@@ -33,7 +34,7 @@ func CreateEmailLogHandler(c echo.Context) error {
 // @Description Retrieve a list of all EmailLog
 // @Tags core-mailer
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} []EmailLog
 // @Router /api/core/mailer [get]
 // @Security BearerAuth
 func GetAllEmailLogHandler(c echo.Context) error {
@@ -50,7 +51,7 @@ func GetAllEmailLogHandler(c echo.Context) error {
 // @Tags core-mailer
 // @Produce json
 // @Param id path int true "EmailLog ID"
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} EmailLog
 // @Router /api/core/mailer/{id} [get]
 // @Security BearerAuth
 func GetEmailLogByIDHandler(c echo.Context) error {
@@ -103,3 +104,5 @@ func DeleteEmailLogHandler(c echo.Context) error {
 	}
 	return utils.SendSuccess(c, http.StatusOK, "Data deleted successfully", nil)
 }
+
+

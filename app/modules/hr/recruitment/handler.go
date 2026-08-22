@@ -14,7 +14,8 @@ import (
 // @Tags hr-recruitment
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} Applicant
+// @Param request body Applicant true "Payload"
 // @Router /api/hr/recruitment [post]
 // @Security BearerAuth
 func CreateApplicantHandler(c echo.Context) error {
@@ -33,7 +34,7 @@ func CreateApplicantHandler(c echo.Context) error {
 // @Description Retrieve a list of all Applicant
 // @Tags hr-recruitment
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} []Applicant
 // @Router /api/hr/recruitment [get]
 // @Security BearerAuth
 func GetAllApplicantHandler(c echo.Context) error {
@@ -50,7 +51,7 @@ func GetAllApplicantHandler(c echo.Context) error {
 // @Tags hr-recruitment
 // @Produce json
 // @Param id path int true "Applicant ID"
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} Applicant
 // @Router /api/hr/recruitment/{id} [get]
 // @Security BearerAuth
 func GetApplicantByIDHandler(c echo.Context) error {
@@ -103,3 +104,5 @@ func DeleteApplicantHandler(c echo.Context) error {
 	}
 	return utils.SendSuccess(c, http.StatusOK, "Data deleted successfully", nil)
 }
+
+

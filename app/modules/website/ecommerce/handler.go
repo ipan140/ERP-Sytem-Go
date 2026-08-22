@@ -14,7 +14,8 @@ import (
 // @Tags website-ecommerce
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} Cart
+// @Param request body Cart true "Payload"
 // @Router /api/website/ecommerce [post]
 // @Security BearerAuth
 func CreateCartHandler(c echo.Context) error {
@@ -33,7 +34,7 @@ func CreateCartHandler(c echo.Context) error {
 // @Description Retrieve a list of all Cart
 // @Tags website-ecommerce
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} []Cart
 // @Router /api/website/ecommerce [get]
 // @Security BearerAuth
 func GetAllCartHandler(c echo.Context) error {
@@ -50,7 +51,7 @@ func GetAllCartHandler(c echo.Context) error {
 // @Tags website-ecommerce
 // @Produce json
 // @Param id path int true "Cart ID"
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} Cart
 // @Router /api/website/ecommerce/{id} [get]
 // @Security BearerAuth
 func GetCartByIDHandler(c echo.Context) error {
@@ -109,7 +110,8 @@ func DeleteCartHandler(c echo.Context) error {
 // @Tags website-ecommerce
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} PortalUser
+// @Param request body PortalUser true "Payload"
 // @Router /api/website/ecommerce/portaluser [post]
 // @Security BearerAuth
 func CreatePortalUserHandler(c echo.Context) error {
@@ -127,7 +129,7 @@ func CreatePortalUserHandler(c echo.Context) error {
 // @Description Retrieve a list of all PortalUser
 // @Tags website-ecommerce
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} PortalUser
 // @Router /api/website/ecommerce/portaluser [get]
 // @Security BearerAuth
 func GetAllPortalUserHandler(c echo.Context) error {
@@ -191,7 +193,8 @@ func DeletePortalUserHandler(c echo.Context) error {
 // @Tags website-ecommerce
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} ShoppingCart
+// @Param request body ShoppingCart true "Payload"
 // @Router /api/website/ecommerce/shoppingcart [post]
 // @Security BearerAuth
 func CreateShoppingCartHandler(c echo.Context) error {
@@ -209,7 +212,7 @@ func CreateShoppingCartHandler(c echo.Context) error {
 // @Description Retrieve a list of all ShoppingCart
 // @Tags website-ecommerce
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} ShoppingCart
 // @Router /api/website/ecommerce/shoppingcart [get]
 // @Security BearerAuth
 func GetAllShoppingCartHandler(c echo.Context) error {
@@ -273,7 +276,8 @@ func DeleteShoppingCartHandler(c echo.Context) error {
 // @Tags website-ecommerce
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} CartItem
+// @Param request body CartItem true "Payload"
 // @Router /api/website/ecommerce/cartitem [post]
 // @Security BearerAuth
 func CreateCartItemHandler(c echo.Context) error {
@@ -291,7 +295,7 @@ func CreateCartItemHandler(c echo.Context) error {
 // @Description Retrieve a list of all CartItem
 // @Tags website-ecommerce
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} CartItem
 // @Router /api/website/ecommerce/cartitem [get]
 // @Security BearerAuth
 func GetAllCartItemHandler(c echo.Context) error {
@@ -349,3 +353,5 @@ func DeleteCartItemHandler(c echo.Context) error {
 	}
 	return utils.SendSuccess(c, http.StatusOK, "Success", nil)
 }
+
+

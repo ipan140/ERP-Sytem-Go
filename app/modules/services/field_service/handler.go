@@ -14,7 +14,8 @@ import (
 // @Tags services-field_service
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} FieldServiceTask
+// @Param request body FieldServiceTask true "Payload"
 // @Router /api/services/field_service [post]
 // @Security BearerAuth
 func CreateFieldServiceTaskHandler(c echo.Context) error {
@@ -33,7 +34,7 @@ func CreateFieldServiceTaskHandler(c echo.Context) error {
 // @Description Retrieve a list of all FieldServiceTask
 // @Tags services-field_service
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} []FieldServiceTask
 // @Router /api/services/field_service [get]
 // @Security BearerAuth
 func GetAllFieldServiceTaskHandler(c echo.Context) error {
@@ -50,7 +51,7 @@ func GetAllFieldServiceTaskHandler(c echo.Context) error {
 // @Tags services-field_service
 // @Produce json
 // @Param id path int true "FieldServiceTask ID"
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} FieldServiceTask
 // @Router /api/services/field_service/{id} [get]
 // @Security BearerAuth
 func GetFieldServiceTaskByIDHandler(c echo.Context) error {
@@ -103,3 +104,5 @@ func DeleteFieldServiceTaskHandler(c echo.Context) error {
 	}
 	return utils.SendSuccess(c, http.StatusOK, "Data deleted successfully", nil)
 }
+
+

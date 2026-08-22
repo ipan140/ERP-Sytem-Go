@@ -14,7 +14,8 @@ import (
 // @Tags finance-spreadsheet_bi
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} Spreadsheet
+// @Param request body Spreadsheet true "Payload"
 // @Router /api/finance/spreadsheet_bi [post]
 // @Security BearerAuth
 func CreateSpreadsheetHandler(c echo.Context) error {
@@ -33,7 +34,7 @@ func CreateSpreadsheetHandler(c echo.Context) error {
 // @Description Retrieve a list of all Spreadsheet
 // @Tags finance-spreadsheet_bi
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} []Spreadsheet
 // @Router /api/finance/spreadsheet_bi [get]
 // @Security BearerAuth
 func GetAllSpreadsheetHandler(c echo.Context) error {
@@ -50,7 +51,7 @@ func GetAllSpreadsheetHandler(c echo.Context) error {
 // @Tags finance-spreadsheet_bi
 // @Produce json
 // @Param id path int true "Spreadsheet ID"
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} Spreadsheet
 // @Router /api/finance/spreadsheet_bi/{id} [get]
 // @Security BearerAuth
 func GetSpreadsheetByIDHandler(c echo.Context) error {
@@ -103,3 +104,5 @@ func DeleteSpreadsheetHandler(c echo.Context) error {
 	}
 	return utils.SendSuccess(c, http.StatusOK, "Data deleted successfully", nil)
 }
+
+

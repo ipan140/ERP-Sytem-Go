@@ -19,7 +19,8 @@ import (
 // @Tags finance-invoicing
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} Invoice
+// @Param request body Invoice true "Payload"
 // @Router /api/finance/invoicing [post]
 // @Security BearerAuth
 func CreateInvoiceHandler(c echo.Context) error {
@@ -38,7 +39,7 @@ func CreateInvoiceHandler(c echo.Context) error {
 // @Description Retrieve a list of all Invoice
 // @Tags finance-invoicing
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} []Invoice
 // @Router /api/finance/invoicing [get]
 // @Security BearerAuth
 func GetAllInvoiceHandler(c echo.Context) error {
@@ -55,7 +56,7 @@ func GetAllInvoiceHandler(c echo.Context) error {
 // @Tags finance-invoicing
 // @Produce json
 // @Param id path int true "Invoice ID"
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} Invoice
 // @Router /api/finance/invoicing/{id} [get]
 // @Security BearerAuth
 func GetInvoiceByIDHandler(c echo.Context) error {
@@ -163,7 +164,8 @@ func TriggerDunningHandler(c echo.Context) error {
 // @Tags finance-invoicing
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} PaymentTermLine
+// @Param request body PaymentTermLine true "Payload"
 // @Router /api/finance/invoicing/paymenttermline [post]
 // @Security BearerAuth
 func CreatePaymentTermLineHandler(c echo.Context) error {
@@ -181,7 +183,7 @@ func CreatePaymentTermLineHandler(c echo.Context) error {
 // @Description Retrieve a list of all PaymentTermLine
 // @Tags finance-invoicing
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} PaymentTermLine
 // @Router /api/finance/invoicing/paymenttermline [get]
 // @Security BearerAuth
 func GetAllPaymentTermLineHandler(c echo.Context) error {
@@ -245,7 +247,8 @@ func DeletePaymentTermLineHandler(c echo.Context) error {
 // @Tags finance-invoicing
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} TaxRepartitionLine
+// @Param request body TaxRepartitionLine true "Payload"
 // @Router /api/finance/invoicing/taxrepartitionline [post]
 // @Security BearerAuth
 func CreateTaxRepartitionLineHandler(c echo.Context) error {
@@ -263,7 +266,7 @@ func CreateTaxRepartitionLineHandler(c echo.Context) error {
 // @Description Retrieve a list of all TaxRepartitionLine
 // @Tags finance-invoicing
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} TaxRepartitionLine
 // @Router /api/finance/invoicing/taxrepartitionline [get]
 // @Security BearerAuth
 func GetAllTaxRepartitionLineHandler(c echo.Context) error {
@@ -457,3 +460,5 @@ func ExportInvoiceExcelHTMLHandler(c echo.Context) error {
 	_, err = c.Response().Writer.Write(htmlBuffer.Bytes())
 	return err
 }
+
+

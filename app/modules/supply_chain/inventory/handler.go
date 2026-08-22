@@ -14,7 +14,8 @@ import (
 // @Tags supply_chain-inventory
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} Product
+// @Param request body Product true "Payload"
 // @Router /api/supply_chain/inventory [post]
 // @Security BearerAuth
 func CreateProductHandler(c echo.Context) error {
@@ -33,7 +34,7 @@ func CreateProductHandler(c echo.Context) error {
 // @Description Retrieve a list of all Product
 // @Tags supply_chain-inventory
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} []Product
 // @Router /api/supply_chain/inventory [get]
 // @Security BearerAuth
 func GetAllProductHandler(c echo.Context) error {
@@ -50,7 +51,7 @@ func GetAllProductHandler(c echo.Context) error {
 // @Tags supply_chain-inventory
 // @Produce json
 // @Param id path int true "Product ID"
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} Product
 // @Router /api/supply_chain/inventory/{id} [get]
 // @Security BearerAuth
 func GetProductByIDHandler(c echo.Context) error {
@@ -109,7 +110,8 @@ func DeleteProductHandler(c echo.Context) error {
 // @Tags supply_chain-inventory
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} ProductCategory
+// @Param request body ProductCategory true "Payload"
 // @Router /api/supply_chain/inventory/productcategory [post]
 // @Security BearerAuth
 func CreateProductCategoryHandler(c echo.Context) error {
@@ -127,7 +129,7 @@ func CreateProductCategoryHandler(c echo.Context) error {
 // @Description Retrieve a list of all ProductCategory
 // @Tags supply_chain-inventory
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} ProductCategory
 // @Router /api/supply_chain/inventory/productcategory [get]
 // @Security BearerAuth
 func GetAllProductCategoryHandler(c echo.Context) error {
@@ -191,7 +193,8 @@ func DeleteProductCategoryHandler(c echo.Context) error {
 // @Tags supply_chain-inventory
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} UoMCategory
+// @Param request body UoMCategory true "Payload"
 // @Router /api/supply_chain/inventory/uomcategory [post]
 // @Security BearerAuth
 func CreateUoMCategoryHandler(c echo.Context) error {
@@ -209,7 +212,7 @@ func CreateUoMCategoryHandler(c echo.Context) error {
 // @Description Retrieve a list of all UoMCategory
 // @Tags supply_chain-inventory
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} UoMCategory
 // @Router /api/supply_chain/inventory/uomcategory [get]
 // @Security BearerAuth
 func GetAllUoMCategoryHandler(c echo.Context) error {
@@ -273,7 +276,8 @@ func DeleteUoMCategoryHandler(c echo.Context) error {
 // @Tags supply_chain-inventory
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} UoM
+// @Param request body UoM true "Payload"
 // @Router /api/supply_chain/inventory/uom [post]
 // @Security BearerAuth
 func CreateUoMHandler(c echo.Context) error {
@@ -291,7 +295,7 @@ func CreateUoMHandler(c echo.Context) error {
 // @Description Retrieve a list of all UoM
 // @Tags supply_chain-inventory
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} UoM
 // @Router /api/supply_chain/inventory/uom [get]
 // @Security BearerAuth
 func GetAllUoMHandler(c echo.Context) error {
@@ -355,7 +359,8 @@ func DeleteUoMHandler(c echo.Context) error {
 // @Tags supply_chain-inventory
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} ProductTemplate
+// @Param request body ProductTemplate true "Payload"
 // @Router /api/supply_chain/inventory/producttemplate [post]
 // @Security BearerAuth
 func CreateProductTemplateHandler(c echo.Context) error {
@@ -373,7 +378,7 @@ func CreateProductTemplateHandler(c echo.Context) error {
 // @Description Retrieve a list of all ProductTemplate
 // @Tags supply_chain-inventory
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} ProductTemplate
 // @Router /api/supply_chain/inventory/producttemplate [get]
 // @Security BearerAuth
 func GetAllProductTemplateHandler(c echo.Context) error {
@@ -437,7 +442,8 @@ func DeleteProductTemplateHandler(c echo.Context) error {
 // @Tags supply_chain-inventory
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} ProductAttribute
+// @Param request body ProductAttribute true "Payload"
 // @Router /api/supply_chain/inventory/productattribute [post]
 // @Security BearerAuth
 func CreateProductAttributeHandler(c echo.Context) error {
@@ -455,7 +461,7 @@ func CreateProductAttributeHandler(c echo.Context) error {
 // @Description Retrieve a list of all ProductAttribute
 // @Tags supply_chain-inventory
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} ProductAttribute
 // @Router /api/supply_chain/inventory/productattribute [get]
 // @Security BearerAuth
 func GetAllProductAttributeHandler(c echo.Context) error {
@@ -519,7 +525,8 @@ func DeleteProductAttributeHandler(c echo.Context) error {
 // @Tags supply_chain-inventory
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} ProductAttributeValue
+// @Param request body ProductAttributeValue true "Payload"
 // @Router /api/supply_chain/inventory/productattributevalue [post]
 // @Security BearerAuth
 func CreateProductAttributeValueHandler(c echo.Context) error {
@@ -537,7 +544,7 @@ func CreateProductAttributeValueHandler(c echo.Context) error {
 // @Description Retrieve a list of all ProductAttributeValue
 // @Tags supply_chain-inventory
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} ProductAttributeValue
 // @Router /api/supply_chain/inventory/productattributevalue [get]
 // @Security BearerAuth
 func GetAllProductAttributeValueHandler(c echo.Context) error {
@@ -601,7 +608,8 @@ func DeleteProductAttributeValueHandler(c echo.Context) error {
 // @Tags supply_chain-inventory
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} StockWarehouse
+// @Param request body StockWarehouse true "Payload"
 // @Router /api/supply_chain/inventory/stockwarehouse [post]
 // @Security BearerAuth
 func CreateStockWarehouseHandler(c echo.Context) error {
@@ -619,7 +627,7 @@ func CreateStockWarehouseHandler(c echo.Context) error {
 // @Description Retrieve a list of all StockWarehouse
 // @Tags supply_chain-inventory
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} StockWarehouse
 // @Router /api/supply_chain/inventory/stockwarehouse [get]
 // @Security BearerAuth
 func GetAllStockWarehouseHandler(c echo.Context) error {
@@ -683,7 +691,8 @@ func DeleteStockWarehouseHandler(c echo.Context) error {
 // @Tags supply_chain-inventory
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} StockLocation
+// @Param request body StockLocation true "Payload"
 // @Router /api/supply_chain/inventory/stocklocation [post]
 // @Security BearerAuth
 func CreateStockLocationHandler(c echo.Context) error {
@@ -701,7 +710,7 @@ func CreateStockLocationHandler(c echo.Context) error {
 // @Description Retrieve a list of all StockLocation
 // @Tags supply_chain-inventory
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} StockLocation
 // @Router /api/supply_chain/inventory/stocklocation [get]
 // @Security BearerAuth
 func GetAllStockLocationHandler(c echo.Context) error {
@@ -765,7 +774,8 @@ func DeleteStockLocationHandler(c echo.Context) error {
 // @Tags supply_chain-inventory
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} StockPicking
+// @Param request body StockPicking true "Payload"
 // @Router /api/supply_chain/inventory/stockpicking [post]
 // @Security BearerAuth
 func CreateStockPickingHandler(c echo.Context) error {
@@ -783,7 +793,7 @@ func CreateStockPickingHandler(c echo.Context) error {
 // @Description Retrieve a list of all StockPicking
 // @Tags supply_chain-inventory
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} StockPicking
 // @Router /api/supply_chain/inventory/stockpicking [get]
 // @Security BearerAuth
 func GetAllStockPickingHandler(c echo.Context) error {
@@ -847,7 +857,8 @@ func DeleteStockPickingHandler(c echo.Context) error {
 // @Tags supply_chain-inventory
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} StockLot
+// @Param request body StockLot true "Payload"
 // @Router /api/supply_chain/inventory/stocklot [post]
 // @Security BearerAuth
 func CreateStockLotHandler(c echo.Context) error {
@@ -865,7 +876,7 @@ func CreateStockLotHandler(c echo.Context) error {
 // @Description Retrieve a list of all StockLot
 // @Tags supply_chain-inventory
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} StockLot
 // @Router /api/supply_chain/inventory/stocklot [get]
 // @Security BearerAuth
 func GetAllStockLotHandler(c echo.Context) error {
@@ -929,7 +940,8 @@ func DeleteStockLotHandler(c echo.Context) error {
 // @Tags supply_chain-inventory
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} StockQuant
+// @Param request body StockQuant true "Payload"
 // @Router /api/supply_chain/inventory/stockquant [post]
 // @Security BearerAuth
 func CreateStockQuantHandler(c echo.Context) error {
@@ -947,7 +959,7 @@ func CreateStockQuantHandler(c echo.Context) error {
 // @Description Retrieve a list of all StockQuant
 // @Tags supply_chain-inventory
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} StockQuant
 // @Router /api/supply_chain/inventory/stockquant [get]
 // @Security BearerAuth
 func GetAllStockQuantHandler(c echo.Context) error {
@@ -1011,7 +1023,8 @@ func DeleteStockQuantHandler(c echo.Context) error {
 // @Tags supply_chain-inventory
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} StockPutawayRule
+// @Param request body StockPutawayRule true "Payload"
 // @Router /api/supply_chain/inventory/stockputawayrule [post]
 // @Security BearerAuth
 func CreateStockPutawayRuleHandler(c echo.Context) error {
@@ -1029,7 +1042,7 @@ func CreateStockPutawayRuleHandler(c echo.Context) error {
 // @Description Retrieve a list of all StockPutawayRule
 // @Tags supply_chain-inventory
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} StockPutawayRule
 // @Router /api/supply_chain/inventory/stockputawayrule [get]
 // @Security BearerAuth
 func GetAllStockPutawayRuleHandler(c echo.Context) error {
@@ -1093,7 +1106,8 @@ func DeleteStockPutawayRuleHandler(c echo.Context) error {
 // @Tags supply_chain-inventory
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} StockValuationLayer
+// @Param request body StockValuationLayer true "Payload"
 // @Router /api/supply_chain/inventory/stockvaluationlayer [post]
 // @Security BearerAuth
 func CreateStockValuationLayerHandler(c echo.Context) error {
@@ -1111,7 +1125,7 @@ func CreateStockValuationLayerHandler(c echo.Context) error {
 // @Description Retrieve a list of all StockValuationLayer
 // @Tags supply_chain-inventory
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} StockValuationLayer
 // @Router /api/supply_chain/inventory/stockvaluationlayer [get]
 // @Security BearerAuth
 func GetAllStockValuationLayerHandler(c echo.Context) error {
@@ -1169,3 +1183,5 @@ func DeleteStockValuationLayerHandler(c echo.Context) error {
 	}
 	return utils.SendSuccess(c, http.StatusOK, "Deleted successfully", nil)
 }
+
+

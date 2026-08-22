@@ -14,7 +14,8 @@ import (
 // @Tags services-timesheets
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} Timesheet
+// @Param request body Timesheet true "Payload"
 // @Router /api/services/timesheets [post]
 // @Security BearerAuth
 func CreateTimesheetHandler(c echo.Context) error {
@@ -33,7 +34,7 @@ func CreateTimesheetHandler(c echo.Context) error {
 // @Description Retrieve a list of all Timesheet
 // @Tags services-timesheets
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} []Timesheet
 // @Router /api/services/timesheets [get]
 // @Security BearerAuth
 func GetAllTimesheetHandler(c echo.Context) error {
@@ -50,7 +51,7 @@ func GetAllTimesheetHandler(c echo.Context) error {
 // @Tags services-timesheets
 // @Produce json
 // @Param id path int true "Timesheet ID"
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} Timesheet
 // @Router /api/services/timesheets/{id} [get]
 // @Security BearerAuth
 func GetTimesheetByIDHandler(c echo.Context) error {
@@ -103,3 +104,5 @@ func DeleteTimesheetHandler(c echo.Context) error {
 	}
 	return utils.SendSuccess(c, http.StatusOK, "Data deleted successfully", nil)
 }
+
+

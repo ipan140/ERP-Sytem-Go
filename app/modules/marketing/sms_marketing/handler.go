@@ -14,7 +14,8 @@ import (
 // @Tags marketing-sms_marketing
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} SmsCampaign
+// @Param request body SmsCampaign true "Payload"
 // @Router /api/marketing/sms_marketing [post]
 // @Security BearerAuth
 func CreateSmsCampaignHandler(c echo.Context) error {
@@ -33,7 +34,7 @@ func CreateSmsCampaignHandler(c echo.Context) error {
 // @Description Retrieve a list of all SmsCampaign
 // @Tags marketing-sms_marketing
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} []SmsCampaign
 // @Router /api/marketing/sms_marketing [get]
 // @Security BearerAuth
 func GetAllSmsCampaignHandler(c echo.Context) error {
@@ -50,7 +51,7 @@ func GetAllSmsCampaignHandler(c echo.Context) error {
 // @Tags marketing-sms_marketing
 // @Produce json
 // @Param id path int true "SmsCampaign ID"
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} SmsCampaign
 // @Router /api/marketing/sms_marketing/{id} [get]
 // @Security BearerAuth
 func GetSmsCampaignByIDHandler(c echo.Context) error {
@@ -103,3 +104,5 @@ func DeleteSmsCampaignHandler(c echo.Context) error {
 	}
 	return utils.SendSuccess(c, http.StatusOK, "Data deleted successfully", nil)
 }
+
+

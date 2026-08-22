@@ -14,7 +14,8 @@ import (
 // @Tags supply_chain-maintenance
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} MaintenanceRequest
+// @Param request body MaintenanceRequest true "Payload"
 // @Router /api/supply_chain/maintenance [post]
 // @Security BearerAuth
 func CreateMaintenanceRequestHandler(c echo.Context) error {
@@ -33,7 +34,7 @@ func CreateMaintenanceRequestHandler(c echo.Context) error {
 // @Description Retrieve a list of all MaintenanceRequest
 // @Tags supply_chain-maintenance
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} []MaintenanceRequest
 // @Router /api/supply_chain/maintenance [get]
 // @Security BearerAuth
 func GetAllMaintenanceRequestHandler(c echo.Context) error {
@@ -50,7 +51,7 @@ func GetAllMaintenanceRequestHandler(c echo.Context) error {
 // @Tags supply_chain-maintenance
 // @Produce json
 // @Param id path int true "MaintenanceRequest ID"
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} MaintenanceRequest
 // @Router /api/supply_chain/maintenance/{id} [get]
 // @Security BearerAuth
 func GetMaintenanceRequestByIDHandler(c echo.Context) error {
@@ -103,3 +104,5 @@ func DeleteMaintenanceRequestHandler(c echo.Context) error {
 	}
 	return utils.SendSuccess(c, http.StatusOK, "Data deleted successfully", nil)
 }
+
+

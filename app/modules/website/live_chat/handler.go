@@ -14,7 +14,8 @@ import (
 // @Tags website-live_chat
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} ChatSession
+// @Param request body ChatSession true "Payload"
 // @Router /api/website/live_chat [post]
 // @Security BearerAuth
 func CreateChatSessionHandler(c echo.Context) error {
@@ -33,7 +34,7 @@ func CreateChatSessionHandler(c echo.Context) error {
 // @Description Retrieve a list of all ChatSession
 // @Tags website-live_chat
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} []ChatSession
 // @Router /api/website/live_chat [get]
 // @Security BearerAuth
 func GetAllChatSessionHandler(c echo.Context) error {
@@ -50,7 +51,7 @@ func GetAllChatSessionHandler(c echo.Context) error {
 // @Tags website-live_chat
 // @Produce json
 // @Param id path int true "ChatSession ID"
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} ChatSession
 // @Router /api/website/live_chat/{id} [get]
 // @Security BearerAuth
 func GetChatSessionByIDHandler(c echo.Context) error {
@@ -103,3 +104,5 @@ func DeleteChatSessionHandler(c echo.Context) error {
 	}
 	return utils.SendSuccess(c, http.StatusOK, "Data deleted successfully", nil)
 }
+
+

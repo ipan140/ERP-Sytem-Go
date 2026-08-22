@@ -14,7 +14,8 @@ import (
 // @Tags sales-point_of_sale
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} PosSession
+// @Param request body PosSession true "Payload"
 // @Router /api/sales/point_of_sale [post]
 // @Security BearerAuth
 func CreatePosSessionHandler(c echo.Context) error {
@@ -33,7 +34,7 @@ func CreatePosSessionHandler(c echo.Context) error {
 // @Description Retrieve a list of all PosSession
 // @Tags sales-point_of_sale
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} []PosSession
 // @Router /api/sales/point_of_sale [get]
 // @Security BearerAuth
 func GetAllPosSessionHandler(c echo.Context) error {
@@ -50,7 +51,7 @@ func GetAllPosSessionHandler(c echo.Context) error {
 // @Tags sales-point_of_sale
 // @Produce json
 // @Param id path int true "PosSession ID"
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} PosSession
 // @Router /api/sales/point_of_sale/{id} [get]
 // @Security BearerAuth
 func GetPosSessionByIDHandler(c echo.Context) error {
@@ -109,7 +110,8 @@ func DeletePosSessionHandler(c echo.Context) error {
 // @Tags sales-point_of_sale
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} PosConfig
+// @Param request body PosConfig true "Payload"
 // @Router /api/sales/point_of_sale/posconfig [post]
 // @Security BearerAuth
 func CreatePosConfigHandler(c echo.Context) error {
@@ -127,7 +129,7 @@ func CreatePosConfigHandler(c echo.Context) error {
 // @Description Retrieve a list of all PosConfig
 // @Tags sales-point_of_sale
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} PosConfig
 // @Router /api/sales/point_of_sale/posconfig [get]
 // @Security BearerAuth
 func GetAllPosConfigHandler(c echo.Context) error {
@@ -191,7 +193,8 @@ func DeletePosConfigHandler(c echo.Context) error {
 // @Tags sales-point_of_sale
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} PosOrder
+// @Param request body PosOrder true "Payload"
 // @Router /api/sales/point_of_sale/posorder [post]
 // @Security BearerAuth
 func CreatePosOrderHandler(c echo.Context) error {
@@ -209,7 +212,7 @@ func CreatePosOrderHandler(c echo.Context) error {
 // @Description Retrieve a list of all PosOrder
 // @Tags sales-point_of_sale
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} PosOrder
 // @Router /api/sales/point_of_sale/posorder [get]
 // @Security BearerAuth
 func GetAllPosOrderHandler(c echo.Context) error {
@@ -273,7 +276,8 @@ func DeletePosOrderHandler(c echo.Context) error {
 // @Tags sales-point_of_sale
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} PosOrderLine
+// @Param request body PosOrderLine true "Payload"
 // @Router /api/sales/point_of_sale/posorderline [post]
 // @Security BearerAuth
 func CreatePosOrderLineHandler(c echo.Context) error {
@@ -291,7 +295,7 @@ func CreatePosOrderLineHandler(c echo.Context) error {
 // @Description Retrieve a list of all PosOrderLine
 // @Tags sales-point_of_sale
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} PosOrderLine
 // @Router /api/sales/point_of_sale/posorderline [get]
 // @Security BearerAuth
 func GetAllPosOrderLineHandler(c echo.Context) error {
@@ -355,7 +359,8 @@ func DeletePosOrderLineHandler(c echo.Context) error {
 // @Tags sales-point_of_sale
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} PosPayment
+// @Param request body PosPayment true "Payload"
 // @Router /api/sales/point_of_sale/pospayment [post]
 // @Security BearerAuth
 func CreatePosPaymentHandler(c echo.Context) error {
@@ -373,7 +378,7 @@ func CreatePosPaymentHandler(c echo.Context) error {
 // @Description Retrieve a list of all PosPayment
 // @Tags sales-point_of_sale
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} PosPayment
 // @Router /api/sales/point_of_sale/pospayment [get]
 // @Security BearerAuth
 func GetAllPosPaymentHandler(c echo.Context) error {
@@ -437,7 +442,8 @@ func DeletePosPaymentHandler(c echo.Context) error {
 // @Tags sales-point_of_sale
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} LoyaltyProgram
+// @Param request body LoyaltyProgram true "Payload"
 // @Router /api/sales/point_of_sale/loyaltyprogram [post]
 // @Security BearerAuth
 func CreateLoyaltyProgramHandler(c echo.Context) error {
@@ -455,7 +461,7 @@ func CreateLoyaltyProgramHandler(c echo.Context) error {
 // @Description Retrieve a list of all LoyaltyProgram
 // @Tags sales-point_of_sale
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} LoyaltyProgram
 // @Router /api/sales/point_of_sale/loyaltyprogram [get]
 // @Security BearerAuth
 func GetAllLoyaltyProgramHandler(c echo.Context) error {
@@ -513,3 +519,5 @@ func DeleteLoyaltyProgramHandler(c echo.Context) error {
 	}
 	return utils.SendSuccess(c, http.StatusOK, "Deleted successfully", nil)
 }
+
+

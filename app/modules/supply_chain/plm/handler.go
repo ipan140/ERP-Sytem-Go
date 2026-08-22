@@ -14,7 +14,8 @@ import (
 // @Tags supply_chain-plm
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} PlmEco
+// @Param request body PlmEco true "Payload"
 // @Router /api/supply_chain/plm [post]
 // @Security BearerAuth
 func CreateBomHandler(c echo.Context) error {
@@ -33,7 +34,7 @@ func CreateBomHandler(c echo.Context) error {
 // @Description Retrieve a list of all PlmEco
 // @Tags supply_chain-plm
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} []map[string]interface{}
 // @Router /api/supply_chain/plm [get]
 // @Security BearerAuth
 func GetAllBomHandler(c echo.Context) error {
@@ -103,3 +104,6 @@ func DeleteBomHandler(c echo.Context) error {
 	}
 	return utils.SendSuccess(c, http.StatusOK, "Data deleted successfully", nil)
 }
+
+
+

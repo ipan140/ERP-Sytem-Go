@@ -17,7 +17,8 @@ import (
 // @Tags finance-accounting
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} JournalEntry
+// @Param request body JournalEntry true "Payload"
 // @Router /api/finance/accounting [post]
 // @Security BearerAuth
 func CreateJournalEntryHandler(c echo.Context) error {
@@ -36,7 +37,7 @@ func CreateJournalEntryHandler(c echo.Context) error {
 // @Description Retrieve a list of all JournalEntry
 // @Tags finance-accounting
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} []JournalEntry
 // @Router /api/finance/accounting [get]
 // @Security BearerAuth
 func GetAllJournalEntryHandler(c echo.Context) error {
@@ -53,7 +54,7 @@ func GetAllJournalEntryHandler(c echo.Context) error {
 // @Tags finance-accounting
 // @Produce json
 // @Param id path int true "JournalEntry ID"
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} JournalEntry
 // @Router /api/finance/accounting/{id} [get]
 // @Security BearerAuth
 func GetJournalEntryByIDHandler(c echo.Context) error {
@@ -128,7 +129,8 @@ func GetGeneralLedgerHandler(c echo.Context) error {
 // @Tags finance-accounting
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} AccountReconcileModel
+// @Param request body AccountReconcileModel true "Payload"
 // @Router /api/finance/accounting/accountreconcilemodel [post]
 // @Security BearerAuth
 func CreateAccountReconcileModelHandler(c echo.Context) error {
@@ -146,7 +148,7 @@ func CreateAccountReconcileModelHandler(c echo.Context) error {
 // @Description Retrieve a list of all AccountReconcileModel
 // @Tags finance-accounting
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} AccountReconcileModel
 // @Router /api/finance/accounting/accountreconcilemodel [get]
 // @Security BearerAuth
 func GetAllAccountReconcileModelHandler(c echo.Context) error {
@@ -210,7 +212,8 @@ func DeleteAccountReconcileModelHandler(c echo.Context) error {
 // @Tags finance-accounting
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} FollowupRule
+// @Param request body FollowupRule true "Payload"
 // @Router /api/finance/accounting/followuprule [post]
 // @Security BearerAuth
 func CreateFollowupRuleHandler(c echo.Context) error {
@@ -228,7 +231,7 @@ func CreateFollowupRuleHandler(c echo.Context) error {
 // @Description Retrieve a list of all FollowupRule
 // @Tags finance-accounting
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} FollowupRule
 // @Router /api/finance/accounting/followuprule [get]
 // @Security BearerAuth
 func GetAllFollowupRuleHandler(c echo.Context) error {
@@ -292,7 +295,8 @@ func DeleteFollowupRuleHandler(c echo.Context) error {
 // @Tags finance-accounting
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} AccountLockDate
+// @Param request body AccountLockDate true "Payload"
 // @Router /api/finance/accounting/accountlockdate [post]
 // @Security BearerAuth
 func CreateAccountLockDateHandler(c echo.Context) error {
@@ -310,7 +314,7 @@ func CreateAccountLockDateHandler(c echo.Context) error {
 // @Description Retrieve a list of all AccountLockDate
 // @Tags finance-accounting
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} AccountLockDate
 // @Router /api/finance/accounting/accountlockdate [get]
 // @Security BearerAuth
 func GetAllAccountLockDateHandler(c echo.Context) error {
@@ -374,7 +378,8 @@ func DeleteAccountLockDateHandler(c echo.Context) error {
 // @Tags finance-accounting
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} PaymentAcquirer
+// @Param request body PaymentAcquirer true "Payload"
 // @Router /api/finance/accounting/paymentacquirer [post]
 // @Security BearerAuth
 func CreatePaymentAcquirerHandler(c echo.Context) error {
@@ -392,7 +397,7 @@ func CreatePaymentAcquirerHandler(c echo.Context) error {
 // @Description Retrieve a list of all PaymentAcquirer
 // @Tags finance-accounting
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} PaymentAcquirer
 // @Router /api/finance/accounting/paymentacquirer [get]
 // @Security BearerAuth
 func GetAllPaymentAcquirerHandler(c echo.Context) error {
@@ -456,7 +461,8 @@ func DeletePaymentAcquirerHandler(c echo.Context) error {
 // @Tags finance-accounting
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} PaymentTransaction
+// @Param request body PaymentTransaction true "Payload"
 // @Router /api/finance/accounting/paymenttransaction [post]
 // @Security BearerAuth
 func CreatePaymentTransactionHandler(c echo.Context) error {
@@ -474,7 +480,7 @@ func CreatePaymentTransactionHandler(c echo.Context) error {
 // @Description Retrieve a list of all PaymentTransaction
 // @Tags finance-accounting
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} PaymentTransaction
 // @Router /api/finance/accounting/paymenttransaction [get]
 // @Security BearerAuth
 func GetAllPaymentTransactionHandler(c echo.Context) error {
@@ -538,7 +544,8 @@ func DeletePaymentTransactionHandler(c echo.Context) error {
 // @Tags finance-accounting
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} AccountIncoterms
+// @Param request body AccountIncoterms true "Payload"
 // @Router /api/finance/accounting/accountincoterms [post]
 // @Security BearerAuth
 func CreateAccountIncotermsHandler(c echo.Context) error {
@@ -556,7 +563,7 @@ func CreateAccountIncotermsHandler(c echo.Context) error {
 // @Description Retrieve a list of all AccountIncoterms
 // @Tags finance-accounting
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} AccountIncoterms
 // @Router /api/finance/accounting/accountincoterms [get]
 // @Security BearerAuth
 func GetAllAccountIncotermsHandler(c echo.Context) error {
@@ -654,3 +661,5 @@ func MidtransWebhookHandler(c echo.Context) error {
 	// Midtrans mewajibkan kita membalas dengan status 200 OK
 	return c.JSON(http.StatusOK, map[string]string{"status": "success"})
 }
+
+

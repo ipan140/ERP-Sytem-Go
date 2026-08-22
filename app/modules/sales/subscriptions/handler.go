@@ -14,7 +14,8 @@ import (
 // @Tags sales-subscriptions
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} Subscription
+// @Param request body Subscription true "Payload"
 // @Router /api/sales/subscriptions [post]
 // @Security BearerAuth
 func CreateSubscriptionHandler(c echo.Context) error {
@@ -33,7 +34,7 @@ func CreateSubscriptionHandler(c echo.Context) error {
 // @Description Retrieve a list of all Subscription
 // @Tags sales-subscriptions
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} []Subscription
 // @Router /api/sales/subscriptions [get]
 // @Security BearerAuth
 func GetAllSubscriptionHandler(c echo.Context) error {
@@ -50,7 +51,7 @@ func GetAllSubscriptionHandler(c echo.Context) error {
 // @Tags sales-subscriptions
 // @Produce json
 // @Param id path int true "Subscription ID"
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} Subscription
 // @Router /api/sales/subscriptions/{id} [get]
 // @Security BearerAuth
 func GetSubscriptionByIDHandler(c echo.Context) error {
@@ -109,7 +110,8 @@ func DeleteSubscriptionHandler(c echo.Context) error {
 // @Tags sales-subscriptions
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} SubscriptionPlan
+// @Param request body SubscriptionPlan true "Payload"
 // @Router /api/sales/subscriptions/subscriptionplan [post]
 // @Security BearerAuth
 func CreateSubscriptionPlanHandler(c echo.Context) error {
@@ -127,7 +129,7 @@ func CreateSubscriptionPlanHandler(c echo.Context) error {
 // @Description Retrieve a list of all SubscriptionPlan
 // @Tags sales-subscriptions
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} SubscriptionPlan
 // @Router /api/sales/subscriptions/subscriptionplan [get]
 // @Security BearerAuth
 func GetAllSubscriptionPlanHandler(c echo.Context) error {
@@ -185,3 +187,5 @@ func DeleteSubscriptionPlanHandler(c echo.Context) error {
 	}
 	return utils.SendSuccess(c, http.StatusOK, "Deleted successfully", nil)
 }
+
+

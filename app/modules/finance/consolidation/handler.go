@@ -26,3 +26,5 @@ func GenerateConsolidationHandler(c echo.Context) error {
 	}
 	return utils.SendSuccess(c, http.StatusOK, "Laporan Konsolidasi berhasil dicetak", nil)
 }
+
+

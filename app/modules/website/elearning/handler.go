@@ -14,7 +14,8 @@ import (
 // @Tags website-elearning
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} Course
+// @Param request body Course true "Payload"
 // @Router /api/website/elearning [post]
 // @Security BearerAuth
 func CreateCourseHandler(c echo.Context) error {
@@ -33,7 +34,7 @@ func CreateCourseHandler(c echo.Context) error {
 // @Description Retrieve a list of all Course
 // @Tags website-elearning
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} []Course
 // @Router /api/website/elearning [get]
 // @Security BearerAuth
 func GetAllCourseHandler(c echo.Context) error {
@@ -50,7 +51,7 @@ func GetAllCourseHandler(c echo.Context) error {
 // @Tags website-elearning
 // @Produce json
 // @Param id path int true "Course ID"
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} Course
 // @Router /api/website/elearning/{id} [get]
 // @Security BearerAuth
 func GetCourseByIDHandler(c echo.Context) error {
@@ -109,7 +110,8 @@ func DeleteCourseHandler(c echo.Context) error {
 // @Tags website-elearning
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} Slide
+// @Param request body Slide true "Payload"
 // @Router /api/website/elearning/slide [post]
 // @Security BearerAuth
 func CreateSlideHandler(c echo.Context) error {
@@ -127,7 +129,7 @@ func CreateSlideHandler(c echo.Context) error {
 // @Description Retrieve a list of all Slide
 // @Tags website-elearning
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} Slide
 // @Router /api/website/elearning/slide [get]
 // @Security BearerAuth
 func GetAllSlideHandler(c echo.Context) error {
@@ -191,7 +193,8 @@ func DeleteSlideHandler(c echo.Context) error {
 // @Tags website-elearning
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} Certification
+// @Param request body Certification true "Payload"
 // @Router /api/website/elearning/certification [post]
 // @Security BearerAuth
 func CreateCertificationHandler(c echo.Context) error {
@@ -209,7 +212,7 @@ func CreateCertificationHandler(c echo.Context) error {
 // @Description Retrieve a list of all Certification
 // @Tags website-elearning
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} Certification
 // @Router /api/website/elearning/certification [get]
 // @Security BearerAuth
 func GetAllCertificationHandler(c echo.Context) error {
@@ -267,3 +270,5 @@ func DeleteCertificationHandler(c echo.Context) error {
 	}
 	return utils.SendSuccess(c, http.StatusOK, "Success", nil)
 }
+
+

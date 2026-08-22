@@ -14,7 +14,7 @@ import (
 // @Tags Core - User Roles
 // @Accept json
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} []UserRoleResponse
 // @Security BearerAuth
 // @Router /core/user_roles [get]
 func GetAllUsersRolesHandler(c echo.Context) error {
@@ -51,3 +51,9 @@ func AssignRoleHandler(c echo.Context) error {
 
 	return utils.SendSuccess(c, http.StatusOK, "Hak Akses (Role) berhasil diperbarui!", nil)
 }
+
+
+
+
+
+

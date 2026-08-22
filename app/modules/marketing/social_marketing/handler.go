@@ -14,7 +14,8 @@ import (
 // @Tags marketing-social_marketing
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} SocialPost
+// @Param request body SocialPost true "Payload"
 // @Router /api/marketing/social_marketing [post]
 // @Security BearerAuth
 func CreateSocialPostHandler(c echo.Context) error {
@@ -33,7 +34,7 @@ func CreateSocialPostHandler(c echo.Context) error {
 // @Description Retrieve a list of all SocialPost
 // @Tags marketing-social_marketing
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} []SocialPost
 // @Router /api/marketing/social_marketing [get]
 // @Security BearerAuth
 func GetAllSocialPostHandler(c echo.Context) error {
@@ -50,7 +51,7 @@ func GetAllSocialPostHandler(c echo.Context) error {
 // @Tags marketing-social_marketing
 // @Produce json
 // @Param id path int true "SocialPost ID"
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} SocialPost
 // @Router /api/marketing/social_marketing/{id} [get]
 // @Security BearerAuth
 func GetSocialPostByIDHandler(c echo.Context) error {
@@ -103,3 +104,5 @@ func DeleteSocialPostHandler(c echo.Context) error {
 	}
 	return utils.SendSuccess(c, http.StatusOK, "Data deleted successfully", nil)
 }
+
+

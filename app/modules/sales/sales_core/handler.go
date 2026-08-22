@@ -14,7 +14,8 @@ import (
 // @Tags sales-sales_core
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} SaleOrder
+// @Param request body SaleOrder true "Payload"
 // @Router /api/sales/sales_core [post]
 // @Security BearerAuth
 func CreateSaleOrderHandler(c echo.Context) error {
@@ -33,7 +34,7 @@ func CreateSaleOrderHandler(c echo.Context) error {
 // @Description Retrieve a list of all SaleOrder
 // @Tags sales-sales_core
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} []SaleOrder
 // @Router /api/sales/sales_core [get]
 // @Security BearerAuth
 func GetAllSaleOrderHandler(c echo.Context) error {
@@ -50,7 +51,7 @@ func GetAllSaleOrderHandler(c echo.Context) error {
 // @Tags sales-sales_core
 // @Produce json
 // @Param id path int true "SaleOrder ID"
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} SaleOrder
 // @Router /api/sales/sales_core/{id} [get]
 // @Security BearerAuth
 func GetSaleOrderByIDHandler(c echo.Context) error {
@@ -109,7 +110,8 @@ func DeleteSaleOrderHandler(c echo.Context) error {
 // @Tags sales-sales_core
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} Pricelist
+// @Param request body Pricelist true "Payload"
 // @Router /api/sales/sales_core/pricelist [post]
 // @Security BearerAuth
 func CreatePricelistHandler(c echo.Context) error {
@@ -127,7 +129,7 @@ func CreatePricelistHandler(c echo.Context) error {
 // @Description Retrieve a list of all Pricelist
 // @Tags sales-sales_core
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} Pricelist
 // @Router /api/sales/sales_core/pricelist [get]
 // @Security BearerAuth
 func GetAllPricelistHandler(c echo.Context) error {
@@ -191,7 +193,8 @@ func DeletePricelistHandler(c echo.Context) error {
 // @Tags sales-sales_core
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} PricelistItem
+// @Param request body PricelistItem true "Payload"
 // @Router /api/sales/sales_core/pricelistitem [post]
 // @Security BearerAuth
 func CreatePricelistItemHandler(c echo.Context) error {
@@ -209,7 +212,7 @@ func CreatePricelistItemHandler(c echo.Context) error {
 // @Description Retrieve a list of all PricelistItem
 // @Tags sales-sales_core
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} PricelistItem
 // @Router /api/sales/sales_core/pricelistitem [get]
 // @Security BearerAuth
 func GetAllPricelistItemHandler(c echo.Context) error {
@@ -273,7 +276,8 @@ func DeletePricelistItemHandler(c echo.Context) error {
 // @Tags sales-sales_core
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} QuotationTemplate
+// @Param request body QuotationTemplate true "Payload"
 // @Router /api/sales/sales_core/quotationtemplate [post]
 // @Security BearerAuth
 func CreateQuotationTemplateHandler(c echo.Context) error {
@@ -291,7 +295,7 @@ func CreateQuotationTemplateHandler(c echo.Context) error {
 // @Description Retrieve a list of all QuotationTemplate
 // @Tags sales-sales_core
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} QuotationTemplate
 // @Router /api/sales/sales_core/quotationtemplate [get]
 // @Security BearerAuth
 func GetAllQuotationTemplateHandler(c echo.Context) error {
@@ -355,7 +359,8 @@ func DeleteQuotationTemplateHandler(c echo.Context) error {
 // @Tags sales-sales_core
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} DeliveryMethod
+// @Param request body DeliveryMethod true "Payload"
 // @Router /api/sales/sales_core/deliverymethod [post]
 // @Security BearerAuth
 func CreateDeliveryMethodHandler(c echo.Context) error {
@@ -373,7 +378,7 @@ func CreateDeliveryMethodHandler(c echo.Context) error {
 // @Description Retrieve a list of all DeliveryMethod
 // @Tags sales-sales_core
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} DeliveryMethod
 // @Router /api/sales/sales_core/deliverymethod [get]
 // @Security BearerAuth
 func GetAllDeliveryMethodHandler(c echo.Context) error {
@@ -437,7 +442,8 @@ func DeleteDeliveryMethodHandler(c echo.Context) error {
 // @Tags sales-sales_core
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} SaleOrderLine
+// @Param request body SaleOrderLine true "Payload"
 // @Router /api/sales/sales_core/saleorderline [post]
 // @Security BearerAuth
 func CreateSaleOrderLineHandler(c echo.Context) error {
@@ -455,7 +461,7 @@ func CreateSaleOrderLineHandler(c echo.Context) error {
 // @Description Retrieve a list of all SaleOrderLine
 // @Tags sales-sales_core
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} SaleOrderLine
 // @Router /api/sales/sales_core/saleorderline [get]
 // @Security BearerAuth
 func GetAllSaleOrderLineHandler(c echo.Context) error {
@@ -513,3 +519,5 @@ func DeleteSaleOrderLineHandler(c echo.Context) error {
 	}
 	return utils.SendSuccess(c, http.StatusOK, "Deleted successfully", nil)
 }
+
+

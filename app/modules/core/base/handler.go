@@ -14,7 +14,8 @@ import (
 // @Tags base
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} Currency
+// @Param request body Currency true "Payload"
 // @Router /api/base [post]
 // @Security BearerAuth
 func CreateCurrencyHandler(c echo.Context) error {
@@ -33,7 +34,7 @@ func CreateCurrencyHandler(c echo.Context) error {
 // @Description Retrieve a list of all Currency
 // @Tags base
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} []Currency
 // @Router /api/base [get]
 // @Security BearerAuth
 func GetAllCurrencyHandler(c echo.Context) error {
@@ -50,7 +51,7 @@ func GetAllCurrencyHandler(c echo.Context) error {
 // @Tags base
 // @Produce json
 // @Param id path int true "Currency ID"
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} Currency
 // @Router /api/base/{id} [get]
 // @Security BearerAuth
 func GetCurrencyByIDHandler(c echo.Context) error {
@@ -109,7 +110,8 @@ func DeleteCurrencyHandler(c echo.Context) error {
 // @Tags core-base
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} Country
+// @Param request body Country true "Payload"
 // @Router /api/core/base/country [post]
 // @Security BearerAuth
 func CreateCountryHandler(c echo.Context) error {
@@ -127,7 +129,7 @@ func CreateCountryHandler(c echo.Context) error {
 // @Description Retrieve a list of all Country
 // @Tags core-base
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} Country
 // @Router /api/core/base/country [get]
 // @Security BearerAuth
 func GetAllCountryHandler(c echo.Context) error {
@@ -191,7 +193,8 @@ func DeleteCountryHandler(c echo.Context) error {
 // @Tags core-base
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} CountryState
+// @Param request body CountryState true "Payload"
 // @Router /api/core/base/countrystate [post]
 // @Security BearerAuth
 func CreateCountryStateHandler(c echo.Context) error {
@@ -209,7 +212,7 @@ func CreateCountryStateHandler(c echo.Context) error {
 // @Description Retrieve a list of all CountryState
 // @Tags core-base
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} CountryState
 // @Router /api/core/base/countrystate [get]
 // @Security BearerAuth
 func GetAllCountryStateHandler(c echo.Context) error {
@@ -273,7 +276,8 @@ func DeleteCountryStateHandler(c echo.Context) error {
 // @Tags core-base
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} Partner
+// @Param request body Partner true "Payload"
 // @Router /api/core/base/partner [post]
 // @Security BearerAuth
 func CreatePartnerHandler(c echo.Context) error {
@@ -291,7 +295,7 @@ func CreatePartnerHandler(c echo.Context) error {
 // @Description Retrieve a list of all Partner
 // @Tags core-base
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} Partner
 // @Router /api/core/base/partner [get]
 // @Security BearerAuth
 func GetAllPartnerHandler(c echo.Context) error {
@@ -349,3 +353,5 @@ func DeletePartnerHandler(c echo.Context) error {
 	}
 	return utils.SendSuccess(c, http.StatusOK, "Deleted successfully", nil)
 }
+
+

@@ -14,7 +14,8 @@ import (
 // @Tags sales-crm
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} Lead
+// @Param request body Lead true "Payload"
 // @Router /api/sales/crm [post]
 // @Security BearerAuth
 func CreateLeadHandler(c echo.Context) error {
@@ -33,7 +34,7 @@ func CreateLeadHandler(c echo.Context) error {
 // @Description Retrieve a list of all Lead
 // @Tags sales-crm
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} []Lead
 // @Router /api/sales/crm [get]
 // @Security BearerAuth
 func GetAllLeadHandler(c echo.Context) error {
@@ -50,7 +51,7 @@ func GetAllLeadHandler(c echo.Context) error {
 // @Tags sales-crm
 // @Produce json
 // @Param id path int true "Lead ID"
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} Lead
 // @Router /api/sales/crm/{id} [get]
 // @Security BearerAuth
 func GetLeadByIDHandler(c echo.Context) error {
@@ -109,7 +110,8 @@ func DeleteLeadHandler(c echo.Context) error {
 // @Tags sales-crm
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} SalesTeam
+// @Param request body SalesTeam true "Payload"
 // @Router /api/sales/crm/salesteam [post]
 // @Security BearerAuth
 func CreateSalesTeamHandler(c echo.Context) error {
@@ -127,7 +129,7 @@ func CreateSalesTeamHandler(c echo.Context) error {
 // @Description Retrieve a list of all SalesTeam
 // @Tags sales-crm
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} SalesTeam
 // @Router /api/sales/crm/salesteam [get]
 // @Security BearerAuth
 func GetAllSalesTeamHandler(c echo.Context) error {
@@ -191,7 +193,8 @@ func DeleteSalesTeamHandler(c echo.Context) error {
 // @Tags sales-crm
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} Stage
+// @Param request body Stage true "Payload"
 // @Router /api/sales/crm/stage [post]
 // @Security BearerAuth
 func CreateStageHandler(c echo.Context) error {
@@ -209,7 +212,7 @@ func CreateStageHandler(c echo.Context) error {
 // @Description Retrieve a list of all Stage
 // @Tags sales-crm
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} Stage
 // @Router /api/sales/crm/stage [get]
 // @Security BearerAuth
 func GetAllStageHandler(c echo.Context) error {
@@ -273,7 +276,8 @@ func DeleteStageHandler(c echo.Context) error {
 // @Tags sales-crm
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} Activity
+// @Param request body Activity true "Payload"
 // @Router /api/sales/crm/activity [post]
 // @Security BearerAuth
 func CreateActivityHandler(c echo.Context) error {
@@ -291,7 +295,7 @@ func CreateActivityHandler(c echo.Context) error {
 // @Description Retrieve a list of all Activity
 // @Tags sales-crm
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} Activity
 // @Router /api/sales/crm/activity [get]
 // @Security BearerAuth
 func GetAllActivityHandler(c echo.Context) error {
@@ -355,7 +359,8 @@ func DeleteActivityHandler(c echo.Context) error {
 // @Tags sales-crm
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} SalesCommission
+// @Param request body SalesCommission true "Payload"
 // @Router /api/sales/crm/salescommission [post]
 // @Security BearerAuth
 func CreateSalesCommissionHandler(c echo.Context) error {
@@ -373,7 +378,7 @@ func CreateSalesCommissionHandler(c echo.Context) error {
 // @Description Retrieve a list of all SalesCommission
 // @Tags sales-crm
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} SalesCommission
 // @Router /api/sales/crm/salescommission [get]
 // @Security BearerAuth
 func GetAllSalesCommissionHandler(c echo.Context) error {
@@ -431,3 +436,5 @@ func DeleteSalesCommissionHandler(c echo.Context) error {
 	}
 	return utils.SendSuccess(c, http.StatusOK, "Deleted successfully", nil)
 }
+
+

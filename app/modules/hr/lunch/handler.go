@@ -14,7 +14,8 @@ import (
 // @Tags hr-lunch
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} LunchOrder
+// @Param request body LunchOrder true "Payload"
 // @Router /api/hr/lunch [post]
 // @Security BearerAuth
 func CreateLunchOrderHandler(c echo.Context) error {
@@ -33,7 +34,7 @@ func CreateLunchOrderHandler(c echo.Context) error {
 // @Description Retrieve a list of all LunchOrder
 // @Tags hr-lunch
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} []LunchOrder
 // @Router /api/hr/lunch [get]
 // @Security BearerAuth
 func GetAllLunchOrderHandler(c echo.Context) error {
@@ -50,7 +51,7 @@ func GetAllLunchOrderHandler(c echo.Context) error {
 // @Tags hr-lunch
 // @Produce json
 // @Param id path int true "LunchOrder ID"
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} LunchOrder
 // @Router /api/hr/lunch/{id} [get]
 // @Security BearerAuth
 func GetLunchOrderByIDHandler(c echo.Context) error {
@@ -109,7 +110,8 @@ func DeleteLunchOrderHandler(c echo.Context) error {
 // @Tags hr-lunch
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} LunchCashmove
+// @Param request body LunchCashmove true "Payload"
 // @Router /api/hr/lunch/lunchcashmove [post]
 // @Security BearerAuth
 func CreateLunchCashmoveHandler(c echo.Context) error {
@@ -127,7 +129,7 @@ func CreateLunchCashmoveHandler(c echo.Context) error {
 // @Description Retrieve a list of all LunchCashmove
 // @Tags hr-lunch
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} LunchCashmove
 // @Router /api/hr/lunch/lunchcashmove [get]
 // @Security BearerAuth
 func GetAllLunchCashmoveHandler(c echo.Context) error {
@@ -185,3 +187,5 @@ func DeleteLunchCashmoveHandler(c echo.Context) error {
 	}
 	return utils.SendSuccess(c, http.StatusOK, "Deleted successfully", nil)
 }
+
+

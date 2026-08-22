@@ -14,7 +14,8 @@ import (
 // @Tags supply_chain-manufacturing
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} MrpProduction
+// @Param request body MrpProduction true "Payload"
 // @Router /api/supply_chain/manufacturing [post]
 // @Security BearerAuth
 func CreateMrpProductionHandler(c echo.Context) error {
@@ -33,7 +34,7 @@ func CreateMrpProductionHandler(c echo.Context) error {
 // @Description Retrieve a list of all MrpProduction
 // @Tags supply_chain-manufacturing
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} []MrpProduction
 // @Router /api/supply_chain/manufacturing [get]
 // @Security BearerAuth
 func GetAllMrpProductionHandler(c echo.Context) error {
@@ -50,7 +51,7 @@ func GetAllMrpProductionHandler(c echo.Context) error {
 // @Tags supply_chain-manufacturing
 // @Produce json
 // @Param id path int true "MrpProduction ID"
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} MrpProduction
 // @Router /api/supply_chain/manufacturing/{id} [get]
 // @Security BearerAuth
 func GetMrpProductionByIDHandler(c echo.Context) error {
@@ -109,7 +110,8 @@ func DeleteMrpProductionHandler(c echo.Context) error {
 // @Tags supply_chain-manufacturing
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} MrpWorkcenter
+// @Param request body MrpWorkcenter true "Payload"
 // @Router /api/supply_chain/manufacturing/mrpworkcenter [post]
 // @Security BearerAuth
 func CreateMrpWorkcenterHandler(c echo.Context) error {
@@ -127,7 +129,7 @@ func CreateMrpWorkcenterHandler(c echo.Context) error {
 // @Description Retrieve a list of all MrpWorkcenter
 // @Tags supply_chain-manufacturing
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} MrpWorkcenter
 // @Router /api/supply_chain/manufacturing/mrpworkcenter [get]
 // @Security BearerAuth
 func GetAllMrpWorkcenterHandler(c echo.Context) error {
@@ -191,7 +193,8 @@ func DeleteMrpWorkcenterHandler(c echo.Context) error {
 // @Tags supply_chain-manufacturing
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} MrpBom
+// @Param request body MrpBom true "Payload"
 // @Router /api/supply_chain/manufacturing/mrpbom [post]
 // @Security BearerAuth
 func CreateMrpBomHandler(c echo.Context) error {
@@ -209,7 +212,7 @@ func CreateMrpBomHandler(c echo.Context) error {
 // @Description Retrieve a list of all MrpBom
 // @Tags supply_chain-manufacturing
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} MrpBom
 // @Router /api/supply_chain/manufacturing/mrpbom [get]
 // @Security BearerAuth
 func GetAllMrpBomHandler(c echo.Context) error {
@@ -273,7 +276,8 @@ func DeleteMrpBomHandler(c echo.Context) error {
 // @Tags supply_chain-manufacturing
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} MrpBomLine
+// @Param request body MrpBomLine true "Payload"
 // @Router /api/supply_chain/manufacturing/mrpbomline [post]
 // @Security BearerAuth
 func CreateMrpBomLineHandler(c echo.Context) error {
@@ -291,7 +295,7 @@ func CreateMrpBomLineHandler(c echo.Context) error {
 // @Description Retrieve a list of all MrpBomLine
 // @Tags supply_chain-manufacturing
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} MrpBomLine
 // @Router /api/supply_chain/manufacturing/mrpbomline [get]
 // @Security BearerAuth
 func GetAllMrpBomLineHandler(c echo.Context) error {
@@ -355,7 +359,8 @@ func DeleteMrpBomLineHandler(c echo.Context) error {
 // @Tags supply_chain-manufacturing
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} MrpBomByproduct
+// @Param request body MrpBomByproduct true "Payload"
 // @Router /api/supply_chain/manufacturing/mrpbombyproduct [post]
 // @Security BearerAuth
 func CreateMrpBomByproductHandler(c echo.Context) error {
@@ -373,7 +378,7 @@ func CreateMrpBomByproductHandler(c echo.Context) error {
 // @Description Retrieve a list of all MrpBomByproduct
 // @Tags supply_chain-manufacturing
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} MrpBomByproduct
 // @Router /api/supply_chain/manufacturing/mrpbombyproduct [get]
 // @Security BearerAuth
 func GetAllMrpBomByproductHandler(c echo.Context) error {
@@ -437,7 +442,8 @@ func DeleteMrpBomByproductHandler(c echo.Context) error {
 // @Tags supply_chain-manufacturing
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} MrpWorkorder
+// @Param request body MrpWorkorder true "Payload"
 // @Router /api/supply_chain/manufacturing/mrpworkorder [post]
 // @Security BearerAuth
 func CreateMrpWorkorderHandler(c echo.Context) error {
@@ -455,7 +461,7 @@ func CreateMrpWorkorderHandler(c echo.Context) error {
 // @Description Retrieve a list of all MrpWorkorder
 // @Tags supply_chain-manufacturing
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} MrpWorkorder
 // @Router /api/supply_chain/manufacturing/mrpworkorder [get]
 // @Security BearerAuth
 func GetAllMrpWorkorderHandler(c echo.Context) error {
@@ -513,3 +519,5 @@ func DeleteMrpWorkorderHandler(c echo.Context) error {
 	}
 	return utils.SendSuccess(c, http.StatusOK, "Deleted successfully", nil)
 }
+
+

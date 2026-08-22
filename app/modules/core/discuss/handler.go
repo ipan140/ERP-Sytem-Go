@@ -14,7 +14,8 @@ import (
 // @Tags discuss
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} Channel
+// @Param request body Channel true "Payload"
 // @Router /api/discuss [post]
 // @Security BearerAuth
 func CreateChannelHandler(c echo.Context) error {
@@ -33,7 +34,7 @@ func CreateChannelHandler(c echo.Context) error {
 // @Description Retrieve a list of all Channel
 // @Tags discuss
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} []Channel
 // @Router /api/discuss [get]
 // @Security BearerAuth
 func GetAllChannelHandler(c echo.Context) error {
@@ -50,7 +51,7 @@ func GetAllChannelHandler(c echo.Context) error {
 // @Tags discuss
 // @Produce json
 // @Param id path int true "Channel ID"
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} Channel
 // @Router /api/discuss/{id} [get]
 // @Security BearerAuth
 func GetChannelByIDHandler(c echo.Context) error {
@@ -103,3 +104,5 @@ func DeleteChannelHandler(c echo.Context) error {
 	}
 	return utils.SendSuccess(c, http.StatusOK, "Data deleted successfully", nil)
 }
+
+

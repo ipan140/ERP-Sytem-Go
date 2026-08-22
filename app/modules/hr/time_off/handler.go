@@ -14,7 +14,8 @@ import (
 // @Tags hr-time_off
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} LeaveRequest
+// @Param request body LeaveRequest true "Payload"
 // @Router /api/hr/time_off [post]
 // @Security BearerAuth
 func CreateLeaveRequestHandler(c echo.Context) error {
@@ -33,7 +34,7 @@ func CreateLeaveRequestHandler(c echo.Context) error {
 // @Description Retrieve a list of all LeaveRequest
 // @Tags hr-time_off
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} []LeaveRequest
 // @Router /api/hr/time_off [get]
 // @Security BearerAuth
 func GetAllLeaveRequestHandler(c echo.Context) error {
@@ -50,7 +51,7 @@ func GetAllLeaveRequestHandler(c echo.Context) error {
 // @Tags hr-time_off
 // @Produce json
 // @Param id path int true "LeaveRequest ID"
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} LeaveRequest
 // @Router /api/hr/time_off/{id} [get]
 // @Security BearerAuth
 func GetLeaveRequestByIDHandler(c echo.Context) error {
@@ -109,7 +110,8 @@ func DeleteLeaveRequestHandler(c echo.Context) error {
 // @Tags hr-time_off
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} LeaveType
+// @Param request body LeaveType true "Payload"
 // @Router /api/hr/time_off/leavetype [post]
 // @Security BearerAuth
 func CreateLeaveTypeHandler(c echo.Context) error {
@@ -127,7 +129,7 @@ func CreateLeaveTypeHandler(c echo.Context) error {
 // @Description Retrieve a list of all LeaveType
 // @Tags hr-time_off
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} LeaveType
 // @Router /api/hr/time_off/leavetype [get]
 // @Security BearerAuth
 func GetAllLeaveTypeHandler(c echo.Context) error {
@@ -191,7 +193,8 @@ func DeleteLeaveTypeHandler(c echo.Context) error {
 // @Tags hr-time_off
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} LeaveAllocation
+// @Param request body LeaveAllocation true "Payload"
 // @Router /api/hr/time_off/leaveallocation [post]
 // @Security BearerAuth
 func CreateLeaveAllocationHandler(c echo.Context) error {
@@ -209,7 +212,7 @@ func CreateLeaveAllocationHandler(c echo.Context) error {
 // @Description Retrieve a list of all LeaveAllocation
 // @Tags hr-time_off
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} LeaveAllocation
 // @Router /api/hr/time_off/leaveallocation [get]
 // @Security BearerAuth
 func GetAllLeaveAllocationHandler(c echo.Context) error {
@@ -267,3 +270,5 @@ func DeleteLeaveAllocationHandler(c echo.Context) error {
 	}
 	return utils.SendSuccess(c, http.StatusOK, "Deleted successfully", nil)
 }
+
+

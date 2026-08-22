@@ -14,7 +14,8 @@ import (
 // @Tags sales-rental
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} RentalOrder
+// @Param request body RentalOrder true "Payload"
 // @Router /api/sales/rental [post]
 // @Security BearerAuth
 func CreateRentalOrderHandler(c echo.Context) error {
@@ -33,7 +34,7 @@ func CreateRentalOrderHandler(c echo.Context) error {
 // @Description Retrieve a list of all RentalOrder
 // @Tags sales-rental
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} []RentalOrder
 // @Router /api/sales/rental [get]
 // @Security BearerAuth
 func GetAllRentalOrderHandler(c echo.Context) error {
@@ -50,7 +51,7 @@ func GetAllRentalOrderHandler(c echo.Context) error {
 // @Tags sales-rental
 // @Produce json
 // @Param id path int true "RentalOrder ID"
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} RentalOrder
 // @Router /api/sales/rental/{id} [get]
 // @Security BearerAuth
 func GetRentalOrderByIDHandler(c echo.Context) error {
@@ -109,7 +110,8 @@ func DeleteRentalOrderHandler(c echo.Context) error {
 // @Tags sales-rental
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} RentalOrderLine
+// @Param request body RentalOrderLine true "Payload"
 // @Router /api/sales/rental/rentalorderline [post]
 // @Security BearerAuth
 func CreateRentalOrderLineHandler(c echo.Context) error {
@@ -127,7 +129,7 @@ func CreateRentalOrderLineHandler(c echo.Context) error {
 // @Description Retrieve a list of all RentalOrderLine
 // @Tags sales-rental
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} RentalOrderLine
 // @Router /api/sales/rental/rentalorderline [get]
 // @Security BearerAuth
 func GetAllRentalOrderLineHandler(c echo.Context) error {
@@ -185,3 +187,5 @@ func DeleteRentalOrderLineHandler(c echo.Context) error {
 	}
 	return utils.SendSuccess(c, http.StatusOK, "Deleted successfully", nil)
 }
+
+

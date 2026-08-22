@@ -14,7 +14,8 @@ import (
 // @Tags services-helpdesk
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} Ticket
+// @Param request body Ticket true "Payload"
 // @Router /api/services/helpdesk [post]
 // @Security BearerAuth
 func CreateTicketHandler(c echo.Context) error {
@@ -33,7 +34,7 @@ func CreateTicketHandler(c echo.Context) error {
 // @Description Retrieve a list of all Ticket
 // @Tags services-helpdesk
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} []Ticket
 // @Router /api/services/helpdesk [get]
 // @Security BearerAuth
 func GetAllTicketHandler(c echo.Context) error {
@@ -50,7 +51,7 @@ func GetAllTicketHandler(c echo.Context) error {
 // @Tags services-helpdesk
 // @Produce json
 // @Param id path int true "Ticket ID"
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} Ticket
 // @Router /api/services/helpdesk/{id} [get]
 // @Security BearerAuth
 func GetTicketByIDHandler(c echo.Context) error {
@@ -109,7 +110,8 @@ func DeleteTicketHandler(c echo.Context) error {
 // @Tags services-helpdesk
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} HelpdeskSLA
+// @Param request body HelpdeskSLA true "Payload"
 // @Router /api/services/helpdesk/helpdesksla [post]
 // @Security BearerAuth
 func CreateHelpdeskSLAHandler(c echo.Context) error {
@@ -127,7 +129,7 @@ func CreateHelpdeskSLAHandler(c echo.Context) error {
 // @Description Retrieve a list of all HelpdeskSLA
 // @Tags services-helpdesk
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} HelpdeskSLA
 // @Router /api/services/helpdesk/helpdesksla [get]
 // @Security BearerAuth
 func GetAllHelpdeskSLAHandler(c echo.Context) error {
@@ -191,7 +193,8 @@ func DeleteHelpdeskSLAHandler(c echo.Context) error {
 // @Tags services-helpdesk
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} HelpdeskCannedResponse
+// @Param request body HelpdeskCannedResponse true "Payload"
 // @Router /api/services/helpdesk/helpdeskcannedresponse [post]
 // @Security BearerAuth
 func CreateHelpdeskCannedResponseHandler(c echo.Context) error {
@@ -209,7 +212,7 @@ func CreateHelpdeskCannedResponseHandler(c echo.Context) error {
 // @Description Retrieve a list of all HelpdeskCannedResponse
 // @Tags services-helpdesk
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} HelpdeskCannedResponse
 // @Router /api/services/helpdesk/helpdeskcannedresponse [get]
 // @Security BearerAuth
 func GetAllHelpdeskCannedResponseHandler(c echo.Context) error {
@@ -267,3 +270,5 @@ func DeleteHelpdeskCannedResponseHandler(c echo.Context) error {
 	}
 	return utils.SendSuccess(c, http.StatusOK, "Success", nil)
 }
+
+

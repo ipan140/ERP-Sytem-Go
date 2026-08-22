@@ -14,7 +14,8 @@ import (
 // @Tags documents
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} Workspace
+// @Param request body Workspace true "Payload"
 // @Router /api/documents [post]
 // @Security BearerAuth
 func CreateWorkspaceHandler(c echo.Context) error {
@@ -33,7 +34,7 @@ func CreateWorkspaceHandler(c echo.Context) error {
 // @Description Retrieve a list of all Workspace
 // @Tags documents
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} []Workspace
 // @Router /api/documents [get]
 // @Security BearerAuth
 func GetAllWorkspaceHandler(c echo.Context) error {
@@ -50,7 +51,7 @@ func GetAllWorkspaceHandler(c echo.Context) error {
 // @Tags documents
 // @Produce json
 // @Param id path int true "Workspace ID"
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} Workspace
 // @Router /api/documents/{id} [get]
 // @Security BearerAuth
 func GetWorkspaceByIDHandler(c echo.Context) error {
@@ -103,3 +104,5 @@ func DeleteWorkspaceHandler(c echo.Context) error {
 	}
 	return utils.SendSuccess(c, http.StatusOK, "Data deleted successfully", nil)
 }
+
+

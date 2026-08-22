@@ -14,7 +14,8 @@ import (
 // @Tags dashboards
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} Dashboard
+// @Param request body Dashboard true "Payload"
 // @Router /api/dashboards [post]
 // @Security BearerAuth
 func CreateDashboardHandler(c echo.Context) error {
@@ -33,7 +34,7 @@ func CreateDashboardHandler(c echo.Context) error {
 // @Description Retrieve a list of all Dashboard
 // @Tags dashboards
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} []Dashboard
 // @Router /api/dashboards [get]
 // @Security BearerAuth
 func GetAllDashboardHandler(c echo.Context) error {
@@ -50,7 +51,7 @@ func GetAllDashboardHandler(c echo.Context) error {
 // @Tags dashboards
 // @Produce json
 // @Param id path int true "Dashboard ID"
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} Dashboard
 // @Router /api/dashboards/{id} [get]
 // @Security BearerAuth
 func GetDashboardByIDHandler(c echo.Context) error {
@@ -103,3 +104,5 @@ func DeleteDashboardHandler(c echo.Context) error {
 	}
 	return utils.SendSuccess(c, http.StatusOK, "Data deleted successfully", nil)
 }
+
+

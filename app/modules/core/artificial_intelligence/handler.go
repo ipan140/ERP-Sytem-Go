@@ -14,7 +14,8 @@ import (
 // @Tags artificial_intelligence
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} AIPrompt
+// @Param request body AIPrompt true "Payload"
 // @Router /api/artificial_intelligence [post]
 // @Security BearerAuth
 func CreateAIPromptHandler(c echo.Context) error {
@@ -33,7 +34,7 @@ func CreateAIPromptHandler(c echo.Context) error {
 // @Description Retrieve a list of all AIPrompt
 // @Tags artificial_intelligence
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} []AIPrompt
 // @Router /api/artificial_intelligence [get]
 // @Security BearerAuth
 func GetAllAIPromptHandler(c echo.Context) error {
@@ -50,7 +51,7 @@ func GetAllAIPromptHandler(c echo.Context) error {
 // @Tags artificial_intelligence
 // @Produce json
 // @Param id path int true "AIPrompt ID"
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} AIPrompt
 // @Router /api/artificial_intelligence/{id} [get]
 // @Security BearerAuth
 func GetAIPromptByIDHandler(c echo.Context) error {
@@ -103,3 +104,5 @@ func DeleteAIPromptHandler(c echo.Context) error {
 	}
 	return utils.SendSuccess(c, http.StatusOK, "Data deleted successfully", nil)
 }
+
+

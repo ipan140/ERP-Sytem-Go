@@ -14,7 +14,8 @@ import (
 // @Tags website-blog
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} BlogPost
+// @Param request body BlogPost true "Payload"
 // @Router /api/website/blog [post]
 // @Security BearerAuth
 func CreateBlogPostHandler(c echo.Context) error {
@@ -33,7 +34,7 @@ func CreateBlogPostHandler(c echo.Context) error {
 // @Description Retrieve a list of all BlogPost
 // @Tags website-blog
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} []BlogPost
 // @Router /api/website/blog [get]
 // @Security BearerAuth
 func GetAllBlogPostHandler(c echo.Context) error {
@@ -50,7 +51,7 @@ func GetAllBlogPostHandler(c echo.Context) error {
 // @Tags website-blog
 // @Produce json
 // @Param id path int true "BlogPost ID"
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} BlogPost
 // @Router /api/website/blog/{id} [get]
 // @Security BearerAuth
 func GetBlogPostByIDHandler(c echo.Context) error {
@@ -103,3 +104,5 @@ func DeleteBlogPostHandler(c echo.Context) error {
 	}
 	return utils.SendSuccess(c, http.StatusOK, "Data deleted successfully", nil)
 }
+
+

@@ -14,7 +14,8 @@ import (
 // @Tags hr-attendances
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} Attendance
+// @Param request body Attendance true "Payload"
 // @Router /api/hr/attendances [post]
 // @Security BearerAuth
 func CreateAttendanceHandler(c echo.Context) error {
@@ -33,7 +34,7 @@ func CreateAttendanceHandler(c echo.Context) error {
 // @Description Retrieve a list of all Attendance
 // @Tags hr-attendances
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} []Attendance
 // @Router /api/hr/attendances [get]
 // @Security BearerAuth
 func GetAllAttendanceHandler(c echo.Context) error {
@@ -50,7 +51,7 @@ func GetAllAttendanceHandler(c echo.Context) error {
 // @Tags hr-attendances
 // @Produce json
 // @Param id path int true "Attendance ID"
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} Attendance
 // @Router /api/hr/attendances/{id} [get]
 // @Security BearerAuth
 func GetAttendanceByIDHandler(c echo.Context) error {
@@ -109,7 +110,8 @@ func DeleteAttendanceHandler(c echo.Context) error {
 // @Tags hr-attendances
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} Overtime
+// @Param request body Overtime true "Payload"
 // @Router /api/hr/attendances/overtime [post]
 // @Security BearerAuth
 func CreateOvertimeHandler(c echo.Context) error {
@@ -127,7 +129,7 @@ func CreateOvertimeHandler(c echo.Context) error {
 // @Description Retrieve a list of all Overtime
 // @Tags hr-attendances
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} Overtime
 // @Router /api/hr/attendances/overtime [get]
 // @Security BearerAuth
 func GetAllOvertimeHandler(c echo.Context) error {
@@ -185,3 +187,5 @@ func DeleteOvertimeHandler(c echo.Context) error {
 	}
 	return utils.SendSuccess(c, http.StatusOK, "Deleted successfully", nil)
 }
+
+

@@ -14,7 +14,8 @@ import (
 // @Tags core-storage
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} Attachment
+// @Param request body Attachment true "Payload"
 // @Router /api/core/storage [post]
 // @Security BearerAuth
 func CreateAttachmentHandler(c echo.Context) error {
@@ -33,7 +34,7 @@ func CreateAttachmentHandler(c echo.Context) error {
 // @Description Retrieve a list of all Attachment
 // @Tags core-storage
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} []Attachment
 // @Router /api/core/storage [get]
 // @Security BearerAuth
 func GetAllAttachmentHandler(c echo.Context) error {
@@ -50,7 +51,7 @@ func GetAllAttachmentHandler(c echo.Context) error {
 // @Tags core-storage
 // @Produce json
 // @Param id path int true "Attachment ID"
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} Attachment
 // @Router /api/core/storage/{id} [get]
 // @Security BearerAuth
 func GetAttachmentByIDHandler(c echo.Context) error {
@@ -103,3 +104,5 @@ func DeleteAttachmentHandler(c echo.Context) error {
 	}
 	return utils.SendSuccess(c, http.StatusOK, "Data deleted successfully", nil)
 }
+
+

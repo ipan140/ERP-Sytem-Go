@@ -14,7 +14,8 @@ import (
 // @Tags finance-expenses
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} Expense
+// @Param request body Expense true "Payload"
 // @Router /api/finance/expenses [post]
 // @Security BearerAuth
 func CreateExpenseHandler(c echo.Context) error {
@@ -33,7 +34,7 @@ func CreateExpenseHandler(c echo.Context) error {
 // @Description Retrieve a list of all Expense
 // @Tags finance-expenses
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} []Expense
 // @Router /api/finance/expenses [get]
 // @Security BearerAuth
 func GetAllExpenseHandler(c echo.Context) error {
@@ -50,7 +51,7 @@ func GetAllExpenseHandler(c echo.Context) error {
 // @Tags finance-expenses
 // @Produce json
 // @Param id path int true "Expense ID"
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} Expense
 // @Router /api/finance/expenses/{id} [get]
 // @Security BearerAuth
 func GetExpenseByIDHandler(c echo.Context) error {
@@ -109,7 +110,8 @@ func DeleteExpenseHandler(c echo.Context) error {
 // @Tags finance-expenses
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} ExpenseSheet
+// @Param request body ExpenseSheet true "Payload"
 // @Router /api/finance/expenses/expensesheet [post]
 // @Security BearerAuth
 func CreateExpenseSheetHandler(c echo.Context) error {
@@ -127,7 +129,7 @@ func CreateExpenseSheetHandler(c echo.Context) error {
 // @Description Retrieve a list of all ExpenseSheet
 // @Tags finance-expenses
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} ExpenseSheet
 // @Router /api/finance/expenses/expensesheet [get]
 // @Security BearerAuth
 func GetAllExpenseSheetHandler(c echo.Context) error {
@@ -185,3 +187,5 @@ func DeleteExpenseSheetHandler(c echo.Context) error {
 	}
 	return utils.SendSuccess(c, http.StatusOK, "Deleted successfully", nil)
 }
+
+

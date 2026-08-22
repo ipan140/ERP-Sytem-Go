@@ -14,7 +14,8 @@ import (
 // @Tags services-project
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} Project
+// @Param request body Project true "Payload"
 // @Router /api/services/project [post]
 // @Security BearerAuth
 func CreateProjectHandler(c echo.Context) error {
@@ -33,7 +34,7 @@ func CreateProjectHandler(c echo.Context) error {
 // @Description Retrieve a list of all Project
 // @Tags services-project
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} []Project
 // @Router /api/services/project [get]
 // @Security BearerAuth
 func GetAllProjectHandler(c echo.Context) error {
@@ -50,7 +51,7 @@ func GetAllProjectHandler(c echo.Context) error {
 // @Tags services-project
 // @Produce json
 // @Param id path int true "Project ID"
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} Project
 // @Router /api/services/project/{id} [get]
 // @Security BearerAuth
 func GetProjectByIDHandler(c echo.Context) error {
@@ -109,7 +110,8 @@ func DeleteProjectHandler(c echo.Context) error {
 // @Tags services-project
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} ProjectMilestone
+// @Param request body ProjectMilestone true "Payload"
 // @Router /api/services/project/projectmilestone [post]
 // @Security BearerAuth
 func CreateProjectMilestoneHandler(c echo.Context) error {
@@ -127,7 +129,7 @@ func CreateProjectMilestoneHandler(c echo.Context) error {
 // @Description Retrieve a list of all ProjectMilestone
 // @Tags services-project
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} ProjectMilestone
 // @Router /api/services/project/projectmilestone [get]
 // @Security BearerAuth
 func GetAllProjectMilestoneHandler(c echo.Context) error {
@@ -191,7 +193,8 @@ func DeleteProjectMilestoneHandler(c echo.Context) error {
 // @Tags services-project
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} TaskDependency
+// @Param request body TaskDependency true "Payload"
 // @Router /api/services/project/taskdependency [post]
 // @Security BearerAuth
 func CreateTaskDependencyHandler(c echo.Context) error {
@@ -209,7 +212,7 @@ func CreateTaskDependencyHandler(c echo.Context) error {
 // @Description Retrieve a list of all TaskDependency
 // @Tags services-project
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} TaskDependency
 // @Router /api/services/project/taskdependency [get]
 // @Security BearerAuth
 func GetAllTaskDependencyHandler(c echo.Context) error {
@@ -273,7 +276,8 @@ func DeleteTaskDependencyHandler(c echo.Context) error {
 // @Tags services-project
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} ResourceForecast
+// @Param request body ResourceForecast true "Payload"
 // @Router /api/services/project/resourceforecast [post]
 // @Security BearerAuth
 func CreateResourceForecastHandler(c echo.Context) error {
@@ -291,7 +295,7 @@ func CreateResourceForecastHandler(c echo.Context) error {
 // @Description Retrieve a list of all ResourceForecast
 // @Tags services-project
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} ResourceForecast
 // @Router /api/services/project/resourceforecast [get]
 // @Security BearerAuth
 func GetAllResourceForecastHandler(c echo.Context) error {
@@ -349,3 +353,5 @@ func DeleteResourceForecastHandler(c echo.Context) error {
 	}
 	return utils.SendSuccess(c, http.StatusOK, "Success", nil)
 }
+
+

@@ -14,7 +14,8 @@ import (
 // @Tags services-planning
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} Shift
+// @Param request body Shift true "Payload"
 // @Router /api/services/planning [post]
 // @Security BearerAuth
 func CreateShiftHandler(c echo.Context) error {
@@ -33,7 +34,7 @@ func CreateShiftHandler(c echo.Context) error {
 // @Description Retrieve a list of all Shift
 // @Tags services-planning
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} []Shift
 // @Router /api/services/planning [get]
 // @Security BearerAuth
 func GetAllShiftHandler(c echo.Context) error {
@@ -50,7 +51,7 @@ func GetAllShiftHandler(c echo.Context) error {
 // @Tags services-planning
 // @Produce json
 // @Param id path int true "Shift ID"
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} Shift
 // @Router /api/services/planning/{id} [get]
 // @Security BearerAuth
 func GetShiftByIDHandler(c echo.Context) error {
@@ -103,3 +104,5 @@ func DeleteShiftHandler(c echo.Context) error {
 	}
 	return utils.SendSuccess(c, http.StatusOK, "Data deleted successfully", nil)
 }
+
+

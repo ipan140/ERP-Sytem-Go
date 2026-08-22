@@ -14,7 +14,8 @@ import (
 // @Tags marketing-events
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} Event
+// @Param request body Event true "Payload"
 // @Router /api/marketing/events [post]
 // @Security BearerAuth
 func CreateEventHandler(c echo.Context) error {
@@ -33,7 +34,7 @@ func CreateEventHandler(c echo.Context) error {
 // @Description Retrieve a list of all Event
 // @Tags marketing-events
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} []Event
 // @Router /api/marketing/events [get]
 // @Security BearerAuth
 func GetAllEventHandler(c echo.Context) error {
@@ -50,7 +51,7 @@ func GetAllEventHandler(c echo.Context) error {
 // @Tags marketing-events
 // @Produce json
 // @Param id path int true "Event ID"
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} Event
 // @Router /api/marketing/events/{id} [get]
 // @Security BearerAuth
 func GetEventByIDHandler(c echo.Context) error {
@@ -109,7 +110,8 @@ func DeleteEventHandler(c echo.Context) error {
 // @Tags marketing-events
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} EventTicket
+// @Param request body EventTicket true "Payload"
 // @Router /api/marketing/events/eventticket [post]
 // @Security BearerAuth
 func CreateEventTicketHandler(c echo.Context) error {
@@ -127,7 +129,7 @@ func CreateEventTicketHandler(c echo.Context) error {
 // @Description Retrieve a list of all EventTicket
 // @Tags marketing-events
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} EventTicket
 // @Router /api/marketing/events/eventticket [get]
 // @Security BearerAuth
 func GetAllEventTicketHandler(c echo.Context) error {
@@ -185,3 +187,5 @@ func DeleteEventTicketHandler(c echo.Context) error {
 	}
 	return utils.SendSuccess(c, http.StatusOK, "Success", nil)
 }
+
+

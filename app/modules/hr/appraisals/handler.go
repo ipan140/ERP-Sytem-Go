@@ -14,7 +14,8 @@ import (
 // @Tags hr-appraisals
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} Appraisal
+// @Param request body Appraisal true "Payload"
 // @Router /api/hr/appraisals [post]
 // @Security BearerAuth
 func CreateAppraisalHandler(c echo.Context) error {
@@ -33,7 +34,7 @@ func CreateAppraisalHandler(c echo.Context) error {
 // @Description Retrieve a list of all Appraisal
 // @Tags hr-appraisals
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} []Appraisal
 // @Router /api/hr/appraisals [get]
 // @Security BearerAuth
 func GetAllAppraisalHandler(c echo.Context) error {
@@ -50,7 +51,7 @@ func GetAllAppraisalHandler(c echo.Context) error {
 // @Tags hr-appraisals
 // @Produce json
 // @Param id path int true "Appraisal ID"
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} Appraisal
 // @Router /api/hr/appraisals/{id} [get]
 // @Security BearerAuth
 func GetAppraisalByIDHandler(c echo.Context) error {
@@ -103,3 +104,5 @@ func DeleteAppraisalHandler(c echo.Context) error {
 	}
 	return utils.SendSuccess(c, http.StatusOK, "Data deleted successfully", nil)
 }
+
+

@@ -14,7 +14,8 @@ import (
 // @Tags hr-ReferralRewards
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} ReferralReward
+// @Param request body ReferralReward true "Payload"
 // @Router /api/hr/ReferralRewards [post]
 // @Security BearerAuth
 func CreateReferralRewardHandler(c echo.Context) error {
@@ -33,7 +34,7 @@ func CreateReferralRewardHandler(c echo.Context) error {
 // @Description Retrieve a list of all ReferralReward
 // @Tags hr-ReferralRewards
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} []ReferralReward
 // @Router /api/hr/ReferralRewards [get]
 // @Security BearerAuth
 func GetAllReferralRewardHandler(c echo.Context) error {
@@ -50,7 +51,7 @@ func GetAllReferralRewardHandler(c echo.Context) error {
 // @Tags hr-ReferralRewards
 // @Produce json
 // @Param id path int true "ReferralReward ID"
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} ReferralReward
 // @Router /api/hr/ReferralRewards/{id} [get]
 // @Security BearerAuth
 func GetReferralRewardByIDHandler(c echo.Context) error {
@@ -109,7 +110,8 @@ func DeleteReferralRewardHandler(c echo.Context) error {
 // @Tags hr-referrals
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} ReferralPoint
+// @Param request body ReferralPoint true "Payload"
 // @Router /api/hr/referrals/referralpoint [post]
 // @Security BearerAuth
 func CreateReferralPointHandler(c echo.Context) error {
@@ -127,7 +129,7 @@ func CreateReferralPointHandler(c echo.Context) error {
 // @Description Retrieve a list of all ReferralPoint
 // @Tags hr-referrals
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} ReferralPoint
 // @Router /api/hr/referrals/referralpoint [get]
 // @Security BearerAuth
 func GetAllReferralPointHandler(c echo.Context) error {
@@ -185,3 +187,5 @@ func DeleteReferralPointHandler(c echo.Context) error {
 	}
 	return utils.SendSuccess(c, http.StatusOK, "Deleted successfully", nil)
 }
+
+

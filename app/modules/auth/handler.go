@@ -76,3 +76,5 @@ func RegisterHandler(c echo.Context) error {
 
 	return utils.SendSuccess(c, http.StatusCreated, "Registrasi berhasil!", user)
 }
+
+

@@ -77,3 +77,5 @@ func GenerateDynamicPDFHandler(c echo.Context) error {
 	return err
 }
 
+
+

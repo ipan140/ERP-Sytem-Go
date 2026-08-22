@@ -14,7 +14,8 @@ import (
 // @Tags services-repairs
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} RepairOrder
+// @Param request body RepairOrder true "Payload"
 // @Router /api/services/repairs [post]
 // @Security BearerAuth
 func CreateRepairOrderHandler(c echo.Context) error {
@@ -33,7 +34,7 @@ func CreateRepairOrderHandler(c echo.Context) error {
 // @Description Retrieve a list of all RepairOrder
 // @Tags services-repairs
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} []RepairOrder
 // @Router /api/services/repairs [get]
 // @Security BearerAuth
 func GetAllRepairOrderHandler(c echo.Context) error {
@@ -50,7 +51,7 @@ func GetAllRepairOrderHandler(c echo.Context) error {
 // @Tags services-repairs
 // @Produce json
 // @Param id path int true "RepairOrder ID"
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} RepairOrder
 // @Router /api/services/repairs/{id} [get]
 // @Security BearerAuth
 func GetRepairOrderByIDHandler(c echo.Context) error {
@@ -103,3 +104,5 @@ func DeleteRepairOrderHandler(c echo.Context) error {
 	}
 	return utils.SendSuccess(c, http.StatusOK, "Data deleted successfully", nil)
 }
+
+

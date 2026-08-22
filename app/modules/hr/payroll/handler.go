@@ -14,7 +14,8 @@ import (
 // @Tags hr-payroll
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} Payslip
+// @Param request body Payslip true "Payload"
 // @Router /api/hr/payroll [post]
 // @Security BearerAuth
 func CreatePayslipHandler(c echo.Context) error {
@@ -33,7 +34,7 @@ func CreatePayslipHandler(c echo.Context) error {
 // @Description Retrieve a list of all Payslip
 // @Tags hr-payroll
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} []Payslip
 // @Router /api/hr/payroll [get]
 // @Security BearerAuth
 func GetAllPayslipHandler(c echo.Context) error {
@@ -50,7 +51,7 @@ func GetAllPayslipHandler(c echo.Context) error {
 // @Tags hr-payroll
 // @Produce json
 // @Param id path int true "Payslip ID"
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} Payslip
 // @Router /api/hr/payroll/{id} [get]
 // @Security BearerAuth
 func GetPayslipByIDHandler(c echo.Context) error {
@@ -109,7 +110,8 @@ func DeletePayslipHandler(c echo.Context) error {
 // @Tags hr-payroll
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} PayslipLine
+// @Param request body PayslipLine true "Payload"
 // @Router /api/hr/payroll/payslipline [post]
 // @Security BearerAuth
 func CreatePayslipLineHandler(c echo.Context) error {
@@ -127,7 +129,7 @@ func CreatePayslipLineHandler(c echo.Context) error {
 // @Description Retrieve a list of all PayslipLine
 // @Tags hr-payroll
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} PayslipLine
 // @Router /api/hr/payroll/payslipline [get]
 // @Security BearerAuth
 func GetAllPayslipLineHandler(c echo.Context) error {
@@ -191,7 +193,8 @@ func DeletePayslipLineHandler(c echo.Context) error {
 // @Tags hr-payroll
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} SalaryRule
+// @Param request body SalaryRule true "Payload"
 // @Router /api/hr/payroll/salaryrule [post]
 // @Security BearerAuth
 func CreateSalaryRuleHandler(c echo.Context) error {
@@ -209,7 +212,7 @@ func CreateSalaryRuleHandler(c echo.Context) error {
 // @Description Retrieve a list of all SalaryRule
 // @Tags hr-payroll
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} SalaryRule
 // @Router /api/hr/payroll/salaryrule [get]
 // @Security BearerAuth
 func GetAllSalaryRuleHandler(c echo.Context) error {
@@ -267,3 +270,5 @@ func DeleteSalaryRuleHandler(c echo.Context) error {
 	}
 	return utils.SendSuccess(c, http.StatusOK, "Deleted successfully", nil)
 }
+
+

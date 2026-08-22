@@ -22,13 +22,15 @@ func ConnectRabbitMQ() {
 
 	conn, err := NewRabbitMQConnection(url)
 	if err != nil {
-		log.Fatalf("❌ Gagal menyambung ke RabbitMQ setelah 15 percobaan: %v", err)
+		log.Printf("❌ Gagal menyambung ke RabbitMQ setelah 15 percobaan. RabbitMQ diabaikan (Mode Offline): %v", err)
+		return
 	}
 
 	Conn = conn
 	Channel, err = Conn.Channel()
 	if err != nil {
-		log.Fatalf("❌ Gagal membuka channel RabbitMQ: %v", err)
+		log.Printf("❌ Gagal membuka channel RabbitMQ. RabbitMQ diabaikan: %v", err)
+		return
 	}
 }
 

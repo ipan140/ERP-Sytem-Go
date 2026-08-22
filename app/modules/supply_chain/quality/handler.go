@@ -14,7 +14,8 @@ import (
 // @Tags supply_chain-quality
 // @Accept json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
+// @Success 201 {object} QualityCheck
+// @Param request body QualityCheck true "Payload"
 // @Router /api/supply_chain/quality [post]
 // @Security BearerAuth
 func CreateQualityCheckHandler(c echo.Context) error {
@@ -33,7 +34,7 @@ func CreateQualityCheckHandler(c echo.Context) error {
 // @Description Retrieve a list of all QualityCheck
 // @Tags supply_chain-quality
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} []QualityCheck
 // @Router /api/supply_chain/quality [get]
 // @Security BearerAuth
 func GetAllQualityCheckHandler(c echo.Context) error {
@@ -50,7 +51,7 @@ func GetAllQualityCheckHandler(c echo.Context) error {
 // @Tags supply_chain-quality
 // @Produce json
 // @Param id path int true "QualityCheck ID"
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} QualityCheck
 // @Router /api/supply_chain/quality/{id} [get]
 // @Security BearerAuth
 func GetQualityCheckByIDHandler(c echo.Context) error {
@@ -103,3 +104,5 @@ func DeleteQualityCheckHandler(c echo.Context) error {
 	}
 	return utils.SendSuccess(c, http.StatusOK, "Data deleted successfully", nil)
 }
+
+
