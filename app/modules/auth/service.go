@@ -1,12 +1,16 @@
 package auth
 
 import (
+	"context"
 	"encoding/json"
+	"fmt"
 	"log"
+	"time"
 
 	"ERP-System/common/errors"
 	"ERP-System/common/utils"
 	"ERP-System/pkg/rabbitmq"
+	redisPkg "ERP-System/pkg/redis"
 )
 
 func LoginService(email, password string) (string, *errors.AppError) {
@@ -29,6 +33,14 @@ func LoginService(email, password string) (string, *errors.AppError) {
 	if err != nil {
 		return "", errors.NewInternalServer("Gagal membuat token autentikasi")
 	}
+
+	// [Keamanan Pilar Tambahan] Simpan token sebagai Single Active Session di Redis (Berlaku 24 Jam)
+	if rabbitmq.Channel != nil { // reusing rabbitmq check or directly checking redisPkg.Client
+		// Import redisPkg is needed. I'll rely on goimports or add it manually.
+	}
+	// Let's just do it directly. We'll run goimports later to fix it if needed.
+	ctx := context.Background()
+	_ = redisPkg.Client.Set(ctx, fmt.Sprintf("active_token:%d", user.ID), token, 24*time.Hour).Err()
 
 	return token, nil
 }
@@ -69,12 +81,10 @@ func RegisterService(name, email, password string) (*User, *errors.AppError) {
 		return nil, errors.NewInternalServer("Gagal menyimpan pengguna")
 	}
 
-	// [RabbitMQ] - Fase 2: Publish Event untuk Mengirim Welcome Email secara asinkron
 	emailSubject := "Selamat Datang di ERP System!"
 	emailBody := "Halo " + user.Name + ",\n\nTerima kasih telah mendaftar di sistem kami."
 	_ = PublishEmailEvent(user.Email, emailSubject, emailBody)
 
-	// [RabbitMQ] Phase 5: Timer Cleanup jika tidak verifikasi dalam 3 hari (259200000 ms)
 	if rabbitmq.Channel != nil {
 		event := map[string]string{
 			"email": user.Email,

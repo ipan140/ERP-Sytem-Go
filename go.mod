@@ -17,7 +17,10 @@ require (
 	gorm.io/gorm v1.31.2
 )
 
-require golang.org/x/telemetry v0.0.0-20260811182544-a038080d80e5 // indirect
+require (
+	github.com/gorilla/websocket v1.5.3 // indirect
+	golang.org/x/telemetry v0.0.0-20260811182544-a038080d80e5 // indirect
+)
 
 require (
 	github.com/KyleBanks/depth v1.2.1 // indirect

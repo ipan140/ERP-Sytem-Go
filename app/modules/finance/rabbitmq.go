@@ -2,11 +2,13 @@ package finance
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
 	"time"
 
 	"ERP-System/app/modules/finance/invoicing"
 	"ERP-System/pkg/rabbitmq"
+	ws "ERP-System/pkg/websocket"
 )
 
 const (
@@ -56,7 +58,7 @@ func StartFinanceWorker() {
 			}
 
 			log.Printf("✅ [Worker Finance] Generating draft invoice for Order %s (Amount: %.2f)", event.OrderID, event.TotalAmount)
-			
+
 			// [RabbitMQ] - Fase 4: Eksekusi otomatis dari event
 			invoice := &invoicing.Invoice{
 				Name:          "INV/AUTO/" + event.OrderID,
@@ -68,7 +70,7 @@ func StartFinanceWorker() {
 				AmountTax:     0,
 				AmountTotal:   event.TotalAmount,
 			}
-			
+
 			if err := invoicing.CreateInvoiceService(invoice); err != nil {
 				log.Printf("❌ Failed to create invoice: %v", err)
 			} else {
@@ -89,7 +91,9 @@ type ReportRequestPayload struct {
 
 // StartFinanceReportWorker (Phase 3)
 func StartFinanceReportWorker() {
-	if rabbitmq.Channel == nil { return }
+	if rabbitmq.Channel == nil {
+		return
+	}
 	msgs, _ := rabbitmq.Channel.Consume("finance_report_generator", "fin_report_worker", true, false, false, false, nil)
 	go func() {
 		for d := range msgs {
@@ -98,17 +102,20 @@ func StartFinanceReportWorker() {
 				continue
 			}
 
-			log.Printf("📊 [Worker Finance] Memulai proses Generate %s (Format: %s) dari %s s/d %s", 
+			log.Printf("📊 [Worker Finance] Memulai proses Generate %s (Format: %s) dari %s s/d %s",
 				req.ReportType, req.Format, req.DateStart, req.DateEnd)
-			
+
 			// SIMULASI PROSES BERAT (Misalnya: generate ribuan baris excel/pdf memakan waktu)
-			time.Sleep(3 * time.Second) 
+			time.Sleep(3 * time.Second)
 
 			fileName := req.ReportType + "_" + req.DateStart + "." + req.Format
 			log.Printf("✅ [Worker Finance] Laporan %s selesai dibuat! Tersimpan di /uploads/reports/%s", req.ReportType, fileName)
-			
+
 			// SIMULASI MENGIRIM WEBSOCKET POP-UP KE USER YANG ME-REQUEST
-			log.Printf("🔔 [Redis/Websocket] PUSH Pop-up ke Layar UserID %d: 'File %s siap diunduh!'", req.UserID, fileName)
+			wsMsg := fmt.Sprintf("File %s siap diunduh!", fileName)
+			userIDStr := fmt.Sprintf("%d", req.UserID)
+			ws.SendNotification(userIDStr, wsMsg)
+			log.Printf("🔔 [Websocket] PUSH Pop-up ke Layar UserID %d: '%s'", req.UserID, wsMsg)
 		}
 	}()
 }

@@ -23,15 +23,13 @@ import (
 	"ERP-System/app/modules/finance"
 	"ERP-System/app/modules/finance/accounting"
 	"ERP-System/app/modules/finance/approvals"
-	"ERP-System/app/modules/hr"
-	"ERP-System/app/modules/marketing"
-	"ERP-System/app/modules/services"
 	"ERP-System/app/modules/finance/consolidation"
 	financeDocs "ERP-System/app/modules/finance/documents"
 	"ERP-System/app/modules/finance/expenses"
 	"ERP-System/app/modules/finance/invoicing"
 	"ERP-System/app/modules/finance/sign"
 	"ERP-System/app/modules/finance/spreadsheet_bi"
+	"ERP-System/app/modules/hr"
 	"ERP-System/app/modules/hr/appraisals"
 	"ERP-System/app/modules/hr/attendances"
 	"ERP-System/app/modules/hr/employees"
@@ -41,6 +39,7 @@ import (
 	"ERP-System/app/modules/hr/recruitment"
 	"ERP-System/app/modules/hr/referrals"
 	"ERP-System/app/modules/hr/time_off"
+	"ERP-System/app/modules/marketing"
 	"ERP-System/app/modules/marketing/events"
 	"ERP-System/app/modules/marketing/marketing_automation"
 	"ERP-System/app/modules/marketing/mass_mailing"
@@ -53,6 +52,7 @@ import (
 	"ERP-System/app/modules/sales/rental"
 	"ERP-System/app/modules/sales/sales_core"
 	"ERP-System/app/modules/sales/subscriptions"
+	"ERP-System/app/modules/services"
 	"ERP-System/app/modules/services/appointments"
 	"ERP-System/app/modules/services/field_service"
 	"ERP-System/app/modules/services/helpdesk"
@@ -74,9 +74,13 @@ import (
 	"ERP-System/app/modules/website/forum"
 	"ERP-System/app/modules/website/live_chat"
 	"ERP-System/app/modules/website/website_builder"
+	
+	commonMiddleware "ERP-System/common/middleware"
+	
 	"ERP-System/config"
-	"ERP-System/pkg/rabbitmq"
 	_ "ERP-System/docs" // Swagger docs
+	"ERP-System/pkg/rabbitmq"
+	ws "ERP-System/pkg/websocket"
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
@@ -96,11 +100,11 @@ func main() {
 	config.LoadEnv()
 	config.ConnectDB()
 	accounting.SeedDefaultAccounts()
-	
+
 	// Initialize RabbitMQ
 	rabbitmq.ConnectRabbitMQ()
 	defer rabbitmq.Close()
-	
+
 	// Start RabbitMQ Workers
 	auth.StartEmailWorker()
 	auth.StartAuthCleanupWorker()
@@ -116,9 +120,18 @@ func main() {
 
 	e := echo.New()
 
-	// Global Middleware
+	// [Keamanan Pilar 1, 3] Global Middleware
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
+
+	// Secure Headers (Anti XSS, HSTS)
+	e.Use(middleware.Secure())
+
+	// Global Rate Limiter (Max 20 requests per second per IP)
+	e.Use(middleware.RateLimiter(middleware.NewRateLimiterMemoryStore(20)))
+
+	// Strict CORS
+	e.Use(commonMiddleware.CORS())
 
 	// Register Module Routes
 	auth.RegisterRoutes(e)
@@ -188,6 +201,9 @@ func main() {
 	// Register Swagger Route
 	e.GET("/swagger/*", echoSwagger.WrapHandler)
 	e.GET("/docs", serveCustomDocs)
+	
+	// [Fase 5] Register WebSocket Endpoint
+	e.GET("/ws", ws.ServeWS)
 
 	e.GET("/", func(c echo.Context) error {
 		return c.JSON(http.StatusOK, map[string]string{

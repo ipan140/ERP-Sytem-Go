@@ -1,15 +1,20 @@
 package middleware
 
 import (
+	"context"
+	"fmt"
 	"net/http"
 	"strings"
 
 	"ERP-System/common/utils"
 	"ERP-System/config"
+	redisPkg "ERP-System/pkg/redis"
 
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/labstack/echo/v4"
 )
+
+var ctx = context.Background()
 
 func Auth() echo.MiddlewareFunc {
 	return func(next echo.HandlerFunc) echo.HandlerFunc {
@@ -25,6 +30,15 @@ func Auth() echo.MiddlewareFunc {
 			}
 
 			tokenString := parts[1]
+
+			// [Keamanan Pilar 2] Cek JWT Blacklist di Redis
+			if redisPkg.Client != nil {
+				isBlacklisted, _ := redisPkg.Client.Exists(ctx, "jwt_blacklist:"+tokenString).Result()
+				if isBlacklisted > 0 {
+					return utils.SendError(c, http.StatusUnauthorized, "Session telah diakhiri (Token Blacklisted)", "")
+				}
+			}
+
 			secret := config.AppConfig.JWTSecret
 
 			token, err := jwt.ParseWithClaims(tokenString, &utils.JWTCustomClaims{}, func(token *jwt.Token) (interface{}, error) {
@@ -36,6 +50,14 @@ func Auth() echo.MiddlewareFunc {
 			}
 
 			if claims, ok := token.Claims.(*utils.JWTCustomClaims); ok && token.Valid {
+				// [Keamanan Pilar Tambahan] Pengecekan Single Active Session
+				if redisPkg.Client != nil {
+					activeToken, _ := redisPkg.Client.Get(ctx, fmt.Sprintf("active_token:%d", claims.UserID)).Result()
+					if activeToken != "" && activeToken != tokenString {
+						return utils.SendError(c, http.StatusUnauthorized, "Sesi Anda telah berakhir karena akun ini baru saja login di perangkat lain.", "")
+					}
+				}
+
 				c.Set("user_id", claims.UserID)
 				c.Set("company_id", claims.CompanyID)
 				c.Set("role", claims.Role)
