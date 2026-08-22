@@ -1,18 +1,54 @@
 package user_roles
 
 import (
+	"context"
+	"encoding/json"
+	"fmt"
+	"time"
+
 	"ERP-System/config"
+	redisPkg "ERP-System/pkg/redis"
 )
 
+var ctx = context.Background()
+
 func GetAllUsersRolesService() ([]UserRoleResponse, error) {
+	// [Redis] 1. Coba ambil dari Cache dulu
+	cacheKey := "core:user_roles:all"
+	
+	if redisPkg.Client != nil {
+		redisRepo := NewUserRolesRedis(redisPkg.Client)
+		cachedData, err := redisRepo.GetUserRole(ctx, cacheKey)
+		if err == nil && cachedData != "" {
+			var users []UserRoleResponse
+			_ = json.Unmarshal([]byte(cachedData), &users)
+			fmt.Println("🚀 [Redis Hit] Fetching User Roles from Cache!")
+			return users, nil
+		}
+	}
+
+	// [DB] 2. Jika di Cache tidak ada (Miss), ambil dari PostgreSQL
+	fmt.Println("🐢 [DB Hit] Fetching User Roles from PostgreSQL...")
 	var users []UserRoleResponse
-	// Menggunakan Raw SQL via GORM agar tidak perlu memanggil struct User dari modul auth
 	err := config.DB.Table("users").Select("id, name, email, roles").Find(&users).Error
+	
+	if err == nil && redisPkg.Client != nil {
+		// [Redis] 3. Simpan hasil query DB ke Redis agar request selanjutnya cepat
+		bytes, _ := json.Marshal(users)
+		_ = redisPkg.Client.Set(ctx, cacheKey, bytes, 1*time.Hour).Err()
+	}
+
 	return users, err
 }
 
 func AssignRoleService(userID uint, roles string) error {
-	// Update langsung ke kolom 'roles' di tabel users
 	err := config.DB.Table("users").Where("id = ?", userID).Update("roles", roles).Error
+	
+	if err == nil && redisPkg.Client != nil {
+		// [Redis] Hapus cache (Invalidation) karena ada perubahan role
+		_ = redisPkg.Client.Del(ctx, "core:user_roles:all").Err()
+		fmt.Println("🧹 [Redis Clear] Invalidated 'core:user_roles:all' due to role assignment")
+	}
+	
 	return err
 }

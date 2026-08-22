@@ -1,11 +1,54 @@
 package crm
 
+import (
+	"context"
+	"encoding/json"
+	"fmt"
+	"time"
+
+	redisPkg "ERP-System/pkg/redis"
+)
+
+var ctx = context.Background()
+
+func invalidateCRMLeadCache() {
+	if redisPkg.Client != nil {
+		redisPkg.Client.Del(ctx, "sales:crm:leads")
+		fmt.Println("🧹 [Redis Clear] Invalidated Kanban Board Cache ('sales:crm:leads')")
+	}
+}
+
 func CreateLeadService(data *Lead) error {
-	return CreateLead(data)
+	err := CreateLead(data)
+	if err == nil {
+		invalidateCRMLeadCache()
+	}
+	return err
 }
 
 func GetAllLeadService() ([]Lead, error) {
-	return GetAllLead()
+	cacheKey := "sales:crm:leads"
+
+	if redisPkg.Client != nil {
+		redisRepo := NewCrmRedis(redisPkg.Client)
+		cachedData, err := redisRepo.GetKanbanBoard(ctx, cacheKey)
+		if err == nil && cachedData != "" {
+			var leads []Lead
+			_ = json.Unmarshal([]byte(cachedData), &leads)
+			fmt.Println("🚀 [Redis Hit] Fetching Kanban Board (Leads) from Cache!")
+			return leads, nil
+		}
+	}
+
+	fmt.Println("🐢 [DB Hit] Fetching Kanban Board (Leads) from PostgreSQL...")
+	leads, err := GetAllLead()
+
+	if err == nil && redisPkg.Client != nil {
+		bytes, _ := json.Marshal(leads)
+		_ = redisPkg.Client.Set(ctx, cacheKey, bytes, 1*time.Hour).Err()
+	}
+
+	return leads, err
 }
 
 func GetLeadByIDService(id uint) (*Lead, error) {
@@ -13,11 +56,19 @@ func GetLeadByIDService(id uint) (*Lead, error) {
 }
 
 func UpdateLeadService(data *Lead) error {
-	return UpdateLead(data)
+	err := UpdateLead(data)
+	if err == nil {
+		invalidateCRMLeadCache()
+	}
+	return err
 }
 
 func DeleteLeadService(id uint) error {
-	return DeleteLead(id)
+	err := DeleteLead(id)
+	if err == nil {
+		invalidateCRMLeadCache()
+	}
+	return err
 }
 
 func CreateSalesTeamService(data *SalesTeam) error        { return CreateSalesTeam(data) }

@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"ERP-System/app/modules/auth"
+	"ERP-System/app/modules/core"
 	"ERP-System/app/modules/core/artificial_intelligence"
 	"ERP-System/app/modules/core/base"
 	"ERP-System/app/modules/core/dashboards"
@@ -19,6 +20,7 @@ import (
 	"ERP-System/app/modules/core/user_roles"
 	"ERP-System/app/modules/core/voip"
 	"ERP-System/app/modules/core/whatsapp"
+	"ERP-System/app/modules/finance"
 	"ERP-System/app/modules/finance/accounting"
 	"ERP-System/app/modules/finance/approvals"
 	"ERP-System/app/modules/finance/consolidation"
@@ -42,6 +44,7 @@ import (
 	"ERP-System/app/modules/marketing/sms_marketing"
 	"ERP-System/app/modules/marketing/social_marketing"
 	"ERP-System/app/modules/marketing/surveys"
+	"ERP-System/app/modules/sales"
 	"ERP-System/app/modules/sales/crm"
 	"ERP-System/app/modules/sales/point_of_sale"
 	"ERP-System/app/modules/sales/rental"
@@ -54,6 +57,7 @@ import (
 	"ERP-System/app/modules/services/project"
 	"ERP-System/app/modules/services/repairs"
 	"ERP-System/app/modules/services/timesheets"
+	"ERP-System/app/modules/supply_chain"
 	"ERP-System/app/modules/supply_chain/barcode"
 	"ERP-System/app/modules/supply_chain/inventory"
 	"ERP-System/app/modules/supply_chain/maintenance"
@@ -68,6 +72,7 @@ import (
 	"ERP-System/app/modules/website/live_chat"
 	"ERP-System/app/modules/website/website_builder"
 	"ERP-System/config"
+	"ERP-System/pkg/rabbitmq"
 	_ "ERP-System/docs" // Swagger docs
 
 	"github.com/labstack/echo/v4"
@@ -88,6 +93,17 @@ func main() {
 	config.LoadEnv()
 	config.ConnectDB()
 	accounting.SeedDefaultAccounts()
+	
+	// Initialize RabbitMQ
+	rabbitmq.ConnectRabbitMQ()
+	defer rabbitmq.Close()
+	
+	// Start RabbitMQ Workers
+	auth.StartEmailWorker()
+	finance.StartFinanceWorker()
+	core.StartAuditWorker()
+	supply_chain.StartInventoryWorker()
+	sales.StartSalesDelayedWorker()
 
 	e := echo.New()
 

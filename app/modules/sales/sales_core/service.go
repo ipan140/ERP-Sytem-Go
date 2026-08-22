@@ -1,8 +1,10 @@
 package sales_core
 
 import (
+	"ERP-System/app/modules/sales"
 	"ERP-System/app/modules/services/project"
 	"ERP-System/config"
+	"fmt"
 )
 
 func CreateSaleOrderService(data *SaleOrder) error        { return CreateSaleOrder(data) }
@@ -11,6 +13,11 @@ func GetSaleOrderByIDService(id uint) (*SaleOrder, error) { return GetSaleOrderB
 func UpdateSaleOrderService(data *SaleOrder) error {
 	if data.State == "sale" {
 		project.AutoCreateProjectFromSales(data.ID, data.PartnerID, data.Name)
+		
+		// [RabbitMQ] - Fase 4: Publish Event agar modul Finance dan Supply Chain dapat menangkapnya
+		orderIDStr := fmt.Sprintf("%d", data.ID)
+		customerIDStr := fmt.Sprintf("%d", data.PartnerID)
+		_ = sales.PublishOrderCompletedEvent(orderIDStr, data.AmountTotal, customerIDStr)
 	}
 	return UpdateSaleOrder(data)
 }

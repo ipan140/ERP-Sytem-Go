@@ -65,5 +65,10 @@ func RegisterService(name, email, password string) (*User, *errors.AppError) {
 		return nil, errors.NewInternalServer("Gagal mendaftarkan pengguna")
 	}
 
+	// [RabbitMQ] - Fase 2: Publish Event untuk Mengirim Welcome Email secara asinkron
+	emailSubject := "Selamat Datang di ERP System!"
+	emailBody := "Halo " + user.Name + ",\n\nTerima kasih telah mendaftar di sistem kami."
+	_ = PublishEmailEvent(user.Email, emailSubject, emailBody)
+
 	return user, nil
 }
