@@ -55,4 +55,14 @@ func StartInventoryWorker() {
 			// TODO: Add logic to fetch Order Lines and decrease stock via inventory.UpdateProductService or StockQuant
 		}
 	}()
+
+// Worker untuk mendengarkan pelunasan Midtrans (Dari Finance)
+	msgsMidtrans, _ := rabbitmq.Channel.Consume("invoice_paid_event", "inventory_midtrans_worker", true, false, false, false, nil)
+	go func() {
+		for d := range msgsMidtrans {
+			invoiceID := string(d.Body)
+			log.Printf("✅ [Worker Gudang] Hore! Invoice %s LUNAS via Midtrans. Membuat Surat Jalan (Delivery Order) otomatis...", invoiceID)
+			// SIMULASI: inventory.CreateDeliveryOrderService(...)
+		}
+	}()
 }

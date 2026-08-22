@@ -3,6 +3,7 @@ package accounting
 import (
 	"ERP-System/common/utils"
 	"ERP-System/config"
+	"ERP-System/pkg/rabbitmq"
 	"fmt"
 	"net/http"
 	"strconv"
@@ -639,6 +640,13 @@ func MidtransWebhookHandler(c echo.Context) error {
 				// Kita langsung eksekusi Query Update ke tabel invoices
 				config.DB.Exec("UPDATE invoices SET state = 'paid' WHERE id = ?", *trx.InvoiceID)
 				fmt.Printf("[WEBHOOK] Hore! Invoice ID %d telah Otomatis LUNAS dari Midtrans!\n", *trx.InvoiceID)
+
+				// [RabbitMQ] - Beri tahu Supply Chain bahwa pesanan ini sudah LUNAS agar DO dibuat
+				if rabbitmq.Channel != nil {
+					invoiceIDStr := fmt.Sprintf("%d", *trx.InvoiceID)
+					_ = rabbitmq.PublishEvent(rabbitmq.Channel, "invoice_paid_event", []byte(invoiceIDStr))
+					fmt.Println("🚀 [RabbitMQ] Event 'invoice_paid_event' dilempar ke antrean Supply Chain!")
+				}
 			}
 		}
 	}
