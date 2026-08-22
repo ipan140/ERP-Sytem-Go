@@ -4,8 +4,10 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"log"
 	"time"
 
+	"ERP-System/pkg/rabbitmq"
 	redisPkg "ERP-System/pkg/redis"
 )
 
@@ -96,3 +98,12 @@ func GetSalesCommissionByIDService(id uint) (*SalesCommission, error) {
 }
 func UpdateSalesCommissionService(data *SalesCommission) error { return UpdateSalesCommission(data) }
 func DeleteSalesCommissionService(id uint) error               { return DeleteSalesCommission(id) }
+
+func ExportCRMExcelService(userID uint) error {
+	if rabbitmq.Channel != nil {
+		body, _ := json.Marshal(map[string]interface{}{"action": "export_crm", "user_id": userID})
+		_ = rabbitmq.PublishEvent(rabbitmq.Channel, "finance_report_generator", body)
+		log.Printf("📈 Event RabbitMQ: Export Excel CRM Pipeline dikirim ke antrean!")
+	}
+	return nil
+}

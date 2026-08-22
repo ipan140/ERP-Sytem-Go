@@ -1,8 +1,12 @@
 package auth
 
 import (
+	"encoding/json"
+	"log"
+
 	"ERP-System/common/errors"
 	"ERP-System/common/utils"
+	"ERP-System/pkg/rabbitmq"
 )
 
 func LoginService(email, password string) (string, *errors.AppError) {

@@ -1,5 +1,11 @@
 package employees
 
+import (
+	"ERP-System/pkg/rabbitmq"
+	"encoding/json"
+	"log"
+)
+
 func CreateEmployeeService(data *Employee) error {
 	return CreateEmployee(data)
 }
@@ -63,3 +69,12 @@ func GetAllResumeLineService() ([]ResumeLine, error)        { return GetAllResum
 func GetResumeLineByIDService(id uint) (*ResumeLine, error) { return GetResumeLineByID(id) }
 func UpdateResumeLineService(data *ResumeLine) error        { return UpdateResumeLine(data) }
 func DeleteResumeLineService(id uint) error                 { return DeleteResumeLine(id) }
+
+func ImportEmployeesExcelService(filePath string, userID uint) error {
+	if rabbitmq.Channel != nil {
+		body, _ := json.Marshal(map[string]interface{}{"action": "import_employees", "file_path": filePath, "user_id": userID})
+		_ = rabbitmq.PublishEvent(rabbitmq.Channel, "core_excel_import", body)
+		log.Printf("👥 Event RabbitMQ: Import Excel Karyawan %s dikirim ke antrean!", filePath)
+	}
+	return nil
+}

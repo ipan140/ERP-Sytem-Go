@@ -1,5 +1,11 @@
 package manufacturing
 
+import (
+	"ERP-System/pkg/rabbitmq"
+	"encoding/json"
+	"log"
+)
+
 func CreateMrpProductionService(data *MrpProduction) error {
 	return CreateMrpProduction(data)
 }
@@ -51,3 +57,12 @@ func GetAllMrpWorkorderService() ([]MrpWorkorder, error)        { return GetAllM
 func GetMrpWorkorderByIDService(id uint) (*MrpWorkorder, error) { return GetMrpWorkorderByID(id) }
 func UpdateMrpWorkorderService(data *MrpWorkorder) error        { return UpdateMrpWorkorder(data) }
 func DeleteMrpWorkorderService(id uint) error                   { return DeleteMrpWorkorder(id) }
+
+func GenerateWorkOrderPDFService(woID uint, userID uint) error {
+	if rabbitmq.Channel != nil {
+		body, _ := json.Marshal(map[string]interface{}{"document_type": "work_order", "document_id": woID, "format": "pdf", "user_id": userID})
+		_ = rabbitmq.PublishEvent(rabbitmq.Channel, "finance_report_generator", body)
+		log.Printf("🏭 Event RabbitMQ: Generate PDF Work Order %d dikirim ke antrean!", woID)
+	}
+	return nil
+}

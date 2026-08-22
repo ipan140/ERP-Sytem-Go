@@ -1,5 +1,41 @@
 package inventory
 
+import (
+	"encoding/json"
+	"log"
+
+	"ERP-System/pkg/rabbitmq"
+)
+
+type InventoryDocumentPayload struct {
+	Action string `json:"action"` // "import_master_data" or "print_delivery_order"
+	RefID  string `json:"ref_id"` // File path for import, DO number for printing
+	UserID uint   `json:"user_id"`
+}
+
+func ProcessInventoryDocumentService(action string, refID string, userID uint) error {
+	if rabbitmq.Channel != nil {
+		req := InventoryDocumentPayload{
+			Action: action,
+			RefID:  refID,
+			UserID: userID,
+		}
+		body, _ := json.Marshal(req)
+		
+		var queue string
+		if action == "import_master_data" {
+			queue = "core_excel_import"
+		} else {
+			queue = "finance_report_generator" // Reusing document generator queue
+		}
+
+		err := rabbitmq.PublishEvent(rabbitmq.Channel, queue, body)
+		log.Printf("📦 Event RabbitMQ: Inventory Document Task '%s' dikirim ke antrean %s!", action, queue)
+		return err
+	}
+	return nil
+}
+
 func CreateProductService(data *Product) error {
 	return CreateProduct(data)
 }

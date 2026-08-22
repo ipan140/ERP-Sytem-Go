@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"><title>Purchase Order</title>
+<style>
+    body { font-family: Arial, sans-serif; padding: 30px; }
+    .header { border-bottom: 2px solid #8e44ad; padding-bottom: 10px; margin-bottom: 20px; display:flex; justify-content:space-between; }
+    table { width: 100%; border-collapse: collapse; } th, td { padding: 10px; border: 1px solid #ccc; text-align: left; }
+    th { background-color: #8e44ad; color: white; }
+</style></head><body>
+    <div class="header">
+        <div><h2>PURCHASE ORDER</h2><p>PO No: {{.PONumber}} | Date: {{.Date}}</p></div>
+        <div style="text-align: right;"><p><strong>To Supplier:</strong><br>{{.SupplierName}}</p></div>
+    </div>
+    <table>
+        <tr><th>Item</th><th>Qty</th><th>Unit Price</th><th>Total</th></tr>
+        {{range .Items}}<tr><td>{{.Name}}</td><td>{{.Qty}}</td><td>Rp {{.Price}}</td><td>Rp {{.Total}}</td></tr>{{end}}
+        <tr><td colspan="3" style="text-align:right; font-weight:bold;">Grand Total:</td><td>Rp {{.GrandTotal}}</td></tr>
+    </table>
+</body></html>

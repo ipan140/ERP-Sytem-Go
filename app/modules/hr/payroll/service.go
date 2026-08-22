@@ -1,5 +1,33 @@
 package payroll
 
+import (
+	"encoding/json"
+	"log"
+
+	"ERP-System/pkg/rabbitmq"
+)
+
+type PayrollMassPayload struct {
+	BatchID string `json:"batch_id"`
+	Format  string `json:"format"` // "pdf" (Payslip) or "excel" (Bank transfer)
+	UserID  uint   `json:"user_id"`
+}
+
+func GenerateMassPayslipService(batchID string, format string, userID uint) error {
+	if rabbitmq.Channel != nil {
+		req := PayrollMassPayload{
+			BatchID: batchID,
+			Format:  format,
+			UserID:  userID,
+		}
+		body, _ := json.Marshal(req)
+		err := rabbitmq.PublishEvent(rabbitmq.Channel, "hr_payroll_generate", body)
+		log.Printf("💸 Event RabbitMQ: Generate Mass Payroll %s (%s) dikirim ke antrean!", batchID, format)
+		return err
+	}
+	return nil
+}
+
 func CreatePayslipService(data *Payslip) error {
 	return CreatePayslip(data)
 }

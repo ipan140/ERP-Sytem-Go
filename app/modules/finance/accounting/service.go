@@ -1,6 +1,34 @@
 package accounting
 
-import "ERP-System/config"
+import (
+	"encoding/json"
+	"log"
+
+	"ERP-System/config"
+	"ERP-System/pkg/rabbitmq"
+)
+
+// ReportRequestPayload mewakili JSON dinamis yang dikirim ke RabbitMQ
+type ReportRequestPayload struct {
+	ReportType string `json:"report_type"` // e.g., "balance_sheet", "profit_loss"
+	Format     string `json:"format"`      // "pdf" or "excel"
+	DateStart  string `json:"date_start"`
+	DateEnd    string `json:"date_end"`
+	UserID     uint   `json:"user_id"`
+}
+
+// RequestFinanceReportService dipanggil oleh API saat tombol "Generate" diklik
+func RequestFinanceReportService(req ReportRequestPayload) error {
+	if rabbitmq.Channel != nil {
+		body, _ := json.Marshal(req)
+		err := rabbitmq.PublishEvent(rabbitmq.Channel, "finance_report_generator", body)
+		if err == nil {
+			log.Printf("📊 Event RabbitMQ: Request Report %s dari User %d dikirim ke antrean!", req.ReportType, req.UserID)
+		}
+		return err
+	}
+	return nil
+}
 
 func CreateJournalEntryService(data *JournalEntry) error {
 	return CreateJournalEntry(data)

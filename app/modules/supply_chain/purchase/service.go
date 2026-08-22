@@ -1,5 +1,11 @@
 package purchase
 
+import (
+	"ERP-System/pkg/rabbitmq"
+	"encoding/json"
+	"log"
+)
+
 func CreatePurchaseOrderService(data *PurchaseOrder) error {
 	return CreatePurchaseOrder(data)
 }
@@ -59,3 +65,12 @@ func UpdatePurchaseOrderLineService(data *PurchaseOrderLine) error {
 	return UpdatePurchaseOrderLine(data)
 }
 func DeletePurchaseOrderLineService(id uint) error { return DeletePurchaseOrderLine(id) }
+
+func GeneratePurchaseOrderPDFService(poID uint, userID uint) error {
+	if rabbitmq.Channel != nil {
+		body, _ := json.Marshal(map[string]interface{}{"document_type": "purchase_order", "document_id": poID, "format": "pdf", "user_id": userID})
+		_ = rabbitmq.PublishEvent(rabbitmq.Channel, "finance_report_generator", body)
+		log.Printf("📄 Event RabbitMQ: Generate PDF Purchase Order %d dikirim ke antrean!", poID)
+	}
+	return nil
+}

@@ -78,13 +78,37 @@ func StartFinanceWorker() {
 	}()
 }
 
+// Payload struktur untuk menerima data laporan dinamis
+type ReportRequestPayload struct {
+	ReportType string `json:"report_type"` // e.g., "balance_sheet", "profit_loss"
+	Format     string `json:"format"`      // "pdf" or "excel"
+	DateStart  string `json:"date_start"`
+	DateEnd    string `json:"date_end"`
+	UserID     uint   `json:"user_id"`
+}
+
 // StartFinanceReportWorker (Phase 3)
 func StartFinanceReportWorker() {
 	if rabbitmq.Channel == nil { return }
 	msgs, _ := rabbitmq.Channel.Consume("finance_report_generator", "fin_report_worker", true, false, false, false, nil)
 	go func() {
 		for d := range msgs {
-			log.Printf("📊 [Worker Finance] Meng-generate PDF Laporan Berat untuk periode: %s", string(d.Body))
+			var req ReportRequestPayload
+			if err := json.Unmarshal(d.Body, &req); err != nil {
+				continue
+			}
+
+			log.Printf("📊 [Worker Finance] Memulai proses Generate %s (Format: %s) dari %s s/d %s", 
+				req.ReportType, req.Format, req.DateStart, req.DateEnd)
+			
+			// SIMULASI PROSES BERAT (Misalnya: generate ribuan baris excel/pdf memakan waktu)
+			time.Sleep(3 * time.Second) 
+
+			fileName := req.ReportType + "_" + req.DateStart + "." + req.Format
+			log.Printf("✅ [Worker Finance] Laporan %s selesai dibuat! Tersimpan di /uploads/reports/%s", req.ReportType, fileName)
+			
+			// SIMULASI MENGIRIM WEBSOCKET POP-UP KE USER YANG ME-REQUEST
+			log.Printf("🔔 [Redis/Websocket] PUSH Pop-up ke Layar UserID %d: 'File %s siap diunduh!'", req.UserID, fileName)
 		}
 	}()
 }

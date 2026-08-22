@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Quotation</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 30px; }
+        .header { text-align: center; color: #17a2b8; margin-bottom: 30px; }
+        .details { margin-bottom: 20px; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 10px; border-bottom: 1px solid #ccc; text-align: left; }
+        th { background-color: #17a2b8; color: #fff; }
+        .terms { margin-top: 30px; font-size: 12px; color: #555; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>QUOTATION / PENAWARAN HARGA</h1>
+        <p>Ref: {{.QuotationNumber}} | Valid Until: {{.ValidUntil}}</p>
+    </div>
+    <div class="details">
+        <p><strong>To:</strong> {{.CustomerName}}</p>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Qty</th>
+                <th>Price</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{range .Items}}
+            <tr>
+                <td>{{.Name}}</td>
+                <td>{{.Qty}}</td>
+                <td>Rp {{.Price}}</td>
+                <td>Rp {{.Total}}</td>
+            </tr>
+            {{end}}
+            <tr>
+                <td colspan="3" style="text-align: right; font-weight: bold;">Estimated Grand Total:</td>
+                <td style="font-weight: bold;">Rp {{.GrandTotal}}</td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="terms">
+        <h4>Terms & Conditions:</h4>
+        <p>1. Harga dapat berubah sewaktu-waktu.<br>2. Pembayaran DP 50% di muka.</p>
+    </div>
+</body>
+</html>

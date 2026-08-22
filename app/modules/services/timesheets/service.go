@@ -1,6 +1,11 @@
 package timesheets
 
-import "ERP-System/app/modules/services/project"
+import (
+	"ERP-System/app/modules/services/project"
+	"ERP-System/pkg/rabbitmq"
+	"encoding/json"
+	"log"
+)
 
 func CreateTimesheetService(data *Timesheet) error {
 	if data.IsBillable {
@@ -28,4 +33,13 @@ func UpdateTimesheetService(data *Timesheet) error {
 
 func DeleteTimesheetService(id uint) error {
 	return DeleteTimesheet(id)
+}
+
+func GenerateTimesheetPDFService(projectID uint, userID uint) error {
+	if rabbitmq.Channel != nil {
+		body, _ := json.Marshal(map[string]interface{}{"document_type": "timesheet", "document_id": projectID, "format": "pdf", "user_id": userID})
+		_ = rabbitmq.PublishEvent(rabbitmq.Channel, "finance_report_generator", body)
+		log.Printf("⏱️ Event RabbitMQ: Generate PDF Timesheet Project %d dikirim ke antrean!", projectID)
+	}
+	return nil
 }

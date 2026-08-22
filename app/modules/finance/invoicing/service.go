@@ -1,11 +1,38 @@
 package invoicing
 
 import (
+	"encoding/json"
+	"errors"
+	"log"
+	"time"
+
 	"ERP-System/app/modules/finance/accounting"
 	"ERP-System/config"
-	"errors"
-	"time"
+	"ERP-System/pkg/rabbitmq"
 )
+
+type DocumentPayload struct {
+	DocumentID   uint   `json:"document_id"`
+	DocumentType string `json:"document_type"` // e.g., "invoice", "payslip", "quotation"
+	Format       string `json:"format"`        // "pdf" or "excel"
+	UserID       uint   `json:"user_id"`
+}
+
+func GenerateInvoicePDFService(invoiceID uint, userID uint) error {
+	if rabbitmq.Channel != nil {
+		req := DocumentPayload{
+			DocumentID:   invoiceID,
+			DocumentType: "invoice",
+			Format:       "pdf",
+			UserID:       userID,
+		}
+		body, _ := json.Marshal(req)
+		err := rabbitmq.PublishEvent(rabbitmq.Channel, "finance_report_generator", body)
+		log.Printf("📄 Event RabbitMQ: Generate PDF Invoice %d dikirim ke antrean!", invoiceID)
+		return err
+	}
+	return nil
+}
 
 func CreateInvoiceService(data *Invoice) error {
 	return CreateInvoice(data)

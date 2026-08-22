@@ -1,5 +1,11 @@
 package expenses
 
+import (
+	"ERP-System/pkg/rabbitmq"
+	"encoding/json"
+	"log"
+)
+
 func CreateExpenseService(data *Expense) error {
 	return CreateExpense(data)
 }
@@ -25,3 +31,12 @@ func GetAllExpenseSheetService() ([]ExpenseSheet, error)        { return GetAllE
 func GetExpenseSheetByIDService(id uint) (*ExpenseSheet, error) { return GetExpenseSheetByID(id) }
 func UpdateExpenseSheetService(data *ExpenseSheet) error        { return UpdateExpenseSheet(data) }
 func DeleteExpenseSheetService(id uint) error                   { return DeleteExpenseSheet(id) }
+
+func ExportExpensesExcelService(period string, userID uint) error {
+	if rabbitmq.Channel != nil {
+		body, _ := json.Marshal(map[string]interface{}{"action": "export_expenses", "period": period, "user_id": userID})
+		_ = rabbitmq.PublishEvent(rabbitmq.Channel, "finance_report_generator", body)
+		log.Printf("💸 Event RabbitMQ: Export Excel Klaim Biaya %s dikirim ke antrean!", period)
+	}
+	return nil
+}

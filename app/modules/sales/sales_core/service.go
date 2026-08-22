@@ -1,11 +1,36 @@
 package sales_core
 
 import (
+	"encoding/json"
+	"fmt"
+	"log"
+
 	"ERP-System/app/modules/sales"
 	"ERP-System/app/modules/services/project"
 	"ERP-System/config"
-	"fmt"
+	"ERP-System/pkg/rabbitmq"
 )
+
+type QuotationPayload struct {
+	QuotationID uint   `json:"quotation_id"`
+	Format      string `json:"format"`
+	UserID      uint   `json:"user_id"`
+}
+
+func GenerateQuotationPDFService(quotationID uint, userID uint) error {
+	if rabbitmq.Channel != nil {
+		req := QuotationPayload{
+			QuotationID: quotationID,
+			Format:      "pdf",
+			UserID:      userID,
+		}
+		body, _ := json.Marshal(req)
+		err := rabbitmq.PublishEvent(rabbitmq.Channel, "finance_report_generator", body) // Reusing doc generator
+		log.Printf("📄 Event RabbitMQ: Generate PDF Quotation %d dikirim ke antrean!", quotationID)
+		return err
+	}
+	return nil
+}
 
 func CreateSaleOrderService(data *SaleOrder) error        { return CreateSaleOrder(data) }
 func GetAllSaleOrderService() ([]SaleOrder, error)        { return GetAllSaleOrder() }
