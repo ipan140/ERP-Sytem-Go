@@ -15,9 +15,19 @@ type MailingCampaign struct {
 type UtmTracker struct {
 	ID               uint    `gorm:"primaryKey" json:"id"`
 	CampaignID       uint    `json:"campaign_id"`
+	Campaign *MailingCampaign `gorm:"foreignKey:CampaignID" json:"campaign,omitempty"` // Odoo relation mapped
 	UtmSource        string  `gorm:"type:varchar(50)" json:"utm_source"`          // misal: facebook
 	UtmMedium        string  `gorm:"type:varchar(50)" json:"utm_medium"`          // misal: cpc
 	GeneratedRevenue float64 `gorm:"type:numeric(15,2)" json:"generated_revenue"` // Untung dari link ini
+}
+
+
+func (MailingCampaign) TableName() string {
+	return "marketing.mailing_campaigns"
+}
+
+func (UtmTracker) TableName() string {
+	return "marketing.utm_trackers"
 }
 
 func init() {

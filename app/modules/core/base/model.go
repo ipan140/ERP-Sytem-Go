@@ -21,6 +21,7 @@ type Country struct {
 type CountryState struct {
 	ID        uint   `gorm:"primaryKey" json:"id"`
 	CountryID uint   `json:"country_id"`
+	Country *Country `gorm:"foreignKey:CountryID"` // Auto-added relation
 	Name      string `gorm:"type:varchar(255);not null" json:"name"`
 	Code      string `gorm:"type:varchar(10)" json:"code"` // JBR, JK
 }
@@ -30,6 +31,7 @@ type Partner struct {
 	Name       string    `gorm:"type:varchar(255);not null" json:"name"`
 	IsCompany  bool      `gorm:"default:false" json:"is_company"`
 	ParentID   *uint     `json:"parent_id"`                                      // Jika kontak ini adalah pegawai dari perusahaan lain
+	Parent *Partner `gorm:"foreignKey:ParentID"` // Auto-added relation
 	Type       string    `gorm:"type:varchar(50);default:'contact'" json:"type"` // contact, invoice, delivery
 	Email      string    `gorm:"type:varchar(255)" json:"email"`
 	Phone      string    `gorm:"type:varchar(50)" json:"phone"`
@@ -38,12 +40,31 @@ type Partner struct {
 	Street2    string    `gorm:"type:varchar(255)" json:"street2"`
 	City       string    `gorm:"type:varchar(100)" json:"city"`
 	StateID    *uint     `json:"state_id"`
+	State *CountryState `gorm:"foreignKey:StateID" json:"state,omitempty"` // Odoo relation mapped
 	Zip        string    `gorm:"type:varchar(20)" json:"zip"`
 	CountryID  *uint     `json:"country_id"`
+	Country *Country `gorm:"foreignKey:CountryID"` // Auto-added relation
 	Vat        string    `gorm:"type:varchar(50)" json:"vat"` // NPWP / Tax ID
 	IsCustomer bool      `gorm:"default:true" json:"is_customer"`
 	IsVendor   bool      `gorm:"default:false" json:"is_vendor"`
 	CreatedAt  time.Time `json:"created_at"`
+}
+
+
+func (Currency) TableName() string {
+	return "setting.currencies"
+}
+
+func (Country) TableName() string {
+	return "setting.countries"
+}
+
+func (CountryState) TableName() string {
+	return "setting.country_states"
+}
+
+func (Partner) TableName() string {
+	return "setting.partners"
 }
 
 func init() {

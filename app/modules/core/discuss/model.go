@@ -11,6 +11,11 @@ type Channel struct {
 	CreatedAt time.Time `json:"created_at"`
 }
 
+
+func (Channel) TableName() string {
+	return "setting.channels"
+}
+
 func init() {
 	config.ModelsToMigrate = append(config.ModelsToMigrate, &Channel{})
 }

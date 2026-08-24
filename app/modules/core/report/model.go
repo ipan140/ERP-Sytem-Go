@@ -11,6 +11,19 @@ type Report struct {
 	CreatedAt time.Time `json:"created_at"`
 }
 
+
+func (Report) TableName() string {
+	return "setting.reports"
+}
+
+func (DynamicExcelRequest) TableName() string {
+	return "setting.dynamic_excel_requests"
+}
+
+func (DynamicPDFRequest) TableName() string {
+	return "setting.dynamic_pdf_requests"
+}
+
 func init() {
 	config.ModelsToMigrate = append(config.ModelsToMigrate, &Report{})
 }

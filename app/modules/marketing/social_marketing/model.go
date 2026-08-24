@@ -12,3 +12,9 @@ type SocialPost struct {
 }
 
 func init() { config.ModelsToMigrate = append(config.ModelsToMigrate, &SocialPost{}) }
+
+
+// ---- Auto-Generated TableName methods ----
+func (SocialPost) TableName() string {
+	return "marketing.social_posts"
+}

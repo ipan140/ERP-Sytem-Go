@@ -14,3 +14,9 @@ type SignatureRequest struct {
 func init() {
 	config.ModelsToMigrate = append(config.ModelsToMigrate, &SignatureRequest{})
 }
+
+
+// ---- Auto-Generated TableName methods ----
+func (SignatureRequest) TableName() string {
+	return "finance.signature_requests"
+}

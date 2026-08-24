@@ -11,6 +11,11 @@ type CallRecord struct {
 	CreatedAt time.Time `json:"created_at"`
 }
 
+
+func (CallRecord) TableName() string {
+	return "setting.call_records"
+}
+
 func init() {
 	config.ModelsToMigrate = append(config.ModelsToMigrate, &CallRecord{})
 }

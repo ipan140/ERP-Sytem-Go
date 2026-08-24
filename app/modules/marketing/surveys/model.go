@@ -24,3 +24,13 @@ type SurveyQuestion struct {
 func init() {
 	config.ModelsToMigrate = append(config.ModelsToMigrate, &Survey{}, &SurveyQuestion{})
 }
+
+
+// ---- Auto-Generated TableName methods ----
+func (Survey) TableName() string {
+	return "marketing.surveies"
+}
+
+func (SurveyQuestion) TableName() string {
+	return "marketing.survey_questions"
+}

@@ -1,6 +1,7 @@
 package subscriptions
 
 import (
+	"ERP-System/app/modules/core/base"
 	"ERP-System/config"
 	"time"
 )
@@ -15,12 +16,23 @@ type Subscription struct {
 	ID              uint      `gorm:"primaryKey" json:"id"`
 	Name            string    `gorm:"type:varchar(255);not null" json:"name"`
 	PartnerID       uint      `json:"partner_id"`
+	Partner *base.Partner `gorm:"foreignKey:PartnerID" json:"partner,omitempty"` // Cross-module relation
 	PlanID          uint      `json:"plan_id"`
+	Plan *SubscriptionPlan `gorm:"foreignKey:PlanID" json:"plan,omitempty"` // Odoo relation mapped
 	StartDate       time.Time `json:"start_date"`
 	NextInvoiceDate time.Time `json:"next_invoice_date"`
 	RecurringTotal  float64   `gorm:"type:numeric(15,2);default:0" json:"recurring_total"`
 	State           string    `gorm:"type:varchar(50);default:'draft'" json:"state"` // draft, open, closed
 	CreatedAt       time.Time `json:"created_at"`
+}
+
+
+func (SubscriptionPlan) TableName() string {
+	return "sales.subscription_plans"
+}
+
+func (Subscription) TableName() string {
+	return "sales.subscriptions"
 }
 
 func init() {

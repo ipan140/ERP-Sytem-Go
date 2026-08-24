@@ -14,3 +14,9 @@ type FieldServiceTask struct {
 func init() {
 	config.ModelsToMigrate = append(config.ModelsToMigrate, &FieldServiceTask{})
 }
+
+
+// ---- Auto-Generated TableName methods ----
+func (FieldServiceTask) TableName() string {
+	return "services.field_service_tasks"
+}

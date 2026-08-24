@@ -14,3 +14,9 @@ type RepairOrder struct {
 func init() {
 	config.ModelsToMigrate = append(config.ModelsToMigrate, &RepairOrder{})
 }
+
+
+// ---- Auto-Generated TableName methods ----
+func (RepairOrder) TableName() string {
+	return "services.repair_orders"
+}

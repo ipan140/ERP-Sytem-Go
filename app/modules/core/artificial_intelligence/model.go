@@ -14,3 +14,9 @@ type AIPrompt struct {
 func init() {
 	config.ModelsToMigrate = append(config.ModelsToMigrate, &AIPrompt{})
 }
+
+
+// ---- Auto-Generated TableName methods ----
+func (AIPrompt) TableName() string {
+	return "setting.ai_prompts"
+}

@@ -26,6 +26,15 @@ type User struct {
 
 // init otomatis dipanggil oleh Golang saat package ini di-import.
 // Ini adalah trik modular Odoo agar modul meregistrasi modelnya sendiri.
+
+func (Company) TableName() string {
+	return "setting.companies"
+}
+
+func (User) TableName() string {
+	return "setting.users"
+}
+
 func init() {
 	config.ModelsToMigrate = append(config.ModelsToMigrate, &Company{}, &User{})
 }

@@ -34,3 +34,17 @@ type HelpdeskCannedResponse struct {
 func init() {
 	config.ModelsToMigrate = append(config.ModelsToMigrate, &Ticket{}, &HelpdeskSLA{}, &HelpdeskCannedResponse{})
 }
+
+
+// ---- Auto-Generated TableName methods ----
+func (Ticket) TableName() string {
+	return "services.tickets"
+}
+
+func (HelpdeskSLA) TableName() string {
+	return "services.helpdesk_s_l_as"
+}
+
+func (HelpdeskCannedResponse) TableName() string {
+	return "services.helpdesk_canned_responses"
+}

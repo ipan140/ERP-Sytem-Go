@@ -11,6 +11,11 @@ type WaTemplate struct {
 	CreatedAt time.Time `json:"created_at"`
 }
 
+
+func (WaTemplate) TableName() string {
+	return "setting.wa_templates"
+}
+
 func init() {
 	config.ModelsToMigrate = append(config.ModelsToMigrate, &WaTemplate{})
 }

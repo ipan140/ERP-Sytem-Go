@@ -16,11 +16,21 @@ type BarcodeRule struct {
 	ID             uint      `gorm:"primaryKey" json:"id"`
 	Name           string    `gorm:"type:varchar(255);not null" json:"name"` // e.g. Weight Barcode
 	NomenclatureID uint      `json:"nomenclature_id"`
+	Nomenclature *BarcodeNomenclature `gorm:"foreignKey:NomenclatureID" json:"nomenclature,omitempty"` // Odoo relation mapped
 	Sequence       int       `gorm:"default:10" json:"sequence"`
 	Type           string    `gorm:"type:varchar(50);not null" json:"type"`          // product, lot, location, package, weight, discount, client
 	Encoding       string    `gorm:"type:varchar(50);default:'any'" json:"encoding"` // any, ean13, ean8, upca, gs1-128
 	Pattern        string    `gorm:"type:varchar(255);not null" json:"pattern"`      // Regex pattern (e.g. 21.....{NNDDD})
 	CreatedAt      time.Time `json:"created_at"`
+}
+
+
+func (BarcodeNomenclature) TableName() string {
+	return "supply_chain.barcode_nomenclatures"
+}
+
+func (BarcodeRule) TableName() string {
+	return "supply_chain.barcode_rules"
 }
 
 func init() {

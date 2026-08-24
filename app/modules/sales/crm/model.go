@@ -1,6 +1,8 @@
 package crm
 
 import (
+	"ERP-System/app/modules/auth"
+	"ERP-System/app/modules/core/base"
 	"ERP-System/config"
 	"time"
 )
@@ -9,6 +11,7 @@ type SalesTeam struct {
 	ID              uint      `gorm:"primaryKey" json:"id"`
 	Name            string    `gorm:"type:varchar(100);not null" json:"name"`
 	ManagerID       *uint     `json:"manager_id"` // HR Employee ID
+	Manager *SalesTeam `gorm:"foreignKey:ManagerID"` // Auto-added relation
 	InvoicingTarget float64   `gorm:"type:numeric(15,2);default:0" json:"invoicing_target"`
 	CreatedAt       time.Time `json:"created_at"`
 }
@@ -22,6 +25,7 @@ type Stage struct {
 type Activity struct {
 	ID        uint      `gorm:"primaryKey" json:"id"`
 	LeadID    uint      `json:"lead_id"`
+	Lead *Lead `gorm:"foreignKey:LeadID"` // Auto-added relation
 	Type      string    `gorm:"type:varchar(50);not null" json:"type"` // Call, Email, Meeting
 	Summary   string    `gorm:"type:varchar(255)" json:"summary"`
 	Deadline  time.Time `json:"deadline"`
@@ -33,23 +37,49 @@ type Lead struct {
 	ID              uint      `gorm:"primaryKey" json:"id"`
 	Name            string    `gorm:"type:varchar(255);not null" json:"name"` // Opportunity name
 	PartnerID       *uint     `json:"partner_id"`                             // Customer ID
+	Partner *base.Partner `gorm:"foreignKey:PartnerID" json:"partner,omitempty"` // Cross-module relation
 	Email           string    `gorm:"type:varchar(100)" json:"email"`
 	Phone           string    `gorm:"type:varchar(50)" json:"phone"`
 	ExpectedRevenue float64   `gorm:"type:numeric(15,2);default:0" json:"expected_revenue"`
 	Probability     float64   `gorm:"type:numeric(5,2);default:10" json:"probability"` // Percentage
 	StageID         uint      `json:"stage_id"`
+	Stage *Stage `gorm:"foreignKey:StageID"` // Auto-added relation
 	SalesTeamID     *uint     `json:"sales_team_id"`
+	SalesTeam *SalesTeam `gorm:"foreignKey:SalesTeamID"` // Auto-added relation
 	SalespersonID   *uint     `json:"salesperson_id"` // Link to Employee (HR)
+	Salesperson *auth.User `gorm:"foreignKey:SalespersonID" json:"salesperson,omitempty"` // Odoo relation mapped
 	CreatedAt       time.Time `json:"created_at"`
 }
 
 type SalesCommission struct {
 	ID            uint      `gorm:"primaryKey" json:"id"`
 	SalespersonID uint      `json:"salesperson_id"`
+	Salesperson *auth.User `gorm:"foreignKey:SalespersonID" json:"salesperson,omitempty"` // Odoo relation mapped
 	Date          time.Time `json:"date"`
 	Amount        float64   `gorm:"type:numeric(15,2);default:0" json:"amount"`
 	State         string    `gorm:"type:varchar(50);default:'draft'" json:"state"` // draft, paid
 	CreatedAt     time.Time `json:"created_at"`
+}
+
+
+func (SalesTeam) TableName() string {
+	return "sales.sales_teams"
+}
+
+func (Stage) TableName() string {
+	return "sales.stages"
+}
+
+func (Activity) TableName() string {
+	return "sales.activities"
+}
+
+func (Lead) TableName() string {
+	return "sales.leads"
+}
+
+func (SalesCommission) TableName() string {
+	return "sales.sales_commissions"
 }
 
 func init() {

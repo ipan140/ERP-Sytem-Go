@@ -11,6 +11,11 @@ type Workspace struct {
 	CreatedAt time.Time `json:"created_at"`
 }
 
+
+func (Workspace) TableName() string {
+	return "setting.workspaces"
+}
+
 func init() {
 	config.ModelsToMigrate = append(config.ModelsToMigrate, &Workspace{})
 }

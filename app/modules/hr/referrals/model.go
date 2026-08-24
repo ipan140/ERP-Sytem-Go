@@ -25,3 +25,13 @@ type ReferralPoint struct {
 func init() {
 	config.ModelsToMigrate = append(config.ModelsToMigrate, &ReferralReward{}, &ReferralPoint{})
 }
+
+
+// ---- Auto-Generated TableName methods ----
+func (ReferralReward) TableName() string {
+	return "hrd.referral_rewards"
+}
+
+func (ReferralPoint) TableName() string {
+	return "hrd.referral_points"
+}

@@ -14,3 +14,9 @@ type Page struct {
 func init() {
 	config.ModelsToMigrate = append(config.ModelsToMigrate, &Page{})
 }
+
+
+// ---- Auto-Generated TableName methods ----
+func (Page) TableName() string {
+	return "website_portal.pages"
+}

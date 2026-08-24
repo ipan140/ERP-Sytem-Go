@@ -14,3 +14,9 @@ type Shift struct {
 func init() {
 	config.ModelsToMigrate = append(config.ModelsToMigrate, &Shift{})
 }
+
+
+// ---- Auto-Generated TableName methods ----
+func (Shift) TableName() string {
+	return "services.shifts"
+}

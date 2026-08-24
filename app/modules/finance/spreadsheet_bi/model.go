@@ -14,3 +14,9 @@ type Spreadsheet struct {
 func init() {
 	config.ModelsToMigrate = append(config.ModelsToMigrate, &Spreadsheet{})
 }
+
+
+// ---- Auto-Generated TableName methods ----
+func (Spreadsheet) TableName() string {
+	return "finance.spreadsheets"
+}

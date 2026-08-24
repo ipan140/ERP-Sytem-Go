@@ -1,6 +1,7 @@
 package recruitment
 
 import (
+	"ERP-System/app/modules/hr/employees"
 	"ERP-System/config"
 	"time"
 )
@@ -17,10 +18,21 @@ type Applicant struct {
 	Email          string    `gorm:"type:varchar(100)" json:"email"`
 	Phone          string    `gorm:"type:varchar(50)" json:"phone"`
 	JobPositionID  uint      `json:"job_position_id"`
+	JobPosition *employees.JobPosition `gorm:"foreignKey:JobPositionID" json:"jobposition,omitempty"` // Odoo relation mapped
 	StageID        uint      `json:"stage_id"`
+	Stage *Stage `gorm:"foreignKey:StageID"` // Auto-added relation
 	ExpectedSalary float64   `gorm:"type:numeric(15,2);default:0" json:"expected_salary"`
 	State          string    `gorm:"type:varchar(50);default:'in_progress'" json:"state"` // in_progress, hired, refused
 	CreatedAt      time.Time `json:"created_at"`
+}
+
+
+func (Stage) TableName() string {
+	return "hrd.stages"
+}
+
+func (Applicant) TableName() string {
+	return "hrd.applicants"
 }
 
 func init() {

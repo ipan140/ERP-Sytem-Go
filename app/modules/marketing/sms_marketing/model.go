@@ -14,3 +14,9 @@ type SmsCampaign struct {
 func init() {
 	config.ModelsToMigrate = append(config.ModelsToMigrate, &SmsCampaign{})
 }
+
+
+// ---- Auto-Generated TableName methods ----
+func (SmsCampaign) TableName() string {
+	return "marketing.sms_campaigns"
+}

@@ -14,3 +14,9 @@ type FinanceDocument struct {
 func init() {
 	config.ModelsToMigrate = append(config.ModelsToMigrate, &FinanceDocument{})
 }
+
+
+// ---- Auto-Generated TableName methods ----
+func (FinanceDocument) TableName() string {
+	return "finance.finance_documents"
+}

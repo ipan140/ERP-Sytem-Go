@@ -14,3 +14,9 @@ type IoTDevice struct {
 func init() {
 	config.ModelsToMigrate = append(config.ModelsToMigrate, &IoTDevice{})
 }
+
+
+// ---- Auto-Generated TableName methods ----
+func (IoTDevice) TableName() string {
+	return "setting.iot_devices"
+}

@@ -14,3 +14,9 @@ type Dashboard struct {
 func init() {
 	config.ModelsToMigrate = append(config.ModelsToMigrate, &Dashboard{})
 }
+
+
+// ---- Auto-Generated TableName methods ----
+func (Dashboard) TableName() string {
+	return "setting.dashboards"
+}

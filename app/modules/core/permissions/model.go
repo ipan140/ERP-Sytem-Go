@@ -16,3 +16,11 @@ type TogglePermissionRequest struct {
 	Action   string `json:"action" validate:"required"` // "read", "write", "delete"
 	Value    bool   `json:"value"`                      // true (On) / false (Off)
 }
+
+func (RolePermission) TableName() string {
+	return "setting.role_permissions"
+}
+
+func (TogglePermissionRequest) TableName() string {
+	return "setting.toggle_permission_requests"
+}

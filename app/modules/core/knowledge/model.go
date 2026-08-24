@@ -11,6 +11,11 @@ type Article struct {
 	CreatedAt time.Time `json:"created_at"`
 }
 
+
+func (Article) TableName() string {
+	return "setting.articles"
+}
+
 func init() {
 	config.ModelsToMigrate = append(config.ModelsToMigrate, &Article{})
 }

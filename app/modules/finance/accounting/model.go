@@ -236,3 +236,76 @@ type BudgetLine struct {
 	AnalyticAccountID uint    `json:"analytic_account_id"` // Pusat Biaya
 	PlannedAmount     float64 `gorm:"type:numeric(15,2)" json:"planned_amount"`
 }
+
+func (Account) TableName() string {
+	return "finance.accounts"
+}
+func (Journal) TableName() string {
+	return "finance.journals"
+}
+func (JournalEntry) TableName() string {
+	return "finance.journal_entrys"
+}
+func (JournalItem) TableName() string {
+	return "finance.journal_items"
+}
+func (BankStatement) TableName() string {
+	return "finance.bank_statements"
+}
+func (BankStatementLine) TableName() string {
+	return "finance.bank_statement_lines"
+}
+func (AnalyticAccount) TableName() string {
+	return "finance.analytic_accounts"
+}
+func (AnalyticLine) TableName() string {
+	return "finance.analytic_lines"
+}
+func (AccountReconcileModel) TableName() string {
+	return "finance.account_reconcile_models"
+}
+func (FollowupRule) TableName() string {
+	return "finance.followup_rules"
+}
+func (AccountLockDate) TableName() string {
+	return "finance.account_lock_dates"
+}
+func (PaymentAcquirer) TableName() string {
+	return "finance.payment_acquirers"
+}
+func (PaymentTransaction) TableName() string {
+	return "finance.payment_transactions"
+}
+func (AccountIncoterms) TableName() string {
+	return "finance.account_incotermses"
+}
+func (Payment) TableName() string {
+	return "finance.payments"
+}
+func (FiscalPosition) TableName() string {
+	return "finance.fiscal_positions"
+}
+func (Currency) TableName() string {
+	return "setting.currencies"
+}
+func (ExchangeRate) TableName() string {
+	return "finance.exchange_rates"
+}
+func (Asset) TableName() string {
+	return "finance.assets"
+}
+func (AssetDepreciationLine) TableName() string {
+	return "finance.asset_depreciation_lines"
+}
+func (DeferredRevenue) TableName() string {
+	return "finance.deferred_revenues"
+}
+func (DeferredRevenueLine) TableName() string {
+	return "finance.deferred_revenue_lines"
+}
+func (Budget) TableName() string {
+	return "finance.budgets"
+}
+func (BudgetLine) TableName() string {
+	return "finance.budget_lines"
+}

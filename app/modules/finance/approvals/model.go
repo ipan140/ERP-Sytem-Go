@@ -14,3 +14,9 @@ type ApprovalRequest struct {
 func init() {
 	config.ModelsToMigrate = append(config.ModelsToMigrate, &ApprovalRequest{})
 }
+
+
+// ---- Auto-Generated TableName methods ----
+func (ApprovalRequest) TableName() string {
+	return "finance.approval_requests"
+}

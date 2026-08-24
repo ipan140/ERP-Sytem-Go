@@ -17,6 +17,11 @@ type EmailLog struct {
 	UpdatedAt time.Time  `json:"updated_at"`
 }
 
+
+func (EmailLog) TableName() string {
+	return "setting.email_logs"
+}
+
 func init() {
 	config.ModelsToMigrate = append(config.ModelsToMigrate, &EmailLog{})
 }
