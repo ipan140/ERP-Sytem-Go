@@ -1,12 +1,15 @@
 package surveys
 
 import (
+	"ERP-System/app/modules/auth"
 	"ERP-System/config"
 	"time"
 )
 
 type Survey struct {
 	ID          uint      `gorm:"primaryKey" json:"id"`
+	UserID uint `json:"user_id"`
+	User *auth.User `gorm:"foreignKey:UserID" json:"user,omitempty"`
 	Title       string    `gorm:"type:varchar(255);not null" json:"title"`
 	Description string    `gorm:"type:text" json:"description"`
 	State       string    `gorm:"type:varchar(20);default:'draft'" json:"state"` // draft, open, closed
