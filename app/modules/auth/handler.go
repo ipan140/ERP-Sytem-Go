@@ -34,13 +34,19 @@ func LoginHandler(c echo.Context) error {
 		return utils.SendError(c, http.StatusBadRequest, "Data tidak lengkap", err.Error())
 	}
 
-	token, appErr := LoginService(req.Email, req.Password)
+	token, user, appErr := LoginService(req.Email, req.Password)
 	if appErr != nil {
 		return utils.SendError(c, appErr.Code, appErr.Message, "")
 	}
 
-	return utils.SendSuccess(c, http.StatusOK, "Login berhasil!", map[string]string{
+	return utils.SendSuccess(c, http.StatusOK, "Login berhasil!", map[string]interface{}{
 		"token": token,
+		"user": map[string]interface{}{
+			"id":    user.ID,
+			"name":  user.Name,
+			"email": user.Email,
+			"role":  user.Role,
+		},
 	})
 }
 

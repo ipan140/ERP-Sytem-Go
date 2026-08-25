@@ -13,25 +13,25 @@ import (
 	redisPkg "ERP-System/pkg/redis"
 )
 
-func LoginService(email, password string) (string, *errors.AppError) {
+func LoginService(email, password string) (string, *User, *errors.AppError) {
 	user, err := FindUserByEmail(email)
 	if err != nil {
-		return "", errors.NewInternalServer("Terjadi kesalahan pada database")
+		return "", nil, errors.NewInternalServer("Terjadi kesalahan pada database")
 	}
 
 	if user == nil {
-		return "", errors.NewUnauthorized("Email atau password salah")
+		return "", nil, errors.NewUnauthorized("Email atau password salah")
 	}
 
 	// Validasi hash password
 	if !utils.CheckPasswordHash(password, user.Password) {
-		return "", errors.NewUnauthorized("Email atau password salah")
+		return "", nil, errors.NewUnauthorized("Email atau password salah")
 	}
 
 	// Generate Token yang mengandung Role
 	token, err := utils.GenerateToken(user.ID, user.CompanyID, user.Role)
 	if err != nil {
-		return "", errors.NewInternalServer("Gagal membuat token autentikasi")
+		return "", nil, errors.NewInternalServer("Gagal membuat token autentikasi")
 	}
 
 	// [Keamanan Pilar Tambahan] Simpan token sebagai Single Active Session di Redis (Berlaku 24 Jam)
@@ -40,7 +40,7 @@ func LoginService(email, password string) (string, *errors.AppError) {
 		_ = redisPkg.Client.Set(ctx, fmt.Sprintf("active_token:%d", user.ID), token, 24*time.Hour).Err()
 	}
 
-	return token, nil
+	return token, user, nil
 }
 
 func RegisterService(name, email, password string) (*User, *errors.AppError) {
