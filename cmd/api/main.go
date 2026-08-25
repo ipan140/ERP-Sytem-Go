@@ -90,8 +90,7 @@ import (
 // @title Golang ERP System API
 // @version 1.0
 // @description This is the core API for Odoo-style Golang ERP.
-// @host localhost:8080
-// @BasePath /api
+// @BasePath /
 // @securityDefinitions.apikey BearerAuth
 // @in header
 // @name Authorization

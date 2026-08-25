@@ -35,12 +35,10 @@ func LoginService(email, password string) (string, *errors.AppError) {
 	}
 
 	// [Keamanan Pilar Tambahan] Simpan token sebagai Single Active Session di Redis (Berlaku 24 Jam)
-	if rabbitmq.Channel != nil { // reusing rabbitmq check or directly checking redisPkg.Client
-		// Import redisPkg is needed. I'll rely on goimports or add it manually.
+	if redisPkg.Client != nil {
+		ctx := context.Background()
+		_ = redisPkg.Client.Set(ctx, fmt.Sprintf("active_token:%d", user.ID), token, 24*time.Hour).Err()
 	}
-	// Let's just do it directly. We'll run goimports later to fix it if needed.
-	ctx := context.Background()
-	_ = redisPkg.Client.Set(ctx, fmt.Sprintf("active_token:%d", user.ID), token, 24*time.Hour).Err()
 
 	return token, nil
 }

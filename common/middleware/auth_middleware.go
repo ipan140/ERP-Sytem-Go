@@ -25,11 +25,16 @@ func Auth() echo.MiddlewareFunc {
 			}
 
 			parts := strings.Split(authHeader, " ")
-			if len(parts) != 2 || parts[0] != "Bearer" {
-				return utils.SendError(c, http.StatusUnauthorized, "Invalid Authorization format", "")
-			}
+			var tokenString string
 
-			tokenString := parts[1]
+			if len(parts) == 2 && parts[0] == "Bearer" {
+				tokenString = parts[1]
+			} else if len(parts) == 1 {
+				// Fitur Toleransi: Jika user lupa mengetik "Bearer ", kita anggap seluruh teks adalah token
+				tokenString = parts[0]
+			} else {
+				return utils.SendError(c, http.StatusUnauthorized, "Format Authorization tidak valid", "")
+			}
 
 			// [Keamanan Pilar 2] Cek JWT Blacklist di Redis
 			if redisPkg.Client != nil {
