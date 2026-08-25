@@ -1,6 +1,7 @@
 package plm
 
 import (
+	"gorm.io/gorm/clause"
 	"ERP-System/config"
 )
 
@@ -10,13 +11,13 @@ func CreateBom(data *PlmEco) error {
 
 func GetAllBom() ([]PlmEco, error) {
 	var list []PlmEco
-	err := config.DB.Find(&list).Error
+	err := config.DB.Preload(clause.Associations).Find(&list).Error
 	return list, err
 }
 
 func GetBomByID(id uint) (*PlmEco, error) {
 	var data PlmEco
-	err := config.DB.First(&data, id).Error
+	err := config.DB.Preload(clause.Associations).First(&data, id).Error
 	return &data, err
 }
 

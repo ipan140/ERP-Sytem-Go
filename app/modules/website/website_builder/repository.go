@@ -1,6 +1,7 @@
 package website_builder
 
 import (
+	"gorm.io/gorm/clause"
 	"ERP-System/config"
 )
 
@@ -10,13 +11,13 @@ func CreatePage(data *Page) error {
 
 func GetAllPage() ([]Page, error) {
 	var list []Page
-	err := config.DB.Find(&list).Error
+	err := config.DB.Preload(clause.Associations).Find(&list).Error
 	return list, err
 }
 
 func GetPageByID(id uint) (*Page, error) {
 	var data Page
-	err := config.DB.First(&data, id).Error
+	err := config.DB.Preload(clause.Associations).First(&data, id).Error
 	return &data, err
 }
 

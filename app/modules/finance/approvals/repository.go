@@ -1,6 +1,7 @@
 package approvals
 
 import (
+	"gorm.io/gorm/clause"
 	"ERP-System/config"
 )
 
@@ -10,13 +11,13 @@ func CreateApprovalRequest(data *ApprovalRequest) error {
 
 func GetAllApprovalRequest() ([]ApprovalRequest, error) {
 	var list []ApprovalRequest
-	err := config.DB.Find(&list).Error
+	err := config.DB.Preload(clause.Associations).Find(&list).Error
 	return list, err
 }
 
 func GetApprovalRequestByID(id uint) (*ApprovalRequest, error) {
 	var data ApprovalRequest
-	err := config.DB.First(&data, id).Error
+	err := config.DB.Preload(clause.Associations).First(&data, id).Error
 	return &data, err
 }
 

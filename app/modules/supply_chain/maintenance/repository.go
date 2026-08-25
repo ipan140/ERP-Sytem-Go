@@ -1,6 +1,7 @@
 package maintenance
 
 import (
+	"gorm.io/gorm/clause"
 	"ERP-System/config"
 )
 
@@ -10,13 +11,13 @@ func CreateMaintenanceRequest(data *MaintenanceRequest) error {
 
 func GetAllMaintenanceRequest() ([]MaintenanceRequest, error) {
 	var list []MaintenanceRequest
-	err := config.DB.Find(&list).Error
+	err := config.DB.Preload(clause.Associations).Find(&list).Error
 	return list, err
 }
 
 func GetMaintenanceRequestByID(id uint) (*MaintenanceRequest, error) {
 	var data MaintenanceRequest
-	err := config.DB.First(&data, id).Error
+	err := config.DB.Preload(clause.Associations).First(&data, id).Error
 	return &data, err
 }
 

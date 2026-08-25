@@ -1,6 +1,7 @@
 package consolidation
 
 import (
+	"gorm.io/gorm/clause"
 	"ERP-System/config"
 )
 
@@ -10,6 +11,6 @@ func CreateConsolidationReport(data *ConsolidationReport) error {
 
 func GetAllConsolidationReports() ([]ConsolidationReport, error) {
 	var list []ConsolidationReport
-	err := config.DB.Find(&list).Error
+	err := config.DB.Preload(clause.Associations).Find(&list).Error
 	return list, err
 }

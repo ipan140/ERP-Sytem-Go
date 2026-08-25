@@ -1,6 +1,7 @@
 package auth
 
 import (
+	"gorm.io/gorm/clause"
 	"ERP-System/config"
 	"errors"
 
@@ -29,7 +30,7 @@ func CreateCompany(company *Company) error {
 
 func GetFirstCompany() (*Company, error) {
 	var company Company
-	err := config.DB.First(&company).Error
+	err := config.DB.Preload(clause.Associations).First(&company).Error
 	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return nil, nil

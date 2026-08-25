@@ -1,6 +1,7 @@
 package iot
 
 import (
+	"gorm.io/gorm/clause"
 	"ERP-System/config"
 )
 
@@ -10,13 +11,13 @@ func CreateIoTDevice(data *IoTDevice) error {
 
 func GetAllIoTDevice() ([]IoTDevice, error) {
 	var list []IoTDevice
-	err := config.DB.Find(&list).Error
+	err := config.DB.Preload(clause.Associations).Find(&list).Error
 	return list, err
 }
 
 func GetIoTDeviceByID(id uint) (*IoTDevice, error) {
 	var data IoTDevice
-	err := config.DB.First(&data, id).Error
+	err := config.DB.Preload(clause.Associations).First(&data, id).Error
 	return &data, err
 }
 

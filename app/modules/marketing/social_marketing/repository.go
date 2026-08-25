@@ -1,6 +1,7 @@
 package social_marketing
 
 import (
+	"gorm.io/gorm/clause"
 	"ERP-System/config"
 )
 
@@ -10,13 +11,13 @@ func CreateSocialPost(data *SocialPost) error {
 
 func GetAllSocialPost() ([]SocialPost, error) {
 	var list []SocialPost
-	err := config.DB.Find(&list).Error
+	err := config.DB.Preload(clause.Associations).Find(&list).Error
 	return list, err
 }
 
 func GetSocialPostByID(id uint) (*SocialPost, error) {
 	var data SocialPost
-	err := config.DB.First(&data, id).Error
+	err := config.DB.Preload(clause.Associations).First(&data, id).Error
 	return &data, err
 }
 

@@ -1,6 +1,7 @@
 package surveys
 
 import (
+	"gorm.io/gorm/clause"
 	"ERP-System/config"
 )
 
@@ -10,13 +11,13 @@ func CreateSurvey(data *Survey) error {
 
 func GetAllSurvey() ([]Survey, error) {
 	var list []Survey
-	err := config.DB.Find(&list).Error
+	err := config.DB.Preload(clause.Associations).Find(&list).Error
 	return list, err
 }
 
 func GetSurveyByID(id uint) (*Survey, error) {
 	var data Survey
-	err := config.DB.First(&data, id).Error
+	err := config.DB.Preload(clause.Associations).First(&data, id).Error
 	return &data, err
 }
 

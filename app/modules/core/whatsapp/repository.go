@@ -1,6 +1,7 @@
 package whatsapp
 
 import (
+	"gorm.io/gorm/clause"
 	"ERP-System/config"
 )
 
@@ -10,13 +11,13 @@ func CreateWaTemplate(data *WaTemplate) error {
 
 func GetAllWaTemplate() ([]WaTemplate, error) {
 	var list []WaTemplate
-	err := config.DB.Find(&list).Error
+	err := config.DB.Preload(clause.Associations).Find(&list).Error
 	return list, err
 }
 
 func GetWaTemplateByID(id uint) (*WaTemplate, error) {
 	var data WaTemplate
-	err := config.DB.First(&data, id).Error
+	err := config.DB.Preload(clause.Associations).First(&data, id).Error
 	return &data, err
 }
 

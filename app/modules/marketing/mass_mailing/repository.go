@@ -1,6 +1,7 @@
 package mass_mailing
 
 import (
+	"gorm.io/gorm/clause"
 	"ERP-System/config"
 )
 
@@ -10,13 +11,13 @@ func CreateMailingCampaign(data *MailingCampaign) error {
 
 func GetAllMailingCampaign() ([]MailingCampaign, error) {
 	var list []MailingCampaign
-	err := config.DB.Find(&list).Error
+	err := config.DB.Preload(clause.Associations).Find(&list).Error
 	return list, err
 }
 
 func GetMailingCampaignByID(id uint) (*MailingCampaign, error) {
 	var data MailingCampaign
-	err := config.DB.First(&data, id).Error
+	err := config.DB.Preload(clause.Associations).First(&data, id).Error
 	return &data, err
 }
 
@@ -31,12 +32,12 @@ func DeleteMailingCampaign(id uint) error {
 func CreateUtmTracker(data *UtmTracker) error { return config.DB.Create(data).Error }
 func GetAllUtmTracker() ([]UtmTracker, error) {
 	var list []UtmTracker
-	err := config.DB.Find(&list).Error
+	err := config.DB.Preload(clause.Associations).Find(&list).Error
 	return list, err
 }
 func GetUtmTrackerByID(id uint) (*UtmTracker, error) {
 	var data UtmTracker
-	err := config.DB.First(&data, id).Error
+	err := config.DB.Preload(clause.Associations).First(&data, id).Error
 	return &data, err
 }
 func UpdateUtmTracker(data *UtmTracker) error { return config.DB.Save(data).Error }

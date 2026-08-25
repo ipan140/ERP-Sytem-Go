@@ -1,6 +1,7 @@
 package mailer
 
 import (
+	"gorm.io/gorm/clause"
 	"ERP-System/config"
 )
 
@@ -10,13 +11,13 @@ func CreateEmailLog(data *EmailLog) error {
 
 func GetAllEmailLog() ([]EmailLog, error) {
 	var list []EmailLog
-	err := config.DB.Find(&list).Error
+	err := config.DB.Preload(clause.Associations).Find(&list).Error
 	return list, err
 }
 
 func GetEmailLogByID(id uint) (*EmailLog, error) {
 	var data EmailLog
-	err := config.DB.First(&data, id).Error
+	err := config.DB.Preload(clause.Associations).First(&data, id).Error
 	return &data, err
 }
 

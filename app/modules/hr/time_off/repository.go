@@ -1,6 +1,7 @@
 package time_off
 
 import (
+	"gorm.io/gorm/clause"
 	"ERP-System/config"
 )
 
@@ -10,13 +11,13 @@ func CreateLeaveRequest(data *LeaveRequest) error {
 
 func GetAllLeaveRequest() ([]LeaveRequest, error) {
 	var list []LeaveRequest
-	err := config.DB.Find(&list).Error
+	err := config.DB.Preload(clause.Associations).Find(&list).Error
 	return list, err
 }
 
 func GetLeaveRequestByID(id uint) (*LeaveRequest, error) {
 	var data LeaveRequest
-	err := config.DB.First(&data, id).Error
+	err := config.DB.Preload(clause.Associations).First(&data, id).Error
 	return &data, err
 }
 
@@ -31,12 +32,12 @@ func DeleteLeaveRequest(id uint) error {
 func CreateLeaveType(data *LeaveType) error { return config.DB.Create(data).Error }
 func GetAllLeaveType() ([]LeaveType, error) {
 	var list []LeaveType
-	err := config.DB.Find(&list).Error
+	err := config.DB.Preload(clause.Associations).Find(&list).Error
 	return list, err
 }
 func GetLeaveTypeByID(id uint) (*LeaveType, error) {
 	var data LeaveType
-	err := config.DB.First(&data, id).Error
+	err := config.DB.Preload(clause.Associations).First(&data, id).Error
 	return &data, err
 }
 func UpdateLeaveType(data *LeaveType) error { return config.DB.Save(data).Error }
@@ -45,12 +46,12 @@ func DeleteLeaveType(id uint) error         { return config.DB.Delete(&LeaveType
 func CreateLeaveAllocation(data *LeaveAllocation) error { return config.DB.Create(data).Error }
 func GetAllLeaveAllocation() ([]LeaveAllocation, error) {
 	var list []LeaveAllocation
-	err := config.DB.Find(&list).Error
+	err := config.DB.Preload(clause.Associations).Find(&list).Error
 	return list, err
 }
 func GetLeaveAllocationByID(id uint) (*LeaveAllocation, error) {
 	var data LeaveAllocation
-	err := config.DB.First(&data, id).Error
+	err := config.DB.Preload(clause.Associations).First(&data, id).Error
 	return &data, err
 }
 func UpdateLeaveAllocation(data *LeaveAllocation) error { return config.DB.Save(data).Error }

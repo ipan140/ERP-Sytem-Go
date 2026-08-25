@@ -1,6 +1,7 @@
 package subscriptions
 
 import (
+	"gorm.io/gorm/clause"
 	"ERP-System/config"
 )
 
@@ -10,13 +11,13 @@ func CreateSubscription(data *Subscription) error {
 
 func GetAllSubscription() ([]Subscription, error) {
 	var list []Subscription
-	err := config.DB.Find(&list).Error
+	err := config.DB.Preload(clause.Associations).Find(&list).Error
 	return list, err
 }
 
 func GetSubscriptionByID(id uint) (*Subscription, error) {
 	var data Subscription
-	err := config.DB.First(&data, id).Error
+	err := config.DB.Preload(clause.Associations).First(&data, id).Error
 	return &data, err
 }
 
@@ -31,12 +32,12 @@ func DeleteSubscription(id uint) error {
 func CreateSubscriptionPlan(data *SubscriptionPlan) error { return config.DB.Create(data).Error }
 func GetAllSubscriptionPlan() ([]SubscriptionPlan, error) {
 	var list []SubscriptionPlan
-	err := config.DB.Find(&list).Error
+	err := config.DB.Preload(clause.Associations).Find(&list).Error
 	return list, err
 }
 func GetSubscriptionPlanByID(id uint) (*SubscriptionPlan, error) {
 	var data SubscriptionPlan
-	err := config.DB.First(&data, id).Error
+	err := config.DB.Preload(clause.Associations).First(&data, id).Error
 	return &data, err
 }
 func UpdateSubscriptionPlan(data *SubscriptionPlan) error { return config.DB.Save(data).Error }

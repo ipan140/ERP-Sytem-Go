@@ -1,6 +1,7 @@
 package storage
 
 import (
+	"gorm.io/gorm/clause"
 	"ERP-System/config"
 )
 
@@ -10,13 +11,13 @@ func CreateAttachment(data *Attachment) error {
 
 func GetAllAttachment() ([]Attachment, error) {
 	var list []Attachment
-	err := config.DB.Find(&list).Error
+	err := config.DB.Preload(clause.Associations).Find(&list).Error
 	return list, err
 }
 
 func GetAttachmentByID(id uint) (*Attachment, error) {
 	var data Attachment
-	err := config.DB.First(&data, id).Error
+	err := config.DB.Preload(clause.Associations).First(&data, id).Error
 	return &data, err
 }
 

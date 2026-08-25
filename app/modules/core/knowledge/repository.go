@@ -1,6 +1,7 @@
 package knowledge
 
 import (
+	"gorm.io/gorm/clause"
 	"ERP-System/config"
 )
 
@@ -10,13 +11,13 @@ func CreateArticle(data *Article) error {
 
 func GetAllArticle() ([]Article, error) {
 	var list []Article
-	err := config.DB.Find(&list).Error
+	err := config.DB.Preload(clause.Associations).Find(&list).Error
 	return list, err
 }
 
 func GetArticleByID(id uint) (*Article, error) {
 	var data Article
-	err := config.DB.First(&data, id).Error
+	err := config.DB.Preload(clause.Associations).First(&data, id).Error
 	return &data, err
 }
 

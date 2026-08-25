@@ -1,6 +1,7 @@
 package spreadsheet_bi
 
 import (
+	"gorm.io/gorm/clause"
 	"ERP-System/config"
 )
 
@@ -10,13 +11,13 @@ func CreateSpreadsheet(data *Spreadsheet) error {
 
 func GetAllSpreadsheet() ([]Spreadsheet, error) {
 	var list []Spreadsheet
-	err := config.DB.Find(&list).Error
+	err := config.DB.Preload(clause.Associations).Find(&list).Error
 	return list, err
 }
 
 func GetSpreadsheetByID(id uint) (*Spreadsheet, error) {
 	var data Spreadsheet
-	err := config.DB.First(&data, id).Error
+	err := config.DB.Preload(clause.Associations).First(&data, id).Error
 	return &data, err
 }
 

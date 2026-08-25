@@ -1,6 +1,7 @@
 package purchase
 
 import (
+	"gorm.io/gorm/clause"
 	"ERP-System/config"
 )
 
@@ -10,13 +11,13 @@ func CreatePurchaseOrder(data *PurchaseOrder) error {
 
 func GetAllPurchaseOrder() ([]PurchaseOrder, error) {
 	var list []PurchaseOrder
-	err := config.DB.Find(&list).Error
+	err := config.DB.Preload(clause.Associations).Find(&list).Error
 	return list, err
 }
 
 func GetPurchaseOrderByID(id uint) (*PurchaseOrder, error) {
 	var data PurchaseOrder
-	err := config.DB.First(&data, id).Error
+	err := config.DB.Preload(clause.Associations).First(&data, id).Error
 	return &data, err
 }
 
@@ -31,12 +32,12 @@ func DeletePurchaseOrder(id uint) error {
 func CreatePurchaseRequisition(data *PurchaseRequisition) error { return config.DB.Create(data).Error }
 func GetAllPurchaseRequisition() ([]PurchaseRequisition, error) {
 	var list []PurchaseRequisition
-	err := config.DB.Find(&list).Error
+	err := config.DB.Preload(clause.Associations).Find(&list).Error
 	return list, err
 }
 func GetPurchaseRequisitionByID(id uint) (*PurchaseRequisition, error) {
 	var data PurchaseRequisition
-	err := config.DB.First(&data, id).Error
+	err := config.DB.Preload(clause.Associations).First(&data, id).Error
 	return &data, err
 }
 func UpdatePurchaseRequisition(data *PurchaseRequisition) error { return config.DB.Save(data).Error }
@@ -47,12 +48,12 @@ func DeletePurchaseRequisition(id uint) error {
 func CreateProductSupplierInfo(data *ProductSupplierInfo) error { return config.DB.Create(data).Error }
 func GetAllProductSupplierInfo() ([]ProductSupplierInfo, error) {
 	var list []ProductSupplierInfo
-	err := config.DB.Find(&list).Error
+	err := config.DB.Preload(clause.Associations).Find(&list).Error
 	return list, err
 }
 func GetProductSupplierInfoByID(id uint) (*ProductSupplierInfo, error) {
 	var data ProductSupplierInfo
-	err := config.DB.First(&data, id).Error
+	err := config.DB.Preload(clause.Associations).First(&data, id).Error
 	return &data, err
 }
 func UpdateProductSupplierInfo(data *ProductSupplierInfo) error { return config.DB.Save(data).Error }
@@ -63,12 +64,12 @@ func DeleteProductSupplierInfo(id uint) error {
 func CreatePurchaseOrderLine(data *PurchaseOrderLine) error { return config.DB.Create(data).Error }
 func GetAllPurchaseOrderLine() ([]PurchaseOrderLine, error) {
 	var list []PurchaseOrderLine
-	err := config.DB.Find(&list).Error
+	err := config.DB.Preload(clause.Associations).Find(&list).Error
 	return list, err
 }
 func GetPurchaseOrderLineByID(id uint) (*PurchaseOrderLine, error) {
 	var data PurchaseOrderLine
-	err := config.DB.First(&data, id).Error
+	err := config.DB.Preload(clause.Associations).First(&data, id).Error
 	return &data, err
 }
 func UpdatePurchaseOrderLine(data *PurchaseOrderLine) error { return config.DB.Save(data).Error }

@@ -1,6 +1,7 @@
 package appointments
 
 import (
+	"gorm.io/gorm/clause"
 	"ERP-System/config"
 )
 
@@ -10,13 +11,13 @@ func CreateAppointment(data *Appointment) error {
 
 func GetAllAppointment() ([]Appointment, error) {
 	var list []Appointment
-	err := config.DB.Find(&list).Error
+	err := config.DB.Preload(clause.Associations).Find(&list).Error
 	return list, err
 }
 
 func GetAppointmentByID(id uint) (*Appointment, error) {
 	var data Appointment
-	err := config.DB.First(&data, id).Error
+	err := config.DB.Preload(clause.Associations).First(&data, id).Error
 	return &data, err
 }
 

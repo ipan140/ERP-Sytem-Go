@@ -2,6 +2,7 @@ package user_roles
 
 import (
 	"net/http"
+	"strconv"
 	"strings"
 
 	"ERP-System/common/utils"
@@ -52,8 +53,52 @@ func AssignRoleHandler(c echo.Context) error {
 	return utils.SendSuccess(c, http.StatusOK, "Hak Akses (Role) berhasil diperbarui!", nil)
 }
 
+// Handler CRUD Roles Dinamis
 
+func CreateRoleHandler(c echo.Context) error {
+	var req Role
+	if err := c.Bind(&req); err != nil {
+		return utils.SendError(c, http.StatusBadRequest, "Invalid JSON", err.Error())
+	}
+	if err := CreateRoleService(req); err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Gagal membuat role", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Role created successfully", req)
+}
 
+func GetAllRolesHandler(c echo.Context) error {
+	roles, err := GetAllRolesService()
+	if err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Gagal mengambil role", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Berhasil", roles)
+}
 
+func UpdateRoleHandler(c echo.Context) error {
+	idStr := c.Param("id")
+	id, err := strconv.Atoi(idStr)
+	if err != nil {
+		return utils.SendError(c, http.StatusBadRequest, "Invalid ID", err.Error())
+	}
+	var req Role
+	if err := c.Bind(&req); err != nil {
+		return utils.SendError(c, http.StatusBadRequest, "Invalid JSON", err.Error())
+	}
+	if err := UpdateRoleService(uint(id), req); err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Gagal update role", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Role updated successfully", nil)
+}
 
+func DeleteRoleHandler(c echo.Context) error {
+	idStr := c.Param("id")
+	id, err := strconv.Atoi(idStr)
+	if err != nil {
+		return utils.SendError(c, http.StatusBadRequest, "Invalid ID", err.Error())
+	}
+	if err := DeleteRoleService(uint(id)); err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Gagal hapus role", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Role deleted successfully", nil)
+}
 

@@ -1,6 +1,7 @@
 package timesheets
 
 import (
+	"gorm.io/gorm/clause"
 	"ERP-System/config"
 )
 
@@ -10,13 +11,13 @@ func CreateTimesheet(data *Timesheet) error {
 
 func GetAllTimesheet() ([]Timesheet, error) {
 	var list []Timesheet
-	err := config.DB.Find(&list).Error
+	err := config.DB.Preload(clause.Associations).Find(&list).Error
 	return list, err
 }
 
 func GetTimesheetByID(id uint) (*Timesheet, error) {
 	var data Timesheet
-	err := config.DB.First(&data, id).Error
+	err := config.DB.Preload(clause.Associations).First(&data, id).Error
 	return &data, err
 }
 

@@ -1,6 +1,7 @@
 package field_service
 
 import (
+	"gorm.io/gorm/clause"
 	"ERP-System/config"
 )
 
@@ -10,13 +11,13 @@ func CreateFieldServiceTask(data *FieldServiceTask) error {
 
 func GetAllFieldServiceTask() ([]FieldServiceTask, error) {
 	var list []FieldServiceTask
-	err := config.DB.Find(&list).Error
+	err := config.DB.Preload(clause.Associations).Find(&list).Error
 	return list, err
 }
 
 func GetFieldServiceTaskByID(id uint) (*FieldServiceTask, error) {
 	var data FieldServiceTask
-	err := config.DB.First(&data, id).Error
+	err := config.DB.Preload(clause.Associations).First(&data, id).Error
 	return &data, err
 }
 

@@ -52,3 +52,30 @@ func AssignRoleService(userID uint, roles string) error {
 	
 	return err
 }
+
+// CRUD Roles Dinamis
+
+func CreateRoleService(req Role) error {
+	return config.DB.Create(&req).Error
+}
+
+func GetAllRolesService() ([]Role, error) {
+	var roles []Role
+	err := config.DB.Find(&roles).Error
+	return roles, err
+}
+
+func UpdateRoleService(id uint, req Role) error {
+	var role Role
+	if err := config.DB.First(&role, id).Error; err != nil {
+		return err
+	}
+	role.Name = req.Name
+	role.Description = req.Description
+	return config.DB.Save(&role).Error
+}
+
+func DeleteRoleService(id uint) error {
+	return config.DB.Delete(&Role{}, id).Error
+}
+

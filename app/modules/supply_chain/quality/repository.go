@@ -1,6 +1,7 @@
 package quality
 
 import (
+	"gorm.io/gorm/clause"
 	"ERP-System/config"
 )
 
@@ -10,13 +11,13 @@ func CreateQualityCheck(data *QualityCheck) error {
 
 func GetAllQualityCheck() ([]QualityCheck, error) {
 	var list []QualityCheck
-	err := config.DB.Find(&list).Error
+	err := config.DB.Preload(clause.Associations).Find(&list).Error
 	return list, err
 }
 
 func GetQualityCheckByID(id uint) (*QualityCheck, error) {
 	var data QualityCheck
-	err := config.DB.First(&data, id).Error
+	err := config.DB.Preload(clause.Associations).First(&data, id).Error
 	return &data, err
 }
 

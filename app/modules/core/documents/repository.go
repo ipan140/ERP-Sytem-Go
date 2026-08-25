@@ -1,6 +1,7 @@
 package documents
 
 import (
+	"gorm.io/gorm/clause"
 	"ERP-System/config"
 )
 
@@ -10,13 +11,13 @@ func CreateWorkspace(data *Workspace) error {
 
 func GetAllWorkspace() ([]Workspace, error) {
 	var list []Workspace
-	err := config.DB.Find(&list).Error
+	err := config.DB.Preload(clause.Associations).Find(&list).Error
 	return list, err
 }
 
 func GetWorkspaceByID(id uint) (*Workspace, error) {
 	var data Workspace
-	err := config.DB.First(&data, id).Error
+	err := config.DB.Preload(clause.Associations).First(&data, id).Error
 	return &data, err
 }
 

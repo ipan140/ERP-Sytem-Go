@@ -1,6 +1,7 @@
 package expenses
 
 import (
+	"gorm.io/gorm/clause"
 	"ERP-System/config"
 )
 
@@ -10,13 +11,13 @@ func CreateExpense(data *Expense) error {
 
 func GetAllExpense() ([]Expense, error) {
 	var list []Expense
-	err := config.DB.Find(&list).Error
+	err := config.DB.Preload(clause.Associations).Find(&list).Error
 	return list, err
 }
 
 func GetExpenseByID(id uint) (*Expense, error) {
 	var data Expense
-	err := config.DB.First(&data, id).Error
+	err := config.DB.Preload(clause.Associations).First(&data, id).Error
 	return &data, err
 }
 
@@ -31,12 +32,12 @@ func DeleteExpense(id uint) error {
 func CreateExpenseSheet(data *ExpenseSheet) error { return config.DB.Create(data).Error }
 func GetAllExpenseSheet() ([]ExpenseSheet, error) {
 	var list []ExpenseSheet
-	err := config.DB.Find(&list).Error
+	err := config.DB.Preload(clause.Associations).Find(&list).Error
 	return list, err
 }
 func GetExpenseSheetByID(id uint) (*ExpenseSheet, error) {
 	var data ExpenseSheet
-	err := config.DB.First(&data, id).Error
+	err := config.DB.Preload(clause.Associations).First(&data, id).Error
 	return &data, err
 }
 func UpdateExpenseSheet(data *ExpenseSheet) error { return config.DB.Save(data).Error }

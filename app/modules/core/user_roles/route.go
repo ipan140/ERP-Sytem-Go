@@ -14,4 +14,11 @@ func RegisterRoutes(e *echo.Echo) {
 
 	api.GET("", GetAllUsersRolesHandler)
 	api.POST("/assign", AssignRoleHandler)
+
+	// CRUD Dinamis untuk tabel Roles (Setting Roles)
+	rolesApi := e.Group("/api/core/roles", middleware.Auth(), middleware.RequireRoles(constants.RoleSuperadmin))
+	rolesApi.POST("", CreateRoleHandler)
+	rolesApi.GET("", GetAllRolesHandler)
+	rolesApi.PUT("/:id", UpdateRoleHandler)
+	rolesApi.DELETE("/:id", DeleteRoleHandler)
 }

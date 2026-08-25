@@ -1,6 +1,7 @@
 package sms_marketing
 
 import (
+	"gorm.io/gorm/clause"
 	"ERP-System/config"
 )
 
@@ -10,13 +11,13 @@ func CreateSmsCampaign(data *SmsCampaign) error {
 
 func GetAllSmsCampaign() ([]SmsCampaign, error) {
 	var list []SmsCampaign
-	err := config.DB.Find(&list).Error
+	err := config.DB.Preload(clause.Associations).Find(&list).Error
 	return list, err
 }
 
 func GetSmsCampaignByID(id uint) (*SmsCampaign, error) {
 	var data SmsCampaign
-	err := config.DB.First(&data, id).Error
+	err := config.DB.Preload(clause.Associations).First(&data, id).Error
 	return &data, err
 }
 

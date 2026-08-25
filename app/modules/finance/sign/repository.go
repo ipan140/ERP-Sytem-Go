@@ -1,6 +1,7 @@
 package sign
 
 import (
+	"gorm.io/gorm/clause"
 	"ERP-System/config"
 )
 
@@ -10,13 +11,13 @@ func CreateSignatureRequest(data *SignatureRequest) error {
 
 func GetAllSignatureRequest() ([]SignatureRequest, error) {
 	var list []SignatureRequest
-	err := config.DB.Find(&list).Error
+	err := config.DB.Preload(clause.Associations).Find(&list).Error
 	return list, err
 }
 
 func GetSignatureRequestByID(id uint) (*SignatureRequest, error) {
 	var data SignatureRequest
-	err := config.DB.First(&data, id).Error
+	err := config.DB.Preload(clause.Associations).First(&data, id).Error
 	return &data, err
 }
 

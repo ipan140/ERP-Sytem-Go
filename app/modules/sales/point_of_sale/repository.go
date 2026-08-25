@@ -1,6 +1,7 @@
 package point_of_sale
 
 import (
+	"gorm.io/gorm/clause"
 	"ERP-System/config"
 )
 
@@ -10,13 +11,13 @@ func CreatePosSession(data *PosSession) error {
 
 func GetAllPosSession() ([]PosSession, error) {
 	var list []PosSession
-	err := config.DB.Find(&list).Error
+	err := config.DB.Preload(clause.Associations).Find(&list).Error
 	return list, err
 }
 
 func GetPosSessionByID(id uint) (*PosSession, error) {
 	var data PosSession
-	err := config.DB.First(&data, id).Error
+	err := config.DB.Preload(clause.Associations).First(&data, id).Error
 	return &data, err
 }
 
@@ -31,12 +32,12 @@ func DeletePosSession(id uint) error {
 func CreatePosConfig(data *PosConfig) error { return config.DB.Create(data).Error }
 func GetAllPosConfig() ([]PosConfig, error) {
 	var list []PosConfig
-	err := config.DB.Find(&list).Error
+	err := config.DB.Preload(clause.Associations).Find(&list).Error
 	return list, err
 }
 func GetPosConfigByID(id uint) (*PosConfig, error) {
 	var data PosConfig
-	err := config.DB.First(&data, id).Error
+	err := config.DB.Preload(clause.Associations).First(&data, id).Error
 	return &data, err
 }
 func UpdatePosConfig(data *PosConfig) error { return config.DB.Save(data).Error }
@@ -45,12 +46,12 @@ func DeletePosConfig(id uint) error         { return config.DB.Delete(&PosConfig
 func CreatePosOrder(data *PosOrder) error { return config.DB.Create(data).Error }
 func GetAllPosOrder() ([]PosOrder, error) {
 	var list []PosOrder
-	err := config.DB.Find(&list).Error
+	err := config.DB.Preload(clause.Associations).Find(&list).Error
 	return list, err
 }
 func GetPosOrderByID(id uint) (*PosOrder, error) {
 	var data PosOrder
-	err := config.DB.First(&data, id).Error
+	err := config.DB.Preload(clause.Associations).First(&data, id).Error
 	return &data, err
 }
 func UpdatePosOrder(data *PosOrder) error { return config.DB.Save(data).Error }
@@ -59,12 +60,12 @@ func DeletePosOrder(id uint) error        { return config.DB.Delete(&PosOrder{},
 func CreatePosOrderLine(data *PosOrderLine) error { return config.DB.Create(data).Error }
 func GetAllPosOrderLine() ([]PosOrderLine, error) {
 	var list []PosOrderLine
-	err := config.DB.Find(&list).Error
+	err := config.DB.Preload(clause.Associations).Find(&list).Error
 	return list, err
 }
 func GetPosOrderLineByID(id uint) (*PosOrderLine, error) {
 	var data PosOrderLine
-	err := config.DB.First(&data, id).Error
+	err := config.DB.Preload(clause.Associations).First(&data, id).Error
 	return &data, err
 }
 func UpdatePosOrderLine(data *PosOrderLine) error { return config.DB.Save(data).Error }
@@ -73,12 +74,12 @@ func DeletePosOrderLine(id uint) error            { return config.DB.Delete(&Pos
 func CreatePosPayment(data *PosPayment) error { return config.DB.Create(data).Error }
 func GetAllPosPayment() ([]PosPayment, error) {
 	var list []PosPayment
-	err := config.DB.Find(&list).Error
+	err := config.DB.Preload(clause.Associations).Find(&list).Error
 	return list, err
 }
 func GetPosPaymentByID(id uint) (*PosPayment, error) {
 	var data PosPayment
-	err := config.DB.First(&data, id).Error
+	err := config.DB.Preload(clause.Associations).First(&data, id).Error
 	return &data, err
 }
 func UpdatePosPayment(data *PosPayment) error { return config.DB.Save(data).Error }
@@ -87,12 +88,12 @@ func DeletePosPayment(id uint) error          { return config.DB.Delete(&PosPaym
 func CreateLoyaltyProgram(data *LoyaltyProgram) error { return config.DB.Create(data).Error }
 func GetAllLoyaltyProgram() ([]LoyaltyProgram, error) {
 	var list []LoyaltyProgram
-	err := config.DB.Find(&list).Error
+	err := config.DB.Preload(clause.Associations).Find(&list).Error
 	return list, err
 }
 func GetLoyaltyProgramByID(id uint) (*LoyaltyProgram, error) {
 	var data LoyaltyProgram
-	err := config.DB.First(&data, id).Error
+	err := config.DB.Preload(clause.Associations).First(&data, id).Error
 	return &data, err
 }
 func UpdateLoyaltyProgram(data *LoyaltyProgram) error { return config.DB.Save(data).Error }

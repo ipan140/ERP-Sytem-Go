@@ -1,6 +1,7 @@
 package referrals
 
 import (
+	"gorm.io/gorm/clause"
 	"ERP-System/config"
 )
 
@@ -10,13 +11,13 @@ func CreateReferralReward(data *ReferralReward) error {
 
 func GetAllReferralReward() ([]ReferralReward, error) {
 	var list []ReferralReward
-	err := config.DB.Find(&list).Error
+	err := config.DB.Preload(clause.Associations).Find(&list).Error
 	return list, err
 }
 
 func GetReferralRewardByID(id uint) (*ReferralReward, error) {
 	var data ReferralReward
-	err := config.DB.First(&data, id).Error
+	err := config.DB.Preload(clause.Associations).First(&data, id).Error
 	return &data, err
 }
 
@@ -31,12 +32,12 @@ func DeleteReferralReward(id uint) error {
 func CreateReferralPoint(data *ReferralPoint) error { return config.DB.Create(data).Error }
 func GetAllReferralPoint() ([]ReferralPoint, error) {
 	var list []ReferralPoint
-	err := config.DB.Find(&list).Error
+	err := config.DB.Preload(clause.Associations).Find(&list).Error
 	return list, err
 }
 func GetReferralPointByID(id uint) (*ReferralPoint, error) {
 	var data ReferralPoint
-	err := config.DB.First(&data, id).Error
+	err := config.DB.Preload(clause.Associations).First(&data, id).Error
 	return &data, err
 }
 func UpdateReferralPoint(data *ReferralPoint) error { return config.DB.Save(data).Error }

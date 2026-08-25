@@ -1,6 +1,7 @@
 package documents
 
 import (
+	"gorm.io/gorm/clause"
 	"ERP-System/config"
 )
 
@@ -10,13 +11,13 @@ func CreateFinanceDocument(data *FinanceDocument) error {
 
 func GetAllFinanceDocument() ([]FinanceDocument, error) {
 	var list []FinanceDocument
-	err := config.DB.Find(&list).Error
+	err := config.DB.Preload(clause.Associations).Find(&list).Error
 	return list, err
 }
 
 func GetFinanceDocumentByID(id uint) (*FinanceDocument, error) {
 	var data FinanceDocument
-	err := config.DB.First(&data, id).Error
+	err := config.DB.Preload(clause.Associations).First(&data, id).Error
 	return &data, err
 }
 

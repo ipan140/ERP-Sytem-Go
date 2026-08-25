@@ -1,6 +1,7 @@
 package lunch
 
 import (
+	"gorm.io/gorm/clause"
 	"ERP-System/config"
 )
 
@@ -10,13 +11,13 @@ func CreateLunchOrder(data *LunchOrder) error {
 
 func GetAllLunchOrder() ([]LunchOrder, error) {
 	var list []LunchOrder
-	err := config.DB.Find(&list).Error
+	err := config.DB.Preload(clause.Associations).Find(&list).Error
 	return list, err
 }
 
 func GetLunchOrderByID(id uint) (*LunchOrder, error) {
 	var data LunchOrder
-	err := config.DB.First(&data, id).Error
+	err := config.DB.Preload(clause.Associations).First(&data, id).Error
 	return &data, err
 }
 
@@ -31,12 +32,12 @@ func DeleteLunchOrder(id uint) error {
 func CreateLunchCashmove(data *LunchCashmove) error { return config.DB.Create(data).Error }
 func GetAllLunchCashmove() ([]LunchCashmove, error) {
 	var list []LunchCashmove
-	err := config.DB.Find(&list).Error
+	err := config.DB.Preload(clause.Associations).Find(&list).Error
 	return list, err
 }
 func GetLunchCashmoveByID(id uint) (*LunchCashmove, error) {
 	var data LunchCashmove
-	err := config.DB.First(&data, id).Error
+	err := config.DB.Preload(clause.Associations).First(&data, id).Error
 	return &data, err
 }
 func UpdateLunchCashmove(data *LunchCashmove) error { return config.DB.Save(data).Error }

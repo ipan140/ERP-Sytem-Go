@@ -1,6 +1,7 @@
 package marketing_automation
 
 import (
+	"gorm.io/gorm/clause"
 	"ERP-System/config"
 )
 
@@ -10,13 +11,13 @@ func CreateAutomationCampaign(data *AutomationCampaign) error {
 
 func GetAllAutomationCampaign() ([]AutomationCampaign, error) {
 	var list []AutomationCampaign
-	err := config.DB.Find(&list).Error
+	err := config.DB.Preload(clause.Associations).Find(&list).Error
 	return list, err
 }
 
 func GetAutomationCampaignByID(id uint) (*AutomationCampaign, error) {
 	var data AutomationCampaign
-	err := config.DB.First(&data, id).Error
+	err := config.DB.Preload(clause.Associations).First(&data, id).Error
 	return &data, err
 }
 
@@ -31,12 +32,12 @@ func DeleteAutomationCampaign(id uint) error {
 func CreateWorkflowActivity(data *WorkflowActivity) error { return config.DB.Create(data).Error }
 func GetAllWorkflowActivity() ([]WorkflowActivity, error) {
 	var list []WorkflowActivity
-	err := config.DB.Find(&list).Error
+	err := config.DB.Preload(clause.Associations).Find(&list).Error
 	return list, err
 }
 func GetWorkflowActivityByID(id uint) (*WorkflowActivity, error) {
 	var data WorkflowActivity
-	err := config.DB.First(&data, id).Error
+	err := config.DB.Preload(clause.Associations).First(&data, id).Error
 	return &data, err
 }
 func UpdateWorkflowActivity(data *WorkflowActivity) error { return config.DB.Save(data).Error }
