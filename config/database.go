@@ -60,7 +60,7 @@ func AddManualForeignKeys(db *gorm.DB) {
 		"ALTER TABLE finance.payment_transactions ADD CONSTRAINT fk_finance_payment_acquirer FOREIGN KEY (acquirer_id) REFERENCES finance.payment_acquirers(id) ON DELETE SET NULL;",
 		"ALTER TABLE finance.tax_repartition_lines ADD CONSTRAINT fk_finance_tax_repartition_account FOREIGN KEY (account_id) REFERENCES finance.accounts(id) ON DELETE SET NULL;",
 		"ALTER TABLE services.projects ADD CONSTRAINT fk_services_projects_sale_order FOREIGN KEY (sale_order_id) REFERENCES sales.sale_orders(id) ON DELETE SET NULL;",
-		"ALTER TABLE marketing.workflow_activities ADD CONSTRAINT fk_marketing_workflow_campaign FOREIGN KEY (campaign_id) REFERENCES marketing.automation_campaigns(id) ON DELETE SET NULL;",
+
 		"ALTER TABLE finance.fiscal_positions ADD CONSTRAINT fk_finance_fiscal_positions_tax_src FOREIGN KEY (tax_src_id) REFERENCES finance.taxes(id) ON DELETE SET NULL;",
 		"ALTER TABLE finance.fiscal_positions ADD CONSTRAINT fk_finance_fiscal_positions_tax_dest FOREIGN KEY (tax_dest_id) REFERENCES finance.taxes(id) ON DELETE SET NULL;",
 		"ALTER TABLE finance.invoices ADD CONSTRAINT fk_finance_invoices_incoterm FOREIGN KEY (incoterm_id) REFERENCES finance.account_incotermses(id) ON DELETE SET NULL;",

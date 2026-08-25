@@ -20916,10 +20916,32 @@ const docTemplate = `{
                 "created_at": {
                     "type": "string"
                 },
+                "date": {
+                    "type": "string"
+                },
+                "employee": {
+                    "$ref": "#/definitions/employees.Employee"
+                },
+                "employee_id": {
+                    "type": "integer"
+                },
                 "id": {
                     "type": "integer"
                 },
                 "name": {
+                    "type": "string"
+                },
+                "notes": {
+                    "type": "string"
+                },
+                "partner": {
+                    "$ref": "#/definitions/base.Partner"
+                },
+                "partner_id": {
+                    "type": "integer"
+                },
+                "state": {
+                    "description": "draft, confirmed, done",
                     "type": "string"
                 }
             }
@@ -20933,6 +20955,14 @@ const docTemplate = `{
                 "date": {
                     "type": "string"
                 },
+                "employee": {
+                    "description": "Cross-module relation",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/employees.Employee"
+                        }
+                    ]
+                },
                 "employee_id": {
                     "type": "integer"
                 },
@@ -20941,6 +20971,14 @@ const docTemplate = `{
                 },
                 "id": {
                     "type": "integer"
+                },
+                "manager": {
+                    "description": "Auto-added relation",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/appraisals.Appraisal"
+                        }
+                    ]
                 },
                 "manager_id": {
                     "type": "integer"
@@ -20995,6 +21033,14 @@ const docTemplate = `{
                 "created_at": {
                     "type": "string"
                 },
+                "employee": {
+                    "description": "Cross-module relation",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/employees.Employee"
+                        }
+                    ]
+                },
                 "employee_id": {
                     "type": "integer"
                 },
@@ -21015,6 +21061,14 @@ const docTemplate = `{
                 "date": {
                     "type": "string"
                 },
+                "employee": {
+                    "description": "Cross-module relation",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/employees.Employee"
+                        }
+                    ]
+                },
                 "employee_id": {
                     "type": "integer"
                 },
@@ -21030,6 +21084,23 @@ const docTemplate = `{
                 }
             }
         },
+        "auth.Company": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                }
+            }
+        },
         "auth.LoginRequest": {
             "type": "object",
             "required": [
@@ -21041,6 +21112,35 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "password": {
+                    "type": "string"
+                }
+            }
+        },
+        "auth.User": {
+            "type": "object",
+            "properties": {
+                "company": {
+                    "$ref": "#/definitions/auth.Company"
+                },
+                "company_id": {
+                    "type": "integer"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "role": {
+                    "type": "string"
+                },
+                "updated_at": {
                     "type": "string"
                 }
             }
@@ -21086,6 +21186,14 @@ const docTemplate = `{
                     "description": "JBR, JK",
                     "type": "string"
                 },
+                "country": {
+                    "description": "Auto-added relation",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/base.Country"
+                        }
+                    ]
+                },
                 "country_id": {
                     "type": "integer"
                 },
@@ -21121,6 +21229,14 @@ const docTemplate = `{
                 "city": {
                     "type": "string"
                 },
+                "country": {
+                    "description": "Auto-added relation",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/base.Country"
+                        }
+                    ]
+                },
                 "country_id": {
                     "type": "integer"
                 },
@@ -21148,12 +21264,28 @@ const docTemplate = `{
                 "name": {
                     "type": "string"
                 },
+                "parent": {
+                    "description": "Auto-added relation",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/base.Partner"
+                        }
+                    ]
+                },
                 "parent_id": {
                     "description": "Jika kontak ini adalah pegawai dari perusahaan lain",
                     "type": "integer"
                 },
                 "phone": {
                     "type": "string"
+                },
+                "state": {
+                    "description": "Odoo relation mapped",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/base.CountryState"
+                        }
+                    ]
                 },
                 "state_id": {
                     "type": "integer"
@@ -21180,6 +21312,9 @@ const docTemplate = `{
         "blog.BlogPost": {
             "type": "object",
             "properties": {
+                "author": {
+                    "$ref": "#/definitions/auth.User"
+                },
                 "author_id": {
                     "type": "integer"
                 },
@@ -21219,6 +21354,14 @@ const docTemplate = `{
                 "is_done": {
                     "type": "boolean"
                 },
+                "lead": {
+                    "description": "Auto-added relation",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/crm.Lead"
+                        }
+                    ]
+                },
                 "lead_id": {
                     "type": "integer"
                 },
@@ -21250,6 +21393,14 @@ const docTemplate = `{
                     "description": "Opportunity name",
                     "type": "string"
                 },
+                "partner": {
+                    "description": "Cross-module relation",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/base.Partner"
+                        }
+                    ]
+                },
                 "partner_id": {
                     "description": "Customer ID",
                     "type": "integer"
@@ -21261,12 +21412,36 @@ const docTemplate = `{
                     "description": "Percentage",
                     "type": "number"
                 },
+                "salesTeam": {
+                    "description": "Auto-added relation",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/crm.SalesTeam"
+                        }
+                    ]
+                },
                 "sales_team_id": {
                     "type": "integer"
+                },
+                "salesperson": {
+                    "description": "Odoo relation mapped",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/auth.User"
+                        }
+                    ]
                 },
                 "salesperson_id": {
                     "description": "Link to Employee (HR)",
                     "type": "integer"
+                },
+                "stage": {
+                    "description": "Auto-added relation",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/crm.Stage"
+                        }
+                    ]
                 },
                 "stage_id": {
                     "type": "integer"
@@ -21288,6 +21463,14 @@ const docTemplate = `{
                 "id": {
                     "type": "integer"
                 },
+                "salesperson": {
+                    "description": "Odoo relation mapped",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/auth.User"
+                        }
+                    ]
+                },
                 "salesperson_id": {
                     "type": "integer"
                 },
@@ -21308,6 +21491,14 @@ const docTemplate = `{
                 },
                 "invoicing_target": {
                     "type": "number"
+                },
+                "manager": {
+                    "description": "Auto-added relation",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/crm.SalesTeam"
+                        }
+                    ]
                 },
                 "manager_id": {
                     "description": "HR Employee ID",
@@ -21372,6 +21563,12 @@ const docTemplate = `{
                 },
                 "name": {
                     "type": "string"
+                },
+                "partner": {
+                    "$ref": "#/definitions/base.Partner"
+                },
+                "partner_id": {
+                    "type": "integer"
                 }
             }
         },
@@ -21400,11 +21597,27 @@ const docTemplate = `{
         "ecommerce.CartItem": {
             "type": "object",
             "properties": {
+                "cart": {
+                    "description": "Auto-added relation",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/ecommerce.Cart"
+                        }
+                    ]
+                },
                 "cart_id": {
                     "type": "integer"
                 },
                 "id": {
                     "type": "integer"
+                },
+                "product": {
+                    "description": "Cross-module relation",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/inventory.Product"
+                        }
+                    ]
                 },
                 "product_id": {
                     "type": "integer"
@@ -21417,6 +21630,14 @@ const docTemplate = `{
         "ecommerce.PortalUser": {
             "type": "object",
             "properties": {
+                "customer": {
+                    "description": "Cross-module relation",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/base.Partner"
+                        }
+                    ]
+                },
                 "customer_id": {
                     "description": "Nyambung ke tabel Partner",
                     "type": "integer"
@@ -21435,6 +21656,14 @@ const docTemplate = `{
         "ecommerce.ShoppingCart": {
             "type": "object",
             "properties": {
+                "customer": {
+                    "description": "Cross-module relation",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/base.Partner"
+                        }
+                    ]
+                },
                 "customer_id": {
                     "type": "integer"
                 },
@@ -21458,8 +21687,24 @@ const docTemplate = `{
         "elearning.Certification": {
             "type": "object",
             "properties": {
+                "course": {
+                    "description": "Auto-added relation",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/elearning.Course"
+                        }
+                    ]
+                },
                 "course_id": {
                     "type": "integer"
+                },
+                "customer": {
+                    "description": "Cross-module relation",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/base.Partner"
+                        }
+                    ]
                 },
                 "customer_id": {
                     "type": "integer"
@@ -21498,6 +21743,9 @@ const docTemplate = `{
                 "created_at": {
                     "type": "string"
                 },
+                "employee": {
+                    "$ref": "#/definitions/employees.Employee"
+                },
                 "employee_id": {
                     "type": "integer"
                 },
@@ -21507,6 +21755,9 @@ const docTemplate = `{
                 "id": {
                     "type": "integer"
                 },
+                "job_position": {
+                    "$ref": "#/definitions/employees.JobPosition"
+                },
                 "job_position_id": {
                     "type": "integer"
                 },
@@ -21514,14 +21765,41 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "state": {
-                    "description": "draft, probation, open, close",
                     "type": "string"
                 },
                 "wage": {
-                    "description": "Basic Salary",
                     "type": "number"
                 },
+                "working_schedule": {
+                    "$ref": "#/definitions/employees.WorkingSchedule"
+                },
                 "working_schedule_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "employees.Department": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "manager": {
+                    "$ref": "#/definitions/employees.Employee"
+                },
+                "manager_id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "parent": {
+                    "$ref": "#/definitions/employees.Department"
+                },
+                "parent_id": {
                     "type": "integer"
                 }
             }
@@ -21532,8 +21810,10 @@ const docTemplate = `{
                 "created_at": {
                     "type": "string"
                 },
+                "department": {
+                    "$ref": "#/definitions/employees.Department"
+                },
                 "department_id": {
-                    "description": "Links to Department",
                     "type": "integer"
                 },
                 "emergency_contact": {
@@ -21545,18 +21825,25 @@ const docTemplate = `{
                 "id": {
                     "type": "integer"
                 },
+                "job_position": {
+                    "$ref": "#/definitions/employees.JobPosition"
+                },
                 "job_position_id": {
                     "type": "integer"
                 },
+                "manager": {
+                    "$ref": "#/definitions/employees.Employee"
+                },
                 "manager_id": {
-                    "description": "Self-referential",
                     "type": "integer"
                 },
                 "name": {
                     "type": "string"
                 },
+                "user": {
+                    "$ref": "#/definitions/auth.User"
+                },
                 "user_id": {
-                    "description": "Links to auth users",
                     "type": "integer"
                 },
                 "work_email": {
@@ -21570,14 +21857,23 @@ const docTemplate = `{
         "employees.EmployeeSkill": {
             "type": "object",
             "properties": {
+                "employee": {
+                    "$ref": "#/definitions/employees.Employee"
+                },
                 "employee_id": {
                     "type": "integer"
                 },
                 "id": {
                     "type": "integer"
                 },
+                "skill": {
+                    "$ref": "#/definitions/employees.Skill"
+                },
                 "skill_id": {
                     "type": "integer"
+                },
+                "skill_level": {
+                    "$ref": "#/definitions/employees.SkillLevel"
                 },
                 "skill_level_id": {
                     "type": "integer"
@@ -21590,6 +21886,9 @@ const docTemplate = `{
                 "created_at": {
                     "type": "string"
                 },
+                "department": {
+                    "$ref": "#/definitions/employees.Department"
+                },
                 "department_id": {
                     "type": "integer"
                 },
@@ -21597,11 +21896,9 @@ const docTemplate = `{
                     "type": "integer"
                 },
                 "name": {
-                    "description": "e.g. Software Engineer",
                     "type": "string"
                 },
                 "state": {
-                    "description": "recruit, open",
                     "type": "string"
                 }
             }
@@ -21618,6 +21915,9 @@ const docTemplate = `{
                 "description": {
                     "type": "string"
                 },
+                "employee": {
+                    "$ref": "#/definitions/employees.Employee"
+                },
                 "employee_id": {
                     "type": "integer"
                 },
@@ -21628,7 +21928,6 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "type": {
-                    "description": "experience, education",
                     "type": "string"
                 }
             }
@@ -21640,7 +21939,6 @@ const docTemplate = `{
                     "type": "integer"
                 },
                 "name": {
-                    "description": "e.g. Golang",
                     "type": "string"
                 }
             }
@@ -21652,8 +21950,10 @@ const docTemplate = `{
                     "type": "integer"
                 },
                 "name": {
-                    "description": "e.g. Expert, Beginner",
                     "type": "string"
+                },
+                "skill": {
+                    "$ref": "#/definitions/employees.Skill"
                 },
                 "skill_id": {
                     "type": "integer"
@@ -21673,7 +21973,6 @@ const docTemplate = `{
                     "type": "integer"
                 },
                 "name": {
-                    "description": "e.g. Senin - Jumat, 40 Jam/Minggu",
                     "type": "string"
                 }
             }
@@ -21693,8 +21992,24 @@ const docTemplate = `{
                     "description": "Di-scan saat acara",
                     "type": "string"
                 },
+                "customer": {
+                    "description": "Cross-module relation",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/base.Partner"
+                        }
+                    ]
+                },
                 "customer_id": {
                     "type": "integer"
+                },
+                "event": {
+                    "description": "Auto-added relation",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/events.Event"
+                        }
+                    ]
                 },
                 "event_id": {
                     "type": "integer"
@@ -21713,8 +22028,24 @@ const docTemplate = `{
                 "created_at": {
                     "type": "string"
                 },
+                "employee": {
+                    "description": "Cross-module relation",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/employees.Employee"
+                        }
+                    ]
+                },
                 "employee_id": {
                     "type": "integer"
+                },
+                "expenseSheet": {
+                    "description": "Auto-added relation",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/expenses.ExpenseSheet"
+                        }
+                    ]
                 },
                 "expense_sheet_id": {
                     "type": "integer"
@@ -21740,6 +22071,14 @@ const docTemplate = `{
             "properties": {
                 "created_at": {
                     "type": "string"
+                },
+                "employee": {
+                    "description": "Cross-module relation",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/employees.Employee"
+                        }
+                    ]
                 },
                 "employee_id": {
                     "type": "integer"
@@ -21780,6 +22119,14 @@ const docTemplate = `{
                 "created_at": {
                     "type": "string"
                 },
+                "employee": {
+                    "description": "Cross-module relation",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/employees.Employee"
+                        }
+                    ]
+                },
                 "employee_id": {
                     "description": "Driver",
                     "type": "integer"
@@ -21810,6 +22157,14 @@ const docTemplate = `{
                 "id": {
                     "type": "integer"
                 },
+                "vehicle": {
+                    "description": "Auto-added relation",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/fleet.Vehicle"
+                        }
+                    ]
+                },
                 "vehicle_id": {
                     "type": "integer"
                 }
@@ -21829,6 +22184,14 @@ const docTemplate = `{
                 },
                 "liters": {
                     "type": "number"
+                },
+                "vehicle": {
+                    "description": "Auto-added relation",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/fleet.Vehicle"
+                        }
+                    ]
                 },
                 "vehicle_id": {
                     "type": "integer"
@@ -21850,6 +22213,14 @@ const docTemplate = `{
                 "id": {
                     "type": "integer"
                 },
+                "vehicle": {
+                    "description": "Auto-added relation",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/fleet.Vehicle"
+                        }
+                    ]
+                },
                 "vehicle_id": {
                     "type": "integer"
                 }
@@ -21858,8 +22229,17 @@ const docTemplate = `{
         "forum.ForumPost": {
             "type": "object",
             "properties": {
+                "author": {
+                    "$ref": "#/definitions/base.Partner"
+                },
+                "author_id": {
+                    "type": "integer"
+                },
                 "created_at": {
                     "type": "string"
+                },
+                "forum_id": {
+                    "type": "integer"
                 },
                 "id": {
                     "type": "integer"
@@ -21954,6 +22334,14 @@ const docTemplate = `{
                 "id": {
                     "type": "integer"
                 },
+                "productTemplate": {
+                    "description": "Auto-added relation",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/inventory.ProductTemplate"
+                        }
+                    ]
+                },
                 "product_template_id": {
                     "type": "integer"
                 },
@@ -21983,6 +22371,14 @@ const docTemplate = `{
         "inventory.ProductAttributeValue": {
             "type": "object",
             "properties": {
+                "attribute": {
+                    "description": "Odoo relation mapped",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/inventory.ProductAttribute"
+                        }
+                    ]
+                },
                 "attribute_id": {
                     "type": "integer"
                 },
@@ -22008,6 +22404,14 @@ const docTemplate = `{
                 "name": {
                     "type": "string"
                 },
+                "parent": {
+                    "description": "Auto-added relation",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/inventory.ProductCategory"
+                        }
+                    ]
+                },
                 "parent_id": {
                     "type": "integer"
                 }
@@ -22016,6 +22420,14 @@ const docTemplate = `{
         "inventory.ProductTemplate": {
             "type": "object",
             "properties": {
+                "category": {
+                    "description": "Odoo relation mapped",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/inventory.ProductCategory"
+                        }
+                    ]
+                },
                 "category_id": {
                     "type": "integer"
                 },
@@ -22044,12 +22456,28 @@ const docTemplate = `{
                     "description": "product (storable), consu (consumable), service",
                     "type": "string"
                 },
+                "uoM": {
+                    "description": "Auto-added relation",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/inventory.UoM"
+                        }
+                    ]
+                },
                 "uom_id": {
                     "type": "integer"
                 },
                 "uom_po_id": {
                     "description": "UoM for Purchase",
                     "type": "integer"
+                },
+                "uompo": {
+                    "description": "Odoo relation mapped",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/inventory.UoM"
+                        }
+                    ]
                 }
             }
         },
@@ -22066,12 +22494,28 @@ const docTemplate = `{
                     "description": "Stock, Shelf 1",
                     "type": "string"
                 },
+                "parent": {
+                    "description": "Auto-added relation",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/inventory.StockLocation"
+                        }
+                    ]
+                },
                 "parent_id": {
                     "type": "integer"
                 },
                 "usage": {
                     "description": "supplier, view, internal, customer, inventory, production",
                     "type": "string"
+                },
+                "warehouse": {
+                    "description": "Odoo relation mapped",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/inventory.StockWarehouse"
+                        }
+                    ]
                 },
                 "warehouse_id": {
                     "type": "integer"
@@ -22081,6 +22525,14 @@ const docTemplate = `{
         "inventory.StockLot": {
             "type": "object",
             "properties": {
+                "company": {
+                    "description": "Cross-module relation",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/auth.Company"
+                        }
+                    ]
+                },
                 "company_id": {
                     "type": "integer"
                 },
@@ -22097,6 +22549,14 @@ const docTemplate = `{
                     "description": "Lot/Serial Number",
                     "type": "string"
                 },
+                "product": {
+                    "description": "Auto-added relation",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/inventory.Product"
+                        }
+                    ]
+                },
                 "product_id": {
                     "type": "integer"
                 }
@@ -22111,6 +22571,14 @@ const docTemplate = `{
                 "id": {
                     "type": "integer"
                 },
+                "location": {
+                    "description": "Odoo relation mapped",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/inventory.StockLocation"
+                        }
+                    ]
+                },
                 "location_dest_id": {
                     "description": "Destination",
                     "type": "integer"
@@ -22119,9 +22587,25 @@ const docTemplate = `{
                     "description": "Source",
                     "type": "integer"
                 },
+                "locationdest": {
+                    "description": "Odoo relation mapped",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/inventory.StockLocation"
+                        }
+                    ]
+                },
                 "name": {
                     "description": "WH/OUT/0001",
                     "type": "string"
+                },
+                "partner": {
+                    "description": "Cross-module relation",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/base.Partner"
+                        }
+                    ]
                 },
                 "partner_id": {
                     "description": "Customer/Vendor",
@@ -22139,6 +22623,14 @@ const docTemplate = `{
         "inventory.StockPutawayRule": {
             "type": "object",
             "properties": {
+                "category": {
+                    "description": "Odoo relation mapped",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/inventory.ProductCategory"
+                        }
+                    ]
+                },
                 "category_id": {
                     "type": "integer"
                 },
@@ -22153,6 +22645,30 @@ const docTemplate = `{
                     "description": "Put it here automatically",
                     "type": "integer"
                 },
+                "locationin": {
+                    "description": "Odoo relation mapped",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/inventory.StockLocation"
+                        }
+                    ]
+                },
+                "locationout": {
+                    "description": "Odoo relation mapped",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/inventory.StockLocation"
+                        }
+                    ]
+                },
+                "product": {
+                    "description": "Auto-added relation",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/inventory.Product"
+                        }
+                    ]
+                },
                 "product_id": {
                     "type": "integer"
                 }
@@ -22164,11 +22680,35 @@ const docTemplate = `{
                 "id": {
                     "type": "integer"
                 },
+                "location": {
+                    "description": "Odoo relation mapped",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/inventory.StockLocation"
+                        }
+                    ]
+                },
                 "location_id": {
                     "type": "integer"
                 },
+                "lot": {
+                    "description": "Odoo relation mapped",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/inventory.StockLot"
+                        }
+                    ]
+                },
                 "lot_id": {
                     "type": "integer"
+                },
+                "product": {
+                    "description": "Auto-added relation",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/inventory.Product"
+                        }
+                    ]
                 },
                 "product_id": {
                     "type": "integer"
@@ -22190,6 +22730,14 @@ const docTemplate = `{
                 },
                 "id": {
                     "type": "integer"
+                },
+                "product": {
+                    "description": "Auto-added relation",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/inventory.Product"
+                        }
+                    ]
                 },
                 "product_id": {
                     "type": "integer"
@@ -22213,6 +22761,14 @@ const docTemplate = `{
                     "description": "WH",
                     "type": "string"
                 },
+                "company": {
+                    "description": "Cross-module relation",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/auth.Company"
+                        }
+                    ]
+                },
                 "company_id": {
                     "type": "integer"
                 },
@@ -22231,6 +22787,14 @@ const docTemplate = `{
         "inventory.UoM": {
             "type": "object",
             "properties": {
+                "category": {
+                    "description": "Odoo relation mapped",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/inventory.ProductCategory"
+                        }
+                    ]
+                },
                 "category_id": {
                     "type": "integer"
                 },
@@ -22288,7 +22852,6 @@ const docTemplate = `{
                     "type": "integer"
                 },
                 "incoterm_id": {
-                    "description": "Untuk Ekspor/Impor",
                     "type": "integer"
                 },
                 "invoice_date": {
@@ -22297,8 +22860,14 @@ const docTemplate = `{
                 "name": {
                     "type": "string"
                 },
+                "partner": {
+                    "$ref": "#/definitions/base.Partner"
+                },
                 "partner_id": {
                     "type": "integer"
+                },
+                "payment_term": {
+                    "$ref": "#/definitions/invoicing.PaymentTerm"
                 },
                 "payment_term_id": {
                     "type": "integer"
@@ -22307,6 +22876,20 @@ const docTemplate = `{
                     "type": "number"
                 },
                 "state": {
+                    "type": "string"
+                }
+            }
+        },
+        "invoicing.PaymentTerm": {
+            "type": "object",
+            "properties": {
+                "days": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
                     "type": "string"
                 }
             }
@@ -22320,6 +22903,9 @@ const docTemplate = `{
                 "id": {
                     "type": "integer"
                 },
+                "payment_term": {
+                    "$ref": "#/definitions/invoicing.PaymentTerm"
+                },
                 "payment_term_id": {
                     "type": "integer"
                 },
@@ -22327,8 +22913,21 @@ const docTemplate = `{
                     "type": "number"
                 },
                 "value_type": {
-                    "description": "percent, fixed, balance",
                     "type": "string"
+                }
+            }
+        },
+        "invoicing.Tax": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "rate": {
+                    "type": "number"
                 }
             }
         },
@@ -22336,7 +22935,6 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "account_id": {
-                    "description": "Chart of Account Tujuan",
                     "type": "integer"
                 },
                 "factor_percent": {
@@ -22346,8 +22944,10 @@ const docTemplate = `{
                     "type": "integer"
                 },
                 "repartition_type": {
-                    "description": "base, tax",
                     "type": "string"
+                },
+                "tax": {
+                    "$ref": "#/definitions/invoicing.Tax"
                 },
                 "tax_id": {
                     "type": "integer"
@@ -22388,9 +22988,25 @@ const docTemplate = `{
                 "id": {
                     "type": "integer"
                 },
+                "operator": {
+                    "description": "Cross-module relation",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/employees.Employee"
+                        }
+                    ]
+                },
                 "operator_id": {
                     "description": "CS yang membalas",
                     "type": "integer"
+                },
+                "ticket": {
+                    "description": "Odoo relation mapped",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/helpdesk.Ticket"
+                        }
+                    ]
                 },
                 "ticket_id": {
                     "description": "Nyambung ke Helpdesk jika masalah tidak selesai",
@@ -22414,6 +23030,14 @@ const docTemplate = `{
                 "description": {
                     "type": "string"
                 },
+                "employee": {
+                    "description": "Cross-module relation",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/employees.Employee"
+                        }
+                    ]
+                },
                 "employee_id": {
                     "type": "integer"
                 },
@@ -22430,6 +23054,14 @@ const docTemplate = `{
                 },
                 "date": {
                     "type": "string"
+                },
+                "employee": {
+                    "description": "Cross-module relation",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/employees.Employee"
+                        }
+                    ]
                 },
                 "employee_id": {
                     "type": "integer"
@@ -22475,6 +23107,42 @@ const docTemplate = `{
                 }
             }
         },
+        "maintenance.MaintenanceEquipment": {
+            "type": "object",
+            "properties": {
+                "category": {
+                    "type": "string"
+                },
+                "cost": {
+                    "type": "number"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "next_action_date": {
+                    "description": "Jadwal servis berikutnya",
+                    "type": "string"
+                },
+                "workcenter": {
+                    "description": "Odoo relation mapped",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/manufacturing.MrpWorkcenter"
+                        }
+                    ]
+                },
+                "workcenter_id": {
+                    "description": "Terhubung ke mesin pabrik (MRP)",
+                    "type": "integer"
+                }
+            }
+        },
         "maintenance.MaintenanceRequest": {
             "type": "object",
             "properties": {
@@ -22484,6 +23152,14 @@ const docTemplate = `{
                 "duration": {
                     "description": "Lama perbaikan dalam jam",
                     "type": "number"
+                },
+                "equipment": {
+                    "description": "Odoo relation mapped",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/maintenance.MaintenanceEquipment"
+                        }
+                    ]
                 },
                 "equipment_id": {
                     "type": "integer"
@@ -22518,6 +23194,14 @@ const docTemplate = `{
                 "id": {
                     "type": "integer"
                 },
+                "product": {
+                    "description": "Cross-module relation",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/inventory.Product"
+                        }
+                    ]
+                },
                 "product_id": {
                     "type": "integer"
                 },
@@ -22534,11 +23218,27 @@ const docTemplate = `{
         "manufacturing.MrpBomByproduct": {
             "type": "object",
             "properties": {
+                "bom": {
+                    "description": "Odoo relation mapped",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/manufacturing.MrpBom"
+                        }
+                    ]
+                },
                 "bom_id": {
                     "type": "integer"
                 },
                 "id": {
                     "type": "integer"
+                },
+                "product": {
+                    "description": "Cross-module relation",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/inventory.Product"
+                        }
+                    ]
                 },
                 "product_id": {
                     "description": "Scrap/byproduct",
@@ -22552,11 +23252,27 @@ const docTemplate = `{
         "manufacturing.MrpBomLine": {
             "type": "object",
             "properties": {
+                "bom": {
+                    "description": "Odoo relation mapped",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/manufacturing.MrpBom"
+                        }
+                    ]
+                },
                 "bom_id": {
                     "type": "integer"
                 },
                 "id": {
                     "type": "integer"
+                },
+                "product": {
+                    "description": "Cross-module relation",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/inventory.Product"
+                        }
+                    ]
                 },
                 "product_id": {
                     "type": "integer"
@@ -22570,6 +23286,14 @@ const docTemplate = `{
         "manufacturing.MrpProduction": {
             "type": "object",
             "properties": {
+                "bom": {
+                    "description": "Odoo relation mapped",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/manufacturing.MrpBom"
+                        }
+                    ]
+                },
                 "bom_id": {
                     "type": "integer"
                 },
@@ -22585,6 +23309,14 @@ const docTemplate = `{
                 "name": {
                     "description": "WH/MO/0001",
                     "type": "string"
+                },
+                "product": {
+                    "description": "Cross-module relation",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/inventory.Product"
+                        }
+                    ]
                 },
                 "product_id": {
                     "type": "integer"
@@ -22639,12 +23371,28 @@ const docTemplate = `{
                     "description": "Operation name (e.g. Cutting)",
                     "type": "string"
                 },
+                "production": {
+                    "description": "Odoo relation mapped",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/manufacturing.MrpProduction"
+                        }
+                    ]
+                },
                 "production_id": {
                     "type": "integer"
                 },
                 "state": {
                     "description": "pending, ready, progress, done, cancel",
                     "type": "string"
+                },
+                "workcenter": {
+                    "description": "Odoo relation mapped",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/manufacturing.MrpWorkcenter"
+                        }
+                    ]
                 },
                 "workcenter_id": {
                     "type": "integer"
@@ -22663,18 +23411,15 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "action_type": {
-                    "description": "send_email, send_sms",
                     "type": "string"
                 },
                 "campaign_id": {
                     "type": "integer"
                 },
                 "condition": {
-                    "description": "if_opened, if_ignored",
                     "type": "string"
                 },
                 "delay_hours": {
-                    "description": "Tunggu berapa jam sebelum action",
                     "type": "integer"
                 },
                 "id": {
@@ -22705,6 +23450,14 @@ const docTemplate = `{
         "mass_mailing.UtmTracker": {
             "type": "object",
             "properties": {
+                "campaign": {
+                    "description": "Odoo relation mapped",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/mass_mailing.MailingCampaign"
+                        }
+                    ]
+                },
                 "campaign_id": {
                     "type": "integer"
                 },
@@ -22728,6 +23481,14 @@ const docTemplate = `{
         "payroll.Payslip": {
             "type": "object",
             "properties": {
+                "contract": {
+                    "description": "Odoo relation mapped",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/employees.Contract"
+                        }
+                    ]
+                },
                 "contract_id": {
                     "type": "integer"
                 },
@@ -22739,6 +23500,14 @@ const docTemplate = `{
                 },
                 "date_to": {
                     "type": "string"
+                },
+                "employee": {
+                    "description": "Cross-module relation",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/employees.Employee"
+                        }
+                    ]
                 },
                 "employee_id": {
                     "type": "integer"
@@ -22765,8 +23534,24 @@ const docTemplate = `{
                 "id": {
                     "type": "integer"
                 },
+                "payslip": {
+                    "description": "Auto-added relation",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/payroll.Payslip"
+                        }
+                    ]
+                },
                 "payslip_id": {
                     "type": "integer"
+                },
+                "salaryRule": {
+                    "description": "Auto-added relation",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/payroll.SalaryRule"
+                        }
+                    ]
                 },
                 "salary_rule_id": {
                     "type": "integer"
@@ -22876,9 +23661,33 @@ const docTemplate = `{
                     "description": "Resep revisi",
                     "type": "integer"
                 },
+                "newbom": {
+                    "description": "Odoo relation mapped",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/manufacturing.MrpBom"
+                        }
+                    ]
+                },
                 "old_bom_id": {
                     "description": "Resep lama",
                     "type": "integer"
+                },
+                "oldbom": {
+                    "description": "Odoo relation mapped",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/manufacturing.MrpBom"
+                        }
+                    ]
+                },
+                "product": {
+                    "description": "Cross-module relation",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/inventory.Product"
+                        }
+                    ]
                 },
                 "product_id": {
                     "type": "integer"
@@ -22887,8 +23696,28 @@ const docTemplate = `{
                     "description": "draft, progress, approved, done",
                     "type": "string"
                 },
+                "type": {
+                    "description": "Odoo relation mapped",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/plm.PlmEcoType"
+                        }
+                    ]
+                },
                 "type_id": {
                     "type": "integer"
+                }
+            }
+        },
+        "plm.PlmEcoType": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "description": "PlmEco Change, Routing Change",
+                    "type": "string"
                 }
             }
         },
@@ -22899,11 +23728,15 @@ const docTemplate = `{
                     "type": "integer"
                 },
                 "name": {
-                    "description": "e.g. Buy 2 Get 1, Points",
                     "type": "string"
                 },
+                "reward": {
+                    "$ref": "#/definitions/inventory.Product"
+                },
+                "reward_id": {
+                    "type": "integer"
+                },
                 "type": {
-                    "description": "promotion, coupon, loyalty",
                     "type": "string"
                 }
             }
@@ -22921,7 +23754,6 @@ const docTemplate = `{
                     "type": "integer"
                 },
                 "name": {
-                    "description": "Main Shop",
                     "type": "string"
                 }
             }
@@ -22936,17 +23768,21 @@ const docTemplate = `{
                     "type": "integer"
                 },
                 "name": {
-                    "description": "Order Ref",
                     "type": "string"
+                },
+                "partner": {
+                    "$ref": "#/definitions/base.Partner"
                 },
                 "partner_id": {
                     "type": "integer"
+                },
+                "session": {
+                    "$ref": "#/definitions/point_of_sale.PosSession"
                 },
                 "session_id": {
                     "type": "integer"
                 },
                 "state": {
-                    "description": "draft, paid, done, invoiced",
                     "type": "string"
                 },
                 "total": {
@@ -22960,11 +23796,17 @@ const docTemplate = `{
                 "id": {
                     "type": "integer"
                 },
+                "order": {
+                    "$ref": "#/definitions/sales_core.SaleOrder"
+                },
                 "order_id": {
                     "type": "integer"
                 },
                 "price_unit": {
                     "type": "number"
+                },
+                "product": {
+                    "$ref": "#/definitions/inventory.Product"
                 },
                 "product_id": {
                     "type": "integer"
@@ -22987,8 +23829,10 @@ const docTemplate = `{
                     "type": "integer"
                 },
                 "method": {
-                    "description": "Cash, Bank, QRIS",
                     "type": "string"
+                },
+                "order": {
+                    "$ref": "#/definitions/sales_core.SaleOrder"
                 },
                 "order_id": {
                     "type": "integer"
@@ -22998,6 +23842,9 @@ const docTemplate = `{
         "point_of_sale.PosSession": {
             "type": "object",
             "properties": {
+                "config": {
+                    "$ref": "#/definitions/point_of_sale.PosConfig"
+                },
                 "config_id": {
                     "type": "integer"
                 },
@@ -23011,7 +23858,6 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "state": {
-                    "description": "opened, closed",
                     "type": "string"
                 }
             }
@@ -23022,12 +23868,28 @@ const docTemplate = `{
                 "created_at": {
                     "type": "string"
                 },
+                "customer": {
+                    "description": "Cross-module relation",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/base.Partner"
+                        }
+                    ]
+                },
                 "customer_id": {
                     "description": "Partner ID",
                     "type": "integer"
                 },
                 "id": {
                     "type": "integer"
+                },
+                "manager": {
+                    "description": "Belongs To Employee",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/employees.Employee"
+                        }
+                    ]
                 },
                 "manager_id": {
                     "description": "Employee ID",
@@ -23063,6 +23925,14 @@ const docTemplate = `{
                     "description": "e.g., Pondasi Selesai",
                     "type": "string"
                 },
+                "project": {
+                    "description": "Auto-added relation",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/project.Project"
+                        }
+                    ]
+                },
                 "project_id": {
                     "type": "integer"
                 }
@@ -23071,6 +23941,14 @@ const docTemplate = `{
         "project.ResourceForecast": {
             "type": "object",
             "properties": {
+                "employee": {
+                    "description": "Cross-module relation",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/employees.Employee"
+                        }
+                    ]
+                },
                 "employee_id": {
                     "type": "integer"
                 },
@@ -23083,10 +23961,78 @@ const docTemplate = `{
                 "id": {
                     "type": "integer"
                 },
+                "project": {
+                    "description": "Auto-added relation",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/project.Project"
+                        }
+                    ]
+                },
                 "project_id": {
                     "type": "integer"
                 },
                 "start_date": {
+                    "type": "string"
+                }
+            }
+        },
+        "project.Task": {
+            "type": "object",
+            "properties": {
+                "assignee": {
+                    "description": "Odoo relation mapped",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/auth.User"
+                        }
+                    ]
+                },
+                "assignee_id": {
+                    "description": "Employee ID",
+                    "type": "integer"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "customer_signature": {
+                    "description": "5. Digital Signature Lapangan",
+                    "type": "string"
+                },
+                "deadline": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "project": {
+                    "description": "Auto-added relation",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/project.Project"
+                        }
+                    ]
+                },
+                "project_id": {
+                    "type": "integer"
+                },
+                "required_skill_id": {
+                    "description": "6. Skill Routing Teknisi",
+                    "type": "integer"
+                },
+                "requiredskill": {
+                    "description": "Odoo relation mapped",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/employees.Skill"
+                        }
+                    ]
+                },
+                "stage": {
+                    "description": "todo, in_progress, done",
                     "type": "string"
                 }
             }
@@ -23098,8 +24044,24 @@ const docTemplate = `{
                     "description": "Menghalangi tugas ini",
                     "type": "integer"
                 },
+                "blockstask": {
+                    "description": "Odoo relation mapped",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/project.Task"
+                        }
+                    ]
+                },
                 "id": {
                     "type": "integer"
+                },
+                "task": {
+                    "description": "Auto-added relation",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/project.Task"
+                        }
+                    ]
                 },
                 "task_id": {
                     "description": "Tugas ini",
@@ -23120,12 +24082,28 @@ const docTemplate = `{
                 "min_qty": {
                     "type": "number"
                 },
+                "partner": {
+                    "description": "Cross-module relation",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/base.Partner"
+                        }
+                    ]
+                },
                 "partner_id": {
                     "description": "Vendor",
                     "type": "integer"
                 },
                 "price": {
                     "type": "number"
+                },
+                "product": {
+                    "description": "Cross-module relation",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/inventory.Product"
+                        }
+                    ]
                 },
                 "product_id": {
                     "type": "integer"
@@ -23157,9 +24135,25 @@ const docTemplate = `{
                     "description": "PO/2026/001",
                     "type": "string"
                 },
+                "partner": {
+                    "description": "Cross-module relation",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/base.Partner"
+                        }
+                    ]
+                },
                 "partner_id": {
                     "description": "Vendor",
                     "type": "integer"
+                },
+                "requisition": {
+                    "description": "Odoo relation mapped",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/purchase.PurchaseRequisition"
+                        }
+                    ]
                 },
                 "requisition_id": {
                     "description": "Link to Blanket Order",
@@ -23181,6 +24175,14 @@ const docTemplate = `{
                     "description": "Description",
                     "type": "string"
                 },
+                "order": {
+                    "description": "Odoo relation mapped",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/sales_core.SaleOrder"
+                        }
+                    ]
+                },
                 "order_id": {
                     "type": "integer"
                 },
@@ -23189,6 +24191,14 @@ const docTemplate = `{
                 },
                 "price_unit": {
                     "type": "number"
+                },
+                "product": {
+                    "description": "Cross-module relation",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/inventory.Product"
+                        }
+                    ]
                 },
                 "product_id": {
                     "type": "integer"
@@ -23201,6 +24211,14 @@ const docTemplate = `{
                 },
                 "quantity": {
                     "type": "number"
+                },
+                "taxes": {
+                    "description": "Odoo relation mapped",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/invoicing.Tax"
+                        }
+                    ]
                 },
                 "taxes_id": {
                     "type": "integer"
@@ -23246,15 +24264,47 @@ const docTemplate = `{
                     "description": "QC/001",
                     "type": "string"
                 },
+                "picking": {
+                    "description": "Odoo relation mapped",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/inventory.StockPicking"
+                        }
+                    ]
+                },
                 "picking_id": {
                     "description": "Jika QC saat barang datang",
                     "type": "integer"
                 },
+                "point": {
+                    "description": "Odoo relation mapped",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/quality.QualityPoint"
+                        }
+                    ]
+                },
                 "point_id": {
                     "type": "integer"
                 },
+                "product": {
+                    "description": "Cross-module relation",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/inventory.Product"
+                        }
+                    ]
+                },
                 "product_id": {
                     "type": "integer"
+                },
+                "production": {
+                    "description": "Odoo relation mapped",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/manufacturing.MrpProduction"
+                        }
+                    ]
                 },
                 "production_id": {
                     "description": "Jika QC saat diproduksi",
@@ -23263,6 +24313,40 @@ const docTemplate = `{
                 "result": {
                     "description": "pending, pass, fail",
                     "type": "string"
+                }
+            }
+        },
+        "quality.QualityPoint": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "description": "e.g. Check Temperature",
+                    "type": "string"
+                },
+                "product": {
+                    "description": "Cross-module relation",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/inventory.Product"
+                        }
+                    ]
+                },
+                "product_id": {
+                    "type": "integer"
+                },
+                "test_type": {
+                    "description": "passfail, measure",
+                    "type": "string"
+                },
+                "tolerance": {
+                    "description": "For measure tests",
+                    "type": "number"
                 }
             }
         },
@@ -23284,11 +24368,27 @@ const docTemplate = `{
                 "job_position_id": {
                     "type": "integer"
                 },
+                "jobposition": {
+                    "description": "Odoo relation mapped",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/employees.JobPosition"
+                        }
+                    ]
+                },
                 "name": {
                     "type": "string"
                 },
                 "phone": {
                     "type": "string"
+                },
+                "stage": {
+                    "description": "Auto-added relation",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/recruitment.Stage"
+                        }
+                    ]
                 },
                 "stage_id": {
                     "type": "integer"
@@ -23296,6 +24396,21 @@ const docTemplate = `{
                 "state": {
                     "description": "in_progress, hired, refused",
                     "type": "string"
+                }
+            }
+        },
+        "recruitment.Stage": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "description": "Initial Qualification, Interview, Offered",
+                    "type": "string"
+                },
+                "sequence": {
+                    "type": "integer"
                 }
             }
         },
@@ -23360,6 +24475,14 @@ const docTemplate = `{
                     "description": "RO/2026/001",
                     "type": "string"
                 },
+                "partner": {
+                    "description": "Cross-module relation",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/base.Partner"
+                        }
+                    ]
+                },
                 "partner_id": {
                     "type": "integer"
                 },
@@ -23384,11 +24507,27 @@ const docTemplate = `{
                 "id": {
                     "type": "integer"
                 },
+                "order": {
+                    "description": "Odoo relation mapped",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/sales_core.SaleOrder"
+                        }
+                    ]
+                },
                 "order_id": {
                     "type": "integer"
                 },
                 "price_unit": {
                     "type": "number"
+                },
+                "product": {
+                    "description": "Cross-module relation",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/inventory.Product"
+                        }
+                    ]
                 },
                 "product_id": {
                     "type": "integer"
@@ -23412,6 +24551,12 @@ const docTemplate = `{
                 },
                 "name": {
                     "type": "string"
+                },
+                "product": {
+                    "$ref": "#/definitions/inventory.Product"
+                },
+                "product_id": {
+                    "type": "integer"
                 }
             }
         },
@@ -23503,8 +24648,24 @@ const docTemplate = `{
                 "min_quantity": {
                     "type": "number"
                 },
+                "pricelist": {
+                    "description": "Auto-added relation",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/sales_core.Pricelist"
+                        }
+                    ]
+                },
                 "pricelist_id": {
                     "type": "integer"
+                },
+                "product": {
+                    "description": "Cross-module relation",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/inventory.Product"
+                        }
+                    ]
                 },
                 "product_id": {
                     "type": "integer"
@@ -23541,6 +24702,14 @@ const docTemplate = `{
                 "date_order": {
                     "type": "string"
                 },
+                "deliveryMethod": {
+                    "description": "Auto-added relation",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/sales_core.DeliveryMethod"
+                        }
+                    ]
+                },
                 "delivery_method_id": {
                     "type": "integer"
                 },
@@ -23561,11 +24730,35 @@ const docTemplate = `{
                     "description": "SO/2026/001",
                     "type": "string"
                 },
+                "partner": {
+                    "description": "Cross-module relation",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/base.Partner"
+                        }
+                    ]
+                },
                 "partner_id": {
                     "type": "integer"
                 },
+                "pricelist": {
+                    "description": "Auto-added relation",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/sales_core.Pricelist"
+                        }
+                    ]
+                },
                 "pricelist_id": {
                     "type": "integer"
+                },
+                "quotationTemplate": {
+                    "description": "Auto-added relation",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/sales_core.QuotationTemplate"
+                        }
+                    ]
                 },
                 "quotation_template_id": {
                     "type": "integer"
@@ -23599,8 +24792,24 @@ const docTemplate = `{
                     "description": "Upselling item",
                     "type": "boolean"
                 },
+                "order": {
+                    "description": "Odoo relation mapped",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/sales_core.SaleOrder"
+                        }
+                    ]
+                },
                 "order_id": {
                     "type": "integer"
+                },
+                "product": {
+                    "description": "Cross-module relation",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/inventory.Product"
+                        }
+                    ]
                 },
                 "product_id": {
                     "type": "integer"
@@ -23705,6 +24914,14 @@ const docTemplate = `{
                 "uploaded_by_id": {
                     "description": "Siapa yang mengunggah",
                     "type": "integer"
+                },
+                "uploadedby": {
+                    "description": "Cross-module relation",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/auth.User"
+                        }
+                    ]
                 }
             }
         },
@@ -23723,8 +24940,24 @@ const docTemplate = `{
                 "next_invoice_date": {
                     "type": "string"
                 },
+                "partner": {
+                    "description": "Cross-module relation",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/base.Partner"
+                        }
+                    ]
+                },
                 "partner_id": {
                     "type": "integer"
+                },
+                "plan": {
+                    "description": "Odoo relation mapped",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/subscriptions.SubscriptionPlan"
+                        }
+                    ]
                 },
                 "plan_id": {
                     "type": "integer"
@@ -23775,6 +25008,12 @@ const docTemplate = `{
                 },
                 "title": {
                     "type": "string"
+                },
+                "user": {
+                    "$ref": "#/definitions/auth.User"
+                },
+                "user_id": {
+                    "type": "integer"
                 }
             }
         },
@@ -23784,11 +25023,27 @@ const docTemplate = `{
                 "created_at": {
                     "type": "string"
                 },
+                "employee": {
+                    "description": "Cross-module relation",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/employees.Employee"
+                        }
+                    ]
+                },
                 "employee_id": {
                     "type": "integer"
                 },
                 "id": {
                     "type": "integer"
+                },
+                "leaveType": {
+                    "description": "Auto-added relation",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/time_off.LeaveType"
+                        }
+                    ]
                 },
                 "leave_type_id": {
                     "type": "integer"
@@ -23808,6 +25063,14 @@ const docTemplate = `{
                 "created_at": {
                     "type": "string"
                 },
+                "employee": {
+                    "description": "Cross-module relation",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/employees.Employee"
+                        }
+                    ]
+                },
                 "employee_id": {
                     "type": "integer"
                 },
@@ -23817,14 +25080,38 @@ const docTemplate = `{
                 "hr_approve_id": {
                     "type": "integer"
                 },
+                "hrapprove": {
+                    "description": "Odoo relation mapped",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/employees.Employee"
+                        }
+                    ]
+                },
                 "id": {
                     "type": "integer"
+                },
+                "leaveType": {
+                    "description": "Auto-added relation",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/time_off.LeaveType"
+                        }
+                    ]
                 },
                 "leave_type_id": {
                     "type": "integer"
                 },
                 "manager_approve_id": {
                     "type": "integer"
+                },
+                "managerapprove": {
+                    "description": "Odoo relation mapped",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/employees.Employee"
+                        }
+                    ]
                 },
                 "number_of_days": {
                     "type": "number"
@@ -23872,6 +25159,14 @@ const docTemplate = `{
                 "description": {
                     "type": "string"
                 },
+                "employee": {
+                    "description": "Cross-module relation",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/employees.Employee"
+                        }
+                    ]
+                },
                 "employee_id": {
                     "description": "Who worked",
                     "type": "integer"
@@ -23886,8 +25181,24 @@ const docTemplate = `{
                     "description": "2. Billable Timesheet \u0026 7. Project Profitability",
                     "type": "boolean"
                 },
+                "project": {
+                    "description": "Odoo relation mapped",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/project.Project"
+                        }
+                    ]
+                },
                 "project_id": {
                     "type": "integer"
+                },
+                "task": {
+                    "description": "Odoo relation mapped",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/project.Task"
+                        }
+                    ]
                 },
                 "task_id": {
                     "description": "Optional",
@@ -23907,6 +25218,14 @@ const docTemplate = `{
                     "items": {
                         "type": "string"
                     }
+                },
+                "user": {
+                    "description": "Cross-module relation",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/auth.User"
+                        }
+                    ]
                 },
                 "user_id": {
                     "type": "integer"

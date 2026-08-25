@@ -12,8 +12,8 @@ import (
 type Project struct {
 	ID          uint      `gorm:"primaryKey" json:"id"`
 	Name        string    `gorm:"type:varchar(255);not null" json:"name"`
-	ManagerID   uint      `json:"manager_id"`                                     // Employee ID
-	Manager *employees.Employee `gorm:"foreignKey:ManagerID" json:"manager,omitempty"` // Fixed relation
+	ManagerID   uint                `json:"manager_id"` // Employee ID
+	Manager     *employees.Employee `json:"manager,omitempty"` // Belongs To Employee
 	CustomerID  uint      `json:"customer_id"`                                    // Partner ID
 	Customer *base.Partner `gorm:"foreignKey:CustomerID" json:"customer,omitempty"` // Cross-module relation
 	SaleOrderID *uint     `json:"sale_order_id"`                                  // 1. Integrasi Sales (Auto-Create)

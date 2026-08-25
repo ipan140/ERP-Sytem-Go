@@ -82,10 +82,17 @@ func main() {
 	config.LoadEnv()
 	config.ConnectDB()
 
+	// Matikan aturan Foreign Key agar tidak ada error constraint saat seeding
+	config.DB.Exec("SET session_replication_role = 'replica';")
+
 	gofakeit.Seed(0)
 	rand.Seed(time.Now().UnixNano())
 
-	log.Println("=== MEMULAI ERP SEEDER TERSTRUKTUR (FASE 1 - 8) ===")
+	for _, model := range config.ModelsToMigrate {
+		seedModelSafe(model)
+	}
+
+	log.Println("=== 2. MEMULAI ERP SEEDER TERSTRUKTUR (FASE 1 - 8) ===")
 	
 	log.Println("[1/5] Menyiapkan Master Data...")
 	
@@ -215,38 +222,63 @@ func main() {
 		}
 	}
 
+	// Nyalakan kembali aturan Foreign Key
+	config.DB.Exec("SET session_replication_role = 'origin';")
+
 	log.Println("=== SEEDING TERSTRUKTUR SELESAI DENGAN SUKSES! ===")
 }
 
-// Fungsi ini dirancang anti-crash. Jika gofakeit gagal memproses tipe data rumit,
-// program tidak akan berhenti, melainkan sekadar melewati model tersebut.
 func seedModelSafe(model interface{}) {
 	defer func() {
 		if r := recover(); r != nil {
-			// Abaikan error panic diam-diam
+			// Abaikan panic
 		}
 	}()
 
 	modelType := reflect.TypeOf(model).Elem()
 	successCount := 0
-	
-	// Cukup isikan 5 data dummy saja untuk setiap tabel agar tidak kosong
+
 	for i := 0; i < 5; i++ {
 		newObj := reflect.New(modelType).Interface()
-		gofakeit.Struct(newObj)
-		
-		// GORM auto-increment protection
 		val := reflect.ValueOf(newObj).Elem()
-		idField := val.FieldByName("ID")
-		if idField.IsValid() && idField.CanSet() {
-			idField.SetUint(0)
+
+		for j := 0; j < val.NumField(); j++ {
+			field := val.Field(j)
+			fieldType := modelType.Field(j)
+
+			if !field.CanSet() {
+				continue
+			}
+
+			// Lewati ID agar GORM yang mengatur auto-increment
+			if fieldType.Name == "ID" {
+				continue
+			}
+
+			// Isi data acak hanya pada tipe data dasar (Hindari pointer/struct untuk cegah infinite loop)
+			switch field.Kind() {
+			case reflect.String:
+				field.SetString(gofakeit.Word())
+			case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
+				field.SetInt(int64(gofakeit.Number(1, 100)))
+			case reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64:
+				field.SetUint(uint64(gofakeit.Number(1, 100)))
+			case reflect.Float32, reflect.Float64:
+				field.SetFloat(gofakeit.Float64Range(10.0, 1000.0))
+			case reflect.Bool:
+				field.SetBool(gofakeit.Bool())
+			case reflect.Struct:
+				if field.Type().String() == "time.Time" {
+					field.Set(reflect.ValueOf(gofakeit.Date()))
+				}
+			}
 		}
 
 		if err := config.DB.Create(newObj).Error; err == nil {
 			successCount++
 		}
 	}
-	
+
 	if successCount > 0 {
 		log.Printf("-> Terisi %d data acak di tabel: %s\n", successCount, modelType.Name())
 	}
