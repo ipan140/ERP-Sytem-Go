@@ -8,6 +8,7 @@ import (
 	"ERP-System/app/modules/core"
 	"ERP-System/app/modules/core/artificial_intelligence"
 	"ERP-System/app/modules/core/base"
+	"ERP-System/app/modules/core/calendar"
 	"ERP-System/app/modules/core/dashboards"
 	"ERP-System/app/modules/core/discuss"
 	"ERP-System/app/modules/core/documents"
@@ -135,6 +136,7 @@ func main() {
 	// Register Module Routes
 	auth.RegisterRoutes(e)
 	base.RegisterRoutes(e)
+	calendar.RegisterRoutes(e)
 	discuss.RegisterRoutes(e)
 	documents.RegisterRoutes(e)
 	dashboards.RegisterRoutes(e)

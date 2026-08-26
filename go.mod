@@ -18,7 +18,7 @@ require (
 	gorm.io/gorm v1.31.2
 )
 
-require github.com/brianvoe/gofakeit/v6 v6.28.0 // indirect
+require github.com/brianvoe/gofakeit/v6 v6.28.0
 
 require (
 	github.com/KyleBanks/depth v1.2.1 // indirect
