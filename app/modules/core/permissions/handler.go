@@ -1,6 +1,8 @@
 package permissions
 
 import (
+	"strings"
+	"ERP-System/config"
 	"net/http"
 
 	"ERP-System/common/utils"
@@ -91,3 +93,40 @@ func GetAvailableModulesHandler(c echo.Context) error {
 
 
 
+
+
+// GetMyModulesHandler godoc
+// @Summary Get allowed modules for current user
+// @Description Returns an array of module names that the current logged-in user is allowed to read.
+// @Tags Core - Permissions (Dynamic RBAC)
+// @Accept json
+// @Produce json
+// @Success 200 {object} []string
+// @Security BearerAuth
+// @Router /api/core/permissions/my-modules [get]
+func GetMyModulesHandler(c echo.Context) error {
+	roleVal := c.Get("role")
+	if roleVal == nil {
+		return utils.SendError(c, http.StatusUnauthorized, "Unauthorized", "No role in context")
+	}
+	roleString := roleVal.(string)
+	
+	// Jika superadmin, kembalikan 'all'
+	if strings.Contains(roleString, "SUPERADMIN") {
+		return utils.SendSuccess(c, http.StatusOK, "Berhasil", []string{"all"})
+	}
+
+	userRoles := strings.Split(roleString, ",")
+	var allowedModules []string
+
+	for _, r := range userRoles {
+		roleName := strings.TrimSpace(r)
+		var perms []RolePermission
+		config.DB.Where("role_name = ? AND can_read = ?", roleName, true).Find(&perms)
+		for _, p := range perms {
+			allowedModules = append(allowedModules, p.Module)
+		}
+	}
+
+	return utils.SendSuccess(c, http.StatusOK, "Berhasil", allowedModules)
+}

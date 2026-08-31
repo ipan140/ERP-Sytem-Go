@@ -1,14 +1,13 @@
 package expenses
 
 import (
-	"ERP-System/common/constants"
 	"ERP-System/common/middleware"
 
 	"github.com/labstack/echo/v4"
 )
 
 func RegisterRoutes(e *echo.Echo) {
-	api := e.Group("/api/finance/expenses", middleware.Auth(), middleware.RequireRoles(constants.RoleFinanceManager, constants.RoleFinanceBilling))
+	api := e.Group("/api/finance/expenses", middleware.Auth(), middleware.GlobalAutoRBAC())
 	api.POST("", CreateExpenseHandler)
 	api.GET("", GetAllExpenseHandler)
 	api.GET("/:id", GetExpenseByIDHandler)
@@ -21,3 +20,6 @@ func RegisterRoutes(e *echo.Echo) {
 	api.PUT("/expensesheet/:id", UpdateExpenseSheetHandler)
 	api.DELETE("/expensesheet/:id", DeleteExpenseSheetHandler)
 }
+
+
+

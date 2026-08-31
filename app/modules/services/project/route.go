@@ -1,14 +1,13 @@
 package project
 
 import (
-	"ERP-System/common/constants"
 	"ERP-System/common/middleware"
 
 	"github.com/labstack/echo/v4"
 )
 
 func RegisterRoutes(e *echo.Echo) {
-	api := e.Group("/api/services/project", middleware.Auth(), middleware.RequireRoles(constants.RoleProjectManager, constants.RoleSupportAgent))
+	api := e.Group("/api/services/project", middleware.Auth(), middleware.GlobalAutoRBAC())
 	api.POST("", CreateProjectHandler)
 	api.GET("", GetAllProjectHandler)
 	api.GET("/:id", GetProjectByIDHandler)
@@ -32,3 +31,6 @@ func RegisterRoutes(e *echo.Echo) {
 	api.DELETE("/resourceforecast/:id", DeleteResourceForecastHandler)
 
 }
+
+
+

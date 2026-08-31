@@ -1,14 +1,13 @@
 package purchase
 
 import (
-	"ERP-System/common/constants"
 	"ERP-System/common/middleware"
 
 	"github.com/labstack/echo/v4"
 )
 
 func RegisterRoutes(e *echo.Echo) {
-	api := e.Group("/api/supply_chain/purchase", middleware.Auth(), middleware.RequireRoles(constants.RoleWarehouseManager, constants.RoleWarehouseWorker, constants.RolePurchasing, constants.RoleManufacturingManager, constants.RoleQualityManager, constants.RoleMaintenanceManager))
+	api := e.Group("/api/supply_chain/purchase", middleware.Auth(), middleware.GlobalAutoRBAC())
 	api.POST("", CreatePurchaseOrderHandler)
 	api.GET("", GetAllPurchaseOrderHandler)
 	api.GET("/:id", GetPurchaseOrderByIDHandler)
@@ -33,3 +32,6 @@ func RegisterRoutes(e *echo.Echo) {
 	api.PUT("/purchaseorderline/:id", UpdatePurchaseOrderLineHandler)
 	api.DELETE("/purchaseorderline/:id", DeletePurchaseOrderLineHandler)
 }
+
+
+

@@ -1,14 +1,13 @@
 package manufacturing
 
 import (
-	"ERP-System/common/constants"
 	"ERP-System/common/middleware"
 
 	"github.com/labstack/echo/v4"
 )
 
 func RegisterRoutes(e *echo.Echo) {
-	api := e.Group("/api/supply_chain/manufacturing", middleware.Auth(), middleware.RequireRoles(constants.RoleWarehouseManager, constants.RoleWarehouseWorker, constants.RolePurchasing, constants.RoleManufacturingManager, constants.RoleQualityManager, constants.RoleMaintenanceManager))
+	api := e.Group("/api/supply_chain/manufacturing", middleware.Auth(), middleware.GlobalAutoRBAC())
 	api.POST("", CreateMrpProductionHandler)
 	api.GET("", GetAllMrpProductionHandler)
 	api.GET("/:id", GetMrpProductionByIDHandler)
@@ -45,3 +44,6 @@ func RegisterRoutes(e *echo.Echo) {
 	api.PUT("/mrpworkorder/:id", UpdateMrpWorkorderHandler)
 	api.DELETE("/mrpworkorder/:id", DeleteMrpWorkorderHandler)
 }
+
+
+

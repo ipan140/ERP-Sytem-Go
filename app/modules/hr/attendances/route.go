@@ -1,14 +1,13 @@
 package attendances
 
 import (
-	"ERP-System/common/constants"
 	"ERP-System/common/middleware"
 
 	"github.com/labstack/echo/v4"
 )
 
 func RegisterRoutes(e *echo.Echo) {
-	api := e.Group("/api/hr/attendances", middleware.Auth(), middleware.RequireRoles(constants.RoleHRManager, constants.RoleFleetManager, constants.RoleEmployee))
+	api := e.Group("/api/hr/attendances", middleware.Auth(), middleware.GlobalAutoRBAC())
 	api.POST("", CreateAttendanceHandler)
 	api.GET("", GetAllAttendanceHandler)
 	api.GET("/:id", GetAttendanceByIDHandler)
@@ -21,3 +20,6 @@ func RegisterRoutes(e *echo.Echo) {
 	api.PUT("/overtime/:id", UpdateOvertimeHandler)
 	api.DELETE("/overtime/:id", DeleteOvertimeHandler)
 }
+
+
+

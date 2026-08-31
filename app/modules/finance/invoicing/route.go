@@ -1,14 +1,13 @@
 package invoicing
 
 import (
-	"ERP-System/common/constants"
 	"ERP-System/common/middleware"
 
 	"github.com/labstack/echo/v4"
 )
 
 func RegisterRoutes(e *echo.Echo) {
-	api := e.Group("/api/finance/invoicing", middleware.Auth(), middleware.RequireRoles(constants.RoleFinanceManager, constants.RoleFinanceBilling))
+	api := e.Group("/api/finance/invoicing", middleware.Auth(), middleware.GlobalAutoRBAC())
 	api.POST("", CreateInvoiceHandler)
 	api.GET("", GetAllInvoiceHandler)
 	api.GET("/:id", GetInvoiceByIDHandler)
@@ -31,4 +30,7 @@ func RegisterRoutes(e *echo.Echo) {
 	api.PUT("/taxrepartitionline/:id", UpdateTaxRepartitionLineHandler)
 	api.DELETE("/taxrepartitionline/:id", DeleteTaxRepartitionLineHandler)
 }
+
+
+
 

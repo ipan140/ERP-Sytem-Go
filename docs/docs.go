@@ -1221,6 +1221,37 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/core/permissions/my-modules": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Returns an array of module names that the current logged-in user is allowed to read.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Core - Permissions (Dynamic RBAC)"
+                ],
+                "summary": "Get allowed modules for current user",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/core/storage": {
             "get": {
                 "security": [

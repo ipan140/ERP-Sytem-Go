@@ -6,9 +6,11 @@ import (
 )
 
 func RegisterRoutes(e *echo.Echo) {
-	g := e.Group("/api/calendar", middleware.Auth())
+	g := e.Group("/api/calendar", middleware.Auth(), middleware.GlobalAutoRBAC())
 	g.GET("/events", GetEventsHandler)
 	g.POST("/events", CreateEventHandler)
 	g.PUT("/events/:id", UpdateEventHandler)
 	g.DELETE("/events/:id", DeleteEventHandler)
 }
+
+

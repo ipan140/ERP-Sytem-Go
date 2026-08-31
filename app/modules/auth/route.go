@@ -11,3 +11,4 @@ func RegisterRoutes(e *echo.Echo) {
 	api.POST("/login", LoginHandler)
 	api.POST("/register", RegisterHandler)
 }
+

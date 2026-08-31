@@ -1,14 +1,13 @@
 package ecommerce
 
 import (
-	"ERP-System/common/constants"
 	"ERP-System/common/middleware"
 
 	"github.com/labstack/echo/v4"
 )
 
 func RegisterRoutes(e *echo.Echo) {
-	api := e.Group("/api/website/ecommerce", middleware.Auth(), middleware.RequireRoles(constants.RoleMarketingManager, constants.RoleCustomer, constants.RoleGuest))
+	api := e.Group("/api/website/ecommerce", middleware.Auth(), middleware.GlobalAutoRBAC())
 	api.POST("", CreateCartHandler)
 	api.GET("", GetAllCartHandler)
 	api.GET("/:id", GetCartByIDHandler)
@@ -32,3 +31,6 @@ func RegisterRoutes(e *echo.Echo) {
 	api.DELETE("/cartitem/:id", DeleteCartItemHandler)
 
 }
+
+
+

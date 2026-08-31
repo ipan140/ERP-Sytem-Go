@@ -1,14 +1,13 @@
 package sales_core
 
 import (
-	"ERP-System/common/constants"
 	"ERP-System/common/middleware"
 
 	"github.com/labstack/echo/v4"
 )
 
 func RegisterRoutes(e *echo.Echo) {
-	api := e.Group("/api/sales/sales_core", middleware.Auth(), middleware.RequireRoles(constants.RoleSalesManager, constants.RoleSalesStaff))
+	api := e.Group("/api/sales/sales_core", middleware.Auth(), middleware.GlobalAutoRBAC())
 	api.POST("", CreateSaleOrderHandler)
 	api.GET("", GetAllSaleOrderHandler)
 	api.GET("/:id", GetSaleOrderByIDHandler)
@@ -45,3 +44,6 @@ func RegisterRoutes(e *echo.Echo) {
 	api.PUT("/saleorderline/:id", UpdateSaleOrderLineHandler)
 	api.DELETE("/saleorderline/:id", DeleteSaleOrderLineHandler)
 }
+
+
+

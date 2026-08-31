@@ -75,9 +75,9 @@ import (
 	"ERP-System/app/modules/website/forum"
 	"ERP-System/app/modules/website/live_chat"
 	"ERP-System/app/modules/website/website_builder"
-	
+
 	commonMiddleware "ERP-System/common/middleware"
-	
+
 	"ERP-System/config"
 	_ "ERP-System/docs" // Swagger docs
 	"ERP-System/pkg/rabbitmq"
@@ -132,6 +132,7 @@ func main() {
 
 	// Strict CORS
 	e.Use(commonMiddleware.CORS())
+	// [Keamanan Pilar 4] Dynamic Global RBAC (Toggle dari UI)
 
 	// Register Module Routes
 	auth.RegisterRoutes(e)
@@ -202,7 +203,7 @@ func main() {
 	// Register Swagger Route
 	e.GET("/swagger/*", echoSwagger.WrapHandler)
 	e.GET("/docs", serveCustomDocs)
-	
+
 	// [Fase 5] Register WebSocket Endpoint
 	e.GET("/ws", ws.ServeWS)
 
@@ -234,8 +235,8 @@ func serveCustomDocs(c echo.Context) error {
     .token-banner {
       display: none;
       position: fixed; top: 16px; right: 16px;
-      background: #49cc90; color: white;
-      padding: 12px 20px; border-radius: 8px;
+      background: #49cc90; color
+	  s: 8px;
       font-weight: bold; z-index: 9999;
       box-shadow: 0 4px 12px rgba(0,0,0,0.2);
       font-family: sans-serif; font-size: 14px;
@@ -296,3 +297,4 @@ function showBanner() {
 </html>`
 	return c.HTML(200, html)
 }
+

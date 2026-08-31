@@ -5,6 +5,7 @@ import (
 	"strconv"
 	"strings"
 
+	"ERP-System/common/constants"
 	"ERP-System/common/utils"
 	"github.com/labstack/echo/v4"
 )
@@ -100,5 +101,36 @@ func DeleteRoleHandler(c echo.Context) error {
 		return utils.SendError(c, http.StatusInternalServerError, "Gagal hapus role", err.Error())
 	}
 	return utils.SendSuccess(c, http.StatusOK, "Role deleted successfully", nil)
+}
+
+
+// GetRoleConstantsHandler mengembalikan daftar semua role bawaan sistem (konstanta)
+func GetRoleConstantsHandler(c echo.Context) error {
+	roles := []string{
+		string(constants.RoleSuperadmin),
+		string(constants.RoleDirector),
+		string(constants.RoleFinanceManager),
+		string(constants.RoleFinanceBilling),
+		string(constants.RoleWarehouseManager),
+		string(constants.RoleWarehouseWorker),
+		string(constants.RolePurchasing),
+		string(constants.RoleManufacturingManager),
+		string(constants.RoleQualityManager),
+		string(constants.RoleMaintenanceManager),
+		string(constants.RoleSalesManager),
+		string(constants.RoleSalesStaff),
+		string(constants.RoleHRManager),
+		string(constants.RoleFleetManager),
+		string(constants.RoleEmployee),
+		string(constants.RoleMarketingManager),
+		string(constants.RoleProjectManager),
+		string(constants.RoleSupportAgent),
+		string(constants.RoleCustomer),
+		string(constants.RoleGuest),
+	}
+	return c.JSON(200, map[string]interface{}{
+		"message": "Daftar Konstanta Role",
+		"data":    roles,
+	})
 }
 

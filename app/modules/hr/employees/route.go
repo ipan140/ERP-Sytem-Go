@@ -1,7 +1,6 @@
 package employees
 
 import (
-	"ERP-System/common/constants"
 	"ERP-System/common/middleware"
 
 	"github.com/labstack/echo/v4"
@@ -9,11 +8,7 @@ import (
 
 func RegisterRoutes(e *echo.Echo) {
 	// 1. Group HR Dasar: Minimal harus punya role EMPLOYEE (Karyawan) atau HR_MANAGER
-	api := e.Group("/api/hr/employees", middleware.Auth(), middleware.RequireRoles(
-		constants.RoleEmployee,
-		constants.RoleHRManager,
-		constants.RoleDirector, // Director juga boleh lihat daftar karyawan
-	))
+	api := e.Group("/api/hr/employees", middleware.Auth(), middleware.GlobalAutoRBAC())
 
 	// Karyawan biasa boleh melihat profil (GET)
 	api.GET("", GetAllEmployeeHandler)
@@ -32,7 +27,7 @@ func RegisterRoutes(e *echo.Echo) {
 	api.GET("/resumeline/:id", GetResumeLineByIDHandler)
 
 	// 2. Group HR Spesifik: HANYA BOLEH DIAKSES OLEH HR MANAGER (Create/Update/Delete)
-	hrAdmin := api.Group("", middleware.RequireRoles(constants.RoleHRManager))
+	hrAdmin := api.Group("")
 
 	// Karyawan biasa (EMPLOYEE) akan diblokir (403 Forbidden) jika mengakses endpoint di bawah ini:
 	hrAdmin.POST("", CreateEmployeeHandler)
@@ -64,10 +59,13 @@ func RegisterRoutes(e *echo.Echo) {
 	hrAdmin.DELETE("/resumeline/:id", DeleteResumeLineHandler)
 
 	// 3. Group Super Rahasia: KONTRAK KERJA (Hanya HR Manager)
-	contract := e.Group("/api/hr/employees/contract", middleware.Auth(), middleware.RequireRoles(constants.RoleHRManager))
+	contract := e.Group("/api/hr/employees/contract", middleware.Auth(), middleware.GlobalAutoRBAC())
 	contract.POST("", CreateContractHandler)
 	contract.GET("", GetAllContractHandler)
 	contract.GET("/:id", GetContractByIDHandler)
 	contract.PUT("/:id", UpdateContractHandler)
 	contract.DELETE("/:id", DeleteContractHandler)
 }
+
+
+

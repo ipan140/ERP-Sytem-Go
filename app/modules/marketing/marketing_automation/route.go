@@ -1,14 +1,13 @@
 package marketing_automation
 
 import (
-	"ERP-System/common/constants"
 	"ERP-System/common/middleware"
 
 	"github.com/labstack/echo/v4"
 )
 
 func RegisterRoutes(e *echo.Echo) {
-	api := e.Group("/api/marketing/marketing_automation", middleware.Auth(), middleware.RequireRoles(constants.RoleMarketingManager))
+	api := e.Group("/api/marketing/marketing_automation", middleware.Auth(), middleware.GlobalAutoRBAC())
 	api.POST("", CreateAutomationCampaignHandler)
 	api.GET("", GetAllAutomationCampaignHandler)
 	api.GET("/:id", GetAutomationCampaignByIDHandler)
@@ -22,3 +21,6 @@ func RegisterRoutes(e *echo.Echo) {
 	api.DELETE("/workflowactivity/:id", DeleteWorkflowActivityHandler)
 
 }
+
+
+

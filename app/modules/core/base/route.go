@@ -1,14 +1,13 @@
 package base
 
 import (
-	"ERP-System/common/constants"
 	"ERP-System/common/middleware"
 
 	"github.com/labstack/echo/v4"
 )
 
 func RegisterRoutes(e *echo.Echo) {
-	api := e.Group("/api/base", middleware.Auth(), middleware.RequireRoles(constants.RoleDirector, constants.RoleEmployee))
+	api := e.Group("/api/base", middleware.Auth(), middleware.GlobalAutoRBAC())
 	api.POST("", CreateCurrencyHandler)
 	api.GET("", GetAllCurrencyHandler)
 	api.GET("/:id", GetCurrencyByIDHandler)
@@ -33,3 +32,6 @@ func RegisterRoutes(e *echo.Echo) {
 	api.PUT("/partner/:id", UpdatePartnerHandler)
 	api.DELETE("/partner/:id", DeletePartnerHandler)
 }
+
+
+

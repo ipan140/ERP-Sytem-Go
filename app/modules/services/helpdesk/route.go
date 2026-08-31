@@ -1,14 +1,13 @@
 package helpdesk
 
 import (
-	"ERP-System/common/constants"
 	"ERP-System/common/middleware"
 
 	"github.com/labstack/echo/v4"
 )
 
 func RegisterRoutes(e *echo.Echo) {
-	api := e.Group("/api/services/helpdesk", middleware.Auth(), middleware.RequireRoles(constants.RoleProjectManager, constants.RoleSupportAgent))
+	api := e.Group("/api/services/helpdesk", middleware.Auth(), middleware.GlobalAutoRBAC())
 	api.POST("", CreateTicketHandler)
 	api.GET("", GetAllTicketHandler)
 	api.GET("/:id", GetTicketByIDHandler)
@@ -27,3 +26,6 @@ func RegisterRoutes(e *echo.Echo) {
 	api.DELETE("/helpdeskcannedresponse/:id", DeleteHelpdeskCannedResponseHandler)
 
 }
+
+
+

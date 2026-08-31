@@ -1,14 +1,13 @@
 package referrals
 
 import (
-	"ERP-System/common/constants"
 	"ERP-System/common/middleware"
 
 	"github.com/labstack/echo/v4"
 )
 
 func RegisterRoutes(e *echo.Echo) {
-	api := e.Group("/api/hr/ReferralRewards", middleware.Auth(), middleware.RequireRoles(constants.RoleHRManager, constants.RoleFleetManager, constants.RoleEmployee))
+	api := e.Group("/api/hr/ReferralRewards", middleware.Auth(), middleware.GlobalAutoRBAC())
 	api.POST("", CreateReferralRewardHandler)
 	api.GET("", GetAllReferralRewardHandler)
 	api.GET("/:id", GetReferralRewardByIDHandler)
@@ -21,3 +20,6 @@ func RegisterRoutes(e *echo.Echo) {
 	api.PUT("/referralpoint/:id", UpdateReferralPointHandler)
 	api.DELETE("/referralpoint/:id", DeleteReferralPointHandler)
 }
+
+
+

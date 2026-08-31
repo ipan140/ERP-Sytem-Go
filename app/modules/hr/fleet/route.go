@@ -1,14 +1,13 @@
 package fleet
 
 import (
-	"ERP-System/common/constants"
 	"ERP-System/common/middleware"
 
 	"github.com/labstack/echo/v4"
 )
 
 func RegisterRoutes(e *echo.Echo) {
-	api := e.Group("/api/hr/fleet", middleware.Auth(), middleware.RequireRoles(constants.RoleHRManager, constants.RoleFleetManager, constants.RoleEmployee))
+	api := e.Group("/api/hr/fleet", middleware.Auth(), middleware.GlobalAutoRBAC())
 	api.POST("", CreateVehicleHandler)
 	api.GET("", GetAllVehicleHandler)
 	api.GET("/:id", GetVehicleByIDHandler)
@@ -33,3 +32,6 @@ func RegisterRoutes(e *echo.Echo) {
 	api.PUT("/vehiclelogservices/:id", UpdateVehicleLogServicesHandler)
 	api.DELETE("/vehiclelogservices/:id", DeleteVehicleLogServicesHandler)
 }
+
+
+
