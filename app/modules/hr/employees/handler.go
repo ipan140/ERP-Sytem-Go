@@ -689,3 +689,97 @@ func DeleteResumeLineHandler(c echo.Context) error {
 
 
 
+
+// @Summary Create Department
+// @Description Create a new Department
+// @Tags hr-employees
+// @Accept json
+// @Produce json
+// @Success 201 {object} Department
+// @Param request body Department true "Payload"
+// @Router /api/hr/employees/department [post]
+// @Security BearerAuth
+func CreateDepartmentHandler(c echo.Context) error {
+	var data Department
+	if err := c.Bind(&data); err != nil {
+		return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error())
+	}
+	if err := CreateDepartmentService(&data); err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed to create", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusCreated, "Created successfully", data)
+}
+
+// @Summary Get all Department
+// @Description Retrieve a list of all Department
+// @Tags hr-employees
+// @Produce json
+// @Success 200 {object} []Department
+// @Router /api/hr/employees/department [get]
+// @Security BearerAuth
+func GetAllDepartmentHandler(c echo.Context) error {
+	data, err := GetAllDepartmentService()
+	if err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed to fetch data", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Success", data)
+}
+
+// @Summary Get Department by ID
+// @Description Retrieve a Department by its ID
+// @Tags hr-employees
+// @Produce json
+// @Param id path int true "Department ID"
+// @Success 200 {object} Department
+// @Router /api/hr/employees/department/{id} [get]
+// @Security BearerAuth
+func GetDepartmentByIDHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	data, err := GetDepartmentByIDService(uint(id))
+	if err != nil {
+		return utils.SendError(c, http.StatusNotFound, "Data not found", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Success", data)
+}
+
+// @Summary Update Department
+// @Description Update an existing Department
+// @Tags hr-employees
+// @Accept json
+// @Produce json
+// @Param id path int true "Department ID"
+// @Param request body Department true "Payload"
+// @Success 200 {object} Department
+// @Router /api/hr/employees/department/{id} [put]
+// @Security BearerAuth
+func UpdateDepartmentHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	data, err := GetDepartmentByIDService(uint(id))
+	if err != nil {
+		return utils.SendError(c, http.StatusNotFound, "Data not found", err.Error())
+	}
+	if err := c.Bind(data); err != nil {
+		return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error())
+	}
+	data.ID = uint(id)
+	if err := UpdateDepartmentService(data); err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed to update", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Updated successfully", data)
+}
+
+// @Summary Delete Department
+// @Description Delete a Department
+// @Tags hr-employees
+// @Produce json
+// @Param id path int true "Department ID"
+// @Success 200 {object} map[string]interface{}
+// @Router /api/hr/employees/department/{id} [delete]
+// @Security BearerAuth
+func DeleteDepartmentHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	if err := DeleteDepartmentService(uint(id)); err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed to delete", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Deleted successfully", nil)
+}

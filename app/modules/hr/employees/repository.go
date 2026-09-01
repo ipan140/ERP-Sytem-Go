@@ -126,3 +126,17 @@ func GetResumeLineByID(id uint) (*ResumeLine, error) {
 }
 func UpdateResumeLine(data *ResumeLine) error { return config.DB.Save(data).Error }
 func DeleteResumeLine(id uint) error          { return config.DB.Delete(&ResumeLine{}, id).Error }
+
+func CreateDepartment(data *Department) error { return config.DB.Create(data).Error }
+func GetAllDepartment() ([]Department, error) {
+	var list []Department
+	err := config.DB.Preload(clause.Associations).Find(&list).Error
+	return list, err
+}
+func GetDepartmentByID(id uint) (*Department, error) {
+	var data Department
+	err := config.DB.Preload(clause.Associations).First(&data, id).Error
+	return &data, err
+}
+func UpdateDepartment(data *Department) error { return config.DB.Save(data).Error }
+func DeleteDepartment(id uint) error          { return config.DB.Delete(&Department{}, id).Error }

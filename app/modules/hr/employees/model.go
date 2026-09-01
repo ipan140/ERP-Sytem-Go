@@ -4,13 +4,14 @@ import (
 	"ERP-System/app/modules/auth"
 	"ERP-System/config"
 	"time"
+	"gorm.io/gorm"
 )
 
 type Department struct {
 	ID        uint        `gorm:"primaryKey" json:"id"`
 	Name      string      `gorm:"type:varchar(100);not null" json:"name"`
 	ManagerID *uint       `json:"manager_id"`
-	Manager   *Employee   `gorm:"foreignKey:ManagerID" json:"manager,omitempty"`
+	Manager   *Employee   `json:"manager,omitempty"`
 	ParentID  *uint       `json:"parent_id"`
 	Parent    *Department `gorm:"foreignKey:ParentID" json:"parent,omitempty"`
 	CreatedAt time.Time   `json:"created_at"`
@@ -40,7 +41,9 @@ type Employee struct {
 	WorkPhone        string       `gorm:"type:varchar(50)" json:"work_phone"`
 	EmergencyContact string       `gorm:"type:varchar(100)" json:"emergency_contact"`
 	EmergencyPhone   string       `gorm:"type:varchar(50)" json:"emergency_phone"`
+	IsActive         bool         `gorm:"default:true" json:"is_active"`
 	CreatedAt        time.Time    `json:"created_at"`
+	DeletedAt        gorm.DeletedAt `gorm:"index" json:"deleted_at,omitempty"`
 }
 
 // --- 2. Contracts ---

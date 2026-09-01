@@ -78,3 +78,9 @@ func ImportEmployeesExcelService(filePath string, userID uint) error {
 	}
 	return nil
 }
+
+func CreateDepartmentService(data *Department) error { return CreateDepartment(data) }
+func GetAllDepartmentService() ([]Department, error) { return GetAllDepartment() }
+func GetDepartmentByIDService(id uint) (*Department, error) { return GetDepartmentByID(id) }
+func UpdateDepartmentService(data *Department) error { return UpdateDepartment(data) }
+func DeleteDepartmentService(id uint) error { return DeleteDepartment(id) }

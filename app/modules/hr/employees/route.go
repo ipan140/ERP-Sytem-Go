@@ -13,6 +13,8 @@ func RegisterRoutes(e *echo.Echo) {
 	// Karyawan biasa boleh melihat profil (GET)
 	api.GET("", GetAllEmployeeHandler)
 	api.GET("/:id", GetEmployeeByIDHandler)
+	api.GET("/department", GetAllDepartmentHandler)
+	api.GET("/department/:id", GetDepartmentByIDHandler)
 	api.GET("/jobposition", GetAllJobPositionHandler)
 	api.GET("/jobposition/:id", GetJobPositionByIDHandler)
 	api.GET("/workingschedule", GetAllWorkingScheduleHandler)
@@ -33,6 +35,10 @@ func RegisterRoutes(e *echo.Echo) {
 	hrAdmin.POST("", CreateEmployeeHandler)
 	hrAdmin.PUT("/:id", UpdateEmployeeHandler)
 	hrAdmin.DELETE("/:id", DeleteEmployeeHandler)
+
+	hrAdmin.POST("/department", CreateDepartmentHandler)
+	hrAdmin.PUT("/department/:id", UpdateDepartmentHandler)
+	hrAdmin.DELETE("/department/:id", DeleteDepartmentHandler)
 
 	hrAdmin.POST("/jobposition", CreateJobPositionHandler)
 	hrAdmin.PUT("/jobposition/:id", UpdateJobPositionHandler)
