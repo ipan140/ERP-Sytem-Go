@@ -5098,29 +5098,62 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/hr/employees": {
+        "/api/hr/audit-logs": {
             "get": {
                 "security": [
                     {
                         "BearerAuth": []
                     }
                 ],
-                "description": "Retrieve a list of all Employee",
+                "description": "Get recent audit logs for security monitoring",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
-                    "hr-employees"
+                    "hr-audit"
                 ],
-                "summary": "Get all Employee",
+                "summary": "Get Audit Logs",
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/employees.Employee"
+                                "$ref": "#/definitions/employees.AuditLog"
                             }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/hr/employees": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    },
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve a list of all Employee\nAuto-generated swagger for GetAllEmployeeHandler",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json",
+                    "application/json"
+                ],
+                "tags": [
+                    "hr-employees",
+                    "hr-employees"
+                ],
+                "summary": "Endpoint for GetAllEmployee",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object"
                         }
                     }
                 }
@@ -5129,19 +5162,25 @@ const docTemplate = `{
                 "security": [
                     {
                         "BearerAuth": []
+                    },
+                    {
+                        "BearerAuth": []
                     }
                 ],
-                "description": "Create a new Employee in the system",
+                "description": "Create a new Employee in the system\nAuto-generated swagger for CreateEmployeeHandler",
                 "consumes": [
+                    "application/json",
                     "application/json"
                 ],
                 "produces": [
+                    "application/json",
                     "application/json"
                 ],
                 "tags": [
+                    "hr-employees",
                     "hr-employees"
                 ],
-                "summary": "Create a new Employee",
+                "summary": "Endpoint for CreateEmployee",
                 "parameters": [
                     {
                         "description": "Payload",
@@ -5151,9 +5190,24 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/employees.Employee"
                         }
+                    },
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object"
+                        }
                     }
                 ],
                 "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object"
+                        }
+                    },
                     "201": {
                         "description": "Created",
                         "schema": {
@@ -5163,26 +5217,56 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/hr/employees/contract": {
+        "/api/hr/employees-export": {
             "get": {
                 "security": [
                     {
                         "BearerAuth": []
                     }
                 ],
-                "description": "Retrieve a list of all Contract",
+                "description": "Download all employee records as a CSV file",
                 "produces": [
-                    "application/json"
+                    "text/csv"
                 ],
                 "tags": [
                     "hr-employees"
                 ],
-                "summary": "Get all Contract",
+                "summary": "Export Employees to CSV",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/api/hr/employees/contract": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    },
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve a list of all Contract\nAuto-generated swagger for GetAllContractHandler",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json",
+                    "application/json"
+                ],
+                "tags": [
+                    "hr-employees",
+                    "hr-employees"
+                ],
+                "summary": "Endpoint for GetAllContract",
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/employees.Contract"
+                            "type": "object"
                         }
                     }
                 }
@@ -5191,19 +5275,25 @@ const docTemplate = `{
                 "security": [
                     {
                         "BearerAuth": []
+                    },
+                    {
+                        "BearerAuth": []
                     }
                 ],
-                "description": "Create a new Contract",
+                "description": "Create a new Contract\nAuto-generated swagger for CreateContractHandler",
                 "consumes": [
+                    "application/json",
                     "application/json"
                 ],
                 "produces": [
+                    "application/json",
                     "application/json"
                 ],
                 "tags": [
+                    "hr-employees",
                     "hr-employees"
                 ],
-                "summary": "Create Contract",
+                "summary": "Endpoint for CreateContract",
                 "parameters": [
                     {
                         "description": "Payload",
@@ -5213,9 +5303,24 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/employees.Contract"
                         }
+                    },
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object"
+                        }
                     }
                 ],
                 "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object"
+                        }
+                    },
                     "201": {
                         "description": "Created",
                         "schema": {
@@ -5226,13 +5331,13 @@ const docTemplate = `{
             }
         },
         "/api/hr/employees/contract/{id}": {
-            "put": {
+            "get": {
                 "security": [
                     {
                         "BearerAuth": []
                     }
                 ],
-                "description": "Update an existing Contract",
+                "description": "Auto-generated swagger for GetContractByIDHandler",
                 "consumes": [
                     "application/json"
                 ],
@@ -5242,11 +5347,11 @@ const docTemplate = `{
                 "tags": [
                     "hr-employees"
                 ],
-                "summary": "Update Contract",
+                "summary": "Endpoint for GetContractByID",
                 "parameters": [
                     {
                         "type": "integer",
-                        "description": "Contract ID",
+                        "description": "ID",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -5256,7 +5361,64 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/employees.Contract"
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    },
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update an existing Contract\nAuto-generated swagger for UpdateContractHandler",
+                "consumes": [
+                    "application/json",
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json",
+                    "application/json"
+                ],
+                "tags": [
+                    "hr-employees",
+                    "hr-employees"
+                ],
+                "summary": "Endpoint for UpdateContract",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Contract ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object"
                         }
                     }
                 }
@@ -5265,20 +5427,35 @@ const docTemplate = `{
                 "security": [
                     {
                         "BearerAuth": []
+                    },
+                    {
+                        "BearerAuth": []
                     }
                 ],
-                "description": "Delete Contract by ID",
+                "description": "Delete Contract by ID\nAuto-generated swagger for DeleteContractHandler",
+                "consumes": [
+                    "application/json"
+                ],
                 "produces": [
+                    "application/json",
                     "application/json"
                 ],
                 "tags": [
+                    "hr-employees",
                     "hr-employees"
                 ],
-                "summary": "Delete Contract",
+                "summary": "Endpoint for DeleteContract",
                 "parameters": [
                     {
                         "type": "integer",
                         "description": "Contract ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "ID",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -5288,8 +5465,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "type": "object"
                         }
                     }
                 }
@@ -5300,24 +5476,29 @@ const docTemplate = `{
                 "security": [
                     {
                         "BearerAuth": []
+                    },
+                    {
+                        "BearerAuth": []
                     }
                 ],
-                "description": "Retrieve a list of all Department",
+                "description": "Retrieve a list of all Department\nAuto-generated swagger for GetAllDepartmentHandler",
+                "consumes": [
+                    "application/json"
+                ],
                 "produces": [
+                    "application/json",
                     "application/json"
                 ],
                 "tags": [
+                    "hr-employees",
                     "hr-employees"
                 ],
-                "summary": "Get all Department",
+                "summary": "Endpoint for GetAllDepartment",
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/employees.Department"
-                            }
+                            "type": "object"
                         }
                     }
                 }
@@ -5326,19 +5507,25 @@ const docTemplate = `{
                 "security": [
                     {
                         "BearerAuth": []
+                    },
+                    {
+                        "BearerAuth": []
                     }
                 ],
-                "description": "Create a new Department",
+                "description": "Create a new Department\nAuto-generated swagger for CreateDepartmentHandler",
                 "consumes": [
+                    "application/json",
                     "application/json"
                 ],
                 "produces": [
+                    "application/json",
                     "application/json"
                 ],
                 "tags": [
+                    "hr-employees",
                     "hr-employees"
                 ],
-                "summary": "Create Department",
+                "summary": "Endpoint for CreateDepartment",
                 "parameters": [
                     {
                         "description": "Payload",
@@ -5348,9 +5535,24 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/employees.Department"
                         }
+                    },
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object"
+                        }
                     }
                 ],
                 "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object"
+                        }
+                    },
                     "201": {
                         "description": "Created",
                         "schema": {
@@ -5365,20 +5567,35 @@ const docTemplate = `{
                 "security": [
                     {
                         "BearerAuth": []
+                    },
+                    {
+                        "BearerAuth": []
                     }
                 ],
-                "description": "Retrieve a Department by its ID",
+                "description": "Retrieve a Department by its ID\nAuto-generated swagger for GetDepartmentByIDHandler",
+                "consumes": [
+                    "application/json"
+                ],
                 "produces": [
+                    "application/json",
                     "application/json"
                 ],
                 "tags": [
+                    "hr-employees",
                     "hr-employees"
                 ],
-                "summary": "Get Department by ID",
+                "summary": "Endpoint for GetDepartmentByID",
                 "parameters": [
                     {
                         "type": "integer",
                         "description": "Department ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "ID",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -5388,7 +5605,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/employees.Department"
+                            "type": "object"
                         }
                     }
                 }
@@ -5397,19 +5614,25 @@ const docTemplate = `{
                 "security": [
                     {
                         "BearerAuth": []
+                    },
+                    {
+                        "BearerAuth": []
                     }
                 ],
-                "description": "Update an existing Department",
+                "description": "Update an existing Department\nAuto-generated swagger for UpdateDepartmentHandler",
                 "consumes": [
+                    "application/json",
                     "application/json"
                 ],
                 "produces": [
+                    "application/json",
                     "application/json"
                 ],
                 "tags": [
+                    "hr-employees",
                     "hr-employees"
                 ],
-                "summary": "Update Department",
+                "summary": "Endpoint for UpdateDepartment",
                 "parameters": [
                     {
                         "type": "integer",
@@ -5426,13 +5649,222 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/employees.Department"
                         }
+                    },
+                    {
+                        "type": "integer",
+                        "description": "ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object"
+                        }
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/employees.Department"
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    },
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete a Department\nAuto-generated swagger for DeleteDepartmentHandler",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json",
+                    "application/json"
+                ],
+                "tags": [
+                    "hr-employees",
+                    "hr-employees"
+                ],
+                "summary": "Endpoint for DeleteDepartment",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Department ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/hr/employees/employeeloan": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Auto-generated swagger for GetAllEmployeeLoanHandler",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "hr-employees"
+                ],
+                "summary": "Endpoint for GetAllEmployeeLoan",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Auto-generated swagger for CreateEmployeeLoanHandler",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "hr-employees"
+                ],
+                "summary": "Endpoint for CreateEmployeeLoan",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/hr/employees/employeeloan/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Auto-generated swagger for GetEmployeeLoanByIDHandler",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "hr-employees"
+                ],
+                "summary": "Endpoint for GetEmployeeLoanByID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Auto-generated swagger for UpdateEmployeeLoanHandler",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "hr-employees"
+                ],
+                "summary": "Endpoint for UpdateEmployeeLoan",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object"
                         }
                     }
                 }
@@ -5443,18 +5875,21 @@ const docTemplate = `{
                         "BearerAuth": []
                     }
                 ],
-                "description": "Delete a Department",
+                "description": "Auto-generated swagger for DeleteEmployeeLoanHandler",
+                "consumes": [
+                    "application/json"
+                ],
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "hr-employees"
                 ],
-                "summary": "Delete Department",
+                "summary": "Endpoint for DeleteEmployeeLoan",
                 "parameters": [
                     {
                         "type": "integer",
-                        "description": "Department ID",
+                        "description": "ID",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -5464,8 +5899,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "type": "object"
                         }
                     }
                 }
@@ -5476,21 +5910,29 @@ const docTemplate = `{
                 "security": [
                     {
                         "BearerAuth": []
+                    },
+                    {
+                        "BearerAuth": []
                     }
                 ],
-                "description": "Retrieve a list of all EmployeeSkill",
+                "description": "Retrieve a list of all EmployeeSkill\nAuto-generated swagger for GetAllEmployeeSkillHandler",
+                "consumes": [
+                    "application/json"
+                ],
                 "produces": [
+                    "application/json",
                     "application/json"
                 ],
                 "tags": [
+                    "hr-employees",
                     "hr-employees"
                 ],
-                "summary": "Get all EmployeeSkill",
+                "summary": "Endpoint for GetAllEmployeeSkill",
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/employees.EmployeeSkill"
+                            "type": "object"
                         }
                     }
                 }
@@ -5499,19 +5941,25 @@ const docTemplate = `{
                 "security": [
                     {
                         "BearerAuth": []
+                    },
+                    {
+                        "BearerAuth": []
                     }
                 ],
-                "description": "Create a new EmployeeSkill",
+                "description": "Create a new EmployeeSkill\nAuto-generated swagger for CreateEmployeeSkillHandler",
                 "consumes": [
+                    "application/json",
                     "application/json"
                 ],
                 "produces": [
+                    "application/json",
                     "application/json"
                 ],
                 "tags": [
+                    "hr-employees",
                     "hr-employees"
                 ],
-                "summary": "Create EmployeeSkill",
+                "summary": "Endpoint for CreateEmployeeSkill",
                 "parameters": [
                     {
                         "description": "Payload",
@@ -5521,9 +5969,24 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/employees.EmployeeSkill"
                         }
+                    },
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object"
+                        }
                     }
                 ],
                 "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object"
+                        }
+                    },
                     "201": {
                         "description": "Created",
                         "schema": {
@@ -5534,13 +5997,13 @@ const docTemplate = `{
             }
         },
         "/api/hr/employees/employeeskill/{id}": {
-            "put": {
+            "get": {
                 "security": [
                     {
                         "BearerAuth": []
                     }
                 ],
-                "description": "Update an existing EmployeeSkill",
+                "description": "Auto-generated swagger for GetEmployeeSkillByIDHandler",
                 "consumes": [
                     "application/json"
                 ],
@@ -5550,7 +6013,48 @@ const docTemplate = `{
                 "tags": [
                     "hr-employees"
                 ],
-                "summary": "Update EmployeeSkill",
+                "summary": "Endpoint for GetEmployeeSkillByID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    },
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update an existing EmployeeSkill\nAuto-generated swagger for UpdateEmployeeSkillHandler",
+                "consumes": [
+                    "application/json",
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json",
+                    "application/json"
+                ],
+                "tags": [
+                    "hr-employees",
+                    "hr-employees"
+                ],
+                "summary": "Endpoint for UpdateEmployeeSkill",
                 "parameters": [
                     {
                         "type": "integer",
@@ -5567,13 +6071,222 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/employees.EmployeeSkill"
                         }
+                    },
+                    {
+                        "type": "integer",
+                        "description": "ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object"
+                        }
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/employees.EmployeeSkill"
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    },
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete EmployeeSkill by ID\nAuto-generated swagger for DeleteEmployeeSkillHandler",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json",
+                    "application/json"
+                ],
+                "tags": [
+                    "hr-employees",
+                    "hr-employees"
+                ],
+                "summary": "Endpoint for DeleteEmployeeSkill",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "EmployeeSkill ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/hr/employees/employeetask": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Auto-generated swagger for GetAllEmployeeTaskHandler",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "hr-employees"
+                ],
+                "summary": "Endpoint for GetAllEmployeeTask",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Auto-generated swagger for CreateEmployeeTaskHandler",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "hr-employees"
+                ],
+                "summary": "Endpoint for CreateEmployeeTask",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/hr/employees/employeetask/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Auto-generated swagger for GetEmployeeTaskByIDHandler",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "hr-employees"
+                ],
+                "summary": "Endpoint for GetEmployeeTaskByID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Auto-generated swagger for UpdateEmployeeTaskHandler",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "hr-employees"
+                ],
+                "summary": "Endpoint for UpdateEmployeeTask",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object"
                         }
                     }
                 }
@@ -5584,18 +6297,21 @@ const docTemplate = `{
                         "BearerAuth": []
                     }
                 ],
-                "description": "Delete EmployeeSkill by ID",
+                "description": "Auto-generated swagger for DeleteEmployeeTaskHandler",
+                "consumes": [
+                    "application/json"
+                ],
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "hr-employees"
                 ],
-                "summary": "Delete EmployeeSkill",
+                "summary": "Endpoint for DeleteEmployeeTask",
                 "parameters": [
                     {
                         "type": "integer",
-                        "description": "EmployeeSkill ID",
+                        "description": "ID",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -5605,8 +6321,188 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/hr/employees/expense": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Auto-generated swagger for GetAllExpenseHandler",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "hr-employees"
+                ],
+                "summary": "Endpoint for GetAllExpense",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Auto-generated swagger for CreateExpenseHandler",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "hr-employees"
+                ],
+                "summary": "Endpoint for CreateExpense",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/hr/employees/expense/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Auto-generated swagger for GetExpenseByIDHandler",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "hr-employees"
+                ],
+                "summary": "Endpoint for GetExpenseByID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Auto-generated swagger for UpdateExpenseHandler",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "hr-employees"
+                ],
+                "summary": "Endpoint for UpdateExpense",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Auto-generated swagger for DeleteExpenseHandler",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "hr-employees"
+                ],
+                "summary": "Endpoint for DeleteExpense",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object"
                         }
                     }
                 }
@@ -5617,21 +6513,29 @@ const docTemplate = `{
                 "security": [
                     {
                         "BearerAuth": []
+                    },
+                    {
+                        "BearerAuth": []
                     }
                 ],
-                "description": "Retrieve a list of all JobPosition",
+                "description": "Retrieve a list of all JobPosition\nAuto-generated swagger for GetAllJobPositionHandler",
+                "consumes": [
+                    "application/json"
+                ],
                 "produces": [
+                    "application/json",
                     "application/json"
                 ],
                 "tags": [
+                    "hr-employees",
                     "hr-employees"
                 ],
-                "summary": "Get all JobPosition",
+                "summary": "Endpoint for GetAllJobPosition",
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/employees.JobPosition"
+                            "type": "object"
                         }
                     }
                 }
@@ -5640,19 +6544,25 @@ const docTemplate = `{
                 "security": [
                     {
                         "BearerAuth": []
+                    },
+                    {
+                        "BearerAuth": []
                     }
                 ],
-                "description": "Create a new JobPosition",
+                "description": "Create a new JobPosition\nAuto-generated swagger for CreateJobPositionHandler",
                 "consumes": [
+                    "application/json",
                     "application/json"
                 ],
                 "produces": [
+                    "application/json",
                     "application/json"
                 ],
                 "tags": [
+                    "hr-employees",
                     "hr-employees"
                 ],
-                "summary": "Create JobPosition",
+                "summary": "Endpoint for CreateJobPosition",
                 "parameters": [
                     {
                         "description": "Payload",
@@ -5662,9 +6572,24 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/employees.JobPosition"
                         }
+                    },
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object"
+                        }
                     }
                 ],
                 "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object"
+                        }
+                    },
                     "201": {
                         "description": "Created",
                         "schema": {
@@ -5675,13 +6600,13 @@ const docTemplate = `{
             }
         },
         "/api/hr/employees/jobposition/{id}": {
-            "put": {
+            "get": {
                 "security": [
                     {
                         "BearerAuth": []
                     }
                 ],
-                "description": "Update an existing JobPosition",
+                "description": "Auto-generated swagger for GetJobPositionByIDHandler",
                 "consumes": [
                     "application/json"
                 ],
@@ -5691,11 +6616,11 @@ const docTemplate = `{
                 "tags": [
                     "hr-employees"
                 ],
-                "summary": "Update JobPosition",
+                "summary": "Endpoint for GetJobPositionByID",
                 "parameters": [
                     {
                         "type": "integer",
-                        "description": "JobPosition ID",
+                        "description": "ID",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -5705,7 +6630,257 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/employees.JobPosition"
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    },
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update an existing JobPosition\nAuto-generated swagger for UpdateJobPositionHandler",
+                "consumes": [
+                    "application/json",
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json",
+                    "application/json"
+                ],
+                "tags": [
+                    "hr-employees",
+                    "hr-employees"
+                ],
+                "summary": "Endpoint for UpdateJobPosition",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "JobPosition ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    },
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete JobPosition by ID\nAuto-generated swagger for DeleteJobPositionHandler",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json",
+                    "application/json"
+                ],
+                "tags": [
+                    "hr-employees",
+                    "hr-employees"
+                ],
+                "summary": "Endpoint for DeleteJobPosition",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "JobPosition ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/hr/employees/overtime": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Auto-generated swagger for GetAllOvertimeHandler",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "hr-employees"
+                ],
+                "summary": "Endpoint for GetAllOvertime",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Auto-generated swagger for CreateOvertimeHandler",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "hr-employees"
+                ],
+                "summary": "Endpoint for CreateOvertime",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/hr/employees/overtime/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Auto-generated swagger for GetOvertimeByIDHandler",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "hr-employees"
+                ],
+                "summary": "Endpoint for GetOvertimeByID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Auto-generated swagger for UpdateOvertimeHandler",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "hr-employees"
+                ],
+                "summary": "Endpoint for UpdateOvertime",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object"
                         }
                     }
                 }
@@ -5716,18 +6891,21 @@ const docTemplate = `{
                         "BearerAuth": []
                     }
                 ],
-                "description": "Delete JobPosition by ID",
+                "description": "Auto-generated swagger for DeleteOvertimeHandler",
+                "consumes": [
+                    "application/json"
+                ],
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "hr-employees"
                 ],
-                "summary": "Delete JobPosition",
+                "summary": "Endpoint for DeleteOvertime",
                 "parameters": [
                     {
                         "type": "integer",
-                        "description": "JobPosition ID",
+                        "description": "ID",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -5737,8 +6915,192 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/hr/employees/payroll": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Auto-generated swagger for GetAllPayslipsHandler",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "hr-employees"
+                ],
+                "summary": "Endpoint for GetAllPayslips",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/hr/employees/payroll/generate": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Auto-generated swagger for GeneratePayrollHandler",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "hr-employees"
+                ],
+                "summary": "Endpoint for GeneratePayroll",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/hr/employees/payroll/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Auto-generated swagger for GetPayslipByIDHandler",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "hr-employees"
+                ],
+                "summary": "Endpoint for GetPayslipByID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Auto-generated swagger for DeletePayslipHandler",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "hr-employees"
+                ],
+                "summary": "Endpoint for DeletePayslip",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/hr/employees/payroll/{id}/pay": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Auto-generated swagger for PayPayslipHandler",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "hr-employees"
+                ],
+                "summary": "Endpoint for PayPayslip",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object"
                         }
                     }
                 }
@@ -5749,21 +7111,29 @@ const docTemplate = `{
                 "security": [
                     {
                         "BearerAuth": []
+                    },
+                    {
+                        "BearerAuth": []
                     }
                 ],
-                "description": "Retrieve a list of all ResumeLine",
+                "description": "Retrieve a list of all ResumeLine\nAuto-generated swagger for GetAllResumeLineHandler",
+                "consumes": [
+                    "application/json"
+                ],
                 "produces": [
+                    "application/json",
                     "application/json"
                 ],
                 "tags": [
+                    "hr-employees",
                     "hr-employees"
                 ],
-                "summary": "Get all ResumeLine",
+                "summary": "Endpoint for GetAllResumeLine",
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/employees.ResumeLine"
+                            "type": "object"
                         }
                     }
                 }
@@ -5772,19 +7142,25 @@ const docTemplate = `{
                 "security": [
                     {
                         "BearerAuth": []
+                    },
+                    {
+                        "BearerAuth": []
                     }
                 ],
-                "description": "Create a new ResumeLine",
+                "description": "Create a new ResumeLine\nAuto-generated swagger for CreateResumeLineHandler",
                 "consumes": [
+                    "application/json",
                     "application/json"
                 ],
                 "produces": [
+                    "application/json",
                     "application/json"
                 ],
                 "tags": [
+                    "hr-employees",
                     "hr-employees"
                 ],
-                "summary": "Create ResumeLine",
+                "summary": "Endpoint for CreateResumeLine",
                 "parameters": [
                     {
                         "description": "Payload",
@@ -5794,9 +7170,24 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/employees.ResumeLine"
                         }
+                    },
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object"
+                        }
                     }
                 ],
                 "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object"
+                        }
+                    },
                     "201": {
                         "description": "Created",
                         "schema": {
@@ -5807,13 +7198,13 @@ const docTemplate = `{
             }
         },
         "/api/hr/employees/resumeline/{id}": {
-            "put": {
+            "get": {
                 "security": [
                     {
                         "BearerAuth": []
                     }
                 ],
-                "description": "Update an existing ResumeLine",
+                "description": "Auto-generated swagger for GetResumeLineByIDHandler",
                 "consumes": [
                     "application/json"
                 ],
@@ -5823,11 +7214,11 @@ const docTemplate = `{
                 "tags": [
                     "hr-employees"
                 ],
-                "summary": "Update ResumeLine",
+                "summary": "Endpoint for GetResumeLineByID",
                 "parameters": [
                     {
                         "type": "integer",
-                        "description": "ResumeLine ID",
+                        "description": "ID",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -5837,7 +7228,64 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/employees.ResumeLine"
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    },
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update an existing ResumeLine\nAuto-generated swagger for UpdateResumeLineHandler",
+                "consumes": [
+                    "application/json",
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json",
+                    "application/json"
+                ],
+                "tags": [
+                    "hr-employees",
+                    "hr-employees"
+                ],
+                "summary": "Endpoint for UpdateResumeLine",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ResumeLine ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object"
                         }
                     }
                 }
@@ -5846,20 +7294,35 @@ const docTemplate = `{
                 "security": [
                     {
                         "BearerAuth": []
+                    },
+                    {
+                        "BearerAuth": []
                     }
                 ],
-                "description": "Delete ResumeLine by ID",
+                "description": "Delete ResumeLine by ID\nAuto-generated swagger for DeleteResumeLineHandler",
+                "consumes": [
+                    "application/json"
+                ],
                 "produces": [
+                    "application/json",
                     "application/json"
                 ],
                 "tags": [
+                    "hr-employees",
                     "hr-employees"
                 ],
-                "summary": "Delete ResumeLine",
+                "summary": "Endpoint for DeleteResumeLine",
                 "parameters": [
                     {
                         "type": "integer",
                         "description": "ResumeLine ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "ID",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -5869,8 +7332,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "type": "object"
                         }
                     }
                 }
@@ -5881,21 +7343,29 @@ const docTemplate = `{
                 "security": [
                     {
                         "BearerAuth": []
+                    },
+                    {
+                        "BearerAuth": []
                     }
                 ],
-                "description": "Retrieve a list of all Skill",
+                "description": "Retrieve a list of all Skill\nAuto-generated swagger for GetAllSkillHandler",
+                "consumes": [
+                    "application/json"
+                ],
                 "produces": [
+                    "application/json",
                     "application/json"
                 ],
                 "tags": [
+                    "hr-employees",
                     "hr-employees"
                 ],
-                "summary": "Get all Skill",
+                "summary": "Endpoint for GetAllSkill",
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/employees.Skill"
+                            "type": "object"
                         }
                     }
                 }
@@ -5904,19 +7374,25 @@ const docTemplate = `{
                 "security": [
                     {
                         "BearerAuth": []
+                    },
+                    {
+                        "BearerAuth": []
                     }
                 ],
-                "description": "Create a new Skill",
+                "description": "Create a new Skill\nAuto-generated swagger for CreateSkillHandler",
                 "consumes": [
+                    "application/json",
                     "application/json"
                 ],
                 "produces": [
+                    "application/json",
                     "application/json"
                 ],
                 "tags": [
+                    "hr-employees",
                     "hr-employees"
                 ],
-                "summary": "Create Skill",
+                "summary": "Endpoint for CreateSkill",
                 "parameters": [
                     {
                         "description": "Payload",
@@ -5926,9 +7402,24 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/employees.Skill"
                         }
+                    },
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object"
+                        }
                     }
                 ],
                 "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object"
+                        }
+                    },
                     "201": {
                         "description": "Created",
                         "schema": {
@@ -5939,13 +7430,13 @@ const docTemplate = `{
             }
         },
         "/api/hr/employees/skill/{id}": {
-            "put": {
+            "get": {
                 "security": [
                     {
                         "BearerAuth": []
                     }
                 ],
-                "description": "Update an existing Skill",
+                "description": "Auto-generated swagger for GetSkillByIDHandler",
                 "consumes": [
                     "application/json"
                 ],
@@ -5955,11 +7446,11 @@ const docTemplate = `{
                 "tags": [
                     "hr-employees"
                 ],
-                "summary": "Update Skill",
+                "summary": "Endpoint for GetSkillByID",
                 "parameters": [
                     {
                         "type": "integer",
-                        "description": "Skill ID",
+                        "description": "ID",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -5969,7 +7460,64 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/employees.Skill"
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    },
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update an existing Skill\nAuto-generated swagger for UpdateSkillHandler",
+                "consumes": [
+                    "application/json",
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json",
+                    "application/json"
+                ],
+                "tags": [
+                    "hr-employees",
+                    "hr-employees"
+                ],
+                "summary": "Endpoint for UpdateSkill",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Skill ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object"
                         }
                     }
                 }
@@ -5978,20 +7526,35 @@ const docTemplate = `{
                 "security": [
                     {
                         "BearerAuth": []
+                    },
+                    {
+                        "BearerAuth": []
                     }
                 ],
-                "description": "Delete Skill by ID",
+                "description": "Delete Skill by ID\nAuto-generated swagger for DeleteSkillHandler",
+                "consumes": [
+                    "application/json"
+                ],
                 "produces": [
+                    "application/json",
                     "application/json"
                 ],
                 "tags": [
+                    "hr-employees",
                     "hr-employees"
                 ],
-                "summary": "Delete Skill",
+                "summary": "Endpoint for DeleteSkill",
                 "parameters": [
                     {
                         "type": "integer",
                         "description": "Skill ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "ID",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -6001,8 +7564,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "type": "object"
                         }
                     }
                 }
@@ -6013,21 +7575,29 @@ const docTemplate = `{
                 "security": [
                     {
                         "BearerAuth": []
+                    },
+                    {
+                        "BearerAuth": []
                     }
                 ],
-                "description": "Retrieve a list of all SkillLevel",
+                "description": "Retrieve a list of all SkillLevel\nAuto-generated swagger for GetAllSkillLevelHandler",
+                "consumes": [
+                    "application/json"
+                ],
                 "produces": [
+                    "application/json",
                     "application/json"
                 ],
                 "tags": [
+                    "hr-employees",
                     "hr-employees"
                 ],
-                "summary": "Get all SkillLevel",
+                "summary": "Endpoint for GetAllSkillLevel",
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/employees.SkillLevel"
+                            "type": "object"
                         }
                     }
                 }
@@ -6036,19 +7606,25 @@ const docTemplate = `{
                 "security": [
                     {
                         "BearerAuth": []
+                    },
+                    {
+                        "BearerAuth": []
                     }
                 ],
-                "description": "Create a new SkillLevel",
+                "description": "Create a new SkillLevel\nAuto-generated swagger for CreateSkillLevelHandler",
                 "consumes": [
+                    "application/json",
                     "application/json"
                 ],
                 "produces": [
+                    "application/json",
                     "application/json"
                 ],
                 "tags": [
+                    "hr-employees",
                     "hr-employees"
                 ],
-                "summary": "Create SkillLevel",
+                "summary": "Endpoint for CreateSkillLevel",
                 "parameters": [
                     {
                         "description": "Payload",
@@ -6058,9 +7634,24 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/employees.SkillLevel"
                         }
+                    },
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object"
+                        }
                     }
                 ],
                 "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object"
+                        }
+                    },
                     "201": {
                         "description": "Created",
                         "schema": {
@@ -6071,13 +7662,13 @@ const docTemplate = `{
             }
         },
         "/api/hr/employees/skilllevel/{id}": {
-            "put": {
+            "get": {
                 "security": [
                     {
                         "BearerAuth": []
                     }
                 ],
-                "description": "Update an existing SkillLevel",
+                "description": "Auto-generated swagger for GetSkillLevelByIDHandler",
                 "consumes": [
                     "application/json"
                 ],
@@ -6087,11 +7678,11 @@ const docTemplate = `{
                 "tags": [
                     "hr-employees"
                 ],
-                "summary": "Update SkillLevel",
+                "summary": "Endpoint for GetSkillLevelByID",
                 "parameters": [
                     {
                         "type": "integer",
-                        "description": "SkillLevel ID",
+                        "description": "ID",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -6101,7 +7692,64 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/employees.SkillLevel"
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    },
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update an existing SkillLevel\nAuto-generated swagger for UpdateSkillLevelHandler",
+                "consumes": [
+                    "application/json",
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json",
+                    "application/json"
+                ],
+                "tags": [
+                    "hr-employees",
+                    "hr-employees"
+                ],
+                "summary": "Endpoint for UpdateSkillLevel",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "SkillLevel ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object"
                         }
                     }
                 }
@@ -6110,20 +7758,35 @@ const docTemplate = `{
                 "security": [
                     {
                         "BearerAuth": []
+                    },
+                    {
+                        "BearerAuth": []
                     }
                 ],
-                "description": "Delete SkillLevel by ID",
+                "description": "Delete SkillLevel by ID\nAuto-generated swagger for DeleteSkillLevelHandler",
+                "consumes": [
+                    "application/json"
+                ],
                 "produces": [
+                    "application/json",
                     "application/json"
                 ],
                 "tags": [
+                    "hr-employees",
                     "hr-employees"
                 ],
-                "summary": "Delete SkillLevel",
+                "summary": "Endpoint for DeleteSkillLevel",
                 "parameters": [
                     {
                         "type": "integer",
                         "description": "SkillLevel ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "ID",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -6133,33 +7796,35 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "type": "object"
                         }
                     }
                 }
             }
         },
-        "/api/hr/employees/workingschedule": {
+        "/api/hr/employees/warningletter": {
             "get": {
                 "security": [
                     {
                         "BearerAuth": []
                     }
                 ],
-                "description": "Retrieve a list of all WorkingSchedule",
+                "description": "Auto-generated swagger for GetAllWarningLetterHandler",
+                "consumes": [
+                    "application/json"
+                ],
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "hr-employees"
                 ],
-                "summary": "Get all WorkingSchedule",
+                "summary": "Endpoint for GetAllWarningLetter",
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/employees.WorkingSchedule"
+                            "type": "object"
                         }
                     }
                 }
@@ -6170,7 +7835,7 @@ const docTemplate = `{
                         "BearerAuth": []
                     }
                 ],
-                "description": "Create a new WorkingSchedule",
+                "description": "Auto-generated swagger for CreateWarningLetterHandler",
                 "consumes": [
                     "application/json"
                 ],
@@ -6180,7 +7845,199 @@ const docTemplate = `{
                 "tags": [
                     "hr-employees"
                 ],
-                "summary": "Create WorkingSchedule",
+                "summary": "Endpoint for CreateWarningLetter",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/hr/employees/warningletter/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Auto-generated swagger for GetWarningLetterByIDHandler",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "hr-employees"
+                ],
+                "summary": "Endpoint for GetWarningLetterByID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Auto-generated swagger for UpdateWarningLetterHandler",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "hr-employees"
+                ],
+                "summary": "Endpoint for UpdateWarningLetter",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Auto-generated swagger for DeleteWarningLetterHandler",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "hr-employees"
+                ],
+                "summary": "Endpoint for DeleteWarningLetter",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/hr/employees/workingschedule": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    },
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve a list of all WorkingSchedule\nAuto-generated swagger for GetAllWorkingScheduleHandler",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json",
+                    "application/json"
+                ],
+                "tags": [
+                    "hr-employees",
+                    "hr-employees"
+                ],
+                "summary": "Endpoint for GetAllWorkingSchedule",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    },
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create a new WorkingSchedule\nAuto-generated swagger for CreateWorkingScheduleHandler",
+                "consumes": [
+                    "application/json",
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json",
+                    "application/json"
+                ],
+                "tags": [
+                    "hr-employees",
+                    "hr-employees"
+                ],
+                "summary": "Endpoint for CreateWorkingSchedule",
                 "parameters": [
                     {
                         "description": "Payload",
@@ -6190,9 +8047,24 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/employees.WorkingSchedule"
                         }
+                    },
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object"
+                        }
                     }
                 ],
                 "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object"
+                        }
+                    },
                     "201": {
                         "description": "Created",
                         "schema": {
@@ -6203,13 +8075,13 @@ const docTemplate = `{
             }
         },
         "/api/hr/employees/workingschedule/{id}": {
-            "put": {
+            "get": {
                 "security": [
                     {
                         "BearerAuth": []
                     }
                 ],
-                "description": "Update an existing WorkingSchedule",
+                "description": "Auto-generated swagger for GetWorkingScheduleByIDHandler",
                 "consumes": [
                     "application/json"
                 ],
@@ -6219,11 +8091,11 @@ const docTemplate = `{
                 "tags": [
                     "hr-employees"
                 ],
-                "summary": "Update WorkingSchedule",
+                "summary": "Endpoint for GetWorkingScheduleByID",
                 "parameters": [
                     {
                         "type": "integer",
-                        "description": "WorkingSchedule ID",
+                        "description": "ID",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -6233,7 +8105,64 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/employees.WorkingSchedule"
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    },
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update an existing WorkingSchedule\nAuto-generated swagger for UpdateWorkingScheduleHandler",
+                "consumes": [
+                    "application/json",
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json",
+                    "application/json"
+                ],
+                "tags": [
+                    "hr-employees",
+                    "hr-employees"
+                ],
+                "summary": "Endpoint for UpdateWorkingSchedule",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "WorkingSchedule ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object"
                         }
                     }
                 }
@@ -6242,20 +8171,35 @@ const docTemplate = `{
                 "security": [
                     {
                         "BearerAuth": []
+                    },
+                    {
+                        "BearerAuth": []
                     }
                 ],
-                "description": "Delete WorkingSchedule by ID",
+                "description": "Delete WorkingSchedule by ID\nAuto-generated swagger for DeleteWorkingScheduleHandler",
+                "consumes": [
+                    "application/json"
+                ],
                 "produces": [
+                    "application/json",
                     "application/json"
                 ],
                 "tags": [
+                    "hr-employees",
                     "hr-employees"
                 ],
-                "summary": "Delete WorkingSchedule",
+                "summary": "Endpoint for DeleteWorkingSchedule",
                 "parameters": [
                     {
                         "type": "integer",
                         "description": "WorkingSchedule ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "ID",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -6265,8 +8209,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "type": "object"
                         }
                     }
                 }
@@ -6277,20 +8220,35 @@ const docTemplate = `{
                 "security": [
                     {
                         "BearerAuth": []
+                    },
+                    {
+                        "BearerAuth": []
                     }
                 ],
-                "description": "Retrieve a specific Employee by its ID",
+                "description": "Retrieve a specific Employee by its ID\nAuto-generated swagger for GetEmployeeByIDHandler",
+                "consumes": [
+                    "application/json"
+                ],
                 "produces": [
+                    "application/json",
                     "application/json"
                 ],
                 "tags": [
+                    "hr-employees",
                     "hr-employees"
                 ],
-                "summary": "Get a Employee by ID",
+                "summary": "Endpoint for GetEmployeeByID",
                 "parameters": [
                     {
                         "type": "integer",
                         "description": "Employee ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "ID",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -6300,7 +8258,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/employees.Employee"
+                            "type": "object"
                         }
                     }
                 }
@@ -6309,19 +8267,25 @@ const docTemplate = `{
                 "security": [
                     {
                         "BearerAuth": []
+                    },
+                    {
+                        "BearerAuth": []
                     }
                 ],
-                "description": "Update an existing Employee",
+                "description": "Update an existing Employee\nAuto-generated swagger for UpdateEmployeeHandler",
                 "consumes": [
+                    "application/json",
                     "application/json"
                 ],
                 "produces": [
+                    "application/json",
                     "application/json"
                 ],
                 "tags": [
+                    "hr-employees",
                     "hr-employees"
                 ],
-                "summary": "Update a Employee",
+                "summary": "Endpoint for UpdateEmployee",
                 "parameters": [
                     {
                         "type": "integer",
@@ -6329,13 +8293,29 @@ const docTemplate = `{
                         "name": "id",
                         "in": "path",
                         "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object"
+                        }
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/employees.Employee"
+                            "type": "object"
                         }
                     }
                 }
@@ -6344,20 +8324,35 @@ const docTemplate = `{
                 "security": [
                     {
                         "BearerAuth": []
+                    },
+                    {
+                        "BearerAuth": []
                     }
                 ],
-                "description": "Delete a Employee by ID",
+                "description": "Delete a Employee by ID\nAuto-generated swagger for DeleteEmployeeHandler",
+                "consumes": [
+                    "application/json"
+                ],
                 "produces": [
+                    "application/json",
                     "application/json"
                 ],
                 "tags": [
+                    "hr-employees",
                     "hr-employees"
                 ],
-                "summary": "Delete a Employee",
+                "summary": "Endpoint for DeleteEmployee",
                 "parameters": [
                     {
                         "type": "integer",
                         "description": "Employee ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "ID",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -6367,8 +8362,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "type": "object"
                         }
                     }
                 }
@@ -7303,6 +9297,28 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/payroll.Payslip"
                         }
+                    }
+                }
+            }
+        },
+        "/api/hr/payroll-espt": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Download tax reports for all employees",
+                "produces": [
+                    "text/csv"
+                ],
+                "tags": [
+                    "hr-payroll"
+                ],
+                "summary": "Export e-SPT PPh 21",
+                "responses": {
+                    "200": {
+                        "description": "OK"
                     }
                 }
             }
@@ -22259,6 +24275,37 @@ const docTemplate = `{
                 }
             }
         },
+        "employees.AuditLog": {
+            "type": "object",
+            "properties": {
+                "action": {
+                    "description": "UPDATE, DELETE",
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "new_data": {
+                    "type": "string"
+                },
+                "old_data": {
+                    "type": "string"
+                },
+                "record_id": {
+                    "type": "integer"
+                },
+                "target_table": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "description": "Admin who did it",
+                    "type": "integer"
+                }
+            }
+        },
         "employees.Contract": {
             "type": "object",
             "properties": {
@@ -22332,6 +24379,9 @@ const docTemplate = `{
                 "created_at": {
                     "type": "string"
                 },
+                "deleted_at": {
+                    "$ref": "#/definitions/gorm.DeletedAt"
+                },
                 "department": {
                     "$ref": "#/definitions/employees.Department"
                 },
@@ -22346,6 +24396,9 @@ const docTemplate = `{
                 },
                 "id": {
                     "type": "integer"
+                },
+                "is_active": {
+                    "type": "boolean"
                 },
                 "job_position": {
                     "$ref": "#/definitions/employees.JobPosition"
@@ -22768,6 +24821,18 @@ const docTemplate = `{
                 },
                 "name": {
                     "type": "string"
+                }
+            }
+        },
+        "gorm.DeletedAt": {
+            "type": "object",
+            "properties": {
+                "time": {
+                    "type": "string"
+                },
+                "valid": {
+                    "description": "Valid is true if Time is not NULL",
+                    "type": "boolean"
                 }
             }
         },

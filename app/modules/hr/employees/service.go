@@ -84,3 +84,38 @@ func GetAllDepartmentService() ([]Department, error) { return GetAllDepartment()
 func GetDepartmentByIDService(id uint) (*Department, error) { return GetDepartmentByID(id) }
 func UpdateDepartmentService(data *Department) error { return UpdateDepartment(data) }
 func DeleteDepartmentService(id uint) error { return DeleteDepartment(id) }
+
+
+// --- Warning Letter ---
+func GetAllWarningLetterService() ([]WarningLetter, error) { return GetAllWarningLetter() }
+func GetWarningLetterByIDService(id uint) (*WarningLetter, error) { return GetWarningLetterByID(id) }
+func CreateWarningLetterService(data *WarningLetter) error { return CreateWarningLetter(data) }
+func UpdateWarningLetterService(data *WarningLetter) error { return UpdateWarningLetter(data) }
+func DeleteWarningLetterService(id uint) error { return DeleteWarningLetter(id) }
+
+
+// --- Employee Task ---
+func GetAllEmployeeTaskService() ([]EmployeeTask, error) { return GetAllEmployeeTask() }
+func GetEmployeeTaskByIDService(id uint) (*EmployeeTask, error) { return GetEmployeeTaskByID(id) }
+func CreateEmployeeTaskService(data *EmployeeTask) error { return CreateEmployeeTask(data) }
+func UpdateEmployeeTaskService(data *EmployeeTask) error { return UpdateEmployeeTask(data) }
+func DeleteEmployeeTaskService(id uint) error { return DeleteEmployeeTask(id) }
+
+// --- Phase 3 ---
+func GetAllOvertimeService() ([]Overtime, error) { return GetAllOvertime() }
+func GetOvertimeByIDService(id uint) (*Overtime, error) { return GetOvertimeByID(id) }
+func CreateOvertimeService(data *Overtime) error { return CreateOvertime(data) }
+func UpdateOvertimeService(data *Overtime) error { return UpdateOvertime(data) }
+func DeleteOvertimeService(id uint) error { return DeleteOvertime(id) }
+
+func GetAllEmployeeLoanService() ([]EmployeeLoan, error) { return GetAllEmployeeLoan() }
+func GetEmployeeLoanByIDService(id uint) (*EmployeeLoan, error) { return GetEmployeeLoanByID(id) }
+func CreateEmployeeLoanService(data *EmployeeLoan) error { return CreateEmployeeLoan(data) }
+func UpdateEmployeeLoanService(data *EmployeeLoan) error { return UpdateEmployeeLoan(data) }
+func DeleteEmployeeLoanService(id uint) error { return DeleteEmployeeLoan(id) }
+
+func GetAllExpenseService() ([]Expense, error) { return GetAllExpense() }
+func GetExpenseByIDService(id uint) (*Expense, error) { return GetExpenseByID(id) }
+func CreateExpenseService(data *Expense) error { return CreateExpense(data) }
+func UpdateExpenseService(data *Expense) error { return UpdateExpense(data) }
+func DeleteExpenseService(id uint) error { return DeleteExpense(id) }

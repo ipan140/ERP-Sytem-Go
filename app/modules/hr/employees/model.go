@@ -1,6 +1,7 @@
 package employees
 
 import (
+	"fmt"
 	"ERP-System/app/modules/auth"
 	"ERP-System/config"
 	"time"
@@ -105,6 +106,139 @@ type ResumeLine struct {
 	Description string     `gorm:"type:text" json:"description"`
 }
 
+
+type WarningLetter struct {
+	ID          uint       `gorm:"primaryKey" json:"id"`
+	EmployeeID  uint       `json:"employee_id"`
+	Employee    *Employee  `gorm:"foreignKey:EmployeeID" json:"employee,omitempty"`
+	WarningType string     `gorm:"type:varchar(50);not null" json:"warning_type"`
+	IssueDate   time.Time  `json:"issue_date"`
+	ExpiryDate  *time.Time `json:"expiry_date"`
+	Description string     `gorm:"type:text" json:"description"`
+	CreatedAt   time.Time  `json:"created_at"`
+}
+
+type EmployeeTask struct {
+	ID         uint       `gorm:"primaryKey" json:"id"`
+	EmployeeID uint       `json:"employee_id"`
+	Employee   *Employee  `gorm:"foreignKey:EmployeeID" json:"employee,omitempty"`
+	TaskName   string     `gorm:"type:varchar(255);not null" json:"task_name"`
+	Type       string     `gorm:"type:varchar(50);default:'onboarding'" json:"type"`
+	Status     string     `gorm:"type:varchar(50);default:'pending'" json:"status"`
+	CreatedAt  time.Time  `json:"created_at"`
+}
+
+func (WarningLetter) TableName() string {
+	return "hrd.warning_letters"
+}
+func (EmployeeTask) TableName() string {
+	return "hrd.employee_tasks"
+}
+
+
+// --- 4. Transactions & Finance ---
+type Overtime struct {
+	ID          uint       `gorm:"primaryKey" json:"id"`
+	EmployeeID  uint       `json:"employee_id"`
+	Employee    *Employee  `gorm:"foreignKey:EmployeeID" json:"employee,omitempty"`
+	Date        time.Time  `json:"date"`
+	Hours       float64    `json:"hours"`
+	Description string     `gorm:"type:text" json:"description"`
+	Status      string     `gorm:"type:varchar(50);default:'pending'" json:"status"`
+	CreatedAt   time.Time  `json:"created_at"`
+}
+
+type EmployeeLoan struct {
+	ID                 uint       `gorm:"primaryKey" json:"id"`
+	EmployeeID         uint       `json:"employee_id"`
+	Employee           *Employee  `gorm:"foreignKey:EmployeeID" json:"employee,omitempty"`
+	PrincipalAmount    float64    `gorm:"type:numeric(15,2)" json:"principal_amount"`
+	TenorMonths        int        `json:"tenor_months"`
+	MonthlyInstallment float64    `gorm:"type:numeric(15,2)" json:"monthly_installment"`
+	Status             string     `gorm:"type:varchar(50);default:'pending'" json:"status"`
+	Date               time.Time  `json:"date"`
+	CreatedAt          time.Time  `json:"created_at"`
+}
+
+type Expense struct {
+	ID          uint       `gorm:"primaryKey" json:"id"`
+	EmployeeID  uint       `json:"employee_id"`
+	Employee    *Employee  `gorm:"foreignKey:EmployeeID" json:"employee,omitempty"`
+	ExpenseType string     `gorm:"type:varchar(100)" json:"expense_type"`
+	Amount      float64    `gorm:"type:numeric(15,2)" json:"amount"`
+	Description string     `gorm:"type:text" json:"description"`
+	Status      string     `gorm:"type:varchar(50);default:'pending'" json:"status"`
+	Date        time.Time  `json:"date"`
+	CreatedAt   time.Time  `json:"created_at"`
+}
+
+func (Overtime) TableName() string {
+	return "hrd.overtimes"
+}
+func (EmployeeLoan) TableName() string {
+	return "hrd.employee_loans"
+}
+func (Expense) TableName() string {
+	return "hrd.expenses"
+}
+
+
+// --- 5. Payroll ---
+type Payslip struct {
+	ID              uint          `gorm:"primaryKey" json:"id"`
+	EmployeeID      uint          `json:"employee_id"`
+	Employee        *Employee     `gorm:"foreignKey:EmployeeID" json:"employee,omitempty"`
+	Period          string        `gorm:"type:varchar(20);not null" json:"period"`
+	BasicSalary     float64       `gorm:"type:numeric(15,2)" json:"basic_salary"`
+	TotalEarning    float64       `gorm:"type:numeric(15,2)" json:"total_earning"`
+	TotalDeduction  float64       `gorm:"type:numeric(15,2)" json:"total_deduction"`
+	NetSalary       float64       `gorm:"type:numeric(15,2)" json:"net_salary"`
+	Status          string        `gorm:"type:varchar(50);default:'draft'" json:"status"`
+	PayslipLines    []PayslipLine `gorm:"foreignKey:PayslipID" json:"payslip_lines,omitempty"`
+	CreatedAt       time.Time     `json:"created_at"`
+}
+
+type PayslipLine struct {
+	ID        uint      `gorm:"primaryKey" json:"id"`
+	PayslipID uint      `json:"payslip_id"`
+	Category  string    `gorm:"type:varchar(50)" json:"category"` // earning, deduction
+	Name      string    `gorm:"type:varchar(100)" json:"name"`
+	Amount    float64   `gorm:"type:numeric(15,2)" json:"amount"`
+}
+
+func (Payslip) TableName() string { return "hrd.hr_payslips" }
+func (PayslipLine) TableName() string { return "hrd.hr_payslip_lines" }
+
+
+// --- 6. Audit & System ---
+type AuditLog struct {
+	ID        uint      `gorm:"primaryKey" json:"id"`
+	TargetTable string    `gorm:"type:varchar(100)" json:"target_table"`
+	Action    string    `gorm:"type:varchar(50)" json:"action"` // UPDATE, DELETE
+	RecordID  uint      `json:"record_id"`
+	OldData   string    `gorm:"type:text" json:"old_data"`
+	NewData   string    `gorm:"type:text" json:"new_data"`
+	UserID    uint      `json:"user_id"` // Admin who did it
+	CreatedAt time.Time `json:"created_at"`
+}
+
+func (AuditLog) TableName() string { return "hrd.audit_logs" }
+
+// Hooks
+func (c *Contract) AfterUpdate(tx *gorm.DB) (err error) {
+	// Simple hook to log changes (In real app, we diff old vs new)
+	log := AuditLog{
+		TargetTable: "hrd.contracts",
+		Action:    "UPDATE",
+		RecordID:  c.ID,
+		OldData:   "Previous Wage (tracked by DB)",
+		NewData:   fmt.Sprintf("New Wage: %f", c.Wage),
+		UserID:    1, // Default Admin
+	}
+	tx.Create(&log)
+	return
+}
+
 func (Department) TableName() string {
 	return "hrd.departments"
 }
@@ -138,5 +272,8 @@ func init() {
 		&Department{}, &JobPosition{}, &Employee{},
 		&WorkingSchedule{}, &Contract{},
 		&Skill{}, &SkillLevel{}, &EmployeeSkill{}, &ResumeLine{},
+		&WarningLetter{}, &EmployeeTask{},
+		&Overtime{}, &EmployeeLoan{}, &Expense{},
+		&Payslip{}, &PayslipLine{}, &AuditLog{},
 	)
 }
