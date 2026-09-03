@@ -1,6 +1,8 @@
 package employees
 
 import (
+	"fmt"
+	"time"
 	"gorm.io/gorm/clause"
 	"ERP-System/config"
 )
@@ -299,18 +301,22 @@ func GeneratePayroll(period string) error {
 			}
 		}
 
-		// 4. BPJS & Pajak
+		// 4. BPJS & Pajak PPh 21 (TER 2024 Resmi: PP 58/2023 & PMK 168/2023)
 		bpjsKes := basicSalary * 0.01 // 1%
 		bpjsTk := basicSalary * 0.03  // 3% (JHT 2% + JP 1%)
 		lines = append(lines, PayslipLine{Category: "deduction", Name: "BPJS Kesehatan (1%)", Amount: bpjsKes})
 		lines = append(lines, PayslipLine{Category: "deduction", Name: "BPJS Ketenagakerjaan (3%)", Amount: bpjsTk})
 		totalDeduction += (bpjsKes + bpjsTk)
 
-		// Simple PPh 21 TER (flat 5% on earnings above 5jt)
-		taxable := totalEarning - 5000000
-		if taxable > 0 {
-			pph21 := taxable * 0.05
-			lines = append(lines, PayslipLine{Category: "deduction", Name: "PPh 21 (Pajak Penghasilan)", Amount: pph21})
+		// Hitung PPh 21 TER 2024 resmi berdasarkan Penghasilan Bruto (totalEarning) dan Kategori PTKP
+		ptkpStatus := emp.PTKPStatus
+		if ptkpStatus == "" {
+			ptkpStatus = "TK/0"
+		}
+		pph21, terCat, terRate := CalculatePPh21TER(totalEarning, ptkpStatus)
+		if pph21 > 0 {
+			lineName := fmt.Sprintf("PPh 21 TER 2024 (Kat. %s - %.2f%%)", terCat, terRate*100)
+			lines = append(lines, PayslipLine{Category: "deduction", Name: lineName, Amount: pph21})
 			totalDeduction += pph21
 		}
 
@@ -325,3 +331,103 @@ func GeneratePayroll(period string) error {
 }
 func DeletePayslip(id uint) error { return config.DB.Delete(&Payslip{}, id).Error }
 func MarkPayslipPaid(id uint) error { return config.DB.Model(&Payslip{}).Where("id = ?", id).Update("status", "paid").Error }
+
+// --- THR Repository ---
+func GenerateTHR(year int, cutoffDate time.Time) error {
+	var employees []Employee
+	if err := config.DB.Find(&employees).Error; err != nil {
+		return err
+	}
+
+	for _, emp := range employees {
+		// Dapatkan gaji pokok dari kontrak aktif terbaru
+		var contract Contract
+		var wage float64 = 0
+		var contractStart time.Time = emp.CreatedAt
+		if err := config.DB.Where("employee_id = ?", emp.ID).Order("created_at desc").First(&contract).Error; err == nil {
+			wage = contract.Wage
+			if !contract.StartDate.IsZero() {
+				contractStart = contract.StartDate
+			}
+		}
+
+		if wage == 0 {
+			continue
+		}
+
+		// Hitung masa kerja (JoinDate jika ada, atau ContractStart / CreatedAt)
+		joinDate := contractStart
+		if emp.JoinDate != nil && !emp.JoinDate.IsZero() {
+			joinDate = *emp.JoinDate
+		}
+
+		// Hitung selisih bulan antara joinDate dan cutoffDate
+		yearsDiff := cutoffDate.Year() - joinDate.Year()
+		monthsDiff := int(cutoffDate.Month()) - int(joinDate.Month())
+		totalMonths := yearsDiff*12 + monthsDiff
+		// Sesuaikan bila hari belum mencapai
+		if cutoffDate.Day() < joinDate.Day() {
+			totalMonths--
+		}
+
+		if totalMonths < 1 {
+			// Kurang dari 1 bulan tidak dapat THR sesuai Permenaker No. 6/2016
+			continue
+		}
+
+		var thrAmount float64 = 0
+		var calcType string = ""
+
+		if totalMonths >= 12 {
+			// Masa kerja 12 bulan atau lebih: 1 bulan upah penuh
+			thrAmount = wage
+			calcType = "Full 1 Bulan Upah (Masa Kerja >= 1 Tahun)"
+		} else {
+			// Masa kerja 1 bulan s/d < 12 bulan: Prorata N / 12 * Upah
+			thrAmount = (float64(totalMonths) / 12.0) * wage
+			calcType = fmt.Sprintf("Prorata %d/12 Bulan (Masa Kerja %d Bulan)", totalMonths, totalMonths)
+		}
+
+		// Cek jika sudah pernah di-generate untuk tahun ini
+		var existing EmployeeTHR
+		if err := config.DB.Where("employee_id = ? AND year = ?", emp.ID, year).First(&existing).Error; err == nil {
+			// Update yang ada
+			existing.BasicWage = wage
+			existing.THRAmount = thrAmount
+			existing.CutoffDate = cutoffDate
+			existing.JoinDate = joinDate
+			existing.TenureMonths = totalMonths
+			existing.CalculationType = calcType
+			config.DB.Save(&existing)
+		} else {
+			// Buat baru
+			newTHR := EmployeeTHR{
+				EmployeeID:      emp.ID,
+				Year:            year,
+				CutoffDate:      cutoffDate,
+				JoinDate:        joinDate,
+				TenureMonths:    totalMonths,
+				BasicWage:       wage,
+				THRAmount:       thrAmount,
+				CalculationType: calcType,
+				Status:          "draft",
+			}
+			config.DB.Create(&newTHR)
+		}
+	}
+	return nil
+}
+
+func GetAllTHR(year int) ([]EmployeeTHR, error) {
+	var list []EmployeeTHR
+	query := config.DB.Preload("Employee")
+	if year > 0 {
+		query = query.Where("year = ?", year)
+	}
+	err := query.Order("id desc").Find(&list).Error
+	return list, err
+}
+
+func UpdateTHRStatus(id uint, status string) error {
+	return config.DB.Model(&EmployeeTHR{}).Where("id = ?", id).Update("status", status).Error
+}

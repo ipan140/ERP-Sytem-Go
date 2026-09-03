@@ -40,6 +40,14 @@ func RegisterRoutes(e *echo.Echo) {
 	api.GET("/payroll", GetAllPayslipsHandler)
 	api.GET("/payroll/:id", GetPayslipByIDHandler)
 
+	// ESS (Employee Self-Service) endpoints untuk karyawan biasa
+	api.GET("/me/profile", GetMyProfileHandler)
+	api.GET("/me/payslips", GetMyPayslipsHandler)
+	api.GET("/me/warning-letters", GetMyWarningLettersHandler)
+
+	// THR routes (Viewable by users, managed by HR Admin)
+	api.GET("/thr", GetAllTHRHandler)
+
 	// 2. Group HR Spesifik: HANYA BOLEH DIAKSES OLEH HR MANAGER (Create/Update/Delete)
 	hrAdmin := api.Group("")
 
@@ -93,6 +101,10 @@ func RegisterRoutes(e *echo.Echo) {
 	hrAdmin.POST("/payroll/generate", GeneratePayrollHandler)
 	hrAdmin.DELETE("/payroll/:id", DeletePayslipHandler)
 	hrAdmin.PUT("/payroll/:id/pay", PayPayslipHandler)
+
+	// THR Admin routes
+	hrAdmin.POST("/thr/generate", GenerateTHRHandler)
+	hrAdmin.PUT("/thr/:id/status", UpdateTHRStatusHandler)
 
 	// 3. Group Super Rahasia: KONTRAK KERJA (Hanya HR Manager)
 	contract := e.Group("/api/hr/employees/contract", middleware.Auth(), middleware.GlobalAutoRBAC())

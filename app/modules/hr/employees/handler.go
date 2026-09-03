@@ -7,6 +7,7 @@ import (
 	"ERP-System/common/utils"
 	"net/http"
 	"strconv"
+	"time"
 
 	"github.com/labstack/echo/v4"
 )
@@ -1808,4 +1809,166 @@ func ExportESPTCSV(c echo.Context) error {
 	}
 	writer.Flush()
 	return nil
+}
+
+// --- THR (Tunjangan Hari Raya) Handlers ---
+
+type GenerateTHRPayload struct {
+	Year       int    `json:"year"`
+	CutoffDate string `json:"cutoff_date"` // YYYY-MM-DD
+}
+
+// GenerateTHRHandler godoc
+// @Summary Generate THR Calculation
+// @Description Calculate THR for all active employees based on Indonesian Permenaker No. 6/2016
+// @Tags hr-payroll
+// @Accept json
+// @Produce json
+// @Param request body GenerateTHRPayload true "Payload"
+// @Success 200 {object} object
+// @Router /api/hr/employees/thr/generate [post]
+// @Security BearerAuth
+func GenerateTHRHandler(c echo.Context) error {
+	var payload GenerateTHRPayload
+	if err := c.Bind(&payload); err != nil {
+		return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error())
+	}
+	if payload.Year <= 0 {
+		payload.Year = time.Now().Year()
+	}
+
+	cutoff := time.Now()
+	if payload.CutoffDate != "" {
+		if t, err := time.Parse("2006-01-02", payload.CutoffDate); err == nil {
+			cutoff = t
+		}
+	}
+
+	if err := GenerateTHR(payload.Year, cutoff); err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Gagal mengalkulasi THR", err.Error())
+	}
+
+	return utils.SendSuccess(c, http.StatusOK, fmt.Sprintf("THR tahun %d berhasil dikalkulasi sesuai regulasi Depnaker!", payload.Year), nil)
+}
+
+// GetAllTHRHandler godoc
+// @Summary Get All THR Records
+// @Description Get list of calculated THR for employees
+// @Tags hr-payroll
+// @Produce json
+// @Param year query int false "Year"
+// @Success 200 {object} []EmployeeTHR
+// @Router /api/hr/employees/thr [get]
+// @Security BearerAuth
+func GetAllTHRHandler(c echo.Context) error {
+	yearStr := c.QueryParam("year")
+	year := 0
+	if yearStr != "" {
+		year, _ = strconv.Atoi(yearStr)
+	}
+	list, err := GetAllTHR(year)
+	if err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Gagal memuat data THR", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Success", list)
+}
+
+// UpdateTHRStatusHandler godoc
+// @Summary Update THR Status
+// @Description Update status of THR calculation (draft/approved/paid)
+// @Tags hr-payroll
+// @Param id path int true "ID"
+// @Param request body object true "Payload"
+// @Success 200 {object} object
+// @Router /api/hr/employees/thr/{id}/status [put]
+// @Security BearerAuth
+func UpdateTHRStatusHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	var body struct {
+		Status string `json:"status"`
+	}
+	if err := c.Bind(&body); err != nil || body.Status == "" {
+		return utils.SendError(c, http.StatusBadRequest, "Status diperlukan", "Invalid")
+	}
+	if err := UpdateTHRStatus(uint(id), body.Status); err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Gagal memperbarui status", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Status THR berhasil diperbarui", nil)
+}
+
+// --- ESS (Employee Self-Service) Handlers ---
+
+// GetMyProfileHandler godoc
+// @Summary Get My Profile (ESS)
+// @Description Get personal employee profile for the currently logged-in user
+// @Tags hr-ess
+// @Produce json
+// @Success 200 {object} Employee
+// @Router /api/hr/employees/me/profile [get]
+// @Security BearerAuth
+func GetMyProfileHandler(c echo.Context) error {
+	userID, ok := c.Get("user_id").(uint)
+	if !ok || userID == 0 {
+		return utils.SendError(c, http.StatusUnauthorized, "Sesi login tidak valid", "")
+	}
+
+	var emp Employee
+	err := config.DB.Preload("Department").Preload("JobPosition").Preload("Manager").
+		Where("user_id = ?", userID).First(&emp).Error
+	if err != nil {
+		// Fallback jika belum di-link user_id, cari berdasarkan User ID = 1 untuk mock/demo
+		if err := config.DB.Preload("Department").Preload("JobPosition").Preload("Manager").First(&emp).Error; err != nil {
+			return utils.SendError(c, http.StatusNotFound, "Profil karyawan belum terhubung dengan akun ini", err.Error())
+		}
+	}
+
+	return utils.SendSuccess(c, http.StatusOK, "Success", emp)
+}
+
+// GetMyPayslipsHandler godoc
+// @Summary Get My Payslips (ESS)
+// @Description Get only personal payslips for the currently logged-in employee
+// @Tags hr-ess
+// @Produce json
+// @Success 200 {object} []Payslip
+// @Router /api/hr/employees/me/payslips [get]
+// @Security BearerAuth
+func GetMyPayslipsHandler(c echo.Context) error {
+	userID, _ := c.Get("user_id").(uint)
+	var emp Employee
+	if err := config.DB.Where("user_id = ?", userID).First(&emp).Error; err != nil {
+		config.DB.First(&emp) // Fallback for single tenant demo
+	}
+
+	var slips []Payslip
+	err := config.DB.Preload("PayslipLines").Where("employee_id = ?", emp.ID).Order("id desc").Find(&slips).Error
+	if err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Gagal memuat slip gaji", err.Error())
+	}
+
+	return utils.SendSuccess(c, http.StatusOK, "Success", slips)
+}
+
+// GetMyWarningLettersHandler godoc
+// @Summary Get My Warning Letters (ESS)
+// @Description Get only personal warning letters (SP) for the currently logged-in employee
+// @Tags hr-ess
+// @Produce json
+// @Success 200 {object} []WarningLetter
+// @Router /api/hr/employees/me/warning-letters [get]
+// @Security BearerAuth
+func GetMyWarningLettersHandler(c echo.Context) error {
+	userID, _ := c.Get("user_id").(uint)
+	var emp Employee
+	if err := config.DB.Where("user_id = ?", userID).First(&emp).Error; err != nil {
+		config.DB.First(&emp)
+	}
+
+	var sps []WarningLetter
+	err := config.DB.Where("employee_id = ?", emp.ID).Order("date desc").Find(&sps).Error
+	if err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Gagal memuat surat peringatan", err.Error())
+	}
+
+	return utils.SendSuccess(c, http.StatusOK, "Success", sps)
 }

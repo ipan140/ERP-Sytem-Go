@@ -41,9 +41,11 @@ type Employee struct {
 	WorkEmail        string       `gorm:"type:varchar(100)" json:"work_email"`
 	WorkPhone        string       `gorm:"type:varchar(50)" json:"work_phone"`
 	EmergencyContact string       `gorm:"type:varchar(100)" json:"emergency_contact"`
-	EmergencyPhone   string       `gorm:"type:varchar(50)" json:"emergency_phone"`
-	IsActive         bool         `gorm:"default:true" json:"is_active"`
-	CreatedAt        time.Time    `json:"created_at"`
+	EmergencyPhone   string         `gorm:"type:varchar(50)" json:"emergency_phone"`
+	PTKPStatus       string         `gorm:"type:varchar(20);default:'TK/0'" json:"ptkp_status"` // TK/0, TK/1, K/0, K/1, K/2, K/3
+	JoinDate         *time.Time     `json:"join_date"`
+	IsActive         bool           `gorm:"default:true" json:"is_active"`
+	CreatedAt        time.Time      `json:"created_at"`
 	DeletedAt        gorm.DeletedAt `gorm:"index" json:"deleted_at,omitempty"`
 }
 
@@ -209,6 +211,24 @@ type PayslipLine struct {
 func (Payslip) TableName() string { return "hrd.hr_payslips" }
 func (PayslipLine) TableName() string { return "hrd.hr_payslip_lines" }
 
+// --- 5b. Tunjangan Hari Raya (THR) ---
+type EmployeeTHR struct {
+	ID              uint       `gorm:"primaryKey" json:"id"`
+	EmployeeID      uint       `json:"employee_id"`
+	Employee        *Employee  `gorm:"foreignKey:EmployeeID" json:"employee,omitempty"`
+	Year            int        `json:"year"`
+	CutoffDate      time.Time  `json:"cutoff_date"`
+	JoinDate        time.Time  `json:"join_date"`
+	TenureMonths    int        `json:"tenure_months"`
+	BasicWage       float64    `gorm:"type:numeric(15,2)" json:"basic_wage"`
+	THRAmount       float64    `gorm:"type:numeric(15,2)" json:"thr_amount"`
+	CalculationType string     `gorm:"type:varchar(50)" json:"calculation_type"` // Full (1 Month), Prorate (N/12)
+	Status          string     `gorm:"type:varchar(50);default:'draft'" json:"status"` // draft, approved, paid
+	CreatedAt       time.Time  `json:"created_at"`
+}
+
+func (EmployeeTHR) TableName() string { return "hrd.employee_thrs" }
+
 
 // --- 6. Audit & System ---
 type AuditLog struct {
@@ -274,6 +294,6 @@ func init() {
 		&Skill{}, &SkillLevel{}, &EmployeeSkill{}, &ResumeLine{},
 		&WarningLetter{}, &EmployeeTask{},
 		&Overtime{}, &EmployeeLoan{}, &Expense{},
-		&Payslip{}, &PayslipLine{}, &AuditLog{},
+		&Payslip{}, &PayslipLine{}, &EmployeeTHR{}, &AuditLog{},
 	)
 }
