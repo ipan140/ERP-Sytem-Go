@@ -30,6 +30,7 @@ type Invoice struct {
 	AmountTax      float64       `gorm:"type:numeric(15,2);default:0" json:"amount_tax"`
 	AmountTotal    float64       `gorm:"type:numeric(15,2);default:0" json:"amount_total"`
 	ResidualAmount float64       `gorm:"type:numeric(15,2);default:0" json:"residual_amount"`
+	Lines          []InvoiceLine `gorm:"-" json:"lines,omitempty"`
 	CreatedAt      time.Time     `json:"created_at"`
 }
 

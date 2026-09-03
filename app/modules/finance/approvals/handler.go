@@ -2,6 +2,7 @@ package approvals
 
 import (
 	"ERP-System/common/utils"
+	"ERP-System/config"
 	"net/http"
 	"strconv"
 
@@ -75,17 +76,41 @@ func GetApprovalRequestByIDHandler(c echo.Context) error {
 // @Security BearerAuth
 func UpdateApprovalRequestHandler(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
-	data, err := GetApprovalRequestByIDService(uint(id))
+	
+	// Cek apakah data ada
+	existingData, err := GetApprovalRequestByIDService(uint(id))
 	if err != nil {
 		return utils.SendError(c, http.StatusNotFound, "Data not found", err.Error())
 	}
-	if err := c.Bind(data); err != nil {
+
+	var payload ApprovalRequest
+	if err := c.Bind(&payload); err != nil {
 		return utils.SendError(c, http.StatusBadRequest, "Invalid request payload", err.Error())
 	}
-	if err := UpdateApprovalRequestService(data); err != nil {
+
+	// Update spesifik fields untuk memastikan status tersimpan
+	err = config.DB.Model(&ApprovalRequest{}).Where("id = ?", id).Updates(map[string]interface{}{
+		"status": payload.Status,
+		"approver_name": payload.ApproverName,
+		"stage": payload.Stage,
+		"notes": payload.Notes,
+		"name": payload.Name,
+		"type": payload.Type,
+		"amount": payload.Amount,
+		"requester_name": payload.RequesterName,
+	}).Error
+
+	if err != nil {
 		return utils.SendError(c, http.StatusInternalServerError, "Failed to update data", err.Error())
 	}
-	return utils.SendSuccess(c, http.StatusOK, "Data updated successfully", data)
+
+	// Ambil data terbaru untuk response
+	updatedData, _ := GetApprovalRequestByIDService(uint(id))
+	if updatedData == nil {
+		updatedData = existingData // Fallback
+	}
+
+	return utils.SendSuccess(c, http.StatusOK, "Data updated successfully", updatedData)
 }
 
 // DeleteApprovalRequest godoc

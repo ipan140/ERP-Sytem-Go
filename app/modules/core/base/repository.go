@@ -60,7 +60,7 @@ func DeleteCountryState(id uint) error            { return config.DB.Delete(&Cou
 func CreatePartner(data *Partner) error { return config.DB.Create(data).Error }
 func GetAllPartner() ([]Partner, error) {
 	var list []Partner
-	err := config.DB.Preload(clause.Associations).Find(&list).Error
+	err := config.DB.Preload(clause.Associations).Order("id asc").Find(&list).Error
 	return list, err
 }
 func GetPartnerByID(id uint) (*Partner, error) {

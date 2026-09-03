@@ -10,6 +10,7 @@ type ConsolidationReport struct {
 	ID        uint      `gorm:"primaryKey" json:"id"`
 	Name      string    `gorm:"type:varchar(255);not null" json:"name"` // e.g. Konsolidasi Q1 2026
 	Period    string    `gorm:"type:varchar(50)" json:"period"`
+	Branches  string    `gorm:"type:text" json:"branches"` // Simpan JSON array string cabang terpilih
 	CreatedAt time.Time `json:"created_at"`
 }
 

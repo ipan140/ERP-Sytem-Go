@@ -3,6 +3,7 @@ package employees
 import (
 	"fmt"
 	"time"
+	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
 	"ERP-System/config"
 )
@@ -330,7 +331,94 @@ func GeneratePayroll(period string) error {
 	return nil
 }
 func DeletePayslip(id uint) error { return config.DB.Delete(&Payslip{}, id).Error }
-func MarkPayslipPaid(id uint) error { return config.DB.Model(&Payslip{}).Where("id = ?", id).Update("status", "paid").Error }
+func MarkPayslipPaid(id uint) error {
+	var payslip Payslip
+	if err := config.DB.Preload("Employee").First(&payslip, id).Error; err != nil {
+		return err
+	}
+
+	// 1. Update status ke paid
+	if err := config.DB.Model(&payslip).Update("status", "paid").Error; err != nil {
+		return err
+	}
+
+	// 2. Auto-Post ke Modul Finance (Journal Entry & Journal Items)
+	// Cari akun kas/bank (1-1002 atau 1-1003) dan akun beban gaji (6-1000)
+	var expenseAccountID, bankAccountID, taxAccountID uint
+	config.DB.Table("finance.accounts").Select("id").Where("code = ?", "6-1000").Scan(&expenseAccountID)
+	config.DB.Table("finance.accounts").Select("id").Where("code = ?", "1-1003").Scan(&bankAccountID) // Mandiri Payroll
+	if bankAccountID == 0 {
+		config.DB.Table("finance.accounts").Select("id").Where("code = ?", "1-1002").Scan(&bankAccountID) // BCA Operasional fallback
+	}
+	config.DB.Table("finance.accounts").Select("id").Where("code = ?", "2-1200").Scan(&taxAccountID) // Hutang PPh 21
+
+	if expenseAccountID > 0 && bankAccountID > 0 {
+		entryName := fmt.Sprintf("PAYROLL/%s/%s", payslip.Period, payslip.Employee.Name)
+		
+		type SimpleJournalEntry struct {
+			ID        uint      `gorm:"primaryKey"`
+			Name      string
+			Date      time.Time
+			State     string
+			CreatedAt time.Time
+		}
+		type SimpleJournalItem struct {
+			ID        uint    `gorm:"primaryKey"`
+			EntryID   uint
+			AccountID uint
+			Name      string
+			Debit     float64
+			Credit    float64
+		}
+
+		entry := SimpleJournalEntry{
+			Name:      entryName,
+			Date:      time.Now(),
+			State:     "posted",
+			CreatedAt: time.Now(),
+		}
+		config.DB.Table("finance.journal_entrys").Create(&entry)
+
+		// Debit Beban Gaji Total
+		itemDebit := SimpleJournalItem{
+			EntryID:   entry.ID,
+			AccountID: expenseAccountID,
+			Name:      fmt.Sprintf("Beban Gaji: %s (%s)", payslip.Employee.Name, payslip.Period),
+			Debit:     payslip.TotalEarning,
+			Credit:    0,
+		}
+		config.DB.Table("finance.journal_items").Create(&itemDebit)
+
+		// Kredit Kas Bank (Take Home Pay)
+		itemCreditBank := SimpleJournalItem{
+			EntryID:   entry.ID,
+			AccountID: bankAccountID,
+			Name:      fmt.Sprintf("Pembayaran Gaji Net (THP) - %s", payslip.Employee.Name),
+			Debit:     0,
+			Credit:    payslip.NetSalary,
+		}
+		config.DB.Table("finance.journal_items").Create(&itemCreditBank)
+
+		// Kredit Hutang PPh 21 / Potongan (Jika ada potongan)
+		if payslip.TotalDeduction > 0 && taxAccountID > 0 {
+			itemCreditTax := SimpleJournalItem{
+				EntryID:   entry.ID,
+				AccountID: taxAccountID,
+				Name:      fmt.Sprintf("Titipan Potongan Pajak / PPh 21 - %s", payslip.Employee.Name),
+				Debit:     0,
+				Credit:    payslip.TotalDeduction,
+			}
+			config.DB.Table("finance.journal_items").Create(&itemCreditTax)
+		}
+
+		// Update saldo rekening bank operasional berkurang
+		config.DB.Table("finance.accounts").Where("id = ?", bankAccountID).UpdateColumn("balance", gorm.Expr("balance - ?", payslip.NetSalary))
+		// Update saldo beban bertambah
+		config.DB.Table("finance.accounts").Where("id = ?", expenseAccountID).UpdateColumn("balance", gorm.Expr("balance + ?", payslip.TotalEarning))
+	}
+
+	return nil
+}
 
 // --- THR Repository ---
 func GenerateTHR(year int, cutoffDate time.Time) error {

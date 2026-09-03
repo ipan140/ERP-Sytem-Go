@@ -24,12 +24,16 @@ import (
 	"ERP-System/app/modules/finance"
 	"ERP-System/app/modules/finance/accounting"
 	"ERP-System/app/modules/finance/approvals"
+	"ERP-System/app/modules/finance/assets"
+	"ERP-System/app/modules/finance/budget"
 	"ERP-System/app/modules/finance/consolidation"
 	financeDocs "ERP-System/app/modules/finance/documents"
 	"ERP-System/app/modules/finance/expenses"
 	"ERP-System/app/modules/finance/invoicing"
+	"ERP-System/app/modules/finance/reconciliation"
 	"ERP-System/app/modules/finance/sign"
 	"ERP-System/app/modules/finance/spreadsheet_bi"
+	"ERP-System/app/modules/finance/tax"
 	"ERP-System/app/modules/hr"
 	"ERP-System/app/modules/hr/appraisals"
 	"ERP-System/app/modules/hr/attendances"
@@ -153,12 +157,16 @@ func main() {
 	mailer.RegisterRoutes(e)
 	accounting.RegisterRoutes(e)
 	approvals.RegisterRoutes(e)
+	assets.RegisterRoutes(e)
+	budget.RegisterRoutes(e)
 	consolidation.RegisterRoutes(e)
 	financeDocs.RegisterRoutes(e)
 	expenses.RegisterRoutes(e)
 	invoicing.RegisterRoutes(e)
+	reconciliation.RegisterRoutes(e)
 	sign.RegisterRoutes(e)
 	spreadsheet_bi.RegisterRoutes(e)
+	tax.RegisterRoutes(e)
 	appraisals.RegisterRoutes(e)
 	attendances.RegisterRoutes(e)
 	employees.RegisterRoutes(e)

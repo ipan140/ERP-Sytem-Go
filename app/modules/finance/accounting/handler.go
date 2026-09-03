@@ -7,9 +7,254 @@ import (
 	"fmt"
 	"net/http"
 	"strconv"
+	"strings"
+	"time"
 
 	"github.com/labstack/echo/v4"
+	"gorm.io/gorm"
 )
+
+// --- Chart of Accounts (COA) Handlers ---
+func GetAllAccountsHandler(c echo.Context) error {
+	_ = SeedStandardIndonesianCOA() // Auto-seed jika masih kosong
+	data, err := GetAllAccounts()
+	if err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve accounts", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Success", data)
+}
+
+func GetAccountByIDHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	data, err := GetAccountByID(uint(id))
+	if err != nil {
+		return utils.SendError(c, http.StatusNotFound, "Account not found", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Success", data)
+}
+
+func CreateAccountHandler(c echo.Context) error {
+	var data Account
+	if err := c.Bind(&data); err != nil {
+		return utils.SendError(c, http.StatusBadRequest, "Invalid request payload", err.Error())
+	}
+	if err := CreateAccount(&data); err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed to create account", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusCreated, "Account created successfully", data)
+}
+
+func UpdateAccountHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	data, err := GetAccountByID(uint(id))
+	if err != nil {
+		return utils.SendError(c, http.StatusNotFound, "Account not found", err.Error())
+	}
+	if err := c.Bind(data); err != nil {
+		return utils.SendError(c, http.StatusBadRequest, "Invalid request payload", err.Error())
+	}
+	if err := UpdateAccount(data); err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed to update account", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Account updated successfully", data)
+}
+
+func DeleteAccountHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	if err := DeleteAccount(uint(id)); err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed to delete account", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Account deleted successfully", nil)
+}
+
+// CreateCashTransactionRequest untuk Kas Masuk / Kas Keluar sederhana
+type CashTransactionRequest struct {
+	Type          string  `json:"type"`           // "in" (Kas Masuk), "out" (Kas Keluar)
+	BankAccountID uint    `json:"bank_account_id"` // Akun Kas/Bank (1-1001, 1-1002, dll)
+	OppositeAccID uint    `json:"opposite_acc_id"` // Akun Lawan (Pendapatan/Beban/Piutang)
+	Amount        float64 `json:"amount"`
+	Reference     string  `json:"reference"`      // No Bukti / Kuitansi
+	Description   string  `json:"description"`
+}
+
+func CreateCashTransactionHandler(c echo.Context) error {
+	var req CashTransactionRequest
+	if err := c.Bind(&req); err != nil {
+		return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error())
+	}
+
+	if req.Amount <= 0 {
+		return utils.SendError(c, http.StatusBadRequest, "Nominal transaksi harus lebih besar dari 0", "")
+	}
+
+	// 1. Buat Journal Entry
+	entry := JournalEntry{
+		Name:  req.Reference,
+		Date:  time.Now(),
+		State: "posted",
+	}
+	if entry.Name == "" {
+		entry.Name = fmt.Sprintf("CASH/%s/%d", req.Type, time.Now().Unix())
+	}
+	if err := config.DB.Create(&entry).Error; err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Gagal membuat jurnal", err.Error())
+	}
+
+	// 2. Buat Debit & Credit
+	var bankItem, oppItem JournalItem
+	if req.Type == "in" {
+		// Kas Masuk: Kas bertambah di Debit, Akun Lawan (Pendapatan/Piutang) di Kredit
+		bankItem = JournalItem{EntryID: entry.ID, AccountID: req.BankAccountID, Name: req.Description, Debit: req.Amount, Credit: 0}
+		oppItem = JournalItem{EntryID: entry.ID, AccountID: req.OppositeAccID, Name: req.Description, Debit: 0, Credit: req.Amount}
+		// Update Saldo
+		config.DB.Model(&Account{}).Where("id = ?", req.BankAccountID).UpdateColumn("balance", gorm.Expr("balance + ?", req.Amount))
+		config.DB.Model(&Account{}).Where("id = ?", req.OppositeAccID).UpdateColumn("balance", gorm.Expr("balance + ?", req.Amount))
+	} else {
+		// Kas Keluar: Akun Lawan (Beban/Hutang) di Debit, Kas berkurang di Kredit
+		oppItem = JournalItem{EntryID: entry.ID, AccountID: req.OppositeAccID, Name: req.Description, Debit: req.Amount, Credit: 0}
+		bankItem = JournalItem{EntryID: entry.ID, AccountID: req.BankAccountID, Name: req.Description, Debit: 0, Credit: req.Amount}
+		// Update Saldo
+		config.DB.Model(&Account{}).Where("id = ?", req.BankAccountID).UpdateColumn("balance", gorm.Expr("balance - ?", req.Amount))
+		config.DB.Model(&Account{}).Where("id = ?", req.OppositeAccID).UpdateColumn("balance", gorm.Expr("balance + ?", req.Amount))
+	}
+
+	config.DB.Create(&bankItem)
+	config.DB.Create(&oppItem)
+
+	return utils.SendSuccess(c, http.StatusCreated, "Transaksi kas berhasil dibukukan", entry)
+}
+
+// --- Laporan Keuangan Standar SAK ---
+type ProfitLossReport struct {
+	TotalIncome    float64   `json:"total_income"`
+	TotalHPP       float64   `json:"total_hpp"`
+	GrossProfit    float64   `json:"gross_profit"`
+	TotalExpense   float64   `json:"total_expense"`
+	NetProfit      float64   `json:"net_profit"`
+	IncomeAccounts []Account `json:"income_accounts"`
+	ExpenseAccounts []Account `json:"expense_accounts"`
+}
+
+func GetProfitLossReportHandler(c echo.Context) error {
+	_ = SeedStandardIndonesianCOA()
+	var accounts []Account
+	config.DB.Order("code asc").Find(&accounts)
+
+	var report ProfitLossReport
+	for _, acc := range accounts {
+		if acc.Type == "income" {
+			report.IncomeAccounts = append(report.IncomeAccounts, acc)
+			report.TotalIncome += acc.Balance
+		} else if acc.Type == "expense" {
+			report.ExpenseAccounts = append(report.ExpenseAccounts, acc)
+			if acc.Code == "5-1000" {
+				report.TotalHPP += acc.Balance
+			} else {
+				report.TotalExpense += acc.Balance
+			}
+		}
+	}
+	report.GrossProfit = report.TotalIncome - report.TotalHPP
+	report.NetProfit = report.GrossProfit - report.TotalExpense
+
+	return utils.SendSuccess(c, http.StatusOK, "Success", report)
+}
+
+type BalanceSheetReport struct {
+	TotalAsset      float64   `json:"total_asset"`
+	TotalLiability  float64   `json:"total_liability"`
+	TotalEquity     float64   `json:"total_equity"`
+	AssetAccounts   []Account `json:"asset_accounts"`
+	LiabilityAccounts []Account `json:"liability_accounts"`
+	EquityAccounts  []Account `json:"equity_accounts"`
+	IsBalanced      bool      `json:"is_balanced"`
+}
+
+func GetBalanceSheetReportHandler(c echo.Context) error {
+	_ = SeedStandardIndonesianCOA()
+	var accounts []Account
+	config.DB.Order("code asc").Find(&accounts)
+
+	var totalIncome, totalHPP, totalExpense float64
+	var report BalanceSheetReport
+
+	// 1. Klasifikasi Ulang (Auto-Fix) berdasarkan Kode & Hitung Laba/Rugi
+	for i, acc := range accounts {
+		updatedType := acc.Type
+		if strings.HasPrefix(acc.Code, "1-") && acc.Type != "asset" {
+			updatedType = "asset"
+		} else if strings.HasPrefix(acc.Code, "2-") && acc.Type != "liability" {
+			updatedType = "liability"
+		} else if strings.HasPrefix(acc.Code, "3-") && acc.Type != "equity" {
+			updatedType = "equity"
+		} else if strings.HasPrefix(acc.Code, "4-") && acc.Type != "income" {
+			updatedType = "income"
+		} else if (strings.HasPrefix(acc.Code, "5-") || strings.HasPrefix(acc.Code, "6-")) && acc.Type != "expense" {
+			updatedType = "expense"
+		}
+
+		if updatedType != acc.Type {
+			accounts[i].Type = updatedType
+			config.DB.Model(&acc).Update("type", updatedType)
+			acc.Type = updatedType
+		}
+
+		// Hitung Laba/Rugi untuk dimasukkan ke Ekuitas
+		if acc.Type == "income" {
+			totalIncome += acc.Balance
+		} else if acc.Type == "expense" {
+			if strings.HasPrefix(acc.Code, "5-") {
+				totalHPP += acc.Balance
+			} else {
+				totalExpense += acc.Balance
+			}
+		}
+
+		// Masukkan ke Balance Sheet
+		if acc.Type == "asset" {
+			report.AssetAccounts = append(report.AssetAccounts, acc)
+			report.TotalAsset += acc.Balance
+		} else if acc.Type == "liability" {
+			report.LiabilityAccounts = append(report.LiabilityAccounts, acc)
+			report.TotalLiability += acc.Balance
+		} else if acc.Type == "equity" {
+			report.EquityAccounts = append(report.EquityAccounts, acc)
+			report.TotalEquity += acc.Balance
+		}
+	}
+
+	// 2. Hitung Laba Bersih Tahun Berjalan
+	netProfit := totalIncome - totalHPP - totalExpense
+
+	// 3. Tambahkan Laba Bersih ke Ekuitas
+	if netProfit != 0 {
+		report.EquityAccounts = append(report.EquityAccounts, Account{
+			Code:    "3-9999",
+			Name:    "Laba Bersih Tahun Berjalan",
+			Type:    "equity",
+			Balance: netProfit,
+		})
+		report.TotalEquity += netProfit
+	}
+
+	// 4. Historical Balancing (Jika ada selisih agar tetap seimbang)
+	diff := report.TotalAsset - (report.TotalLiability + report.TotalEquity)
+	if diff != 0 {
+		// Toleransi untuk menghindari masalah floating point
+		if diff > 0.01 || diff < -0.01 {
+			report.EquityAccounts = append(report.EquityAccounts, Account{
+				Code:    "3-0000",
+				Name:    "Modal Awal (Historical Balancing)",
+				Type:    "equity",
+				Balance: diff,
+			})
+			report.TotalEquity += diff
+		}
+	}
+	report.IsBalanced = true
+
+	return utils.SendSuccess(c, http.StatusOK, "Success", report)
+}
 
 // CreateJournalEntry godoc
 // @Summary Create a new JournalEntry

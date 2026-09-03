@@ -9,7 +9,12 @@ type Account struct {
 	ID        uint      `gorm:"primaryKey" json:"id"`
 	Code      string    `gorm:"type:varchar(50);not null;unique" json:"code"`
 	Name      string    `gorm:"type:varchar(255);not null" json:"name"`
-	Type      string    `gorm:"type:varchar(50);not null" json:"type"` // e.g. receivable, payable, bank, income, expense
+	Type      string    `gorm:"type:varchar(50);not null" json:"type"` // asset, liability, equity, income, expense
+	Category  string    `gorm:"type:varchar(100)" json:"category"`     // Kas & Bank, Piutang, Hutang Usaha, dll
+	ParentID  *uint     `json:"parent_id"`
+	Parent    *Account  `gorm:"foreignKey:ParentID" json:"parent,omitempty"`
+	Balance   float64   `gorm:"type:numeric(15,2);default:0" json:"balance"`
+	IsActive  bool      `gorm:"default:true" json:"is_active"`
 	CreatedAt time.Time `json:"created_at"`
 }
 

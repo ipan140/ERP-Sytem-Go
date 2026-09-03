@@ -1,15 +1,52 @@
 <!DOCTYPE html>
-<html><head><meta charset="utf-8"><title>Financial Report</title>
+<html><head><meta charset="utf-8"><title>{{.ReportName}}</title>
 <style>
-    body { font-family: Arial, sans-serif; padding: 30px; }
-    .header { text-align: center; border-bottom: 2px solid #34495e; padding-bottom: 10px; margin-bottom: 20px; }
-    table { width: 100%; border-collapse: collapse; } th, td { padding: 8px; border-bottom: 1px solid #ddd; text-align: left; }
-    th { background-color: #ecf0f1; } .summary { font-weight: bold; background-color: #dcdde1; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; padding: 40px; color: #1e293b; background: #fff; }
+    .header { text-align: center; border-bottom: 2px solid #0f172a; padding-bottom: 16px; margin-bottom: 24px; }
+    .header h2 { margin: 0; font-size: 22px; color: #0f172a; text-transform: uppercase; letter-spacing: 0.5px; }
+    .header p { margin: 6px 0 0 0; color: #64748b; font-size: 13px; }
+    table { width: 100%; border-collapse: collapse; margin-bottom: 24px; font-size: 12px; } 
+    th, td { padding: 10px 14px; border-bottom: 1px solid #e2e8f0; text-align: left; }
+    th { background-color: #f8fafc; font-weight: 600; color: #334155; } 
+    .summary { font-weight: bold; background-color: #f1f5f9; }
+    .sign-section { margin-top: 40px; display: flex; justify-content: flex-end; }
+    .sign-box { border: 2px dashed #cbd5e1; border-radius: 12px; padding: 16px 20px; width: 340px; background-color: #f8fafc; font-size: 11px; }
+    .sign-title { font-weight: bold; font-size: 12px; color: #0f172a; display: flex; align-items: center; gap: 6px; }
+    .sign-badge { display: inline-block; padding: 2px 8px; border-radius: 9999px; font-size: 10px; font-weight: 700; color: #047857; background: #d1fae5; }
+    .hash { font-family: monospace; font-size: 10px; word-break: break-all; color: #059669; background: #ecfdf5; padding: 6px; border-radius: 6px; margin: 8px 0; }
 </style></head><body>
-    <div class="header"><h2>{{.ReportName}}</h2><p>Period: {{.Period}}</p></div>
+    <div class="header">
+        <h2>{{.ReportName}}</h2>
+        <p>Dokumen Resmi ERP Solusi Nusantara &bull; Periode: {{.Period}}</p>
+    </div>
     <table>
-        <tr><th>Account</th><th>Debit</th><th>Credit</th><th>Balance</th></tr>
-        {{range .Accounts}}<tr><td>{{.AccountName}}</td><td>Rp {{.Debit}}</td><td>Rp {{.Credit}}</td><td>Rp {{.Balance}}</td></tr>{{end}}
-        <tr class="summary"><td colspan="3" style="text-align:right;">Net Total:</td><td>Rp {{.NetTotal}}</td></tr>
+        <thead>
+            <tr><th>Nama Akun / Buku Besar</th><th style="text-align:right;">Debit</th><th style="text-align:right;">Kredit</th><th style="text-align:right;">Saldo Akhir</th></tr>
+        </thead>
+        <tbody>
+            {{range .Accounts}}<tr>
+                <td>{{.AccountName}}</td>
+                <td style="text-align:right;">Rp {{.Debit}}</td>
+                <td style="text-align:right;">Rp {{.Credit}}</td>
+                <td style="text-align:right; font-weight:500;">Rp {{.Balance}}</td>
+            </tr>{{end}}
+            <tr class="summary">
+                <td colspan="3" style="text-align:right;">Laba Bersih Tahun Berjalan (Net Total):</td>
+                <td style="text-align:right; font-size: 14px; color: #0284c7;">Rp {{.NetTotal}}</td>
+            </tr>
+        </tbody>
     </table>
+
+    <div class="sign-section">
+        <div class="sign-box">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                <span class="sign-title">VERIFIKASI TANDA TANGAN DIGITAL</span>
+                <span class="sign-badge">SAH &amp; VALID</span>
+            </div>
+            <p style="margin: 8px 0 4px 0;"><strong>Penandatangan:</strong> {{.SignerName}} ({{.SignerRole}})</p>
+            <p style="margin: 0; color: #64748b;">Waktu Pengesahan: {{.SignDate}} WIB</p>
+            <div class="hash">SHA256: {{.SignatureHash}}</div>
+            <p style="margin: 0; font-size: 10px; color: #94a3b8; text-align:center;">&bull; Dokumen ini tersertifikasi secara kriptografis dan sah secara hukum &bull;</p>
+        </div>
+    </div>
 </body></html>

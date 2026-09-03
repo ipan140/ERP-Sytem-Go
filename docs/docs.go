@@ -3084,6 +3084,457 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/finance/assets": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Mengambil daftar inventaris aset, akumulasi penyusutan, dan nilai buku bersih",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "finance-assets"
+                ],
+                "summary": "Ambil semua inventaris aset tetap",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Mencatat aktiva tetap baru, menghitung penyusutan per bulan otomatis",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "finance-assets"
+                ],
+                "summary": "Daftarkan aset tetap baru",
+                "parameters": [
+                    {
+                        "description": "Payload Aset",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/assets.FixedAsset"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/assets.FixedAsset"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/finance/assets/categories": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Mengambil daftar kategori aset beserta default masa manfaat dan mapping akun GL",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "finance-assets"
+                ],
+                "summary": "Ambil semua kategori aset tetap",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/assets.AssetCategory"
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Membuat kategori aset baru beserta default masa manfaat bulan",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "finance-assets"
+                ],
+                "summary": "Tambah kategori aset baru",
+                "parameters": [
+                    {
+                        "description": "Payload Kategori",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/assets.AssetCategory"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/assets.AssetCategory"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/finance/assets/categories/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Mengubah data kategori aset atau masa manfaat default",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "finance-assets"
+                ],
+                "summary": "Perbarui kategori aset",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID Kategori",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Payload Kategori",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/assets.AssetCategory"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/assets.AssetCategory"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Menghapus kategori aset berdasarkan ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "finance-assets"
+                ],
+                "summary": "Hapus kategori aset",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID Kategori",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Kategori berhasil dihapus",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/finance/assets/depreciate": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Mengalkulasi dan memposting jurnal penyusutan seluruh aktiva aktif ke General Ledger",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "finance-assets"
+                ],
+                "summary": "Posting jurnal depresiasi massal bulanan",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/finance/assets/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Mengubah rincian nama, harga perolehan, atau masa manfaat aset",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "finance-assets"
+                ],
+                "summary": "Perbarui data aset tetap",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID Aset",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Payload Update",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/assets.FixedAsset"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/assets.FixedAsset"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Menghapus pencatatan aset dari database",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "finance-assets"
+                ],
+                "summary": "Hapus aset tetap",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID Aset",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Aset berhasil dihapus",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/finance/budget": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Mengambil ringkasan pagu anggaran, realisasi pengeluaran, sisa kuota, dan status (Aman/Peringatan/Kritis)",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "finance-budget"
+                ],
+                "summary": "Ambil semua data anggaran per departemen",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Menetapkan limit anggaran belanja per divisi untuk periode kuartal tertentu",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "finance-budget"
+                ],
+                "summary": "Tetapkan pagu anggaran baru untuk departemen",
+                "parameters": [
+                    {
+                        "description": "Payload Anggaran",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/budget.DepartmentBudget"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/budget.DepartmentBudget"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/finance/budget/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Mengubah batas pagu atau mengupdate realisasi anggaran per departemen",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "finance-budget"
+                ],
+                "summary": "Perbarui alokasi atau realisasi anggaran",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID Anggaran",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Payload Update",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/budget.DepartmentBudget"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/budget.DepartmentBudget"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Menghapus pencatatan pagu anggaran departemen",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "finance-budget"
+                ],
+                "summary": "Hapus data anggaran departemen",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID Anggaran",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Anggaran berhasil dihapus",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
         "/api/finance/consolidation/generate": {
             "post": {
                 "security": [
@@ -4125,6 +4576,224 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/finance/reconciliation": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Mengambil daftar seluruh mutasi bank (BCA, Mandiri, dll) beserta status rekonsiliasi",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "finance-reconciliation"
+                ],
+                "summary": "Ambil semua mutasi rekening koran bank",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/reconciliation.BankStatementItem"
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Menambahkan data mutasi kas bank masuk (kredit) atau keluar (debit)",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "finance-reconciliation"
+                ],
+                "summary": "Catat / input mutasi rekening koran baru",
+                "parameters": [
+                    {
+                        "description": "Payload Mutasi",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/reconciliation.BankStatementItem"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/reconciliation.BankStatementItem"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/finance/reconciliation/auto": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Menjalankan algoritma auto-match untuk mencocokkan mutasi kas masuk dengan invoice terbuka",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "finance-reconciliation"
+                ],
+                "summary": "Jalankan pencocokan otomatis (Auto-Match)",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/finance/reconciliation/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Mengedit informasi deskripsi, nominal, atau no referensi mutasi bank",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "finance-reconciliation"
+                ],
+                "summary": "Perbarui data mutasi bank",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID Mutasi Bank",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Payload Update",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/reconciliation.BankStatementItem"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/reconciliation.BankStatementItem"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Menghapus baris mutasi bank berdasarkan ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "finance-reconciliation"
+                ],
+                "summary": "Hapus data mutasi bank",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID Mutasi Bank",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Mutasi berhasil dihapus",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/finance/reconciliation/{id}/manual": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Menghubungkan mutasi bank dengan invoice atau pos akun biaya tertentu",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "finance-reconciliation"
+                ],
+                "summary": "Rekonsiliasi manual mutasi bank dengan invoice",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID Mutasi Bank",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Nomor Invoice Tagihan",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/reconciliation.BankStatementItem"
+                        }
+                    }
+                }
+            }
+        },
         "/api/finance/sign": {
             "get": {
                 "security": [
@@ -4293,6 +4962,35 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/finance/sign/{id}/preview": {
+            "get": {
+                "description": "Merender HTML template resmi dokumen finansial lengkap dengan segel dan SHA-256 digital signature",
+                "produces": [
+                    "text/html"
+                ],
+                "tags": [
+                    "finance-sign"
+                ],
+                "summary": "Preview dokumen laporan keuangan dengan tanda tangan digital resmi",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Signature Request ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "HTML Document Page",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
         "/api/finance/spreadsheet_bi": {
             "get": {
                 "security": [
@@ -4456,6 +5154,310 @@ const docTemplate = `{
                         "schema": {
                             "type": "object",
                             "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/finance/tax": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Mengambil daftar bukti pemotongan PPh/PPN transaksi masa pajak berjalan",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "finance-tax"
+                ],
+                "summary": "Ambil semua rekapitulasi bukti potong pajak",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Menyimpan bukti potong PPh 21/23/4(2)/PPN atas rekanan/vendor",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "finance-tax"
+                ],
+                "summary": "Catat bukti pemotongan pajak transaksi baru",
+                "parameters": [
+                    {
+                        "description": "Payload Bukti Potong",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/tax.TaxReportSummary"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/tax.TaxReportSummary"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/finance/tax/configs": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Mengambil daftar master tarif pajak (PPN, PPh 23, PPh 21 TER, dll)",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "finance-tax"
+                ],
+                "summary": "Ambil semua master konfigurasi regulasi pajak",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/tax.TaxMasterConfig"
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Mendaftarkan skema regulasi pajak baru beserta tarif dan dasar hukumnya",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "finance-tax"
+                ],
+                "summary": "Tambah master regulasi pajak baru (Admin)",
+                "parameters": [
+                    {
+                        "description": "Payload Master Pajak",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/tax.TaxMasterConfig"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/tax.TaxMasterConfig"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/finance/tax/configs/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Mengubah persentase tarif pajak atau deskripsi dasar hukum",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "finance-tax"
+                ],
+                "summary": "Perbarui master regulasi pajak (Admin)",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID Master Pajak",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Payload Update",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/tax.TaxMasterConfig"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/tax.TaxMasterConfig"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Menghapus skema master tarif pajak",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "finance-tax"
+                ],
+                "summary": "Hapus skema master pajak (Admin)",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID Master Pajak",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Regulasi pajak berhasil dihapus",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/finance/tax/export-ebupot": {
+            "get": {
+                "description": "Mengunduh file CSV siap impor ke aplikasi e-Bupot Unifikasi / Coretax Ditjen Pajak",
+                "produces": [
+                    "text/csv"
+                ],
+                "tags": [
+                    "finance-tax"
+                ],
+                "summary": "Ekspor CSV format e-Bupot Unifikasi DJP",
+                "responses": {
+                    "200": {
+                        "description": "CSV Content",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/finance/tax/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Mengubah rincian nama rekanan, NPWP, atau DPP transaksi",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "finance-tax"
+                ],
+                "summary": "Perbarui data bukti potong pajak",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID Bukti Potong",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Payload Update",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/tax.TaxReportSummary"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/tax.TaxReportSummary"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Menghapus pencatatan bukti potong dari daftar SPT Masa",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "finance-tax"
+                ],
+                "summary": "Hapus bukti potong pajak",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID Bukti Potong",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Data pajak berhasil dihapus",
+                        "schema": {
+                            "type": "string"
                         }
                     }
                 }
@@ -6740,6 +7742,87 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/hr/employees/me/payslips": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Get only personal payslips for the currently logged-in employee",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "hr-ess"
+                ],
+                "summary": "Get My Payslips (ESS)",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/employees.Payslip"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/hr/employees/me/profile": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Get personal employee profile for the currently logged-in user",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "hr-ess"
+                ],
+                "summary": "Get My Profile (ESS)",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/employees.Employee"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/hr/employees/me/warning-letters": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Get only personal warning letters (SP) for the currently logged-in employee",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "hr-ess"
+                ],
+                "summary": "Get My Warning Letters (ESS)",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/employees.WarningLetter"
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/hr/employees/overtime": {
             "get": {
                 "security": [
@@ -7790,6 +8873,121 @@ const docTemplate = `{
                         "name": "id",
                         "in": "path",
                         "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/hr/employees/thr": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Get list of calculated THR for employees",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "hr-payroll"
+                ],
+                "summary": "Get All THR Records",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Year",
+                        "name": "year",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/employees.EmployeeTHR"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/hr/employees/thr/generate": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Calculate THR for all active employees based on Indonesian Permenaker No. 6/2016",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "hr-payroll"
+                ],
+                "summary": "Generate THR Calculation",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/employees.GenerateTHRPayload"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/hr/employees/thr/{id}/status": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update status of THR calculation (draft/approved/paid)",
+                "tags": [
+                    "hr-payroll"
+                ],
+                "summary": "Update THR Status",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object"
+                        }
                     }
                 ],
                 "responses": {
@@ -23463,6 +24661,12 @@ const docTemplate = `{
         "approvals.ApprovalRequest": {
             "type": "object",
             "properties": {
+                "amount": {
+                    "type": "number"
+                },
+                "approver_name": {
+                    "type": "string"
+                },
                 "created_at": {
                     "type": "string"
                 },
@@ -23470,6 +24674,24 @@ const docTemplate = `{
                     "type": "integer"
                 },
                 "name": {
+                    "type": "string"
+                },
+                "notes": {
+                    "type": "string"
+                },
+                "requester_name": {
+                    "type": "string"
+                },
+                "stage": {
+                    "description": "Manager Dept, Finance Head, CFO / Direktur",
+                    "type": "string"
+                },
+                "status": {
+                    "description": "pending, approved, rejected",
+                    "type": "string"
+                },
+                "type": {
+                    "description": "Pengeluaran Dana, Pengadaan, Kontrak",
                     "type": "string"
                 }
             }
@@ -23485,6 +24707,87 @@ const docTemplate = `{
                 },
                 "name": {
                     "type": "string"
+                }
+            }
+        },
+        "assets.AssetCategory": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "description": "e.g. IT, VEHICLE, MACHINE",
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "default_useful_life": {
+                    "description": "Bulan (misal 48 bulan = 4 tahun)",
+                    "type": "integer"
+                },
+                "gl_account_credit": {
+                    "type": "string"
+                },
+                "gl_account_debit": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "description": "e.g. Peralatan IT \u0026 Komputer",
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                }
+            }
+        },
+        "assets.FixedAsset": {
+            "type": "object",
+            "properties": {
+                "accumulated_depreciation": {
+                    "type": "number"
+                },
+                "acquisition_cost": {
+                    "type": "number"
+                },
+                "acquisition_date": {
+                    "type": "string"
+                },
+                "category": {
+                    "description": "Peralatan Kantor, Kendaraan, Mesin",
+                    "type": "string"
+                },
+                "code": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "depreciation_method": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "monthly_depreciation": {
+                    "type": "number"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "net_book_value": {
+                    "type": "number"
+                },
+                "residual_value": {
+                    "type": "number"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "useful_life_months": {
+                    "description": "48 bulan = 4 tahun",
+                    "type": "integer"
                 }
             }
         },
@@ -23803,6 +25106,43 @@ const docTemplate = `{
                 },
                 "title": {
                     "type": "string"
+                }
+            }
+        },
+        "budget.DepartmentBudget": {
+            "type": "object",
+            "properties": {
+                "allocated_limit": {
+                    "description": "Pagu Anggaran",
+                    "type": "number"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "department_name": {
+                    "description": "Pemasaran, IT, HR, Operasional",
+                    "type": "string"
+                },
+                "fiscal_period": {
+                    "description": "Q1 2026",
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "realized_spent": {
+                    "description": "Realisasi",
+                    "type": "number"
+                },
+                "remaining_budget": {
+                    "type": "number"
+                },
+                "status": {
+                    "description": "Aman, Peringatan, Overbudget",
+                    "type": "string"
+                },
+                "usage_percent": {
+                    "type": "number"
                 }
             }
         },
@@ -24406,6 +25746,9 @@ const docTemplate = `{
                 "job_position_id": {
                     "type": "integer"
                 },
+                "join_date": {
+                    "type": "string"
+                },
                 "manager": {
                     "$ref": "#/definitions/employees.Employee"
                 },
@@ -24413,6 +25756,10 @@ const docTemplate = `{
                     "type": "integer"
                 },
                 "name": {
+                    "type": "string"
+                },
+                "ptkp_status": {
+                    "description": "TK/0, TK/1, K/0, K/1, K/2, K/3",
                     "type": "string"
                 },
                 "user": {
@@ -24455,6 +25802,61 @@ const docTemplate = `{
                 }
             }
         },
+        "employees.EmployeeTHR": {
+            "type": "object",
+            "properties": {
+                "basic_wage": {
+                    "type": "number"
+                },
+                "calculation_type": {
+                    "description": "Full (1 Month), Prorate (N/12)",
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "cutoff_date": {
+                    "type": "string"
+                },
+                "employee": {
+                    "$ref": "#/definitions/employees.Employee"
+                },
+                "employee_id": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "join_date": {
+                    "type": "string"
+                },
+                "status": {
+                    "description": "draft, approved, paid",
+                    "type": "string"
+                },
+                "tenure_months": {
+                    "type": "integer"
+                },
+                "thr_amount": {
+                    "type": "number"
+                },
+                "year": {
+                    "type": "integer"
+                }
+            }
+        },
+        "employees.GenerateTHRPayload": {
+            "type": "object",
+            "properties": {
+                "cutoff_date": {
+                    "description": "YYYY-MM-DD",
+                    "type": "string"
+                },
+                "year": {
+                    "type": "integer"
+                }
+            }
+        },
         "employees.JobPosition": {
             "type": "object",
             "properties": {
@@ -24475,6 +25877,68 @@ const docTemplate = `{
                 },
                 "state": {
                     "type": "string"
+                }
+            }
+        },
+        "employees.Payslip": {
+            "type": "object",
+            "properties": {
+                "basic_salary": {
+                    "type": "number"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "employee": {
+                    "$ref": "#/definitions/employees.Employee"
+                },
+                "employee_id": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "net_salary": {
+                    "type": "number"
+                },
+                "payslip_lines": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/employees.PayslipLine"
+                    }
+                },
+                "period": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "total_deduction": {
+                    "type": "number"
+                },
+                "total_earning": {
+                    "type": "number"
+                }
+            }
+        },
+        "employees.PayslipLine": {
+            "type": "object",
+            "properties": {
+                "amount": {
+                    "type": "number"
+                },
+                "category": {
+                    "description": "earning, deduction",
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "payslip_id": {
+                    "type": "integer"
                 }
             }
         },
@@ -24532,6 +25996,35 @@ const docTemplate = `{
                 },
                 "skill_id": {
                     "type": "integer"
+                }
+            }
+        },
+        "employees.WarningLetter": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "employee": {
+                    "$ref": "#/definitions/employees.Employee"
+                },
+                "employee_id": {
+                    "type": "integer"
+                },
+                "expiry_date": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "issue_date": {
+                    "type": "string"
+                },
+                "warning_type": {
+                    "type": "string"
                 }
             }
         },
@@ -25444,6 +26937,12 @@ const docTemplate = `{
                 "invoice_date": {
                     "type": "string"
                 },
+                "lines": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/invoicing.InvoiceLine"
+                    }
+                },
                 "name": {
                     "type": "string"
                 },
@@ -25464,6 +26963,38 @@ const docTemplate = `{
                 },
                 "state": {
                     "type": "string"
+                }
+            }
+        },
+        "invoicing.InvoiceLine": {
+            "type": "object",
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "invoice": {
+                    "$ref": "#/definitions/invoicing.Invoice"
+                },
+                "invoice_id": {
+                    "type": "integer"
+                },
+                "quantity": {
+                    "type": "number"
+                },
+                "sub_total": {
+                    "type": "number"
+                },
+                "tax": {
+                    "$ref": "#/definitions/invoicing.Tax"
+                },
+                "tax_id": {
+                    "type": "integer"
+                },
+                "unit_price": {
+                    "type": "number"
                 }
             }
         },
@@ -26937,6 +28468,41 @@ const docTemplate = `{
                 }
             }
         },
+        "reconciliation.BankStatementItem": {
+            "type": "object",
+            "properties": {
+                "bank_name": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "credit": {
+                    "type": "number"
+                },
+                "date": {
+                    "type": "string"
+                },
+                "debit": {
+                    "type": "number"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "is_reconciled": {
+                    "type": "boolean"
+                },
+                "matched_invoice": {
+                    "type": "string"
+                },
+                "ref_number": {
+                    "type": "string"
+                }
+            }
+        },
         "recruitment.Applicant": {
             "type": "object",
             "properties": {
@@ -27418,10 +28984,29 @@ const docTemplate = `{
                 "created_at": {
                     "type": "string"
                 },
+                "document_title": {
+                    "type": "string"
+                },
                 "id": {
                     "type": "integer"
                 },
                 "name": {
+                    "type": "string"
+                },
+                "signature_hash": {
+                    "type": "string"
+                },
+                "signed_at": {
+                    "type": "string"
+                },
+                "signer_name": {
+                    "type": "string"
+                },
+                "signer_role": {
+                    "type": "string"
+                },
+                "status": {
+                    "description": "pending, signed",
                     "type": "string"
                 }
             }
@@ -27601,6 +29186,80 @@ const docTemplate = `{
                 },
                 "user_id": {
                     "type": "integer"
+                }
+            }
+        },
+        "tax.TaxMasterConfig": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "is_active": {
+                    "type": "boolean"
+                },
+                "legal_basis": {
+                    "description": "Dasar Hukum / UU",
+                    "type": "string"
+                },
+                "rate": {
+                    "type": "number"
+                },
+                "tax_code": {
+                    "description": "e.g., PPH23, PPN11, PPH42",
+                    "type": "string"
+                },
+                "tax_name": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                }
+            }
+        },
+        "tax.TaxReportSummary": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "npwp": {
+                    "type": "string"
+                },
+                "partner_name": {
+                    "type": "string"
+                },
+                "status": {
+                    "description": "Siap Lapor, Dilaporkan",
+                    "type": "string"
+                },
+                "tax_amount": {
+                    "type": "number"
+                },
+                "tax_base": {
+                    "description": "DPP",
+                    "type": "number"
+                },
+                "tax_period": {
+                    "description": "e.g. Maret 2026",
+                    "type": "string"
+                },
+                "tax_rate": {
+                    "description": "Persentase Tarif",
+                    "type": "number"
+                },
+                "tax_type": {
+                    "description": "PPh 21 TER, PPh 23, PPh 4(2), PPN",
+                    "type": "string"
                 }
             }
         },

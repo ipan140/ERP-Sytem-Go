@@ -34,6 +34,48 @@ func GenerateConsolidationService(name, period string) error {
 		}
 		config.DB.Create(cAcc)
 	}
-
 	return nil
+}
+
+func GetAllConsolidationReportsService() ([]ConsolidationReport, error) {
+	return GetAllConsolidationReports()
+}
+
+func GetConsolidationReportByIDService(id uint) (*ConsolidationReport, error) {
+	return GetConsolidationReportByID(id)
+}
+
+func CreateConsolidationReportService(data *ConsolidationReport) error {
+	if err := CreateConsolidationReport(data); err != nil {
+		return err
+	}
+	// Buat simulasi consolidated accounts
+	type Result struct {
+		AccountID uint
+		Balance   float64
+	}
+	var results []Result
+
+	config.DB.Table("journal_items").
+		Select("account_id, (sum(debit) - sum(credit)) as balance").
+		Group("account_id").
+		Scan(&results)
+
+	for _, res := range results {
+		cAcc := &ConsolidatedAccount{
+			ReportID:  data.ID,
+			AccountID: res.AccountID,
+			Balance:   res.Balance,
+		}
+		config.DB.Create(cAcc)
+	}
+	return nil
+}
+
+func UpdateConsolidationReportService(data *ConsolidationReport) error {
+	return UpdateConsolidationReport(data)
+}
+
+func DeleteConsolidationReportService(id uint) error {
+	return DeleteConsolidationReport(id)
 }

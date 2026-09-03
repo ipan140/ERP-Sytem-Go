@@ -8,6 +8,21 @@ import (
 
 func RegisterRoutes(e *echo.Echo) {
 	api := e.Group("/api/finance/accounting", middleware.Auth(), middleware.GlobalAutoRBAC())
+	// Chart of Accounts (COA)
+	api.GET("/accounts", GetAllAccountsHandler)
+	api.GET("/accounts/:id", GetAccountByIDHandler)
+	api.POST("/accounts", CreateAccountHandler)
+	api.PUT("/accounts/:id", UpdateAccountHandler)
+	api.DELETE("/accounts/:id", DeleteAccountHandler)
+
+	// Kas Masuk & Kas Keluar Sederhana
+	api.POST("/cash-transaction", CreateCashTransactionHandler)
+
+	// Laporan Keuangan Standar SAK
+	api.GET("/reports/profit-loss", GetProfitLossReportHandler)
+	api.GET("/reports/balance-sheet", GetBalanceSheetReportHandler)
+
+	// Jurnal Umum
 	api.POST("", CreateJournalEntryHandler)
 	api.GET("", GetAllJournalEntryHandler)
 	api.GET("/:id", GetJournalEntryByIDHandler)
