@@ -188,4 +188,30 @@ func DeleteEventTicketHandler(c echo.Context) error {
 	return utils.SendSuccess(c, http.StatusOK, "Success", nil)
 }
 
+type ScanTicketRequest struct {
+	Barcode string `json:"barcode" validate:"required"`
+}
+
+// @Summary Scan Barcode Ticket
+// @Description Scan and check-in attendee by ticket barcode
+// @Tags marketing-events
+// @Accept json
+// @Produce json
+// @Param request body ScanTicketRequest true "Payload"
+// @Router /api/marketing/events/eventticket/scan [post]
+// @Security BearerAuth
+func ScanTicketHandler(c echo.Context) error {
+	var req ScanTicketRequest
+	if err := c.Bind(&req); err != nil || req.Barcode == "" {
+		return utils.SendError(c, http.StatusBadRequest, "Barcode wajib diisi", "")
+	}
+
+	ticket, err := ScanTicketByBarcodeService(req.Barcode)
+	if err != nil {
+		return utils.SendError(c, http.StatusBadRequest, err.Error(), "")
+	}
+
+	return utils.SendSuccess(c, http.StatusOK, "Check-in berhasil! Selamat datang.", ticket)
+}
+
 

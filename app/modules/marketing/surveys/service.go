@@ -19,3 +19,8 @@ func UpdateSurveyService(data *Survey) error {
 func DeleteSurveyService(id uint) error {
 	return DeleteSurvey(id)
 }
+
+func RecordSurveyResponseService(id uint, rating int) (*Survey, error) {
+	return RecordSurveyResponse(id, rating)
+}
+

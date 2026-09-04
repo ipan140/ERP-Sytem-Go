@@ -18,6 +18,8 @@ import (
 	"ERP-System/app/modules/hr/employees"
 	"ERP-System/app/modules/hr/time_off"
 	"ERP-System/app/modules/marketing/events"
+	"ERP-System/app/modules/marketing/marketing_automation"
+	"ERP-System/app/modules/marketing/mass_mailing"
 	"ERP-System/app/modules/sales/crm"
 	"ERP-System/app/modules/sales/sales_core"
 	"ERP-System/app/modules/services/project"
@@ -51,8 +53,6 @@ import (
 	_ "ERP-System/app/modules/hr/payroll"
 	_ "ERP-System/app/modules/hr/recruitment"
 	_ "ERP-System/app/modules/hr/referrals"
-	_ "ERP-System/app/modules/marketing/marketing_automation"
-	_ "ERP-System/app/modules/marketing/mass_mailing"
 	_ "ERP-System/app/modules/marketing/sms_marketing"
 	_ "ERP-System/app/modules/marketing/social_marketing"
 	_ "ERP-System/app/modules/marketing/surveys"
@@ -197,10 +197,17 @@ func main() {
 		}
 	}
 
-	event := events.Event{}
+	event := events.Event{EventName: "Seminar Transformasi Digital & ERP", Location: "Grand Ballroom Hotel Indonesia", MaxCapacity: 100}
 	config.DB.Create(&event)
 	for i := 0; i < 20; i++ {
-		ticket := events.EventTicket{EventID: event.ID, CustomerID: partners[i].ID, Barcode: gofakeit.UUID()}
+		pID := partners[i].ID
+		ticket := events.EventTicket{
+			EventID:       event.ID,
+			CustomerID:    &pID,
+			AttendeeName:  partners[i].Name,
+			AttendeeEmail: partners[i].Email,
+			Barcode:       gofakeit.UUID(),
+		}
 		config.DB.Create(&ticket)
 	}
 
@@ -221,6 +228,174 @@ func main() {
 			config.DB.Create(&item2)
 		}
 	}
+
+	// [FASE MARKETING] Seed Realistis Email Massal & UTM Tracker
+	log.Println("[Marketing] Menyiapkan kampanye email realistis & UTM attribution...")
+	config.DB.Exec("DELETE FROM marketing.utm_trackers;")
+	config.DB.Exec("DELETE FROM marketing.mailing_campaigns;")
+
+	c1 := mass_mailing.MailingCampaign{
+		Name:           "Newsletter Bulanan Enterprise Tech Q3",
+		Subject:        "Update Fitur ERP & Tips Efisiensi Operasional",
+		TargetAudience: "Semua Kontak Pelanggan",
+		Status:         "Sent",
+		SentCount:      1250,
+		OpenedCount:    750,
+		ClickedCount:   225,
+		BouncedCount:   12,
+	}
+	c2 := mass_mailing.MailingCampaign{
+		Name:           "Promo Early Bird Renewal Kontrak Tahunan",
+		Subject:        "Dapatkan Cashback 25% untuk Perpanjangan Layanan",
+		TargetAudience: "Klien Prioritas VIP",
+		Status:         "Sent",
+		SentCount:      450,
+		OpenedCount:    320,
+		ClickedCount:   145,
+		BouncedCount:   3,
+	}
+	c3 := mass_mailing.MailingCampaign{
+		Name:           "Follow-Up Webinar Integrasi Supply Chain & Finance",
+		Subject:        "Materi Presentasi & Akses Demo Gratis ERP Eksklusif",
+		TargetAudience: "Prospek CRM Belum Closing",
+		Status:         "Sent",
+		SentCount:      680,
+		OpenedCount:    390,
+		ClickedCount:   118,
+		BouncedCount:   5,
+	}
+	c4 := mass_mailing.MailingCampaign{
+		Name:           "Program Re-Engagement Klien Pasif (Winback)",
+		Subject:        "Klaim Sesi Konsultasi Bisnis Gratis Bersama Tim Ahli",
+		TargetAudience: "Pelanggan Tidak Aktif (Winback)",
+		Status:         "Scheduled",
+		SentCount:      0,
+		OpenedCount:    0,
+		ClickedCount:   0,
+		BouncedCount:   0,
+	}
+	c5 := mass_mailing.MailingCampaign{
+		Name:           "Undangan Eksklusif Peluncuran Fitur AI Analytics",
+		Subject:        "Daftar Lebih Awal: Akses Beta Modul AI Forecasting & BI",
+		TargetAudience: "Klien Prioritas VIP",
+		Status:         "Draft",
+		SentCount:      0,
+		OpenedCount:    0,
+		ClickedCount:   0,
+		BouncedCount:   0,
+	}
+
+	config.DB.Create(&c1)
+	config.DB.Create(&c2)
+	config.DB.Create(&c3)
+	config.DB.Create(&c4)
+	config.DB.Create(&c5)
+
+	u1 := mass_mailing.UtmTracker{CampaignID: c1.ID, UtmSource: "newsletter", UtmMedium: "email", GeneratedRevenue: 37500000}
+	u2 := mass_mailing.UtmTracker{CampaignID: c2.ID, UtmSource: "vip_promo", UtmMedium: "email_blast", GeneratedRevenue: 85000000}
+	u3 := mass_mailing.UtmTracker{CampaignID: c3.ID, UtmSource: "webinar_crm", UtmMedium: "email", GeneratedRevenue: 42000000}
+	u4 := mass_mailing.UtmTracker{CampaignID: c2.ID, UtmSource: "account_manager", UtmMedium: "direct_email", GeneratedRevenue: 28500000}
+	config.DB.Create(&u1)
+	config.DB.Create(&u2)
+	config.DB.Create(&u3)
+	config.DB.Create(&u4)
+
+	// [FASE MARKETING AUTOMATION] Bersihkan dan Seed Alur Kerja Drip Nyata
+	log.Println("[Marketing Automation] Menyiapkan skenario alur kerja drip otomatis...")
+	config.DB.Exec("DELETE FROM marketing.workflow_activities;")
+	config.DB.Exec("DELETE FROM marketing.automation_campaigns;")
+
+	auto1 := marketing_automation.AutomationCampaign{
+		Name:        "Onboarding Prospek Baru Website",
+		TriggerType: "Ketika Lead Baru Masuk dari Form Web",
+		Status:      "Active",
+		TargetModel: "Sales Leads",
+	}
+	auto2 := marketing_automation.AutomationCampaign{
+		Name:        "Retensi & Layanan Prioritas Klien VIP",
+		TriggerType: "Ketika Faktur Invoice Lunas (Won Deal)",
+		Status:      "Active",
+		TargetModel: "Pelanggan VIP",
+	}
+	auto3 := marketing_automation.AutomationCampaign{
+		Name:        "Drip Seri Edukasi Paska Webinar",
+		TriggerType: "Ketika Tiket Acara Terdaftar",
+		Status:      "Active",
+		TargetModel: "Peserta Acara",
+	}
+	auto4 := marketing_automation.AutomationCampaign{
+		Name:        "Follow-Up Survei Kepuasan Net Promoter (NPS)",
+		TriggerType: "Ketika Responden Mengisi Survei",
+		Status:      "Paused",
+		TargetModel: "Pelanggan VIP",
+	}
+	auto5 := marketing_automation.AutomationCampaign{
+		Name:        "Nurturing Prospek Dingin Q4",
+		TriggerType: "Ketika Lead Baru Masuk dari Form Web",
+		Status:      "Draft",
+		TargetModel: "Sales Leads",
+	}
+
+	config.DB.Create(&auto1)
+	config.DB.Create(&auto2)
+	config.DB.Create(&auto3)
+	config.DB.Create(&auto4)
+	config.DB.Create(&auto5)
+
+	// Activities untuk auto1 (Onboarding Prospek Baru Website)
+	act1 := marketing_automation.WorkflowActivity{
+		CampaignID:   auto1.ID,
+		ActivityName: "Kirim Email Sambutan & Katalog Produk Enterprise",
+		ActionType:   "Email",
+		DelayHours:   1,
+		Condition:    "Always",
+	}
+	act2 := marketing_automation.WorkflowActivity{
+		CampaignID:   auto1.ID,
+		ActivityName: "Kirim WhatsApp Penawaran Demo & Jadwal Konsultasi",
+		ActionType:   "SMS",
+		DelayHours:   24,
+		Condition:    "Opened",
+	}
+	act3 := marketing_automation.WorkflowActivity{
+		CampaignID:   auto1.ID,
+		ActivityName: "Tugaskan Sales Representative untuk Telepon Follow-up",
+		ActionType:   "Notification",
+		DelayHours:   48,
+		Condition:    "Always",
+	}
+
+	// Activities untuk auto2 (Retensi Klien VIP)
+	act4 := marketing_automation.WorkflowActivity{
+		CampaignID:   auto2.ID,
+		ActivityName: "Kirim Ucapan Terima Kasih & Akses Portal VIP",
+		ActionType:   "Email",
+		DelayHours:   1,
+		Condition:    "Always",
+	}
+	act5 := marketing_automation.WorkflowActivity{
+		CampaignID:   auto2.ID,
+		ActivityName: "Kirim Voucher Diskon Maintenance Kontrak Tahunan",
+		ActionType:   "Email",
+		DelayHours:   72,
+		Condition:    "Always",
+	}
+
+	// Activities untuk auto3 (Drip Seri Edukasi)
+	act6 := marketing_automation.WorkflowActivity{
+		CampaignID:   auto3.ID,
+		ActivityName: "Kirim Rekaman Webinar & E-Book PDF Solusi",
+		ActionType:   "Email",
+		DelayHours:   2,
+		Condition:    "Always",
+	}
+
+	config.DB.Create(&act1)
+	config.DB.Create(&act2)
+	config.DB.Create(&act3)
+	config.DB.Create(&act4)
+	config.DB.Create(&act5)
+	config.DB.Create(&act6)
 
 	// Nyalakan kembali aturan Foreign Key
 	config.DB.Exec("SET session_replication_role = 'origin';")

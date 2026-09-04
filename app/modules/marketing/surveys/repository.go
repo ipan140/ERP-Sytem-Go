@@ -28,3 +28,33 @@ func UpdateSurvey(data *Survey) error {
 func DeleteSurvey(id uint) error {
 	return config.DB.Delete(&Survey{}, id).Error
 }
+
+// RecordSurveyResponse mencatat respon (dari GForm webhook atau form publik), lalu menghitung ulang NPS Score
+func RecordSurveyResponse(id uint, rating int) (*Survey, error) {
+	var survey Survey
+	if err := config.DB.First(&survey, id).Error; err != nil {
+		return nil, err
+	}
+
+	if rating >= 9 {
+		survey.PromotersCount++
+	} else if rating >= 7 {
+		survey.PassivesCount++
+	} else {
+		survey.DetractorsCount++
+	}
+	survey.ResponsesCount++
+
+	// Hitung ulang NPS = (% Promoter - % Detractor) * 100
+	if survey.ResponsesCount > 0 {
+		promoterPct := float64(survey.PromotersCount) / float64(survey.ResponsesCount) * 100
+		detractorPct := float64(survey.DetractorsCount) / float64(survey.ResponsesCount) * 100
+		survey.NpsScore = int(promoterPct - detractorPct)
+	}
+
+	if err := config.DB.Save(&survey).Error; err != nil {
+		return nil, err
+	}
+	return &survey, nil
+}
+

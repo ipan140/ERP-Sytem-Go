@@ -15,12 +15,10 @@ func RegisterRoutes(e *echo.Echo) {
 	api.DELETE("/:id", DeleteEventHandler)
 
 	api.POST("/eventticket", CreateEventTicketHandler)
+	api.POST("/eventticket/scan", ScanTicketHandler)
 	api.GET("/eventticket", GetAllEventTicketHandler)
 	api.GET("/eventticket/:id", GetEventTicketByIDHandler)
 	api.PUT("/eventticket/:id", UpdateEventTicketHandler)
 	api.DELETE("/eventticket/:id", DeleteEventTicketHandler)
 
 }
-
-
-

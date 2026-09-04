@@ -12270,6 +12270,38 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/marketing/events/eventticket/scan": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Scan and check-in attendee by ticket barcode",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "marketing-events"
+                ],
+                "summary": "Scan Barcode Ticket",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/events.ScanTicketRequest"
+                        }
+                    }
+                ],
+                "responses": {}
+            }
+        },
         "/api/marketing/events/eventticket/{id}": {
             "put": {
                 "security": [
@@ -12451,7 +12483,7 @@ const docTemplate = `{
                         "BearerAuth": []
                     }
                 ],
-                "description": "Retrieve a list of all AutomationCampaign",
+                "description": "Retrieve a list of all configured marketing automation campaigns",
                 "produces": [
                     "application/json"
                 ],
@@ -12468,6 +12500,12 @@ const docTemplate = `{
                                 "$ref": "#/definitions/marketing_automation.AutomationCampaign"
                             }
                         }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/utils.ErrorResponse"
+                        }
                     }
                 }
             },
@@ -12477,7 +12515,7 @@ const docTemplate = `{
                         "BearerAuth": []
                     }
                 ],
-                "description": "Create a new AutomationCampaign in the system",
+                "description": "Create a new marketing automation campaign workflow scenario",
                 "consumes": [
                     "application/json"
                 ],
@@ -12490,7 +12528,7 @@ const docTemplate = `{
                 "summary": "Create a new AutomationCampaign",
                 "parameters": [
                     {
-                        "description": "Payload",
+                        "description": "Automation Campaign Payload",
                         "name": "request",
                         "in": "body",
                         "required": true,
@@ -12504,6 +12542,18 @@ const docTemplate = `{
                         "description": "Created",
                         "schema": {
                             "$ref": "#/definitions/marketing_automation.AutomationCampaign"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/utils.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/utils.ErrorResponse"
                         }
                     }
                 }
@@ -12516,19 +12566,28 @@ const docTemplate = `{
                         "BearerAuth": []
                     }
                 ],
-                "description": "Retrieve a list of all WorkflowActivity",
+                "description": "Retrieve a list of all action steps / workflow activities",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "marketing-marketing_automation"
                 ],
-                "summary": "Get all WorkflowActivity",
+                "summary": "Get all WorkflowActivities",
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/marketing_automation.WorkflowActivity"
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/marketing_automation.WorkflowActivity"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/utils.ErrorResponse"
                         }
                     }
                 }
@@ -12539,7 +12598,7 @@ const docTemplate = `{
                         "BearerAuth": []
                     }
                 ],
-                "description": "Create a new WorkflowActivity",
+                "description": "Create a new action step (activity) in an automation campaign workflow",
                 "consumes": [
                     "application/json"
                 ],
@@ -12552,7 +12611,7 @@ const docTemplate = `{
                 "summary": "Create WorkflowActivity",
                 "parameters": [
                     {
-                        "description": "Payload",
+                        "description": "Workflow Activity Payload",
                         "name": "request",
                         "in": "body",
                         "required": true,
@@ -12567,18 +12626,74 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/marketing_automation.WorkflowActivity"
                         }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/utils.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/utils.ErrorResponse"
+                        }
                     }
                 }
             }
         },
         "/api/marketing/marketing_automation/workflowactivity/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve a specific workflow activity step by its ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "marketing-marketing_automation"
+                ],
+                "summary": "Get WorkflowActivity by ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "WorkflowActivity ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/marketing_automation.WorkflowActivity"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/utils.ErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/utils.ErrorResponse"
+                        }
+                    }
+                }
+            },
             "put": {
                 "security": [
                     {
                         "BearerAuth": []
                     }
                 ],
-                "description": "Update an existing WorkflowActivity",
+                "description": "Update an existing workflow activity action step",
                 "consumes": [
                     "application/json"
                 ],
@@ -12596,14 +12711,40 @@ const docTemplate = `{
                         "name": "id",
                         "in": "path",
                         "required": true
+                    },
+                    {
+                        "description": "Updated Workflow Activity Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/marketing_automation.WorkflowActivity"
+                        }
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/marketing_automation.WorkflowActivity"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/utils.ErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/utils.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/utils.ErrorResponse"
                         }
                     }
                 }
@@ -12614,7 +12755,7 @@ const docTemplate = `{
                         "BearerAuth": []
                     }
                 ],
-                "description": "Delete WorkflowActivity by ID",
+                "description": "Delete a workflow activity action step by ID",
                 "produces": [
                     "application/json"
                 ],
@@ -12635,8 +12776,19 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/utils.SuccessResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/utils.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/utils.ErrorResponse"
                         }
                     }
                 }
@@ -12649,14 +12801,14 @@ const docTemplate = `{
                         "BearerAuth": []
                     }
                 ],
-                "description": "Retrieve a specific AutomationCampaign by its ID",
+                "description": "Retrieve a specific automation campaign scenario by its ID",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "marketing-marketing_automation"
                 ],
-                "summary": "Get a AutomationCampaign by ID",
+                "summary": "Get an AutomationCampaign by ID",
                 "parameters": [
                     {
                         "type": "integer",
@@ -12672,6 +12824,18 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/marketing_automation.AutomationCampaign"
                         }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/utils.ErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/utils.ErrorResponse"
+                        }
                     }
                 }
             },
@@ -12681,7 +12845,7 @@ const docTemplate = `{
                         "BearerAuth": []
                     }
                 ],
-                "description": "Update an existing AutomationCampaign",
+                "description": "Update an existing automation campaign scenario",
                 "consumes": [
                     "application/json"
                 ],
@@ -12691,7 +12855,7 @@ const docTemplate = `{
                 "tags": [
                     "marketing-marketing_automation"
                 ],
-                "summary": "Update a AutomationCampaign",
+                "summary": "Update an AutomationCampaign",
                 "parameters": [
                     {
                         "type": "integer",
@@ -12699,14 +12863,40 @@ const docTemplate = `{
                         "name": "id",
                         "in": "path",
                         "required": true
+                    },
+                    {
+                        "description": "Updated Automation Campaign Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/marketing_automation.AutomationCampaign"
+                        }
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/marketing_automation.AutomationCampaign"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/utils.ErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/utils.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/utils.ErrorResponse"
                         }
                     }
                 }
@@ -12717,14 +12907,14 @@ const docTemplate = `{
                         "BearerAuth": []
                     }
                 ],
-                "description": "Delete a AutomationCampaign by ID",
+                "description": "Delete an automation campaign scenario by ID",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "marketing-marketing_automation"
                 ],
-                "summary": "Delete a AutomationCampaign",
+                "summary": "Delete an AutomationCampaign",
                 "parameters": [
                     {
                         "type": "integer",
@@ -12738,8 +12928,19 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/utils.SuccessResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/utils.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/utils.ErrorResponse"
                         }
                     }
                 }
@@ -13053,7 +13254,7 @@ const docTemplate = `{
                         "BearerAuth": []
                     }
                 ],
-                "description": "Retrieve a list of all SmsCampaign",
+                "description": "Retrieve a list of all SMS/WhatsApp campaigns",
                 "produces": [
                     "application/json"
                 ],
@@ -13063,12 +13264,30 @@ const docTemplate = `{
                 "summary": "Get all SmsCampaign",
                 "responses": {
                     "200": {
-                        "description": "OK",
+                        "description": "List of SMS campaigns",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/sms_marketing.SmsCampaign"
-                            }
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/utils.SuccessResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/sms_marketing.SmsCampaign"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "500": {
+                        "description": "Failed to retrieve data",
+                        "schema": {
+                            "$ref": "#/definitions/utils.ErrorResponse"
                         }
                     }
                 }
@@ -13079,7 +13298,7 @@ const docTemplate = `{
                         "BearerAuth": []
                     }
                 ],
-                "description": "Create a new SmsCampaign in the system",
+                "description": "Create a new SMS/WhatsApp marketing campaign in the system",
                 "consumes": [
                     "application/json"
                 ],
@@ -13092,7 +13311,7 @@ const docTemplate = `{
                 "summary": "Create a new SmsCampaign",
                 "parameters": [
                     {
-                        "description": "Payload",
+                        "description": "Sms Campaign Payload",
                         "name": "request",
                         "in": "body",
                         "required": true,
@@ -13103,9 +13322,33 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "201": {
-                        "description": "Created",
+                        "description": "Campaign created successfully",
                         "schema": {
-                            "$ref": "#/definitions/sms_marketing.SmsCampaign"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/utils.SuccessResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/sms_marketing.SmsCampaign"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request payload",
+                        "schema": {
+                            "$ref": "#/definitions/utils.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failed to create data",
+                        "schema": {
+                            "$ref": "#/definitions/utils.ErrorResponse"
                         }
                     }
                 }
@@ -13118,7 +13361,7 @@ const docTemplate = `{
                         "BearerAuth": []
                     }
                 ],
-                "description": "Retrieve a specific SmsCampaign by its ID",
+                "description": "Retrieve a specific SMS/WhatsApp campaign by its ID",
                 "produces": [
                     "application/json"
                 ],
@@ -13137,9 +13380,33 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK",
+                        "description": "Campaign found",
                         "schema": {
-                            "$ref": "#/definitions/sms_marketing.SmsCampaign"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/utils.SuccessResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/sms_marketing.SmsCampaign"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid ID parameter",
+                        "schema": {
+                            "$ref": "#/definitions/utils.ErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Data not found",
+                        "schema": {
+                            "$ref": "#/definitions/utils.ErrorResponse"
                         }
                     }
                 }
@@ -13150,7 +13417,7 @@ const docTemplate = `{
                         "BearerAuth": []
                     }
                 ],
-                "description": "Update an existing SmsCampaign",
+                "description": "Update an existing SMS/WhatsApp campaign",
                 "consumes": [
                     "application/json"
                 ],
@@ -13168,14 +13435,52 @@ const docTemplate = `{
                         "name": "id",
                         "in": "path",
                         "required": true
+                    },
+                    {
+                        "description": "Updated SMS Campaign Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/sms_marketing.SmsCampaign"
+                        }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK",
+                        "description": "Campaign updated successfully",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/utils.SuccessResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/sms_marketing.SmsCampaign"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request payload or ID",
+                        "schema": {
+                            "$ref": "#/definitions/utils.ErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Data not found",
+                        "schema": {
+                            "$ref": "#/definitions/utils.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failed to update data",
+                        "schema": {
+                            "$ref": "#/definitions/utils.ErrorResponse"
                         }
                     }
                 }
@@ -13186,7 +13491,7 @@ const docTemplate = `{
                         "BearerAuth": []
                     }
                 ],
-                "description": "Delete a SmsCampaign by ID",
+                "description": "Delete a SMS/WhatsApp campaign by ID",
                 "produces": [
                     "application/json"
                 ],
@@ -13205,10 +13510,162 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK",
+                        "description": "Data deleted successfully",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/utils.SuccessResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid ID parameter",
+                        "schema": {
+                            "$ref": "#/definitions/utils.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failed to delete data",
+                        "schema": {
+                            "$ref": "#/definitions/utils.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/marketing/sms_marketing/{id}/broadcast": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Broadcast SMS / WhatsApp messages to targeted customer audience",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "marketing-sms_marketing"
+                ],
+                "summary": "Execute real broadcast to audience",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "SmsCampaign ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Broadcast execution summary",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/utils.SuccessResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/sms_marketing.BroadcastResult"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid ID parameter",
+                        "schema": {
+                            "$ref": "#/definitions/utils.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failed to execute broadcast",
+                        "schema": {
+                            "$ref": "#/definitions/utils.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/marketing/sms_marketing/{id}/send-test": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Dispatches a test SMS/WhatsApp message and generates a direct WhatsApp link",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "marketing-sms_marketing"
+                ],
+                "summary": "Send test broadcast message to user's phone / WhatsApp",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "SmsCampaign ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Test Dispatch Target",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/sms_marketing.TestSendPayload"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Test message dispatch response",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/utils.SuccessResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object",
+                                            "additionalProperties": true
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid payload or missing phone number",
+                        "schema": {
+                            "$ref": "#/definitions/utils.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failed to send test message",
+                        "schema": {
+                            "$ref": "#/definitions/utils.ErrorResponse"
                         }
                     }
                 }
@@ -13389,7 +13846,7 @@ const docTemplate = `{
                         "BearerAuth": []
                     }
                 ],
-                "description": "Retrieve a list of all Survey",
+                "description": "Retrieve a list of all surveys with calculated NPS scores",
                 "produces": [
                     "application/json"
                 ],
@@ -13399,12 +13856,30 @@ const docTemplate = `{
                 "summary": "Get all Survey",
                 "responses": {
                     "200": {
-                        "description": "OK",
+                        "description": "List of surveys",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/surveys.Survey"
-                            }
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/utils.SuccessResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/surveys.Survey"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "500": {
+                        "description": "Failed to retrieve data",
+                        "schema": {
+                            "$ref": "#/definitions/utils.ErrorResponse"
                         }
                     }
                 }
@@ -13415,7 +13890,7 @@ const docTemplate = `{
                         "BearerAuth": []
                     }
                 ],
-                "description": "Create a new Survey in the system",
+                "description": "Create a new customer feedback or NPS survey in the system",
                 "consumes": [
                     "application/json"
                 ],
@@ -13428,7 +13903,7 @@ const docTemplate = `{
                 "summary": "Create a new Survey",
                 "parameters": [
                     {
-                        "description": "Payload",
+                        "description": "Survey Payload",
                         "name": "request",
                         "in": "body",
                         "required": true,
@@ -13439,9 +13914,33 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "201": {
-                        "description": "Created",
+                        "description": "Survey created successfully",
                         "schema": {
-                            "$ref": "#/definitions/surveys.Survey"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/utils.SuccessResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/surveys.Survey"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request payload",
+                        "schema": {
+                            "$ref": "#/definitions/utils.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failed to create data",
+                        "schema": {
+                            "$ref": "#/definitions/utils.ErrorResponse"
                         }
                     }
                 }
@@ -13454,7 +13953,7 @@ const docTemplate = `{
                         "BearerAuth": []
                     }
                 ],
-                "description": "Retrieve a specific Survey by its ID",
+                "description": "Retrieve a specific survey by its ID",
                 "produces": [
                     "application/json"
                 ],
@@ -13473,9 +13972,33 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK",
+                        "description": "Survey found",
                         "schema": {
-                            "$ref": "#/definitions/surveys.Survey"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/utils.SuccessResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/surveys.Survey"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid ID parameter",
+                        "schema": {
+                            "$ref": "#/definitions/utils.ErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Data not found",
+                        "schema": {
+                            "$ref": "#/definitions/utils.ErrorResponse"
                         }
                     }
                 }
@@ -13486,7 +14009,7 @@ const docTemplate = `{
                         "BearerAuth": []
                     }
                 ],
-                "description": "Update an existing Survey",
+                "description": "Update an existing survey details",
                 "consumes": [
                     "application/json"
                 ],
@@ -13504,14 +14027,52 @@ const docTemplate = `{
                         "name": "id",
                         "in": "path",
                         "required": true
+                    },
+                    {
+                        "description": "Updated Survey Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/surveys.Survey"
+                        }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK",
+                        "description": "Survey updated successfully",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/utils.SuccessResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/surveys.Survey"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request payload or ID",
+                        "schema": {
+                            "$ref": "#/definitions/utils.ErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Data not found",
+                        "schema": {
+                            "$ref": "#/definitions/utils.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failed to update data",
+                        "schema": {
+                            "$ref": "#/definitions/utils.ErrorResponse"
                         }
                     }
                 }
@@ -13522,7 +14083,7 @@ const docTemplate = `{
                         "BearerAuth": []
                     }
                 ],
-                "description": "Delete a Survey by ID",
+                "description": "Delete a survey by ID",
                 "produces": [
                     "application/json"
                 ],
@@ -13541,10 +14102,151 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK",
+                        "description": "Data deleted successfully",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/utils.SuccessResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid ID parameter",
+                        "schema": {
+                            "$ref": "#/definitions/utils.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failed to delete data",
+                        "schema": {
+                            "$ref": "#/definitions/utils.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/public/surveys/{id}": {
+            "get": {
+                "description": "Retrieve public info of a survey for respondents without authentication",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "marketing-surveys"
+                ],
+                "summary": "Get public survey details",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Survey ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Survey details found",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/utils.SuccessResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/surveys.PublicSurveyInfo"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid ID parameter",
+                        "schema": {
+                            "$ref": "#/definitions/utils.ErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Survey not found",
+                        "schema": {
+                            "$ref": "#/definitions/utils.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/public/surveys/{id}/respond": {
+            "post": {
+                "description": "Submit a customer NPS rating and update calculation (promoters, passives, detractors, nps_score)",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "marketing-surveys"
+                ],
+                "summary": "Submit survey response (NPS Rating)",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Survey ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Survey Response Rating",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/surveys.SurveyResponsePayload"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Survey response recorded",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/utils.SuccessResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/surveys.Survey"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid rating (must be 0-10) or ID",
+                        "schema": {
+                            "$ref": "#/definitions/utils.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failed to record survey response",
+                        "schema": {
+                            "$ref": "#/definitions/utils.ErrorResponse"
                         }
                     }
                 }
@@ -25902,7 +26604,7 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "deleted_at": {
-                    "$ref": "#/definitions/gorm.DeletedAt"
+                    "type": "string"
                 },
                 "department": {
                     "$ref": "#/definitions/employees.Department"
@@ -26230,14 +26932,36 @@ const docTemplate = `{
         "events.Event": {
             "type": "object",
             "properties": {
+                "event_date": {
+                    "type": "string"
+                },
+                "event_name": {
+                    "type": "string"
+                },
                 "id": {
                     "type": "integer"
+                },
+                "location": {
+                    "type": "string"
+                },
+                "max_capacity": {
+                    "type": "integer"
+                },
+                "status": {
+                    "description": "Open, Ongoing, Completed",
+                    "type": "string"
                 }
             }
         },
         "events.EventTicket": {
             "type": "object",
             "properties": {
+                "attendee_email": {
+                    "type": "string"
+                },
+                "attendee_name": {
+                    "type": "string"
+                },
                 "barcode": {
                     "description": "Di-scan saat acara",
                     "type": "string"
@@ -26269,6 +26993,17 @@ const docTemplate = `{
                 },
                 "is_scanned": {
                     "type": "boolean"
+                }
+            }
+        },
+        "events.ScanTicketRequest": {
+            "type": "object",
+            "required": [
+                "barcode"
+            ],
+            "properties": {
+                "barcode": {
+                    "type": "string"
                 }
             }
         },
@@ -26563,18 +27298,6 @@ const docTemplate = `{
                 },
                 "name": {
                     "type": "string"
-                }
-            }
-        },
-        "gorm.DeletedAt": {
-            "type": "object",
-            "properties": {
-                "time": {
-                    "type": "string"
-                },
-                "valid": {
-                    "description": "Valid is true if Time is not NULL",
-                    "type": "boolean"
                 }
             }
         },
@@ -27771,6 +28494,20 @@ const docTemplate = `{
             "properties": {
                 "id": {
                     "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "status": {
+                    "description": "Active, Paused, Draft",
+                    "type": "string"
+                },
+                "target_model": {
+                    "type": "string"
+                },
+                "trigger_type": {
+                    "description": "Lead Created, Invoice Paid, Form Submitted",
+                    "type": "string"
                 }
             }
         },
@@ -27778,12 +28515,17 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "action_type": {
+                    "description": "Email, SMS, Notification, Webhook",
+                    "type": "string"
+                },
+                "activity_name": {
                     "type": "string"
                 },
                 "campaign_id": {
                     "type": "integer"
                 },
                 "condition": {
+                    "description": "Opened, Clicked, Always",
                     "type": "string"
                 },
                 "delay_hours": {
@@ -27797,6 +28539,9 @@ const docTemplate = `{
         "mass_mailing.MailingCampaign": {
             "type": "object",
             "properties": {
+                "bounced_count": {
+                    "type": "integer"
+                },
                 "clicked_count": {
                     "type": "integer"
                 },
@@ -27809,8 +28554,21 @@ const docTemplate = `{
                 "opened_count": {
                     "type": "integer"
                 },
+                "scheduled_at": {
+                    "type": "string"
+                },
                 "sent_count": {
                     "type": "integer"
+                },
+                "status": {
+                    "description": "Draft, Scheduled, In-Queue, Sent",
+                    "type": "string"
+                },
+                "subject": {
+                    "type": "string"
+                },
+                "target_audience": {
+                    "type": "string"
                 }
             }
         },
@@ -29260,25 +30018,101 @@ const docTemplate = `{
                 }
             }
         },
+        "sms_marketing.BroadcastResult": {
+            "type": "object",
+            "properties": {
+                "campaign_id": {
+                    "type": "integer"
+                },
+                "campaign_name": {
+                    "type": "string"
+                },
+                "channel": {
+                    "type": "string"
+                },
+                "delivered_count": {
+                    "type": "integer"
+                },
+                "execution_time": {
+                    "type": "string"
+                },
+                "recipients": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "sent_count": {
+                    "type": "integer"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "total_target": {
+                    "type": "integer"
+                }
+            }
+        },
         "sms_marketing.SmsCampaign": {
             "type": "object",
             "properties": {
+                "channel": {
+                    "description": "SMS, WhatsApp, All",
+                    "type": "string"
+                },
+                "content": {
+                    "type": "string"
+                },
                 "created_at": {
                     "type": "string"
+                },
+                "delivered_count": {
+                    "type": "integer"
                 },
                 "id": {
                     "type": "integer"
                 },
                 "name": {
                     "type": "string"
+                },
+                "sent_count": {
+                    "type": "integer"
+                },
+                "status": {
+                    "description": "Draft, In-Queue, Sent",
+                    "type": "string"
+                },
+                "target_audience": {
+                    "type": "string"
+                }
+            }
+        },
+        "sms_marketing.TestSendPayload": {
+            "type": "object",
+            "properties": {
+                "channel": {
+                    "type": "string",
+                    "example": "WhatsApp"
+                },
+                "target_phone": {
+                    "type": "string",
+                    "example": "081234567890"
                 }
             }
         },
         "social_marketing.SocialPost": {
             "type": "object",
             "properties": {
+                "channels": {
+                    "description": "Format list kanal dinamis: \"Facebook,Instagram,TikTok,Pinterest,WhatsApp Channel\"",
+                    "type": "string"
+                },
                 "id": {
                     "type": "integer"
+                },
+                "image_url": {
+                    "description": "URL Gambar atau Base64 Upload Data",
+                    "type": "string"
                 },
                 "message": {
                     "type": "string"
@@ -29289,8 +30123,21 @@ const docTemplate = `{
                 "post_to_instagram": {
                     "type": "boolean"
                 },
+                "post_to_linkedin": {
+                    "type": "boolean"
+                },
                 "post_to_twitter": {
                     "type": "boolean"
+                },
+                "reach_count": {
+                    "type": "integer"
+                },
+                "scheduled_at": {
+                    "type": "string"
+                },
+                "status": {
+                    "description": "Draft, In-Review, Scheduled, Published",
+                    "type": "string"
                 }
             }
         },
@@ -29411,6 +30258,26 @@ const docTemplate = `{
                 }
             }
         },
+        "surveys.PublicSurveyInfo": {
+            "type": "object",
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "gform_url": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "state": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                }
+            }
+        },
         "surveys.Survey": {
             "type": "object",
             "properties": {
@@ -29420,7 +30287,27 @@ const docTemplate = `{
                 "description": {
                     "type": "string"
                 },
+                "detractors_count": {
+                    "type": "integer"
+                },
+                "gform_url": {
+                    "description": "URL Google Form jika menggunakan form eksternal",
+                    "type": "string"
+                },
                 "id": {
+                    "type": "integer"
+                },
+                "nps_score": {
+                    "description": "Skala -100 sampai +100",
+                    "type": "integer"
+                },
+                "passives_count": {
+                    "type": "integer"
+                },
+                "promoters_count": {
+                    "type": "integer"
+                },
+                "responses_count": {
                     "type": "integer"
                 },
                 "state": {
@@ -29435,6 +30322,20 @@ const docTemplate = `{
                 },
                 "user_id": {
                     "type": "integer"
+                }
+            }
+        },
+        "surveys.SurveyResponsePayload": {
+            "type": "object",
+            "properties": {
+                "feedback": {
+                    "type": "string",
+                    "example": "Pelayanan sangat memuaskan!"
+                },
+                "rating": {
+                    "description": "0 - 10",
+                    "type": "integer",
+                    "example": 9
                 }
             }
         },
@@ -29740,6 +30641,26 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "roles": {
+                    "type": "string"
+                }
+            }
+        },
+        "utils.ErrorResponse": {
+            "type": "object",
+            "properties": {
+                "error": {
+                    "type": "string"
+                },
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "utils.SuccessResponse": {
+            "type": "object",
+            "properties": {
+                "data": {},
+                "message": {
                     "type": "string"
                 }
             }

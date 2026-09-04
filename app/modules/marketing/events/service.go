@@ -25,3 +25,6 @@ func GetAllEventTicketService() ([]EventTicket, error)        { return GetAllEve
 func GetEventTicketByIDService(id uint) (*EventTicket, error) { return GetEventTicketByID(id) }
 func UpdateEventTicketService(data *EventTicket) error        { return UpdateEventTicket(data) }
 func DeleteEventTicketService(id uint) error                  { return DeleteEventTicket(id) }
+func ScanTicketByBarcodeService(barcode string) (*EventTicket, error) {
+	return ScanTicketByBarcode(barcode)
+}

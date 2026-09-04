@@ -13,6 +13,8 @@ func RegisterRoutes(e *echo.Echo) {
 	api.GET("/:id", GetSmsCampaignByIDHandler)
 	api.PUT("/:id", UpdateSmsCampaignHandler)
 	api.DELETE("/:id", DeleteSmsCampaignHandler)
+	api.POST("/:id/broadcast", ExecuteBroadcastHandler)
+	api.POST("/:id/send-test", SendTestMessageHandler)
 }
 
 

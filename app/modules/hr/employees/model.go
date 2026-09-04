@@ -46,7 +46,7 @@ type Employee struct {
 	JoinDate         *time.Time     `json:"join_date"`
 	IsActive         bool           `gorm:"default:true" json:"is_active"`
 	CreatedAt        time.Time      `json:"created_at"`
-	DeletedAt        gorm.DeletedAt `gorm:"index" json:"deleted_at,omitempty"`
+	DeletedAt        *time.Time     `gorm:"index" json:"deleted_at,omitempty"`
 }
 
 // --- 2. Contracts ---
