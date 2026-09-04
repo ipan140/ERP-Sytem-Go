@@ -20,7 +20,9 @@ func RegisterRoutes(e *echo.Echo) {
 
 	// Laporan Keuangan Standar SAK
 	api.GET("/reports/profit-loss", GetProfitLossReportHandler)
+	api.GET("/reports/profit-loss/export-excel", ExportProfitLossExcelHandler)
 	api.GET("/reports/balance-sheet", GetBalanceSheetReportHandler)
+	api.GET("/reports/balance-sheet/export-excel", ExportBalanceSheetExcelHandler)
 
 	// Jurnal Umum
 	api.POST("", CreateJournalEntryHandler)

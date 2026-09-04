@@ -2813,6 +2813,56 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/finance/accounting/reports/balance-sheet/export-excel": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Menghasilkan file spreadsheet Excel berisi Neraca Keuangan SAK",
+                "produces": [
+                    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                ],
+                "tags": [
+                    "finance-accounting"
+                ],
+                "summary": "Export Laporan Neraca ke file Excel .xlsx",
+                "responses": {
+                    "200": {
+                        "description": "File Excel Neraca Keuangan",
+                        "schema": {
+                            "type": "file"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/finance/accounting/reports/profit-loss/export-excel": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Menghasilkan file spreadsheet Excel berisi Laba Rugi format SAK",
+                "produces": [
+                    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                ],
+                "tags": [
+                    "finance-accounting"
+                ],
+                "summary": "Export Laporan Laba Rugi ke file Excel .xlsx",
+                "responses": {
+                    "200": {
+                        "description": "File Excel Laba Rugi",
+                        "schema": {
+                            "type": "file"
+                        }
+                    }
+                }
+            }
+        },
         "/api/finance/accounting/{id}": {
             "get": {
                 "security": [
@@ -3943,6 +3993,100 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/finance/expenses/petty-cash": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Mengambil data plafon kas kecil, saldo riil kasir, dan daftar bukti pengeluaran",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "finance-expenses"
+                ],
+                "summary": "Ambil saldo kas kecil dan riwayat transaksi",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/finance/expenses/petty-cash/expense": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Mencatat pengeluaran kas kecil dan memverifikasi sisa saldo fisik kasir",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "finance-expenses"
+                ],
+                "summary": "Catat nota pengeluaran kas kecil",
+                "parameters": [
+                    {
+                        "description": "Payload Transaksi",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/expenses.PettyCashTransaction"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/expenses.PettyCashTransaction"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/finance/expenses/petty-cash/replenish": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Mengisi kembali kas kecil ke batas plafon awal dan mencatat jurnal penggantian",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "finance-expenses"
+                ],
+                "summary": "Pengisian kembali kas kecil (Imprest Fund Replenishment)",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
         "/api/finance/expenses/{id}": {
             "get": {
                 "security": [
@@ -4656,6 +4800,44 @@ const docTemplate = `{
                     "finance-reconciliation"
                 ],
                 "summary": "Jalankan pencocokan otomatis (Auto-Match)",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/finance/reconciliation/upload-csv": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Mengunggah dan mem-parsing file CSV rekening koran (format KlikBCA / Mandiri MCM)",
+                "consumes": [
+                    "multipart/form-data"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "finance-reconciliation"
+                ],
+                "summary": "Unggah file rekening koran bank (.CSV)",
+                "parameters": [
+                    {
+                        "type": "file",
+                        "description": "File CSV Rekening Koran",
+                        "name": "file",
+                        "in": "formData",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -26164,6 +26346,73 @@ const docTemplate = `{
                 },
                 "total": {
                     "type": "number"
+                }
+            }
+        },
+        "expenses.PettyCashFund": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "current_balance": {
+                    "type": "number"
+                },
+                "custodian": {
+                    "description": "Pemegang kasir kas kecil",
+                    "type": "string"
+                },
+                "gl_account_id": {
+                    "description": "Akun Kas Kecil (1-1001)",
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "description": "e.g. Kas Kecil Operasional Kantor",
+                    "type": "string"
+                },
+                "plafond_limit": {
+                    "description": "Plafon sistem imprest",
+                    "type": "number"
+                },
+                "updated_at": {
+                    "type": "string"
+                }
+            }
+        },
+        "expenses.PettyCashTransaction": {
+            "type": "object",
+            "properties": {
+                "amount": {
+                    "type": "number"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "description": {
+                    "description": "e.g. Beli air galon \u0026 snack meeting",
+                    "type": "string"
+                },
+                "fund": {
+                    "$ref": "#/definitions/expenses.PettyCashFund"
+                },
+                "fund_id": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "receipt_ref": {
+                    "type": "string"
+                },
+                "recorded_by": {
+                    "type": "string"
+                },
+                "tx_type": {
+                    "description": "\"expense\" (pengeluaran), \"replenish\" (pengisian kembali)",
+                    "type": "string"
                 }
             }
         },

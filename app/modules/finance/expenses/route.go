@@ -19,6 +19,11 @@ func RegisterRoutes(e *echo.Echo) {
 	api.GET("/expensesheet/:id", GetExpenseSheetByIDHandler)
 	api.PUT("/expensesheet/:id", UpdateExpenseSheetHandler)
 	api.DELETE("/expensesheet/:id", DeleteExpenseSheetHandler)
+
+	// Kas Kecil (Petty Cash - Imprest Fund)
+	api.GET("/petty-cash", GetPettyCashHandler)
+	api.POST("/petty-cash/expense", RecordPettyCashExpenseHandler)
+	api.POST("/petty-cash/replenish", ReplenishPettyCashHandler)
 }
 
 

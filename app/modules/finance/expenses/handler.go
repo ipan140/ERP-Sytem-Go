@@ -2,6 +2,7 @@ package expenses
 
 import (
 	"ERP-System/common/utils"
+	"fmt"
 	"net/http"
 	"strconv"
 
@@ -186,6 +187,83 @@ func DeleteExpenseSheetHandler(c echo.Context) error {
 		return utils.SendError(c, http.StatusInternalServerError, "Failed to delete", err.Error())
 	}
 	return utils.SendSuccess(c, http.StatusOK, "Deleted successfully", nil)
+}
+
+// --- PETTY CASH (KAS KECIL) HANDLERS ---
+
+// GetPettyCashHandler godoc
+// @Summary Ambil saldo kas kecil dan riwayat transaksi
+// @Description Mengambil data plafon kas kecil, saldo riil kasir, dan daftar bukti pengeluaran
+// @Tags finance-expenses
+// @Produce json
+// @Success 200 {object} map[string]interface{}
+// @Router /api/finance/expenses/petty-cash [get]
+// @Security BearerAuth
+func GetPettyCashHandler(c echo.Context) error {
+	fund, txs, err := GetOrCreatePettyCashFundService()
+	if err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Gagal mengambil data kas kecil", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Petty cash retrieved", map[string]interface{}{
+		"fund":         fund,
+		"transactions": txs,
+	})
+}
+
+// RecordPettyCashExpenseHandler godoc
+// @Summary Catat nota pengeluaran kas kecil
+// @Description Mencatat pengeluaran kas kecil dan memverifikasi sisa saldo fisik kasir
+// @Tags finance-expenses
+// @Accept json
+// @Produce json
+// @Param request body PettyCashTransaction true "Payload Transaksi"
+// @Success 201 {object} PettyCashTransaction
+// @Router /api/finance/expenses/petty-cash/expense [post]
+// @Security BearerAuth
+func RecordPettyCashExpenseHandler(c echo.Context) error {
+	var tx PettyCashTransaction
+	if err := c.Bind(&tx); err != nil {
+		return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error())
+	}
+	if tx.Amount <= 0 {
+		return utils.SendError(c, http.StatusBadRequest, "Nominal harus lebih besar dari 0", "")
+	}
+	if err := RecordPettyCashExpenseService(&tx); err != nil {
+		return utils.SendError(c, http.StatusBadRequest, "Gagal mencatat kas kecil", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusCreated, "Pengeluaran kas kecil berhasil dicatat", tx)
+}
+
+// ReplenishPettyCashHandler godoc
+// @Summary Pengisian kembali kas kecil (Imprest Fund Replenishment)
+// @Description Mengisi kembali kas kecil ke batas plafon awal dan mencatat jurnal penggantian
+// @Tags finance-expenses
+// @Accept json
+// @Produce json
+// @Success 200 {object} map[string]interface{}
+// @Router /api/finance/expenses/petty-cash/replenish [post]
+// @Security BearerAuth
+func ReplenishPettyCashHandler(c echo.Context) error {
+	type ReplenishReq struct {
+		FundID     uint   `json:"fund_id"`
+		RecordedBy string `json:"recorded_by"`
+	}
+	var req ReplenishReq
+	_ = c.Bind(&req)
+	if req.FundID == 0 {
+		req.FundID = 1
+	}
+	if req.RecordedBy == "" {
+		req.RecordedBy = "Bendahara Kasir"
+	}
+
+	amount, err := ReplenishPettyCashService(req.FundID, req.RecordedBy)
+	if err != nil {
+		return utils.SendError(c, http.StatusBadRequest, "Gagal pengisian kas kecil", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, fmt.Sprintf("Penggantian kas kecil berhasil sebesar Rp %.0f!", amount), map[string]interface{}{
+		"replenished_amount": amount,
+	})
 }
 
 

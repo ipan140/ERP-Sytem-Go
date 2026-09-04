@@ -1,9 +1,13 @@
-package payroll
+﻿package payroll
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
+	"time"
 
+	"ERP-System/app/modules/finance/tax"
+	"ERP-System/config"
 	"ERP-System/pkg/rabbitmq"
 )
 
@@ -41,7 +45,12 @@ func GetPayslipByIDService(id uint) (*Payslip, error) {
 }
 
 func UpdatePayslipService(data *Payslip) error {
-	return UpdatePayslip(data)
+	err := UpdatePayslip(data)
+	if err == nil && (data.State == "done" || data.State == "approved") {
+		// Otomatis sinkronisasi PPh 21 TER ke modul Tax
+		_ = SyncPPh21ToTaxModule(data.ID)
+	}
+	return err
 }
 
 func DeletePayslipService(id uint) error {
@@ -59,3 +68,55 @@ func GetAllSalaryRuleService() ([]SalaryRule, error)        { return GetAllSalar
 func GetSalaryRuleByIDService(id uint) (*SalaryRule, error) { return GetSalaryRuleByID(id) }
 func UpdateSalaryRuleService(data *SalaryRule) error        { return UpdateSalaryRule(data) }
 func DeleteSalaryRuleService(id uint) error                 { return DeleteSalaryRule(id) }
+
+// SyncPPh21ToTaxModule mengecek seluruh potongan PPh 21 dari payslip dan memposting ke tabel finance.tax_reports
+func SyncPPh21ToTaxModule(payslipID uint) error {
+	var ps Payslip
+	if err := config.DB.Preload("Employee").First(&ps, payslipID).Error; err != nil {
+		return err
+	}
+
+	// Cari baris gaji dengan kode/rule TAX / PPH21
+	var lines []PayslipLine
+	config.DB.Joins("JOIN hrd.salary_rules ON hrd.salary_rules.id = hrd.payslip_lines.salary_rule_id").
+		Where("hrd.payslip_lines.payslip_id = ? AND (hrd.salary_rules.code ILIKE '%tax%' OR hrd.salary_rules.code ILIKE '%pph%')", payslipID).
+		Find(&lines)
+
+	var taxAmount float64
+	for _, l := range lines {
+		taxAmount += l.Amount
+	}
+
+	if taxAmount <= 0 {
+		// Fallback simulasi TER (5% dari gaji bruto jika rule belum di-setup)
+		var totalGross float64
+		config.DB.Model(&PayslipLine{}).Where("payslip_id = ? AND amount > 0", payslipID).Select("COALESCE(SUM(amount), 0)").Scan(&totalGross)
+		if totalGross > 5400000 {
+			taxAmount = totalGross * 0.05
+		}
+	}
+
+	periodStr := ps.DateFrom.Format("January 2006")
+	if ps.DateFrom.IsZero() {
+		periodStr = time.Now().Format("January 2006")
+	}
+
+	partnerName := "Karyawan Internal Kantor"
+	if ps.Employee != nil && ps.Employee.Name != "" {
+		partnerName = ps.Employee.Name
+	}
+
+	taxReport := tax.TaxReportSummary{
+		TaxPeriod:   periodStr,
+		TaxType:     "PPh 21 TER Bulanan (Gaji Karyawan)",
+		TaxBase:     taxAmount / 0.05, // DPP Estimasi
+		TaxRate:     5.0,
+		TaxAmount:   taxAmount,
+		PartnerName: fmt.Sprintf("%s (Slip: %s)", partnerName, ps.Name),
+		NPWP:        "01.234.567.8-012.000",
+		Status:      "Siap Lapor",
+		CreatedAt:   time.Now(),
+	}
+
+	return tax.CreateTaxReportService(&taxReport)
+}

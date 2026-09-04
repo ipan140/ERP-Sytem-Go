@@ -29,6 +29,29 @@ type Expense struct {
 }
 
 
+type PettyCashFund struct {
+	ID           uint      `gorm:"primaryKey" json:"id"`
+	Name         string    `gorm:"type:varchar(100);not null" json:"name"` // e.g. Kas Kecil Operasional Kantor
+	Custodian    string    `gorm:"type:varchar(100);not null" json:"custodian"` // Pemegang kasir kas kecil
+	PlafondLimit float64   `gorm:"type:numeric(15,2);default:5000000" json:"plafond_limit"` // Plafon sistem imprest
+	CurrentBalance float64 `gorm:"type:numeric(15,2);default:5000000" json:"current_balance"`
+	GLAccountID  uint      `json:"gl_account_id"` // Akun Kas Kecil (1-1001)
+	CreatedAt    time.Time `json:"created_at"`
+	UpdatedAt    time.Time `json:"updated_at"`
+}
+
+type PettyCashTransaction struct {
+	ID          uint      `gorm:"primaryKey" json:"id"`
+	FundID      uint      `json:"fund_id"`
+	Fund        *PettyCashFund `gorm:"foreignKey:FundID" json:"fund,omitempty"`
+	TxType      string    `gorm:"type:varchar(20);not null" json:"tx_type"` // "expense" (pengeluaran), "replenish" (pengisian kembali)
+	Amount      float64   `gorm:"type:numeric(15,2);not null" json:"amount"`
+	Description string    `gorm:"type:varchar(255);not null" json:"description"` // e.g. Beli air galon & snack meeting
+	ReceiptRef  string    `gorm:"type:varchar(100)" json:"receipt_ref"`
+	RecordedBy  string    `gorm:"type:varchar(100)" json:"recorded_by"`
+	CreatedAt   time.Time `json:"created_at"`
+}
+
 func (ExpenseSheet) TableName() string {
 	return "finance.expense_sheets"
 }
@@ -37,6 +60,14 @@ func (Expense) TableName() string {
 	return "finance.expenses"
 }
 
+func (PettyCashFund) TableName() string {
+	return "finance.petty_cash_funds"
+}
+
+func (PettyCashTransaction) TableName() string {
+	return "finance.petty_cash_transactions"
+}
+
 func init() {
-	config.ModelsToMigrate = append(config.ModelsToMigrate, &ExpenseSheet{}, &Expense{})
+	config.ModelsToMigrate = append(config.ModelsToMigrate, &ExpenseSheet{}, &Expense{}, &PettyCashFund{}, &PettyCashTransaction{})
 }

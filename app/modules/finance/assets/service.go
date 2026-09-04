@@ -1,8 +1,12 @@
-﻿package assets
+package assets
 
 import (
+	"ERP-System/config"
+	"fmt"
 	"math"
 	"time"
+
+	"gorm.io/gorm"
 )
 
 // Category Services
@@ -86,7 +90,7 @@ func ExecuteMonthlyDepreciationService() (float64, error) {
 	for _, it := range list {
 		if it.NetBookValue > it.ResidualValue {
 			deprNow := it.MonthlyDepreciation
-			if it.NetBookValue - deprNow < it.ResidualValue {
+			if it.NetBookValue-deprNow < it.ResidualValue {
 				deprNow = it.NetBookValue - it.ResidualValue
 			}
 			it.AccumulatedDepr += deprNow
@@ -95,5 +99,69 @@ func ExecuteMonthlyDepreciationService() (float64, error) {
 			totalDepreciated += deprNow
 		}
 	}
+
+	// Otomatis Posting ke General Ledger (GL) jika ada nilai depresiasi
+	if totalDepreciated > 0 {
+		now := time.Now()
+		entryRef := fmt.Sprintf("DEPR/%d/%02d", now.Year(), now.Month())
+
+		// Cari akun GL Beban Depresiasi (6-3000) dan Akumulasi Penyusutan (1-2001)
+		type accountMini struct {
+			ID      uint
+			Code    string
+			Balance float64
+		}
+		var deprExpenseAcc, accumDeprAcc accountMini
+		config.DB.Table("accounts").Where("code = ?", "6-3000").First(&deprExpenseAcc)
+		config.DB.Table("accounts").Where("code = ?", "1-2001").First(&accumDeprAcc)
+
+		type journalEntryMini struct {
+			ID        uint      `gorm:"primaryKey"`
+			Name      string
+			Date      time.Time
+			State     string
+			CreatedAt time.Time
+		}
+		type journalItemMini struct {
+			EntryID   uint
+			AccountID uint
+			Name      string
+			Debit     float64
+			Credit    float64
+		}
+
+		jEntry := journalEntryMini{
+			Name:      entryRef,
+			Date:      now,
+			State:     "posted",
+			CreatedAt: now,
+		}
+		if err := config.DB.Table("journal_entries").Create(&jEntry).Error; err == nil {
+			if deprExpenseAcc.ID > 0 {
+				config.DB.Table("journal_items").Create(&journalItemMini{
+					EntryID:   jEntry.ID,
+					AccountID: deprExpenseAcc.ID,
+					Name:      fmt.Sprintf("Beban Penyusutan Aset Tetap Periode %s %d", now.Month().String(), now.Year()),
+					Debit:     totalDepreciated,
+					Credit:    0,
+				})
+				config.DB.Table("accounts").Where("id = ?", deprExpenseAcc.ID).
+					UpdateColumn("balance", gorm.Expr("balance + ?", totalDepreciated))
+			}
+			if accumDeprAcc.ID > 0 {
+				config.DB.Table("journal_items").Create(&journalItemMini{
+					EntryID:   jEntry.ID,
+					AccountID: accumDeprAcc.ID,
+					Name:      fmt.Sprintf("Akumulasi Penyusutan Aset Tetap Periode %s %d", now.Month().String(), now.Year()),
+					Debit:     0,
+					Credit:    totalDepreciated,
+				})
+				// Akun kontra-aset bersaldo negatif atau bertambah kredit
+				config.DB.Table("accounts").Where("id = ?", accumDeprAcc.ID).
+					UpdateColumn("balance", gorm.Expr("balance - ?", totalDepreciated))
+			}
+		}
+	}
+
 	return totalDepreciated, nil
 }

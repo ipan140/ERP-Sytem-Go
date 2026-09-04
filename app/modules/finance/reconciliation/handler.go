@@ -1,4 +1,4 @@
-﻿package reconciliation
+package reconciliation
 
 import (
 	"ERP-System/common/utils"
@@ -130,4 +130,37 @@ func ManualReconcileHandler(c echo.Context) error {
 		return utils.SendError(c, http.StatusInternalServerError, "Gagal mencocokkan mutasi", err.Error())
 	}
 	return utils.SendSuccess(c, http.StatusOK, "Item berhasil direkonsiliasi", item)
+}
+
+// UploadBankStatementCsvHandler godoc
+// @Summary Unggah file rekening koran bank (.CSV)
+// @Description Mengunggah dan mem-parsing file CSV rekening koran (format KlikBCA / Mandiri MCM)
+// @Tags finance-reconciliation
+// @Accept multipart/form-data
+// @Produce json
+// @Param file formData file true "File CSV Rekening Koran"
+// @Success 200 {object} map[string]interface{}
+// @Router /api/finance/reconciliation/upload-csv [post]
+// @Security BearerAuth
+func UploadBankStatementCsvHandler(c echo.Context) error {
+	file, err := c.FormFile("file")
+	if err != nil {
+		return utils.SendError(c, http.StatusBadRequest, "File CSV wajib diunggah", err.Error())
+	}
+
+	src, err := file.Open()
+	if err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Gagal membuka file", err.Error())
+	}
+	defer src.Close()
+
+	count, err := ImportBankStatementCsvService(src)
+	if err != nil {
+		return utils.SendError(c, http.StatusBadRequest, "Gagal memproses format file CSV: "+err.Error(), err.Error())
+	}
+
+	return utils.SendSuccess(c, http.StatusOK, "File rekening koran berhasil diimpor", map[string]interface{}{
+		"imported_rows": count,
+		"filename":      file.Filename,
+	})
 }

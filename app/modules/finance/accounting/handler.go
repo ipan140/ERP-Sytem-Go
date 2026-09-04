@@ -4,6 +4,7 @@ import (
 	"ERP-System/common/utils"
 	"ERP-System/config"
 	"ERP-System/pkg/rabbitmq"
+	"bytes"
 	"fmt"
 	"net/http"
 	"strconv"
@@ -11,6 +12,7 @@ import (
 	"time"
 
 	"github.com/labstack/echo/v4"
+	"github.com/xuri/excelize/v2"
 	"gorm.io/gorm"
 )
 
@@ -254,6 +256,209 @@ func GetBalanceSheetReportHandler(c echo.Context) error {
 	report.IsBalanced = true
 
 	return utils.SendSuccess(c, http.StatusOK, "Success", report)
+}
+
+// ExportProfitLossExcelHandler godoc
+// @Summary Export Laporan Laba Rugi ke file Excel .xlsx
+// @Description Menghasilkan file spreadsheet Excel berisi Laba Rugi format SAK
+// @Tags finance-accounting
+// @Produce application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
+// @Success 200 {file} file "File Excel Laba Rugi"
+// @Router /api/finance/accounting/reports/profit-loss/export-excel [get]
+// @Security BearerAuth
+func ExportProfitLossExcelHandler(c echo.Context) error {
+	_ = SeedStandardIndonesianCOA()
+	var accounts []Account
+	config.DB.Order("code asc").Find(&accounts)
+
+	var report ProfitLossReport
+	for _, acc := range accounts {
+		if acc.Type == "income" {
+			report.IncomeAccounts = append(report.IncomeAccounts, acc)
+			report.TotalIncome += acc.Balance
+		} else if acc.Type == "expense" {
+			report.ExpenseAccounts = append(report.ExpenseAccounts, acc)
+			if acc.Code == "5-1000" {
+				report.TotalHPP += acc.Balance
+			} else {
+				report.TotalExpense += acc.Balance
+			}
+		}
+	}
+	report.GrossProfit = report.TotalIncome - report.TotalHPP
+	report.NetProfit = report.GrossProfit - report.TotalExpense
+
+	f := excelize.NewFile()
+	sheet := "Laba Rugi"
+	f.SetSheetName("Sheet1", sheet)
+
+	// Judul Header
+	f.SetCellValue(sheet, "A1", "LAPORAN LABA RUGI KOMPREHENSIF (PROFIT & LOSS)")
+	f.SetCellValue(sheet, "A2", fmt.Sprintf("Periode s/d: %s | Standar SAK Indonesia", time.Now().Format("02 January 2006")))
+	f.SetCellValue(sheet, "A4", "Kode Akun")
+	f.SetCellValue(sheet, "B4", "Nama Akun Perkiraan")
+	f.SetCellValue(sheet, "C4", "Saldo / Nominal (IDR)")
+
+	row := 5
+	f.SetCellValue(sheet, fmt.Sprintf("A%d", row), "1. PENDAPATAN OPERASIONAL")
+	row++
+	for _, acc := range report.IncomeAccounts {
+		f.SetCellValue(sheet, fmt.Sprintf("A%d", row), acc.Code)
+		f.SetCellValue(sheet, fmt.Sprintf("B%d", row), acc.Name)
+		f.SetCellValue(sheet, fmt.Sprintf("C%d", row), acc.Balance)
+		row++
+	}
+	f.SetCellValue(sheet, fmt.Sprintf("B%d", row), "TOTAL PENDAPATAN")
+	f.SetCellValue(sheet, fmt.Sprintf("C%d", row), report.TotalIncome)
+	row += 2
+
+	f.SetCellValue(sheet, fmt.Sprintf("A%d", row), "2. HARGA POKOK PENJUALAN (HPP)")
+	row++
+	f.SetCellValue(sheet, fmt.Sprintf("B%d", row), "TOTAL HPP")
+	f.SetCellValue(sheet, fmt.Sprintf("C%d", row), report.TotalHPP)
+	row++
+	f.SetCellValue(sheet, fmt.Sprintf("B%d", row), "LABA KOTOR (GROSS PROFIT)")
+	f.SetCellValue(sheet, fmt.Sprintf("C%d", row), report.GrossProfit)
+	row += 2
+
+	f.SetCellValue(sheet, fmt.Sprintf("A%d", row), "3. BEBAN OPERASIONAL")
+	row++
+	for _, acc := range report.ExpenseAccounts {
+		f.SetCellValue(sheet, fmt.Sprintf("A%d", row), acc.Code)
+		f.SetCellValue(sheet, fmt.Sprintf("B%d", row), acc.Name)
+		f.SetCellValue(sheet, fmt.Sprintf("C%d", row), acc.Balance)
+		row++
+	}
+	f.SetCellValue(sheet, fmt.Sprintf("B%d", row), "TOTAL BEBAN OPERASIONAL")
+	f.SetCellValue(sheet, fmt.Sprintf("C%d", row), report.TotalExpense)
+	row += 2
+
+	f.SetCellValue(sheet, fmt.Sprintf("B%d", row), "LABA BERSIH (NET PROFIT)")
+	f.SetCellValue(sheet, fmt.Sprintf("C%d", row), report.NetProfit)
+
+	var buf bytes.Buffer
+	if err := f.Write(&buf); err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Gagal membuat Excel", err.Error())
+	}
+
+	c.Response().Header().Set("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+	c.Response().Header().Set("Content-Disposition", fmt.Sprintf("attachment; filename=Laporan_Laba_Rugi_%s.xlsx", time.Now().Format("20060102")))
+	return c.Blob(http.StatusOK, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", buf.Bytes())
+}
+
+// ExportBalanceSheetExcelHandler godoc
+// @Summary Export Laporan Neraca ke file Excel .xlsx
+// @Description Menghasilkan file spreadsheet Excel berisi Neraca Keuangan SAK
+// @Tags finance-accounting
+// @Produce application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
+// @Success 200 {file} file "File Excel Neraca Keuangan"
+// @Router /api/finance/accounting/reports/balance-sheet/export-excel [get]
+// @Security BearerAuth
+func ExportBalanceSheetExcelHandler(c echo.Context) error {
+	_ = SeedStandardIndonesianCOA()
+	var accounts []Account
+	config.DB.Order("code asc").Find(&accounts)
+
+	var totalIncome, totalHPP, totalExpense float64
+	var report BalanceSheetReport
+
+	for _, acc := range accounts {
+		if strings.HasPrefix(acc.Code, "1-") {
+			report.AssetAccounts = append(report.AssetAccounts, acc)
+			report.TotalAsset += acc.Balance
+		} else if strings.HasPrefix(acc.Code, "2-") {
+			report.LiabilityAccounts = append(report.LiabilityAccounts, acc)
+			report.TotalLiability += acc.Balance
+		} else if strings.HasPrefix(acc.Code, "3-") {
+			report.EquityAccounts = append(report.EquityAccounts, acc)
+			report.TotalEquity += acc.Balance
+		} else if strings.HasPrefix(acc.Code, "4-") {
+			totalIncome += acc.Balance
+		} else if strings.HasPrefix(acc.Code, "5-") {
+			totalHPP += acc.Balance
+		} else if strings.HasPrefix(acc.Code, "6-") {
+			totalExpense += acc.Balance
+		}
+	}
+
+	netProfit := totalIncome - totalHPP - totalExpense
+	if netProfit != 0 {
+		report.EquityAccounts = append(report.EquityAccounts, Account{
+			Code:    "3-9999",
+			Name:    "Laba Bersih Periode Berjalan",
+			Balance: netProfit,
+		})
+		report.TotalEquity += netProfit
+	}
+
+	diff := report.TotalAsset - (report.TotalLiability + report.TotalEquity)
+	if diff > 0.01 || diff < -0.01 {
+		report.EquityAccounts = append(report.EquityAccounts, Account{
+			Code:    "3-0000",
+			Name:    "Modal Penyeimbang (Historical)",
+			Balance: diff,
+		})
+		report.TotalEquity += diff
+	}
+
+	f := excelize.NewFile()
+	sheet := "Neraca Keuangan"
+	f.SetSheetName("Sheet1", sheet)
+
+	f.SetCellValue(sheet, "A1", "LAPORAN POSISI KEUANGAN / NERACA (BALANCE SHEET)")
+	f.SetCellValue(sheet, "A2", fmt.Sprintf("Per Tanggal: %s | Standar Akuntansi Keuangan", time.Now().Format("02 January 2006")))
+	f.SetCellValue(sheet, "A4", "Kode Akun")
+	f.SetCellValue(sheet, "B4", "Nama Akun")
+	f.SetCellValue(sheet, "C4", "Saldo (IDR)")
+
+	row := 5
+	f.SetCellValue(sheet, fmt.Sprintf("A%d", row), "AKTIVA (ASSETS)")
+	row++
+	for _, acc := range report.AssetAccounts {
+		f.SetCellValue(sheet, fmt.Sprintf("A%d", row), acc.Code)
+		f.SetCellValue(sheet, fmt.Sprintf("B%d", row), acc.Name)
+		f.SetCellValue(sheet, fmt.Sprintf("C%d", row), acc.Balance)
+		row++
+	}
+	f.SetCellValue(sheet, fmt.Sprintf("B%d", row), "TOTAL AKTIVA (ASSET)")
+	f.SetCellValue(sheet, fmt.Sprintf("C%d", row), report.TotalAsset)
+	row += 2
+
+	f.SetCellValue(sheet, fmt.Sprintf("A%d", row), "KEWAJIBAN / LIABILITAS")
+	row++
+	for _, acc := range report.LiabilityAccounts {
+		f.SetCellValue(sheet, fmt.Sprintf("A%d", row), acc.Code)
+		f.SetCellValue(sheet, fmt.Sprintf("B%d", row), acc.Name)
+		f.SetCellValue(sheet, fmt.Sprintf("C%d", row), acc.Balance)
+		row++
+	}
+	f.SetCellValue(sheet, fmt.Sprintf("B%d", row), "TOTAL KEWAJIBAN")
+	f.SetCellValue(sheet, fmt.Sprintf("C%d", row), report.TotalLiability)
+	row += 2
+
+	f.SetCellValue(sheet, fmt.Sprintf("A%d", row), "EKUITAS (MODAL)")
+	row++
+	for _, acc := range report.EquityAccounts {
+		f.SetCellValue(sheet, fmt.Sprintf("A%d", row), acc.Code)
+		f.SetCellValue(sheet, fmt.Sprintf("B%d", row), acc.Name)
+		f.SetCellValue(sheet, fmt.Sprintf("C%d", row), acc.Balance)
+		row++
+	}
+	f.SetCellValue(sheet, fmt.Sprintf("B%d", row), "TOTAL EKUITAS")
+	f.SetCellValue(sheet, fmt.Sprintf("C%d", row), report.TotalEquity)
+	row += 2
+
+	f.SetCellValue(sheet, fmt.Sprintf("B%d", row), "TOTAL PASIVA (KEWAJIBAN + EKUITAS)")
+	f.SetCellValue(sheet, fmt.Sprintf("C%d", row), report.TotalLiability+report.TotalEquity)
+
+	var buf bytes.Buffer
+	if err := f.Write(&buf); err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Gagal membuat Excel", err.Error())
+	}
+
+	c.Response().Header().Set("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+	c.Response().Header().Set("Content-Disposition", fmt.Sprintf("attachment; filename=Laporan_Neraca_%s.xlsx", time.Now().Format("20060102")))
+	return c.Blob(http.StatusOK, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", buf.Bytes())
 }
 
 // CreateJournalEntry godoc
