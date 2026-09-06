@@ -105,6 +105,42 @@ func DeleteRentalOrderHandler(c echo.Context) error {
 	return utils.SendSuccess(c, http.StatusOK, "Data deleted successfully", nil)
 }
 
+// PickupRentalOrderHandler godoc
+// @Summary Pickup Rented Item
+// @Description Record physical handover/pickup of rented assets to customer
+// @Tags sales-rental
+// @Produce json
+// @Param id path int true "RentalOrder ID"
+// @Success 200 {object} RentalOrder
+// @Router /api/sales/rental/{id}/pickup [post]
+// @Security BearerAuth
+func PickupRentalOrderHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	order, err := PickupRentalOrderService(uint(id))
+	if err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed to record pickup", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Asset picked up successfully", order)
+}
+
+// ReturnRentalOrderHandler godoc
+// @Summary Return Rented Item
+// @Description Record return of rented asset and calculate late return fees if applicable
+// @Tags sales-rental
+// @Produce json
+// @Param id path int true "RentalOrder ID"
+// @Success 200 {object} RentalReturnResult
+// @Router /api/sales/rental/{id}/return [post]
+// @Security BearerAuth
+func ReturnRentalOrderHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	result, err := ReturnRentalOrderService(uint(id))
+	if err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed to record return", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Asset returned successfully", result)
+}
+
 // @Summary Create RentalOrderLine
 // @Description Create a new RentalOrderLine
 // @Tags sales-rental

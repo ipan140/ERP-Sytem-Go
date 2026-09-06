@@ -15526,6 +15526,45 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/sales/point_of_sale/checkout": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Process a POS cart order, record payment, and automatically deduct warehouse stock",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sales-point_of_sale"
+                ],
+                "summary": "POS Cashier Checkout",
+                "parameters": [
+                    {
+                        "description": "Checkout Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/point_of_sale.PosCheckoutPayload"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/point_of_sale.PosOrder"
+                        }
+                    }
+                }
+            }
+        },
         "/api/sales/point_of_sale/loyaltyprogram": {
             "get": {
                 "security": [
@@ -16595,6 +16634,74 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/sales/rental/{id}/pickup": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Record physical handover/pickup of rented assets to customer",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sales-rental"
+                ],
+                "summary": "Pickup Rented Item",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "RentalOrder ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/rental.RentalOrder"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/sales/rental/{id}/return": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Record return of rented asset and calculate late return fees if applicable",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sales-rental"
+                ],
+                "summary": "Return Rented Item",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "RentalOrder ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/rental.RentalReturnResult"
+                        }
+                    }
+                }
+            }
+        },
         "/api/sales/sales_core": {
             "get": {
                 "security": [
@@ -16788,6 +16895,34 @@ const docTemplate = `{
                         "schema": {
                             "type": "object",
                             "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/sales/sales_core/leaderboard": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Aggregates total revenue, confirmed deals, KPI target quota achievement, and commission amounts per salesperson",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sales-sales_core"
+                ],
+                "summary": "Get Salesperson Performance Leaderboard \u0026 Accrued Commissions",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/sales_core.SalesLeaderboardItem"
+                            }
                         }
                     }
                 }
@@ -17428,6 +17563,288 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/sales/sales_core/{id}/approve-discount": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Authorize discounts greater than 15% before quotation can be confirmed to SO",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sales-sales_core"
+                ],
+                "summary": "Approve or reject high discount on SaleOrder",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "SaleOrder ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Approval Payload (status, approver)",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/sales_core.SaleOrder"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/sales/sales_core/{id}/confirm": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Transition quotation status to 'sale' and check warehouse stock",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sales-sales_core"
+                ],
+                "summary": "Confirm SaleOrder to Sales Order",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "SaleOrder ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/sales_core.SaleOrder"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/sales/sales_core/{id}/create-invoice": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create a customer invoice in Finance Invoicing automatically from confirmed Sales Order",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sales-sales_core"
+                ],
+                "summary": "One-Click Invoicing from Sales Order",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "SaleOrder ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/invoicing.Invoice"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/sales/sales_core/{id}/payment-link": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Generate instant payment link (Midtrans / QRIS / VA) for SaleOrder",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sales-sales_core"
+                ],
+                "summary": "Generate Direct Payment Link",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "SaleOrder ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/sales_core.PaymentLinkResult"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/sales/sales_core/{id}/print": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Queues quotation PDF generation and returns order details",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sales-sales_core"
+                ],
+                "summary": "Trigger generation of quotation PDF / document",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "SaleOrder ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/sales_core.SaleOrder"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/sales/sales_core/{id}/sign": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Signs a sales quotation or order digitally with the customer/signer's name and signature",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sales-sales_core"
+                ],
+                "summary": "Digital E-Signature for Quotation / Sales Order",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "SaleOrder ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Signer payload (signer_name)",
+                        "name": "request",
+                        "in": "body",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/sales_core.SaleOrder"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/sales/sales_core/{id}/status": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update quotation state (draft, sent, sale, done, cancel)",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sales-sales_core"
+                ],
+                "summary": "Update SaleOrder state",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "SaleOrder ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Status Payload (state)",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/sales_core.SaleOrder"
+                        }
+                    }
+                }
+            }
+        },
         "/api/sales/subscriptions": {
             "get": {
                 "security": [
@@ -17724,6 +18141,40 @@ const docTemplate = `{
                         "schema": {
                             "type": "object",
                             "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/sales/subscriptions/{id}/create-invoice": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Trigger one-click recurring customer invoice in Finance Invoicing and advance next invoice date",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sales-subscriptions"
+                ],
+                "summary": "Generate Recurring Invoice for Subscription",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Subscription ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/invoicing.Invoice"
                         }
                     }
                 }
@@ -29488,6 +29939,50 @@ const docTemplate = `{
                 }
             }
         },
+        "point_of_sale.PosCheckoutItem": {
+            "type": "object",
+            "properties": {
+                "price_unit": {
+                    "type": "number"
+                },
+                "product_id": {
+                    "type": "integer"
+                },
+                "qty": {
+                    "type": "number"
+                },
+                "sub_total": {
+                    "type": "number"
+                }
+            }
+        },
+        "point_of_sale.PosCheckoutPayload": {
+            "type": "object",
+            "properties": {
+                "cash_tendered": {
+                    "type": "number"
+                },
+                "change_amount": {
+                    "type": "number"
+                },
+                "items": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/point_of_sale.PosCheckoutItem"
+                    }
+                },
+                "payment_method": {
+                    "description": "Cash, QRIS, Card",
+                    "type": "string"
+                },
+                "receipt_number": {
+                    "type": "string"
+                },
+                "total_amount": {
+                    "type": "number"
+                }
+            }
+        },
         "point_of_sale.PosConfig": {
             "type": "object",
             "properties": {
@@ -30322,6 +30817,29 @@ const docTemplate = `{
                 }
             }
         },
+        "rental.RentalReturnResult": {
+            "type": "object",
+            "properties": {
+                "final_amount_due": {
+                    "type": "number"
+                },
+                "is_late": {
+                    "type": "boolean"
+                },
+                "late_days": {
+                    "type": "integer"
+                },
+                "late_fee_per_day": {
+                    "type": "number"
+                },
+                "order": {
+                    "$ref": "#/definitions/rental.RentalOrder"
+                },
+                "total_late_fee": {
+                    "type": "number"
+                }
+            }
+        },
         "repairs.RepairOrder": {
             "type": "object",
             "properties": {
@@ -30396,6 +30914,32 @@ const docTemplate = `{
                 },
                 "name": {
                     "description": "e.g. JNE Regular",
+                    "type": "string"
+                }
+            }
+        },
+        "sales_core.PaymentLinkResult": {
+            "type": "object",
+            "properties": {
+                "expired_at": {
+                    "type": "string"
+                },
+                "gross_amount": {
+                    "type": "number"
+                },
+                "order_id": {
+                    "type": "integer"
+                },
+                "order_name": {
+                    "type": "string"
+                },
+                "payment_url": {
+                    "type": "string"
+                },
+                "provider": {
+                    "type": "string"
+                },
+                "snap_token": {
                     "type": "string"
                 }
             }
@@ -30478,7 +31022,32 @@ const docTemplate = `{
                 "amount_untaxed": {
                     "type": "number"
                 },
+                "approval_status": {
+                    "description": "None, Pending, Approved, Rejected",
+                    "type": "string"
+                },
+                "approved_by": {
+                    "type": "string"
+                },
+                "commission_amount": {
+                    "type": "number"
+                },
+                "commission_rate": {
+                    "description": "e.g. 3% standard commission",
+                    "type": "number"
+                },
+                "commission_status": {
+                    "description": "Unpaid, Paid",
+                    "type": "string"
+                },
                 "created_at": {
+                    "type": "string"
+                },
+                "customer_email": {
+                    "type": "string"
+                },
+                "customer_name": {
+                    "description": "Enterprise Quotation \u0026 Multi-Tier Pricing Fields",
                     "type": "string"
                 },
                 "date_order": {
@@ -30508,9 +31077,24 @@ const docTemplate = `{
                 "is_signed": {
                     "type": "boolean"
                 },
+                "max_discount": {
+                    "type": "number"
+                },
                 "name": {
                     "description": "SO/2026/001",
                     "type": "string"
+                },
+                "needs_approval": {
+                    "type": "boolean"
+                },
+                "notes": {
+                    "type": "string"
+                },
+                "order_lines": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/sales_core.SaleOrderLine"
+                    }
                 },
                 "partner": {
                     "description": "Cross-module relation",
@@ -30534,6 +31118,10 @@ const docTemplate = `{
                 "pricelist_id": {
                     "type": "integer"
                 },
+                "pricelist_name": {
+                    "description": "Standard, Grosir B2B, VIP Distributor",
+                    "type": "string"
+                },
                 "quotationTemplate": {
                     "description": "Auto-added relation",
                     "allOf": [
@@ -30544,6 +31132,10 @@ const docTemplate = `{
                 },
                 "quotation_template_id": {
                     "type": "integer"
+                },
+                "salesperson_name": {
+                    "description": "FASE 4: Salesperson Commission \u0026 KPI Fields",
+                    "type": "string"
                 },
                 "state": {
                     "description": "draft, sent, sale, done, cancel",
@@ -30603,6 +31195,32 @@ const docTemplate = `{
                     "type": "number"
                 },
                 "unit_price": {
+                    "type": "number"
+                }
+            }
+        },
+        "sales_core.SalesLeaderboardItem": {
+            "type": "object",
+            "properties": {
+                "achievement_pct": {
+                    "type": "number"
+                },
+                "confirmed_deals": {
+                    "type": "integer"
+                },
+                "salesperson_name": {
+                    "type": "string"
+                },
+                "target_revenue": {
+                    "type": "number"
+                },
+                "total_commission": {
+                    "type": "number"
+                },
+                "total_orders": {
+                    "type": "integer"
+                },
+                "total_revenue": {
                     "type": "number"
                 }
             }

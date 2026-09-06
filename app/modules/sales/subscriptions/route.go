@@ -13,6 +13,7 @@ func RegisterRoutes(e *echo.Echo) {
 	api.GET("/:id", GetSubscriptionByIDHandler)
 	api.PUT("/:id", UpdateSubscriptionHandler)
 	api.DELETE("/:id", DeleteSubscriptionHandler)
+	api.POST("/:id/create-invoice", GenerateSubscriptionInvoiceHandler)
 
 	api.POST("/subscriptionplan", CreateSubscriptionPlanHandler)
 	api.GET("/subscriptionplan", GetAllSubscriptionPlanHandler)

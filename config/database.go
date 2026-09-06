@@ -41,6 +41,9 @@ func ConnectDB() {
 		db.Exec(fmt.Sprintf("CREATE SCHEMA IF NOT EXISTS %s;", schema))
 	}
 
+	// Clean orphaned records if table exists so AutoMigrate foreign keys succeed
+	db.Exec("DELETE FROM sales.sale_order_lines WHERE order_id NOT IN (SELECT id FROM sales.sale_orders);")
+
 	if len(ModelsToMigrate) > 0 {
 		err = db.AutoMigrate(ModelsToMigrate...)
 		AddManualForeignKeys(db)

@@ -1,5 +1,14 @@
 package point_of_sale
 
+import (
+	"fmt"
+	"time"
+
+	"ERP-System/app/modules/supply_chain/inventory"
+	"ERP-System/config"
+	"gorm.io/gorm"
+)
+
 func CreatePosSessionService(data *PosSession) error {
 	return CreatePosSession(data)
 }
@@ -49,3 +58,66 @@ func GetAllLoyaltyProgramService() ([]LoyaltyProgram, error)        { return Get
 func GetLoyaltyProgramByIDService(id uint) (*LoyaltyProgram, error) { return GetLoyaltyProgramByID(id) }
 func UpdateLoyaltyProgramService(data *LoyaltyProgram) error        { return UpdateLoyaltyProgram(data) }
 func DeleteLoyaltyProgramService(id uint) error                     { return DeleteLoyaltyProgram(id) }
+
+type PosCheckoutItem struct {
+	ProductID uint    `json:"product_id"`
+	Qty       float64 `json:"qty"`
+	PriceUnit float64 `json:"price_unit"`
+	SubTotal  float64 `json:"sub_total"`
+}
+
+type PosCheckoutPayload struct {
+	ReceiptNumber string            `json:"receipt_number"`
+	PaymentMethod string            `json:"payment_method"` // Cash, QRIS, Card
+	CashTendered  float64           `json:"cash_tendered"`
+	ChangeAmount  float64           `json:"change_amount"`
+	TotalAmount   float64           `json:"total_amount"`
+	Items         []PosCheckoutItem `json:"items"`
+}
+
+// CheckoutPosOrderService memproses transaksi kasir POS, mencatat order & baris, serta memotong stok gudang
+func CheckoutPosOrderService(payload *PosCheckoutPayload) (*PosOrder, error) {
+	if payload.ReceiptNumber == "" {
+		payload.ReceiptNumber = fmt.Sprintf("POS/%s/%05d", time.Now().Format("20060102"), time.Now().Unix()%100000)
+	}
+
+	order := PosOrder{
+		Name:      payload.ReceiptNumber,
+		Total:     payload.TotalAmount,
+		State:     "paid",
+		CreatedAt: time.Now(),
+	}
+
+	if err := config.DB.Create(&order).Error; err != nil {
+		return nil, err
+	}
+
+	for _, it := range payload.Items {
+		line := PosOrderLine{
+			OrderID:   order.ID,
+			ProductID: it.ProductID,
+			Qty:       it.Qty,
+			PriceUnit: it.PriceUnit,
+			SubTotal:  it.SubTotal,
+		}
+		_ = config.DB.Create(&line)
+
+		// Kurangi stok produk jika product_id valid
+		if it.ProductID > 0 {
+			_ = config.DB.Model(&inventory.Product{}).
+				Where("id = ?", it.ProductID).
+				UpdateColumn("stock_qty", gorm.Expr("stock_qty - ?", it.Qty))
+		}
+	}
+
+	// Catat PosPayment
+	payment := PosPayment{
+		OrderID: order.ID,
+		Method:  payload.PaymentMethod,
+		Amount:  payload.TotalAmount,
+	}
+	_ = config.DB.Create(&payment)
+
+	return &order, nil
+}
+

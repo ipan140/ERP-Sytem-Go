@@ -54,7 +54,23 @@ type SaleOrder struct {
 	InvoicingPolicy     string    `gorm:"type:varchar(50);default:'ordered'" json:"invoicing_policy"` // ordered, delivered
 	IsPaymentLinkSent   bool      `gorm:"default:false" json:"is_payment_link_sent"`
 	IsSigned            bool      `gorm:"default:false" json:"is_signed"`
-	CreatedAt           time.Time `json:"created_at"`
+	
+	// Enterprise Quotation & Multi-Tier Pricing Fields
+	CustomerName        string          `gorm:"type:varchar(255)" json:"customer_name"`
+	CustomerEmail       string          `gorm:"type:varchar(100)" json:"customer_email"`
+	PricelistName       string          `gorm:"type:varchar(100);default:'Standard Retail'" json:"pricelist_name"` // Standard, Grosir B2B, VIP Distributor
+	MaxDiscount         float64         `gorm:"type:numeric(5,2);default:0" json:"max_discount"`
+	NeedsApproval       bool            `gorm:"default:false" json:"needs_approval"`
+	ApprovalStatus      string          `gorm:"type:varchar(50);default:'None'" json:"approval_status"` // None, Pending, Approved, Rejected
+	ApprovedBy          string          `gorm:"type:varchar(100)" json:"approved_by"`
+	// FASE 4: Salesperson Commission & KPI Fields
+	SalespersonName     string          `gorm:"type:varchar(100);default:'Sales Team'" json:"salesperson_name"`
+	CommissionRate      float64         `gorm:"type:numeric(5,2);default:3.0" json:"commission_rate"` // e.g. 3% standard commission
+	CommissionAmount    float64         `gorm:"type:numeric(15,2);default:0" json:"commission_amount"`
+	CommissionStatus    string          `gorm:"type:varchar(50);default:'Unpaid'" json:"commission_status"` // Unpaid, Paid
+	Notes               string          `gorm:"type:text" json:"notes"`
+	OrderLines          []SaleOrderLine `gorm:"foreignKey:OrderID" json:"order_lines"`
+	CreatedAt           time.Time       `json:"created_at"`
 }
 
 type SaleOrderLine struct {

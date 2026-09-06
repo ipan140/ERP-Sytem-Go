@@ -105,6 +105,24 @@ func DeleteSubscriptionHandler(c echo.Context) error {
 	return utils.SendSuccess(c, http.StatusOK, "Data deleted successfully", nil)
 }
 
+// GenerateSubscriptionInvoiceHandler godoc
+// @Summary Generate Recurring Invoice for Subscription
+// @Description Trigger one-click recurring customer invoice in Finance Invoicing and advance next invoice date
+// @Tags sales-subscriptions
+// @Produce json
+// @Param id path int true "Subscription ID"
+// @Success 201 {object} invoicing.Invoice
+// @Router /api/sales/subscriptions/{id}/create-invoice [post]
+// @Security BearerAuth
+func GenerateSubscriptionInvoiceHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	inv, err := GenerateSubscriptionInvoiceService(uint(id))
+	if err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed to generate subscription invoice", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusCreated, "Recurring invoice created successfully in Finance", inv)
+}
+
 // @Summary Create SubscriptionPlan
 // @Description Create a new SubscriptionPlan
 // @Tags sales-subscriptions

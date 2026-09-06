@@ -13,6 +13,8 @@ func RegisterRoutes(e *echo.Echo) {
 	api.GET("/:id", GetRentalOrderByIDHandler)
 	api.PUT("/:id", UpdateRentalOrderHandler)
 	api.DELETE("/:id", DeleteRentalOrderHandler)
+	api.POST("/:id/pickup", PickupRentalOrderHandler)
+	api.POST("/:id/return", ReturnRentalOrderHandler)
 
 	api.POST("/rentalorderline", CreateRentalOrderLineHandler)
 	api.GET("/rentalorderline", GetAllRentalOrderLineHandler)

@@ -208,6 +208,29 @@ func CreatePosOrderHandler(c echo.Context) error {
 	return utils.SendSuccess(c, http.StatusCreated, "Created successfully", data)
 }
 
+// CheckoutPosOrderHandler godoc
+// @Summary POS Cashier Checkout
+// @Description Process a POS cart order, record payment, and automatically deduct warehouse stock
+// @Tags sales-point_of_sale
+// @Accept json
+// @Produce json
+// @Param request body PosCheckoutPayload true "Checkout Payload"
+// @Success 201 {object} PosOrder
+// @Router /api/sales/point_of_sale/checkout [post]
+// @Security BearerAuth
+func CheckoutPosOrderHandler(c echo.Context) error {
+	var payload PosCheckoutPayload
+	if err := c.Bind(&payload); err != nil {
+		return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error())
+	}
+	order, err := CheckoutPosOrderService(&payload)
+	if err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed to process POS checkout", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusCreated, "Transaction completed successfully", order)
+}
+
+
 // @Summary Get all PosOrder
 // @Description Retrieve a list of all PosOrder
 // @Tags sales-point_of_sale

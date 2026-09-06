@@ -105,6 +105,172 @@ func DeleteSaleOrderHandler(c echo.Context) error {
 	return utils.SendSuccess(c, http.StatusOK, "Data deleted successfully", nil)
 }
 
+// ConfirmSaleOrderHandler godoc
+// @Summary Confirm SaleOrder to Sales Order
+// @Description Transition quotation status to 'sale' and check warehouse stock
+// @Tags sales-sales_core
+// @Produce json
+// @Param id path int true "SaleOrder ID"
+// @Success 200 {object} SaleOrder
+// @Router /api/sales/sales_core/{id}/confirm [post]
+// @Security BearerAuth
+func ConfirmSaleOrderHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	order, err := ConfirmSaleOrderService(uint(id))
+	if err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed to confirm sale order", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Sale order confirmed successfully", order)
+}
+
+// UpdateSaleOrderStatusHandler godoc
+// @Summary Update SaleOrder state
+// @Description Update quotation state (draft, sent, sale, done, cancel)
+// @Tags sales-sales_core
+// @Accept json
+// @Produce json
+// @Param id path int true "SaleOrder ID"
+// @Param request body map[string]string true "Status Payload (state)"
+// @Success 200 {object} SaleOrder
+// @Router /api/sales/sales_core/{id}/status [put]
+// @Security BearerAuth
+func UpdateSaleOrderStatusHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	var body struct {
+		State string `json:"state"`
+	}
+	if err := c.Bind(&body); err != nil || body.State == "" {
+		return utils.SendError(c, http.StatusBadRequest, "Invalid status payload", "state is required")
+	}
+	order, err := UpdateSaleOrderStatusService(uint(id), body.State)
+	if err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed to update state", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Status updated successfully", order)
+}
+
+// GenerateQuotationDocHandler godoc
+// @Summary Trigger generation of quotation PDF / document
+// @Description Queues quotation PDF generation and returns order details
+// @Tags sales-sales_core
+// @Produce json
+// @Param id path int true "SaleOrder ID"
+// @Success 200 {object} SaleOrder
+// @Router /api/sales/sales_core/{id}/print [get]
+// @Security BearerAuth
+func GenerateQuotationDocHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	order, err := GetSaleOrderByIDService(uint(id))
+	if err != nil {
+		return utils.SendError(c, http.StatusNotFound, "Sale order not found", err.Error())
+	}
+	_ = GenerateQuotationPDFService(uint(id), 1)
+	return utils.SendSuccess(c, http.StatusOK, "Quotation document ready", order)
+}
+
+// CreateInvoiceFromSaleOrderHandler godoc
+// @Summary One-Click Invoicing from Sales Order
+// @Description Create a customer invoice in Finance Invoicing automatically from confirmed Sales Order
+// @Tags sales-sales_core
+// @Produce json
+// @Param id path int true "SaleOrder ID"
+// @Success 201 {object} invoicing.Invoice
+// @Router /api/sales/sales_core/{id}/create-invoice [post]
+// @Security BearerAuth
+func CreateInvoiceFromSaleOrderHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	inv, err := CreateInvoiceFromSaleOrderService(uint(id))
+	if err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed to create invoice from sale order", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusCreated, "Invoice created successfully in Finance module", inv)
+}
+
+// GeneratePaymentLinkHandler godoc
+// @Summary Generate Direct Payment Link
+// @Description Generate instant payment link (Midtrans / QRIS / VA) for SaleOrder
+// @Tags sales-sales_core
+// @Produce json
+// @Param id path int true "SaleOrder ID"
+// @Success 200 {object} PaymentLinkResult
+// @Router /api/sales/sales_core/{id}/payment-link [post]
+// @Security BearerAuth
+func GeneratePaymentLinkHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	link, err := GeneratePaymentLinkService(uint(id))
+	if err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed to generate payment link", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Payment link generated successfully", link)
+}
+
+// ApproveDiscountHandler godoc
+// @Summary Approve or reject high discount on SaleOrder
+// @Description Authorize discounts greater than 15% before quotation can be confirmed to SO
+// @Tags sales-sales_core
+// @Accept json
+// @Produce json
+// @Param id path int true "SaleOrder ID"
+// @Param request body map[string]string true "Approval Payload (status, approver)"
+// @Success 200 {object} SaleOrder
+// @Router /api/sales/sales_core/{id}/approve-discount [post]
+// @Security BearerAuth
+func ApproveDiscountHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	var body struct {
+		Status   string `json:"status"`   // Approved, Rejected
+		Approver string `json:"approver"` // Manager name
+	}
+	if err := c.Bind(&body); err != nil {
+		return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error())
+	}
+	order, err := ApproveDiscountSaleOrderService(uint(id), body.Status, body.Approver)
+	if err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed to process discount approval", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Discount approval updated successfully", order)
+}
+
+// GetSalesLeaderboardHandler godoc
+// @Summary Get Salesperson Performance Leaderboard & Accrued Commissions
+// @Description Aggregates total revenue, confirmed deals, KPI target quota achievement, and commission amounts per salesperson
+// @Tags sales-sales_core
+// @Produce json
+// @Success 200 {array} SalesLeaderboardItem
+// @Router /api/sales/sales_core/leaderboard [get]
+// @Security BearerAuth
+func GetSalesLeaderboardHandler(c echo.Context) error {
+	board, err := GetSalesLeaderboardService()
+	if err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve sales leaderboard", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Sales leaderboard retrieved successfully", board)
+}
+
+// SignSaleOrderHandler godoc
+// @Summary Digital E-Signature for Quotation / Sales Order
+// @Description Signs a sales quotation or order digitally with the customer/signer's name and signature
+// @Tags sales-sales_core
+// @Accept json
+// @Produce json
+// @Param id path int true "SaleOrder ID"
+// @Param request body map[string]string false "Signer payload (signer_name)"
+// @Success 200 {object} SaleOrder
+// @Router /api/sales/sales_core/{id}/sign [post]
+// @Security BearerAuth
+func SignSaleOrderHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	var body struct {
+		SignerName string `json:"signer_name"`
+	}
+	_ = c.Bind(&body)
+	order, err := SignSaleOrderService(uint(id), body.SignerName)
+	if err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed to sign sales order", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Sales order successfully signed", order)
+}
+
 // @Summary Create Pricelist
 // @Description Create a new Pricelist
 // @Tags sales-sales_core
