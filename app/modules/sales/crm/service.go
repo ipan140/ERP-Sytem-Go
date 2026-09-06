@@ -20,7 +20,49 @@ func invalidateCRMLeadCache() {
 	}
 }
 
+func CalculateLeadScore(data *Lead) {
+	score := 0
+
+	// 1. Kelengkapan Kontak (Profil Firmografis)
+	if data.Email != "" {
+		score += 15
+	}
+	if data.Phone != "" {
+		score += 15
+	}
+	if data.PartnerID != nil && *data.PartnerID > 0 {
+		score += 20 // Perusahaan/Customer terverifikasi
+	}
+
+	// 2. Nilai Transaksi & Ekspektasi Revenue
+	if data.ExpectedRevenue >= 50000000 {
+		score += 30 // Enterprise Tier (>50 Juta)
+	} else if data.ExpectedRevenue >= 10000000 {
+		score += 20 // Mid Tier (>10 Juta)
+	} else if data.ExpectedRevenue > 0 {
+		score += 10
+	}
+
+	// 3. Sumber & Saluran (UTM / Referensi)
+	if data.ReferralCode != "" {
+		score += 25 // Datang dari Rekomendasi/Afiliasi (Kualitas Tinggi)
+	} else if data.UtmSource == "wa_blast" || data.UtmSource == "meta" {
+		score += 15
+	}
+
+	// 4. Hitung Grade (Hot, Warm, Cold)
+	data.LeadScore = score
+	if score >= 75 {
+		data.ScoreGrade = "Hot 🔥"
+	} else if score >= 40 {
+		data.ScoreGrade = "Warm ⚡"
+	} else {
+		data.ScoreGrade = "Cold ❄️"
+	}
+}
+
 func CreateLeadService(data *Lead) error {
+	CalculateLeadScore(data)
 	err := CreateLead(data)
 	if err == nil {
 		invalidateCRMLeadCache()
@@ -58,6 +100,7 @@ func GetLeadByIDService(id uint) (*Lead, error) {
 }
 
 func UpdateLeadService(data *Lead) error {
+	CalculateLeadScore(data)
 	err := UpdateLead(data)
 	if err == nil {
 		invalidateCRMLeadCache()

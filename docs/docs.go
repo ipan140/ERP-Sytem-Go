@@ -12946,6 +12946,80 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/marketing/marketing_automation/{id}/journey-logs": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve real-time prospect movement in omnichannel journey",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "marketing-marketing_automation"
+                ],
+                "summary": "Get Journey Logs",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Campaign ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/marketing_automation.JourneyLog"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/marketing/marketing_automation/{id}/simulate-journey": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Run an automated test simulation of leads traveling across workflow activities",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "marketing-marketing_automation"
+                ],
+                "summary": "Run Omnichannel Journey Simulator",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Campaign ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/marketing_automation.JourneyLog"
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/marketing/mass_mailing": {
             "get": {
                 "security": [
@@ -13247,6 +13321,146 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/marketing/mass_mailing/{id}/ab-test": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Evaluate Version A vs Version B and automatically pick the winner for blast",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "marketing-mass_mailing"
+                ],
+                "summary": "Run A/B Split Test",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "MailingCampaign ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/marketing/mass_mailing/{id}/approve": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "marketing-mass_mailing"
+                ],
+                "summary": "Approve a MailingCampaign",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "MailingCampaign ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/marketing/mass_mailing/{id}/reject": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "marketing-mass_mailing"
+                ],
+                "summary": "Reject a MailingCampaign",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "MailingCampaign ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/marketing/mass_mailing/{id}/request-approval": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "marketing-mass_mailing"
+                ],
+                "summary": "Request Approval for a MailingCampaign",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "MailingCampaign ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
         "/api/marketing/sms_marketing": {
             "get": {
                 "security": [
@@ -13347,6 +13561,301 @@ const docTemplate = `{
                     },
                     "500": {
                         "description": "Failed to create data",
+                        "schema": {
+                            "$ref": "#/definitions/utils.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/marketing/sms_marketing/config": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve current WhatsApp Business Account (WABA) credentials",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "marketing-sms_marketing"
+                ],
+                "summary": "Get WhatsApp WABA Configuration",
+                "responses": {
+                    "200": {
+                        "description": "Konfigurasi WhatsApp WABA berhasil dimuat",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/utils.SuccessResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/sms_marketing.WaConfig"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Store or update Meta Cloud API WhatsApp credentials",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "marketing-sms_marketing"
+                ],
+                "summary": "Save WhatsApp WABA Configuration",
+                "parameters": [
+                    {
+                        "description": "WaConfig Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/sms_marketing.WaConfig"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Konfigurasi WhatsApp Cloud API berhasil disimpan",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/utils.SuccessResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/sms_marketing.WaConfig"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/api/marketing/sms_marketing/templates": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve list of all approved Meta Cloud API message templates",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "marketing-sms_marketing"
+                ],
+                "summary": "Get all WhatsApp WABA Templates",
+                "responses": {
+                    "200": {
+                        "description": "List of WhatsApp Templates",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/utils.SuccessResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/sms_marketing.WaTemplate"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "500": {
+                        "description": "Gagal mengambil template",
+                        "schema": {
+                            "$ref": "#/definitions/utils.ErrorResponse"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Submit a new WhatsApp message template to Meta Cloud API",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "marketing-sms_marketing"
+                ],
+                "summary": "Create / Register a WhatsApp Template",
+                "parameters": [
+                    {
+                        "description": "WaTemplate Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/sms_marketing.WaTemplate"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Template WhatsApp berhasil diajukan",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/utils.SuccessResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/sms_marketing.WaTemplate"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid payload",
+                        "schema": {
+                            "$ref": "#/definitions/utils.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Gagal membuat template",
+                        "schema": {
+                            "$ref": "#/definitions/utils.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/marketing/sms_marketing/templates/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update existing WhatsApp message template",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "marketing-sms_marketing"
+                ],
+                "summary": "Update a WhatsApp Template",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Template ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "WaTemplate Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/sms_marketing.WaTemplate"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Template WhatsApp berhasil diperbarui",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/utils.SuccessResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/sms_marketing.WaTemplate"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "404": {
+                        "description": "Template tidak ditemukan",
+                        "schema": {
+                            "$ref": "#/definitions/utils.ErrorResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete WhatsApp message template by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "marketing-sms_marketing"
+                ],
+                "summary": "Delete a WhatsApp Template",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Template ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Template WhatsApp berhasil dihapus",
+                        "schema": {
+                            "$ref": "#/definitions/utils.SuccessResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Gagal menghapus template",
                         "schema": {
                             "$ref": "#/definitions/utils.ErrorResponse"
                         }
@@ -26139,6 +26648,14 @@ const docTemplate = `{
         "crm.Lead": {
             "type": "object",
             "properties": {
+                "affiliate_name": {
+                    "description": "Nama partner afiliasi",
+                    "type": "string"
+                },
+                "behavior_points": {
+                    "description": "JSON breakdown log skor aktivitas",
+                    "type": "string"
+                },
                 "created_at": {
                     "type": "string"
                 },
@@ -26149,6 +26666,10 @@ const docTemplate = `{
                     "type": "number"
                 },
                 "id": {
+                    "type": "integer"
+                },
+                "lead_score": {
+                    "description": "FASE 4: Enterprise Lead Scoring Engine \u0026 Affiliate Referral Tracking",
                     "type": "integer"
                 },
                 "name": {
@@ -26174,6 +26695,10 @@ const docTemplate = `{
                     "description": "Percentage",
                     "type": "number"
                 },
+                "referral_code": {
+                    "description": "Kode afiliasi/mitra yang mereferensikan",
+                    "type": "string"
+                },
                 "salesTeam": {
                     "description": "Auto-added relation",
                     "allOf": [
@@ -26197,6 +26722,10 @@ const docTemplate = `{
                     "description": "Link to Employee (HR)",
                     "type": "integer"
                 },
+                "score_grade": {
+                    "description": "Hot (80+), Warm (40-79), Cold (\u003c40)",
+                    "type": "string"
+                },
                 "stage": {
                     "description": "Auto-added relation",
                     "allOf": [
@@ -26207,6 +26736,10 @@ const docTemplate = `{
                 },
                 "stage_id": {
                     "type": "integer"
+                },
+                "utm_source": {
+                    "description": "google, meta, wa_blast, influencer",
+                    "type": "string"
                 }
             }
         },
@@ -28511,11 +29044,48 @@ const docTemplate = `{
                 }
             }
         },
+        "marketing_automation.JourneyLog": {
+            "type": "object",
+            "properties": {
+                "action_name": {
+                    "type": "string"
+                },
+                "activity_id": {
+                    "type": "integer"
+                },
+                "campaign_id": {
+                    "type": "integer"
+                },
+                "channel": {
+                    "type": "string"
+                },
+                "executed_at": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "lead_contact": {
+                    "type": "string"
+                },
+                "lead_name": {
+                    "type": "string"
+                },
+                "status": {
+                    "description": "Delivered, Pending, Failed",
+                    "type": "string"
+                }
+            }
+        },
         "marketing_automation.WorkflowActivity": {
             "type": "object",
             "properties": {
+                "action_payload": {
+                    "description": "Isi pesan / instruksi task CRM",
+                    "type": "string"
+                },
                 "action_type": {
-                    "description": "Email, SMS, Notification, Webhook",
+                    "description": "Email, WhatsApp, SMS, CRM_Task, Webhook",
                     "type": "string"
                 },
                 "activity_name": {
@@ -28524,8 +29094,12 @@ const docTemplate = `{
                 "campaign_id": {
                     "type": "integer"
                 },
+                "channel": {
+                    "description": "Email, WhatsApp, SMS, CRM",
+                    "type": "string"
+                },
                 "condition": {
-                    "description": "Opened, Clicked, Always",
+                    "description": "Opened, Clicked, Always, Not_Replied",
                     "type": "string"
                 },
                 "delay_hours": {
@@ -28533,14 +29107,34 @@ const docTemplate = `{
                 },
                 "id": {
                     "type": "integer"
+                },
+                "target_template_id": {
+                    "type": "integer"
                 }
             }
         },
         "mass_mailing.MailingCampaign": {
             "type": "object",
             "properties": {
+                "actual_spend": {
+                    "type": "number"
+                },
+                "approval_status": {
+                    "description": "Draft, Waiting Approval, Approved, Rejected",
+                    "type": "string"
+                },
+                "approved_at": {
+                    "type": "string"
+                },
+                "approved_by_id": {
+                    "type": "integer"
+                },
                 "bounced_count": {
                     "type": "integer"
+                },
+                "budget_allocated": {
+                    "description": "Enterprise Fields: Budgeting \u0026 Approval",
+                    "type": "number"
                 },
                 "clicked_count": {
                     "type": "integer"
@@ -28548,10 +29142,21 @@ const docTemplate = `{
                 "id": {
                     "type": "integer"
                 },
+                "is_ab_testing": {
+                    "description": "Enterprise A/B Split Testing",
+                    "type": "boolean"
+                },
                 "name": {
                     "type": "string"
                 },
                 "opened_count": {
+                    "type": "integer"
+                },
+                "reject_reason": {
+                    "type": "string"
+                },
+                "sample_size_pct": {
+                    "description": "Misal 20% dari audiens",
                     "type": "integer"
                 },
                 "scheduled_at": {
@@ -28567,7 +29172,24 @@ const docTemplate = `{
                 "subject": {
                     "type": "string"
                 },
+                "subject_b": {
+                    "type": "string"
+                },
                 "target_audience": {
+                    "type": "string"
+                },
+                "variant_a_opened": {
+                    "type": "integer"
+                },
+                "variant_b_opened": {
+                    "type": "integer"
+                },
+                "winner_metric": {
+                    "description": "open_rate, click_rate",
+                    "type": "string"
+                },
+                "winner_variant": {
+                    "description": "A, B, atau empty",
                     "type": "string"
                 }
             }
@@ -30075,6 +30697,13 @@ const docTemplate = `{
                 "name": {
                     "type": "string"
                 },
+                "read_count": {
+                    "description": "WA Blue Ticks",
+                    "type": "integer"
+                },
+                "scheduled_at": {
+                    "type": "string"
+                },
                 "sent_count": {
                     "type": "integer"
                 },
@@ -30084,6 +30713,12 @@ const docTemplate = `{
                 },
                 "target_audience": {
                     "type": "string"
+                },
+                "template": {
+                    "$ref": "#/definitions/sms_marketing.WaTemplate"
+                },
+                "template_id": {
+                    "type": "integer"
                 }
             }
         },
@@ -30097,6 +30732,84 @@ const docTemplate = `{
                 "target_phone": {
                     "type": "string",
                     "example": "081234567890"
+                }
+            }
+        },
+        "sms_marketing.WaConfig": {
+            "type": "object",
+            "properties": {
+                "access_token": {
+                    "type": "string"
+                },
+                "api_version": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "is_active": {
+                    "type": "boolean"
+                },
+                "phone_number_id": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                },
+                "waba_id": {
+                    "type": "string"
+                },
+                "webhook_token": {
+                    "type": "string"
+                }
+            }
+        },
+        "sms_marketing.WaTemplate": {
+            "type": "object",
+            "properties": {
+                "body_text": {
+                    "type": "string"
+                },
+                "button_label": {
+                    "type": "string"
+                },
+                "button_type": {
+                    "description": "NONE, QUICK_REPLY, CALL_TO_ACTION",
+                    "type": "string"
+                },
+                "button_url": {
+                    "type": "string"
+                },
+                "category": {
+                    "description": "MARKETING, UTILITY, AUTHENTICATION",
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "footer_text": {
+                    "type": "string"
+                },
+                "header_text": {
+                    "type": "string"
+                },
+                "header_type": {
+                    "description": "NONE, TEXT, IMAGE, DOCUMENT",
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "language": {
+                    "type": "string"
+                },
+                "name": {
+                    "description": "e.g. promo_gajian_q3",
+                    "type": "string"
+                },
+                "status": {
+                    "description": "PENDING, APPROVED, REJECTED",
+                    "type": "string"
                 }
             }
         },

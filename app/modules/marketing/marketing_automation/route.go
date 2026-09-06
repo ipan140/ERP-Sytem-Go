@@ -20,6 +20,8 @@ func RegisterRoutes(e *echo.Echo) {
 	api.PUT("/workflowactivity/:id", UpdateWorkflowActivityHandler)
 	api.DELETE("/workflowactivity/:id", DeleteWorkflowActivityHandler)
 
+	api.GET("/:id/journey-logs", GetJourneyLogsHandler)
+	api.POST("/:id/simulate-journey", RunJourneySimulatorHandler)
 }
 
 

@@ -42,3 +42,14 @@ func GetWorkflowActivityByID(id uint) (*WorkflowActivity, error) {
 }
 func UpdateWorkflowActivity(data *WorkflowActivity) error { return config.DB.Save(data).Error }
 func DeleteWorkflowActivity(id uint) error                { return config.DB.Delete(&WorkflowActivity{}, id).Error }
+
+// JourneyLog Repository
+func CreateJourneyLog(data *JourneyLog) error {
+	return config.DB.Create(data).Error
+}
+
+func GetJourneyLogsByCampaign(campaignID uint) ([]JourneyLog, error) {
+	var list []JourneyLog
+	err := config.DB.Where("campaign_id = ?", campaignID).Order("id desc").Limit(50).Find(&list).Error
+	return list, err
+}

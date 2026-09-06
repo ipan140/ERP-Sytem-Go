@@ -29,6 +29,34 @@ func DeleteSmsCampaignService(id uint) error {
 	return DeleteSmsCampaign(id)
 }
 
+func CreateWaTemplateService(data *WaTemplate) error {
+	return CreateWaTemplate(data)
+}
+
+func GetAllWaTemplatesService() ([]WaTemplate, error) {
+	return GetAllWaTemplates()
+}
+
+func GetWaTemplateByIDService(id uint) (*WaTemplate, error) {
+	return GetWaTemplateByID(id)
+}
+
+func UpdateWaTemplateService(data *WaTemplate) error {
+	return UpdateWaTemplate(data)
+}
+
+func DeleteWaTemplateService(id uint) error {
+	return DeleteWaTemplate(id)
+}
+
+func GetWaConfigService() (*WaConfig, error) {
+	return GetWaConfig()
+}
+
+func SaveWaConfigService(cfg *WaConfig) error {
+	return SaveWaConfig(cfg)
+}
+
 // BroadcastResult menampung ringkasan hasil pengiriman
 type BroadcastResult struct {
 	CampaignID     uint     `json:"campaign_id"`

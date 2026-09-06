@@ -187,4 +187,126 @@ func SendTestMessageHandler(c echo.Context) error {
 	return utils.SendSuccess(c, http.StatusOK, "Pesan tes berhasil dikirim", result)
 }
 
+// GetAllWaTemplatesHandler godoc
+// @Summary Get all WhatsApp WABA Templates
+// @Description Retrieve list of all approved Meta Cloud API message templates
+// @Tags marketing-sms_marketing
+// @Produce json
+// @Success 200 {object} utils.SuccessResponse{data=[]WaTemplate} "List of WhatsApp Templates"
+// @Failure 500 {object} utils.ErrorResponse "Gagal mengambil template"
+// @Router /api/marketing/sms_marketing/templates [get]
+// @Security BearerAuth
+func GetAllWaTemplatesHandler(c echo.Context) error {
+	list, err := GetAllWaTemplatesService()
+	if err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Gagal mengambil template WhatsApp", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Data template WhatsApp berhasil diambil", list)
+}
+
+// CreateWaTemplateHandler godoc
+// @Summary Create / Register a WhatsApp Template
+// @Description Submit a new WhatsApp message template to Meta Cloud API
+// @Tags marketing-sms_marketing
+// @Accept json
+// @Produce json
+// @Param request body WaTemplate true "WaTemplate Payload"
+// @Success 201 {object} utils.SuccessResponse{data=WaTemplate} "Template WhatsApp berhasil diajukan"
+// @Failure 400 {object} utils.ErrorResponse "Invalid payload"
+// @Failure 500 {object} utils.ErrorResponse "Gagal membuat template"
+// @Router /api/marketing/sms_marketing/templates [post]
+// @Security BearerAuth
+func CreateWaTemplateHandler(c echo.Context) error {
+	var data WaTemplate
+	if err := c.Bind(&data); err != nil {
+		return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error())
+	}
+	if err := CreateWaTemplateService(&data); err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Gagal membuat template WhatsApp", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusCreated, "Template WhatsApp berhasil diajukan ke Meta", data)
+}
+
+// UpdateWaTemplateHandler godoc
+// @Summary Update a WhatsApp Template
+// @Description Update existing WhatsApp message template
+// @Tags marketing-sms_marketing
+// @Accept json
+// @Produce json
+// @Param id path int true "Template ID"
+// @Param request body WaTemplate true "WaTemplate Payload"
+// @Success 200 {object} utils.SuccessResponse{data=WaTemplate} "Template WhatsApp berhasil diperbarui"
+// @Failure 404 {object} utils.ErrorResponse "Template tidak ditemukan"
+// @Router /api/marketing/sms_marketing/templates/{id} [put]
+// @Security BearerAuth
+func UpdateWaTemplateHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	data, err := GetWaTemplateByIDService(uint(id))
+	if err != nil {
+		return utils.SendError(c, http.StatusNotFound, "Template tidak ditemukan", err.Error())
+	}
+	if err := c.Bind(data); err != nil {
+		return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error())
+	}
+	if err := UpdateWaTemplateService(data); err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Gagal memperbarui template", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Template WhatsApp berhasil diperbarui", data)
+}
+
+// DeleteWaTemplateHandler godoc
+// @Summary Delete a WhatsApp Template
+// @Description Delete WhatsApp message template by ID
+// @Tags marketing-sms_marketing
+// @Produce json
+// @Param id path int true "Template ID"
+// @Success 200 {object} utils.SuccessResponse "Template WhatsApp berhasil dihapus"
+// @Failure 500 {object} utils.ErrorResponse "Gagal menghapus template"
+// @Router /api/marketing/sms_marketing/templates/{id} [delete]
+// @Security BearerAuth
+func DeleteWaTemplateHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	if err := DeleteWaTemplateService(uint(id)); err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Gagal menghapus template", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Template WhatsApp berhasil dihapus", nil)
+}
+
+// GetWaConfigHandler godoc
+// @Summary Get WhatsApp WABA Configuration
+// @Description Retrieve current WhatsApp Business Account (WABA) credentials
+// @Tags marketing-sms_marketing
+// @Produce json
+// @Success 200 {object} utils.SuccessResponse{data=WaConfig} "Konfigurasi WhatsApp WABA berhasil dimuat"
+// @Router /api/marketing/sms_marketing/config [get]
+// @Security BearerAuth
+func GetWaConfigHandler(c echo.Context) error {
+	cfg, err := GetWaConfigService()
+	if err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Gagal mengambil konfigurasi WhatsApp", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Konfigurasi WhatsApp WABA berhasil dimuat", cfg)
+}
+
+// SaveWaConfigHandler godoc
+// @Summary Save WhatsApp WABA Configuration
+// @Description Store or update Meta Cloud API WhatsApp credentials
+// @Tags marketing-sms_marketing
+// @Accept json
+// @Produce json
+// @Param request body WaConfig true "WaConfig Payload"
+// @Success 200 {object} utils.SuccessResponse{data=WaConfig} "Konfigurasi WhatsApp Cloud API berhasil disimpan"
+// @Router /api/marketing/sms_marketing/config [post]
+// @Security BearerAuth
+func SaveWaConfigHandler(c echo.Context) error {
+	var cfg WaConfig
+	if err := c.Bind(&cfg); err != nil {
+		return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error())
+	}
+	if err := SaveWaConfigService(&cfg); err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Gagal menyimpan konfigurasi WhatsApp", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Konfigurasi WhatsApp Cloud API berhasil disimpan", cfg)
+}
+
 

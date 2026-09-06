@@ -244,4 +244,47 @@ func DeleteWorkflowActivityHandler(c echo.Context) error {
 	return utils.SendSuccess(c, http.StatusOK, "Workflow activity deleted successfully", nil)
 }
 
+// GetJourneyLogsHandler godoc
+// @Summary Get Journey Logs
+// @Description Retrieve real-time prospect movement in omnichannel journey
+// @Tags marketing-marketing_automation
+// @Produce json
+// @Param id path int true "Campaign ID"
+// @Success 200 {object} []JourneyLog
+// @Router /api/marketing/marketing_automation/{id}/journey-logs [get]
+// @Security BearerAuth
+func GetJourneyLogsHandler(c echo.Context) error {
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil || id <= 0 {
+		return utils.SendError(c, http.StatusBadRequest, "Invalid campaign ID", "ID must be a positive integer")
+	}
+	logs, err := GetJourneyLogsService(uint(id))
+	if err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve journey logs", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Journey logs retrieved successfully", logs)
+}
+
+// RunJourneySimulatorHandler godoc
+// @Summary Run Omnichannel Journey Simulator
+// @Description Run an automated test simulation of leads traveling across workflow activities
+// @Tags marketing-marketing_automation
+// @Produce json
+// @Param id path int true "Campaign ID"
+// @Success 200 {object} []JourneyLog
+// @Router /api/marketing/marketing_automation/{id}/simulate-journey [post]
+// @Security BearerAuth
+func RunJourneySimulatorHandler(c echo.Context) error {
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil || id <= 0 {
+		return utils.SendError(c, http.StatusBadRequest, "Invalid campaign ID", "ID must be a positive integer")
+	}
+	logs, err := RunJourneySimulatorService(uint(id))
+	if err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed to simulate journey", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Simulasi alur otomatisasi berhasil dijalankan", logs)
+}
+
+
 

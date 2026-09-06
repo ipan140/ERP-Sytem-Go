@@ -4,6 +4,7 @@ import (
 	"ERP-System/common/utils"
 	"net/http"
 	"strconv"
+	"time"
 
 	"github.com/labstack/echo/v4"
 )
@@ -82,10 +83,85 @@ func UpdateMailingCampaignHandler(c echo.Context) error {
 	if err := c.Bind(data); err != nil {
 		return utils.SendError(c, http.StatusBadRequest, "Invalid request payload", err.Error())
 	}
+	if data.Status == "Sent" && data.ApprovalStatus != "Approved" {
+		return utils.SendError(c, http.StatusForbidden, "Persetujuan Diperlukan", "Kampanye harus disetujui (Approved) oleh Manajer terlebih dahulu sebelum dapat dieksekusi/dikirim.")
+	}
 	if err := UpdateMailingCampaignService(data); err != nil {
 		return utils.SendError(c, http.StatusInternalServerError, "Failed to update data", err.Error())
 	}
 	return utils.SendSuccess(c, http.StatusOK, "Data updated successfully", data)
+}
+
+// RequestApprovalMailingCampaign godoc
+// @Summary Request Approval for a MailingCampaign
+// @Tags marketing-mass_mailing
+// @Produce json
+// @Param id path int true "MailingCampaign ID"
+// @Success 200 {object} map[string]interface{}
+// @Router /api/marketing/mass_mailing/{id}/request-approval [put]
+// @Security BearerAuth
+func RequestApprovalMailingCampaignHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	data, err := GetMailingCampaignByIDService(uint(id))
+	if err != nil {
+		return utils.SendError(c, http.StatusNotFound, "Data not found", err.Error())
+	}
+	data.ApprovalStatus = "Waiting Approval"
+	if err := UpdateMailingCampaignService(data); err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed to update approval status", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Kampanye berhasil diajukan untuk persetujuan Manajer", data)
+}
+
+// ApproveMailingCampaign godoc
+// @Summary Approve a MailingCampaign
+// @Tags marketing-mass_mailing
+// @Produce json
+// @Param id path int true "MailingCampaign ID"
+// @Success 200 {object} map[string]interface{}
+// @Router /api/marketing/mass_mailing/{id}/approve [put]
+// @Security BearerAuth
+func ApproveMailingCampaignHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	data, err := GetMailingCampaignByIDService(uint(id))
+	if err != nil {
+		return utils.SendError(c, http.StatusNotFound, "Data not found", err.Error())
+	}
+	data.ApprovalStatus = "Approved"
+	now := time.Now()
+	data.ApprovedAt = &now
+	data.RejectReason = nil
+	if err := UpdateMailingCampaignService(data); err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed to approve campaign", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Kampanye berhasil disetujui (Approved)", data)
+}
+
+// RejectMailingCampaign godoc
+// @Summary Reject a MailingCampaign
+// @Tags marketing-mass_mailing
+// @Accept json
+// @Produce json
+// @Param id path int true "MailingCampaign ID"
+// @Success 200 {object} map[string]interface{}
+// @Router /api/marketing/mass_mailing/{id}/reject [put]
+// @Security BearerAuth
+func RejectMailingCampaignHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	data, err := GetMailingCampaignByIDService(uint(id))
+	if err != nil {
+		return utils.SendError(c, http.StatusNotFound, "Data not found", err.Error())
+	}
+	var payload struct {
+		Reason string `json:"reason"`
+	}
+	_ = c.Bind(&payload)
+	data.ApprovalStatus = "Rejected"
+	data.RejectReason = &payload.Reason
+	if err := UpdateMailingCampaignService(data); err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed to reject campaign", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Kampanye telah ditolak (Rejected)", data)
 }
 
 // DeleteMailingCampaign godoc
@@ -187,5 +263,24 @@ func DeleteUtmTrackerHandler(c echo.Context) error {
 	}
 	return utils.SendSuccess(c, http.StatusOK, "Success", nil)
 }
+
+// RunABSplitTestHandler godoc
+// @Summary Run A/B Split Test
+// @Description Evaluate Version A vs Version B and automatically pick the winner for blast
+// @Tags marketing-mass_mailing
+// @Produce json
+// @Param id path int true "MailingCampaign ID"
+// @Success 200 {object} map[string]interface{}
+// @Router /api/marketing/mass_mailing/{id}/ab-test [post]
+// @Security BearerAuth
+func RunABSplitTestHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	data, err := RunABSplitTestService(uint(id))
+	if err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed to run A/B split test", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "A/B Split Test berhasil dievaluasi! Pemenang telah ditentukan.", data)
+}
+
 
 
