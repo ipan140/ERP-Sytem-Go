@@ -19,6 +19,10 @@ func RegisterRoutes(e *echo.Echo) {
 		api.POST("/:id/create-invoice", CreateInvoiceFromSaleOrderHandler)
 		api.POST("/:id/payment-link", GeneratePaymentLinkHandler)
 		api.POST("/:id/approve-discount", ApproveDiscountHandler)
+		api.POST("/:id/bypass-credit", BypassCreditHoldHandler)
+		api.GET("/:id/export-efaktur", ExportEFakturCSVHandler)
+		api.GET("/:id/deliveries", GetDeliveryOrdersHandler)
+		api.POST("/:id/deliver", DeliverSaleOrderHandler)
 		api.POST("/:id/sign", SignSaleOrderHandler)
 		api.GET("/leaderboard", GetSalesLeaderboardHandler)
 

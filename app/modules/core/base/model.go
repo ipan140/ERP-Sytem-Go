@@ -47,6 +47,13 @@ type Partner struct {
 	Vat        string    `gorm:"type:varchar(50)" json:"vat"` // NPWP / Tax ID
 	IsCustomer bool      `gorm:"default:true" json:"is_customer"`
 	IsVendor   bool      `gorm:"default:false" json:"is_vendor"`
+	
+	// Enterprise Credit Limit & Financial Risk Control
+	CreditLimit     float64   `gorm:"type:numeric(15,2);default:50000000" json:"credit_limit"`     // Plafon limit kredit piutang (Default: Rp 50 Juta)
+	IsCreditHold    bool      `gorm:"default:false" json:"is_credit_hold"`                        // Apakah akun pelanggan sedang diblokir/on-hold
+	MaxOverdueDays  int       `gorm:"default:30" json:"max_overdue_days"`                         // Toleransi jatuh tempo maksimal (hari)
+	TotalReceivable float64   `gorm:"type:numeric(15,2);default:0" json:"total_receivable"`       // Saldo piutang aktif
+
 	CreatedAt  time.Time `json:"created_at"`
 }
 

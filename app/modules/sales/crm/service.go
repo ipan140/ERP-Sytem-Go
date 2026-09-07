@@ -61,8 +61,40 @@ func CalculateLeadScore(data *Lead) {
 	}
 }
 
+// Round-Robin Pools per Territory
+var territoryReps = map[string][]string{
+	"Jakarta":  {"Ahmad Dahlan", "Dewi Sartika", "Budi Santoso", "Rina Marlina"},
+	"Surabaya": {"Bambang Wijaya", "Siti Rahmawati", "Surya Saputra"},
+	"Medan":    {"Horas Simanjuntak", "Faisal Siregar"},
+	"Bandung":  {"Cecep Hidayat", "Neneng Hasanah"},
+	"Bali":     {"I Wayan Sudarta", "Ni Made Ayu"},
+}
+var roundRobinIndex = 0
+
+func AssignLeadRoundRobin(data *Lead) {
+	if data.AssignedSalespersonName != "" && data.AssignmentMethod == "Manual" {
+		return
+	}
+	if data.Territory == "" {
+		data.Territory = "Jakarta"
+	}
+	reps, exists := territoryReps[data.Territory]
+	if !exists || len(reps) == 0 {
+		reps = territoryReps["Jakarta"]
+	}
+
+	selectedRep := reps[roundRobinIndex%len(reps)]
+	roundRobinIndex++
+
+	data.AssignedSalespersonName = selectedRep
+	data.AssignmentMethod = "Round-Robin (" + data.Territory + ")"
+	log.Printf("🎯 [Lead Round-Robin] Prospek '%s' dialokasikan otomatis ke sales: %s (Area: %s)",
+		data.Name, selectedRep, data.Territory)
+}
+
 func CreateLeadService(data *Lead) error {
 	CalculateLeadScore(data)
+	AssignLeadRoundRobin(data)
 	err := CreateLead(data)
 	if err == nil {
 		invalidateCRMLeadCache()

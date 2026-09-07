@@ -6,12 +6,15 @@ import (
 	"log"
 	"time"
 
+	"ERP-System/app/modules/core/base"
 	"ERP-System/app/modules/finance/invoicing"
 	"ERP-System/app/modules/sales"
 	"ERP-System/app/modules/services/project"
 	"ERP-System/app/modules/supply_chain/inventory"
 	"ERP-System/config"
 	"ERP-System/pkg/rabbitmq"
+
+	"gorm.io/gorm"
 )
 
 type QuotationPayload struct {
@@ -49,6 +52,35 @@ func CreateSaleOrderService(data *SaleOrder) error {
 		data.PricelistName = "Standard Retail"
 	}
 
+	// Hitung DueDate berdasarkan PaymentTerm
+	if data.PaymentTerm == "" {
+		data.PaymentTerm = "Net 30"
+	}
+	switch data.PaymentTerm {
+	case "COD":
+		data.DueDate = data.DateOrder
+	case "Net 14":
+		data.DueDate = data.DateOrder.AddDate(0, 0, 14)
+	case "Net 60":
+		data.DueDate = data.DateOrder.AddDate(0, 0, 60)
+	case "DP 30%":
+		data.DueDate = data.DateOrder.AddDate(0, 0, 7)
+	default: // Net 30
+		data.DueDate = data.DateOrder.AddDate(0, 0, 30)
+	}
+
+	// PPN & Pajak Dinamis
+	if data.TaxRate <= 0 && data.TaxType == "" {
+		data.TaxRate = 11.0
+		data.TaxType = "PPN 11%"
+	} else if data.TaxType == "PPN 12%" {
+		data.TaxRate = 12.0
+	} else if data.TaxType == "Non-PPN" {
+		data.TaxRate = 0.0
+	} else if data.TaxType == "PPh 23" {
+		data.TaxRate = 2.0
+	}
+
 	// Calculate subtotal for lines if provided & calculate max discount
 	var untaxed float64
 	var maxDisc float64
@@ -60,20 +92,47 @@ func CreateSaleOrderService(data *SaleOrder) error {
 		untaxed += data.OrderLines[i].SubTotal
 	}
 	data.MaxDiscount = maxDisc
-	if maxDisc > 15.0 {
+	// FASE 2: Hierarki Persetujuan Diskon Bertingkat (Tiered Approval)
+	if maxDisc > 20.0 || untaxed > 250000000.0 {
 		data.NeedsApproval = true
+		data.ApprovalTier = "Director"
 		if data.ApprovalStatus == "" || data.ApprovalStatus == "None" {
-			data.ApprovalStatus = "Pending"
+			data.ApprovalStatus = "Pending_Director"
+		}
+	} else if maxDisc > 10.0 {
+		data.NeedsApproval = true
+		data.ApprovalTier = "ASM"
+		if data.ApprovalStatus == "" || data.ApprovalStatus == "None" {
+			data.ApprovalStatus = "Pending_ASM"
 		}
 	} else {
 		data.NeedsApproval = false
+		data.ApprovalTier = "Auto"
 		data.ApprovalStatus = "None"
 	}
 
 	if untaxed > 0 {
 		data.AmountUntaxed = untaxed
-		data.AmountTax = untaxed * 0.11
+		data.AmountTax = untaxed * (data.TaxRate / 100.0)
 		data.AmountTotal = untaxed + data.AmountTax
+	}
+
+	// FASE 1: Verifikasi Limit Kredit Pelanggan
+	if data.PartnerID > 0 {
+		var partner base.Partner
+		if err := config.DB.First(&partner, data.PartnerID).Error; err == nil {
+			data.CreditLimit = partner.CreditLimit
+			data.CurrentReceivable = partner.TotalReceivable
+			if partner.IsCreditHold {
+				data.CreditStatus = "Hold"
+			} else if partner.CreditLimit > 0 && (partner.TotalReceivable+data.AmountTotal) > partner.CreditLimit {
+				data.CreditStatus = "Exceeded"
+			} else if partner.CreditLimit > 0 && (partner.TotalReceivable+data.AmountTotal) > (partner.CreditLimit*0.8) {
+				data.CreditStatus = "Warning"
+			} else {
+				data.CreditStatus = "OK"
+			}
+		}
 	}
 
 	// FASE 4: Hitung Komisi Sales otomatis (default 3% atau custom rate)
@@ -104,16 +163,25 @@ func UpdateSaleOrderService(data *SaleOrder) error {
 			untaxed += data.OrderLines[i].SubTotal
 		}
 		data.MaxDiscount = maxDisc
-		if maxDisc > 15.0 && data.ApprovalStatus != "Approved" {
+		if (maxDisc > 20.0 || untaxed > 250000000.0) && data.ApprovalStatus != "Approved" {
 			data.NeedsApproval = true
-			data.ApprovalStatus = "Pending"
-		} else if maxDisc <= 15.0 {
+			data.ApprovalTier = "Director"
+			data.ApprovalStatus = "Pending_Director"
+		} else if maxDisc > 10.0 && data.ApprovalStatus != "Approved" {
+			data.NeedsApproval = true
+			data.ApprovalTier = "ASM"
+			data.ApprovalStatus = "Pending_ASM"
+		} else if maxDisc <= 10.0 && untaxed <= 250000000.0 {
 			data.NeedsApproval = false
+			data.ApprovalTier = "Auto"
 			data.ApprovalStatus = "None"
 		}
 
+		if data.TaxRate <= 0 {
+			data.TaxRate = 11.0
+		}
 		data.AmountUntaxed = untaxed
-		data.AmountTax = untaxed * 0.11
+		data.AmountTax = untaxed * (data.TaxRate / 100.0)
 		data.AmountTotal = untaxed + data.AmountTax
 	}
 
@@ -140,10 +208,20 @@ func ConfirmSaleOrderService(id uint) (*SaleOrder, error) {
 		return nil, err
 	}
 
-	// [FASE 3 Guard] Jika diskon melebihi 15% dan belum disetujui Manajer, cegah konfirmasi!
+	// [FASE 2 Guard] Persetujuan Diskon Bertingkat (ASM atau National Director)
 	if order.NeedsApproval && order.ApprovalStatus != "Approved" {
-		return nil, fmt.Errorf("pesanan memerlukan persetujuan diskon (Diskon %.1f%% melebihi batas toleransi 15%%). Status: %s",
-			order.MaxDiscount, order.ApprovalStatus)
+		roleRequired := "Area Sales Manager (ASM)"
+		if order.ApprovalTier == "Director" {
+			roleRequired = "National Sales Director (Diskon >20% atau Nilai >Rp 250 Jt)"
+		}
+		return nil, fmt.Errorf("pesanan memerlukan persetujuan dari %s (Diskon %.1f%%, Status: %s)",
+			roleRequired, order.MaxDiscount, order.ApprovalStatus)
+	}
+
+	// [FASE 1 Guard] Pengecekan Plafon Limit Kredit & Akun On-Hold
+	if (order.CreditStatus == "Exceeded" || order.CreditStatus == "Hold") && !order.IsCreditBypassed {
+		return nil, fmt.Errorf("pesanan DITOLAK: Saldo piutang pelanggan (Rp %.0f) melebihi limit kredit (Rp %.0f) atau status akun On-Hold. Wajib meminta persetujuan Finance (Bypass Credit Hold)!",
+			order.CurrentReceivable+order.AmountTotal, order.CreditLimit)
 	}
 
 	// Cek ketersediaan stok fisik gudang jika produk terdaftar
@@ -165,10 +243,10 @@ func ConfirmSaleOrderService(id uint) (*SaleOrder, error) {
 		return nil, err
 	}
 
-	// [FASE 2 ERP Integrasi] Otomatisasi reservasi / Surat Jalan Pengeluaran Barang (Stock Picking Out)
+	// [FASE 3 ERP Integrasi] Otomatisasi reservasi stok & Dokumen Pengeluaran Barang / Surat Jalan (Delivery Order)
 	deliveryPicking := inventory.StockPicking{
 		Name:          fmt.Sprintf("WH/OUT/%s/%04d", time.Now().Format("2006"), order.ID),
-		State:         "confirmed", // Menunggu disiapkan di gudang
+		State:         "confirmed", // Menunggu disiapkan / dikirim di gudang
 		ScheduledDate: time.Now().AddDate(0, 0, 3),
 	}
 	if order.PartnerID > 0 {
@@ -176,6 +254,29 @@ func ConfirmSaleOrderService(id uint) (*SaleOrder, error) {
 		deliveryPicking.PartnerID = &pid
 	}
 	_ = config.DB.Create(&deliveryPicking).Error
+
+	// Kunci stok (Reserved Stock) & catat baris perpindahan fisik (StockMove)
+	for _, line := range order.OrderLines {
+		if line.ProductID > 0 {
+			// Update kuota reserved di tabel produk
+			config.DB.Model(&inventory.Product{}).Where("id = ?", line.ProductID).
+				Update("reserved_qty", gorm.Expr("reserved_qty + ?", line.Quantity))
+
+			// Buat baris stock move
+			move := inventory.StockMove{
+				Name:         fmt.Sprintf("Kirim: %s", line.Description),
+				PickingID:    &deliveryPicking.ID,
+				ProductID:    line.ProductID,
+				Quantity:     line.Quantity,
+				QuantityDone: line.DeliveredQty,
+				State:        "confirmed",
+			}
+			_ = config.DB.Create(&move)
+		}
+	}
+
+	log.Printf("📦 Stock Reserved & DO Created: Surat Jalan %s berhasil dibuat untuk Sales Order %s dengan status Confirmed",
+		deliveryPicking.Name, order.Name)
 
 	return order, nil
 }
@@ -459,3 +560,126 @@ func GetSalesLeaderboardService() ([]SalesLeaderboardItem, error) {
 
 	return results, nil
 }
+
+// BypassCreditHoldService memberikan wewenang kepada Finance Manager untuk melepaskan limit kredit tertahan
+func BypassCreditHoldService(orderID uint, managerName string) (*SaleOrder, error) {
+	order, err := GetSaleOrderByID(orderID)
+	if err != nil {
+		return nil, err
+	}
+	if managerName == "" {
+		managerName = "Finance Manager"
+	}
+	order.IsCreditBypassed = true
+	order.BypassedBy = managerName
+	if err := config.DB.Model(&SaleOrder{}).Where("id = ?", orderID).Updates(map[string]interface{}{
+		"is_credit_bypassed": true,
+		"bypassed_by":         managerName,
+	}).Error; err != nil {
+		return nil, err
+	}
+	log.Printf("🛡️ Credit Limit Bypassed: Sales Order %s disetujui untuk bypass limit oleh %s", order.Name, managerName)
+	return order, nil
+}
+
+// ExportEFakturCSVService menghasilkan format CSV E-Faktur DJP resmi siap impor
+func ExportEFakturCSVService(orderID uint) (string, error) {
+	order, err := GetSaleOrderByID(orderID)
+	if err != nil {
+		return "", err
+	}
+
+	npwp := "00.000.000.0-000.000"
+	if order.Partner != nil && order.Partner.Vat != "" {
+		npwp = order.Partner.Vat
+	}
+
+	custName := order.CustomerName
+	if custName == "" && order.Partner != nil {
+		custName = order.Partner.Name
+	}
+
+	nsfp := order.Nsfp
+	if nsfp == "" {
+		nsfp = fmt.Sprintf("010.002-26.%08d", order.ID)
+	}
+
+	// Baris Header Resmi E-Faktur DJP Faktur Keluaran (FK)
+	headerFK := "FK,KD_JENIS_TRANSAKSI,FG_PENGGANTI,NOMOR_FAKTUR,MASA_PAJAK,TAHUN_PAJAK,TANGGAL_FAKTUR,NPWP,NAMA,ALAMAT_LENGKAP,JUMLAH_DPP,JUMLAH_PPN,JUMLAH_PPNBM,ID_KETERANGAN_TAMBAHAN,FG_UANG_MUKA,UANG_MUKA_DPP,UANG_MUKA_PPN,JUMLAH_PPNBM_DIBEBASKAN,REFERENSI\n"
+	headerOF := "OF,KODE_OBJEK,NAMA,HARGA_SATUAN,JUMLAH_BARANG,HARGA_TOTAL,DISKON,DPP,PPN,TARIF_PPNBM,PPNBM\n"
+
+	now := order.DateOrder.Format("02/01/2006")
+	masaPajak := order.DateOrder.Format("01")
+	tahunPajak := order.DateOrder.Format("2006")
+
+	rowFK := fmt.Sprintf("FK,01,0,%s,%s,%s,%s,%s,%s,Indonesia,%.2f,%.2f,0,0,0,0,0,0,%s\n",
+		nsfp, masaPajak, tahunPajak, now, npwp, custName, order.AmountUntaxed, order.AmountTax, order.Name)
+
+	var rowsOF string
+	for _, l := range order.OrderLines {
+		dpp := l.SubTotal
+		ppn := dpp * (order.TaxRate / 100.0)
+		itemCode := fmt.Sprintf("BRG-%d", l.ProductID)
+		rowsOF += fmt.Sprintf("OF,%s,%s,%.2f,%.2f,%.2f,%.2f,%.2f,%.2f,0,0\n",
+			itemCode, l.Description, l.UnitPrice, l.Quantity, l.Quantity*l.UnitPrice, (l.Quantity*l.UnitPrice)-dpp, dpp, ppn)
+	}
+
+	return headerFK + rowFK + headerOF + rowsOF, nil
+}
+
+// FASE 3: Ambil daftar Surat Jalan / Delivery Order yang terhubung ke Sales Order
+func GetDeliveryOrdersBySaleOrderIDService(orderID uint) ([]inventory.StockPicking, error) {
+	var pickings []inventory.StockPicking
+	pickingPattern := fmt.Sprintf("%%%04d", orderID)
+	err := config.DB.Where("name LIKE ?", pickingPattern).Find(&pickings).Error
+	return pickings, err
+}
+
+// DeliverSaleOrderService memproses penyerahan barang / Surat Jalan (Partial atau Full Delivery)
+func DeliverSaleOrderService(orderID uint, lineID uint, deliveredQty float64) (*SaleOrder, error) {
+	order, err := GetSaleOrderByID(orderID)
+	if err != nil {
+		return nil, err
+	}
+
+	for i := range order.OrderLines {
+		if order.OrderLines[i].ID == lineID || (lineID == 0 && order.OrderLines[i].DeliveredQty < order.OrderLines[i].Quantity) {
+			qtyToDeliver := deliveredQty
+			if qtyToDeliver <= 0 {
+				qtyToDeliver = order.OrderLines[i].Quantity - order.OrderLines[i].DeliveredQty
+			}
+
+			// Kurangi stok fisik nyata dan lepaskan reservasi
+			if order.OrderLines[i].ProductID > 0 {
+				config.DB.Model(&inventory.Product{}).Where("id = ?", order.OrderLines[i].ProductID).
+					Updates(map[string]interface{}{
+						"stock_qty":    gorm.Expr("stock_qty - ?", qtyToDeliver),
+						"reserved_qty": gorm.Expr("GREATEST(0, reserved_qty - ?)", qtyToDeliver),
+					})
+			}
+
+			order.OrderLines[i].DeliveredQty += qtyToDeliver
+			config.DB.Model(&SaleOrderLine{}).Where("id = ?", order.OrderLines[i].ID).
+				Update("delivered_qty", order.OrderLines[i].DeliveredQty)
+		}
+	}
+
+	// Update status Surat Jalan menjadi done jika semua item terkirim
+	allDone := true
+	for _, l := range order.OrderLines {
+		if l.DeliveredQty < l.Quantity {
+			allDone = false
+			break
+		}
+	}
+
+	pickingPattern := fmt.Sprintf("%%%04d", orderID)
+	if allDone {
+		config.DB.Model(&inventory.StockPicking{}).Where("name LIKE ?", pickingPattern).
+			Update("state", "done")
+	}
+
+	return order, nil
+}
+
+

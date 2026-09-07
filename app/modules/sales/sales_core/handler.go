@@ -2,6 +2,7 @@ package sales_core
 
 import (
 	"ERP-System/common/utils"
+	"fmt"
 	"net/http"
 	"strconv"
 
@@ -685,5 +686,112 @@ func DeleteSaleOrderLineHandler(c echo.Context) error {
 	}
 	return utils.SendSuccess(c, http.StatusOK, "Deleted successfully", nil)
 }
+
+// BypassCreditHoldHandler godoc
+// @Summary Bypass Credit Hold / Credit Limit Exceeded
+// @Description Finance Manager approves credit bypass to allow SO confirmation
+// @Tags sales-sales_core
+// @Produce json
+// @Param id path int true "SaleOrder ID"
+// @Success 200 {object} utils.SuccessResponse{data=SaleOrder} "Credit hold bypassed"
+// @Router /api/sales/sales_core/{id}/bypass-credit [post]
+// @Security BearerAuth
+func BypassCreditHoldHandler(c echo.Context) error {
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil || id <= 0 {
+		return utils.SendError(c, http.StatusBadRequest, "ID tidak valid", "")
+	}
+
+	type BypassReq struct {
+		ManagerName string `json:"manager_name"`
+	}
+	var req BypassReq
+	_ = c.Bind(&req)
+	if req.ManagerName == "" {
+		req.ManagerName = "Finance Manager"
+	}
+
+	order, err := BypassCreditHoldService(uint(id), req.ManagerName)
+	if err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Gagal bypass credit limit", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Persetujuan limit kredit berhasil diberikan", order)
+}
+
+// ExportEFakturCSVHandler godoc
+// @Summary Export E-Faktur DJP CSV format
+// @Description Generates official DJP e-Faktur CSV formatted string for import to DJP desktop app
+// @Tags sales-sales_core
+// @Produce text/csv
+// @Param id path int true "SaleOrder ID"
+// @Success 200 {string} string "Official E-Faktur CSV"
+// @Router /api/sales/sales_core/{id}/export-efaktur [get]
+// @Security BearerAuth
+func ExportEFakturCSVHandler(c echo.Context) error {
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil || id <= 0 {
+		return utils.SendError(c, http.StatusBadRequest, "ID tidak valid", "")
+	}
+
+	csvContent, err := ExportEFakturCSVService(uint(id))
+	if err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Gagal generate CSV E-Faktur", err.Error())
+	}
+
+	c.Response().Header().Set("Content-Disposition", fmt.Sprintf("attachment; filename=efaktur-so-%d.csv", id))
+	return c.Blob(http.StatusOK, "text/csv", []byte(csvContent))
+}
+
+// GetDeliveryOrdersHandler godoc
+// @Summary Get Delivery Orders (Surat Jalan) related to a SaleOrder
+// @Tags sales-sales_core
+// @Produce json
+// @Param id path int true "SaleOrder ID"
+// @Success 200 {object} utils.SuccessResponse{data=[]inventory.StockPicking} "List of delivery orders"
+// @Router /api/sales/sales_core/{id}/deliveries [get]
+// @Security BearerAuth
+func GetDeliveryOrdersHandler(c echo.Context) error {
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil || id <= 0 {
+		return utils.SendError(c, http.StatusBadRequest, "ID tidak valid", "")
+	}
+
+	pickings, err := GetDeliveryOrdersBySaleOrderIDService(uint(id))
+	if err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Gagal mengambil data pengiriman", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Data surat jalan berhasil diambil", pickings)
+}
+
+// DeliverSaleOrderHandler godoc
+// @Summary Execute Delivery / Surat Jalan item shipment (Full / Partial)
+// @Tags sales-sales_core
+// @Accept json
+// @Produce json
+// @Param id path int true "SaleOrder ID"
+// @Success 200 {object} utils.SuccessResponse{data=SaleOrder} "Delivery executed successfully"
+// @Router /api/sales/sales_core/{id}/deliver [post]
+// @Security BearerAuth
+func DeliverSaleOrderHandler(c echo.Context) error {
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil || id <= 0 {
+		return utils.SendError(c, http.StatusBadRequest, "ID tidak valid", "")
+	}
+
+	type DeliverReq struct {
+		LineID       uint    `json:"line_id"`
+		DeliveredQty float64 `json:"delivered_qty"`
+	}
+	var req DeliverReq
+	_ = c.Bind(&req)
+
+	order, err := DeliverSaleOrderService(uint(id), req.LineID, req.DeliveredQty)
+	if err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Gagal memproses pengiriman barang", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Pengiriman barang (Surat Jalan) berhasil dieksekusi", order)
+}
+
+
 
 

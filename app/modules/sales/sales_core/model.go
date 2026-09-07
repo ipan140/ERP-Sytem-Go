@@ -61,8 +61,28 @@ type SaleOrder struct {
 	PricelistName       string          `gorm:"type:varchar(100);default:'Standard Retail'" json:"pricelist_name"` // Standard, Grosir B2B, VIP Distributor
 	MaxDiscount         float64         `gorm:"type:numeric(5,2);default:0" json:"max_discount"`
 	NeedsApproval       bool            `gorm:"default:false" json:"needs_approval"`
-	ApprovalStatus      string          `gorm:"type:varchar(50);default:'None'" json:"approval_status"` // None, Pending, Approved, Rejected
+	ApprovalStatus      string          `gorm:"type:varchar(50);default:'None'" json:"approval_status"` // None, Pending_ASM, Pending_Director, Approved, Rejected
+	ApprovalTier        string          `gorm:"type:varchar(50);default:'Auto'" json:"approval_tier"`   // Auto, ASM (Area Sales Manager), Director (National Sales Director)
 	ApprovedBy          string          `gorm:"type:varchar(100)" json:"approved_by"`
+
+	// FASE 2: Multi-Branch & Multi-Company Partitioning
+	BranchID            uint            `gorm:"default:1" json:"branch_id"`
+	BranchName          string          `gorm:"type:varchar(100);default:'Head Office Jakarta'" json:"branch_name"` // Jakarta, Surabaya, Medan, Bandung, Bali
+	CompanyID           uint            `gorm:"default:1" json:"company_id"`
+	CompanyName         string          `gorm:"type:varchar(100);default:'PT Solusi Enterprise Indonesia'" json:"company_name"`
+
+	// FASE 1: Payment Terms, Pajak Dinamis & Credit Limit Controls
+	PaymentTerm         string          `gorm:"type:varchar(50);default:'Net 30'" json:"payment_term"` // COD, Net 14, Net 30, Net 60, DP 30%
+	DueDate             time.Time       `json:"due_date"`                                              // Tanggal jatuh tempo
+	TaxRate             float64         `gorm:"type:numeric(5,2);default:11.0" json:"tax_rate"`         // 0 (Non-PPN), 11 (PPN 11%), 12 (PPN 12%)
+	TaxType             string          `gorm:"type:varchar(50);default:'PPN 11%'" json:"tax_type"`    // PPN 11%, PPN 12%, Non-PPN, PPh 23
+	CreditStatus        string          `gorm:"type:varchar(50);default:'OK'" json:"credit_status"`    // OK, Warning, Exceeded, Hold
+	CreditLimit         float64         `gorm:"type:numeric(15,2);default:0" json:"credit_limit"`      // Batas kredit pelanggan
+	CurrentReceivable   float64         `gorm:"type:numeric(15,2);default:0" json:"current_receivable"`// Piutang saat ini
+	IsCreditBypassed    bool            `gorm:"default:false" json:"is_credit_bypassed"`               // Izin bypass dari manajer finance
+	BypassedBy          string          `gorm:"type:varchar(100)" json:"bypassed_by"`
+	Nsfp                string          `gorm:"type:varchar(50)" json:"nsfp"`                          // Nomor Seri Faktur Pajak E-Faktur DJP
+
 	// FASE 4: Salesperson Commission & KPI Fields
 	SalespersonName     string          `gorm:"type:varchar(100);default:'Sales Team'" json:"salesperson_name"`
 	CommissionRate      float64         `gorm:"type:numeric(5,2);default:3.0" json:"commission_rate"` // e.g. 3% standard commission
@@ -85,6 +105,7 @@ type SaleOrderLine struct {
 	InvoicedQty  float64 `gorm:"type:numeric(15,2);default:0" json:"invoiced_qty"`
 	UnitPrice    float64 `gorm:"type:numeric(15,2);default:0" json:"unit_price"`
 	Discount     float64 `gorm:"type:numeric(5,2);default:0" json:"discount"` // Percentage
+	TaxRate      float64 `gorm:"type:numeric(5,2);default:11.0" json:"tax_rate"`
 	SubTotal     float64 `gorm:"type:numeric(15,2);default:0" json:"sub_total"`
 	IsOptional   bool    `gorm:"default:false" json:"is_optional"` // Upselling item
 }

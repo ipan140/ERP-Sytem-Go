@@ -56,6 +56,9 @@ type Lead struct {
 	ReferralCode     string    `gorm:"type:varchar(100)" json:"referral_code"`            // Kode afiliasi/mitra yang mereferensikan
 	AffiliateName    string    `gorm:"type:varchar(255)" json:"affiliate_name"`           // Nama partner afiliasi
 	UtmSource        string    `gorm:"type:varchar(100)" json:"utm_source"`               // google, meta, wa_blast, influencer
+	Territory        string    `gorm:"type:varchar(100);default:'Jakarta'" json:"territory"` // Jakarta, Surabaya, Medan, Bandung, Bali
+	AssignedSalespersonName string `gorm:"type:varchar(255)" json:"assigned_salesperson_name"` // Auto Round-Robin assigned rep
+	AssignmentMethod string    `gorm:"type:varchar(50);default:'Round-Robin'" json:"assignment_method"` // Manual, Round-Robin, Territory
 	CreatedAt        time.Time `json:"created_at"`
 }
 

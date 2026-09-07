@@ -17612,6 +17612,52 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/sales/sales_core/{id}/bypass-credit": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Finance Manager approves credit bypass to allow SO confirmation",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sales-sales_core"
+                ],
+                "summary": "Bypass Credit Hold / Credit Limit Exceeded",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "SaleOrder ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Credit hold bypassed",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/utils.SuccessResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/sales_core.SaleOrder"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
         "/api/sales/sales_core/{id}/confirm": {
             "post": {
                 "security": [
@@ -17675,6 +17721,136 @@ const docTemplate = `{
                         "description": "Created",
                         "schema": {
                             "$ref": "#/definitions/invoicing.Invoice"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/sales/sales_core/{id}/deliver": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sales-sales_core"
+                ],
+                "summary": "Execute Delivery / Surat Jalan item shipment (Full / Partial)",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "SaleOrder ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Delivery executed successfully",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/utils.SuccessResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/sales_core.SaleOrder"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/api/sales/sales_core/{id}/deliveries": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sales-sales_core"
+                ],
+                "summary": "Get Delivery Orders (Surat Jalan) related to a SaleOrder",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "SaleOrder ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of delivery orders",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/utils.SuccessResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/inventory.StockPicking"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/api/sales/sales_core/{id}/export-efaktur": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Generates official DJP e-Faktur CSV formatted string for import to DJP desktop app",
+                "produces": [
+                    "text/csv"
+                ],
+                "tags": [
+                    "sales-sales_core"
+                ],
+                "summary": "Export E-Faktur DJP CSV format",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "SaleOrder ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Official E-Faktur CSV",
+                        "schema": {
+                            "type": "string"
                         }
                     }
                 }
@@ -26857,6 +27033,10 @@ const docTemplate = `{
                 "created_at": {
                     "type": "string"
                 },
+                "credit_limit": {
+                    "description": "Enterprise Credit Limit \u0026 Financial Risk Control",
+                    "type": "number"
+                },
                 "email": {
                     "type": "string"
                 },
@@ -26866,11 +27046,19 @@ const docTemplate = `{
                 "is_company": {
                     "type": "boolean"
                 },
+                "is_credit_hold": {
+                    "description": "Apakah akun pelanggan sedang diblokir/on-hold",
+                    "type": "boolean"
+                },
                 "is_customer": {
                     "type": "boolean"
                 },
                 "is_vendor": {
                     "type": "boolean"
+                },
+                "max_overdue_days": {
+                    "description": "Toleransi jatuh tempo maksimal (hari)",
+                    "type": "integer"
                 },
                 "mobile": {
                     "type": "string"
@@ -26909,6 +27097,10 @@ const docTemplate = `{
                 },
                 "street2": {
                     "type": "string"
+                },
+                "total_receivable": {
+                    "description": "Saldo piutang aktif",
+                    "type": "number"
                 },
                 "type": {
                     "description": "contact, invoice, delivery",
@@ -27103,6 +27295,14 @@ const docTemplate = `{
                     "description": "Nama partner afiliasi",
                     "type": "string"
                 },
+                "assigned_salesperson_name": {
+                    "description": "Auto Round-Robin assigned rep",
+                    "type": "string"
+                },
+                "assignment_method": {
+                    "description": "Manual, Round-Robin, Territory",
+                    "type": "string"
+                },
                 "behavior_points": {
                     "description": "JSON breakdown log skor aktivitas",
                     "type": "string"
@@ -27187,6 +27387,10 @@ const docTemplate = `{
                 },
                 "stage_id": {
                     "type": "integer"
+                },
+                "territory": {
+                    "description": "Jakarta, Surabaya, Medan, Bandung, Bali",
+                    "type": "string"
                 },
                 "utm_source": {
                     "description": "google, meta, wa_blast, influencer",
@@ -28380,6 +28584,10 @@ const docTemplate = `{
                 },
                 "product_template_id": {
                     "type": "integer"
+                },
+                "reserved_qty": {
+                    "description": "FASE 3: Stok terpesan (dikunci oleh Sales Order terkonfirmasi)",
+                    "type": "number"
                 },
                 "stock_qty": {
                     "type": "number"
@@ -31023,10 +31231,25 @@ const docTemplate = `{
                     "type": "number"
                 },
                 "approval_status": {
-                    "description": "None, Pending, Approved, Rejected",
+                    "description": "None, Pending_ASM, Pending_Director, Approved, Rejected",
+                    "type": "string"
+                },
+                "approval_tier": {
+                    "description": "Auto, ASM (Area Sales Manager), Director (National Sales Director)",
                     "type": "string"
                 },
                 "approved_by": {
+                    "type": "string"
+                },
+                "branch_id": {
+                    "description": "FASE 2: Multi-Branch \u0026 Multi-Company Partitioning",
+                    "type": "integer"
+                },
+                "branch_name": {
+                    "description": "Jakarta, Surabaya, Medan, Bandung, Bali",
+                    "type": "string"
+                },
+                "bypassed_by": {
                     "type": "string"
                 },
                 "commission_amount": {
@@ -31040,8 +31263,26 @@ const docTemplate = `{
                     "description": "Unpaid, Paid",
                     "type": "string"
                 },
+                "company_id": {
+                    "type": "integer"
+                },
+                "company_name": {
+                    "type": "string"
+                },
                 "created_at": {
                     "type": "string"
+                },
+                "credit_limit": {
+                    "description": "Batas kredit pelanggan",
+                    "type": "number"
+                },
+                "credit_status": {
+                    "description": "OK, Warning, Exceeded, Hold",
+                    "type": "string"
+                },
+                "current_receivable": {
+                    "description": "Piutang saat ini",
+                    "type": "number"
                 },
                 "customer_email": {
                     "type": "string"
@@ -31064,12 +31305,20 @@ const docTemplate = `{
                 "delivery_method_id": {
                     "type": "integer"
                 },
+                "due_date": {
+                    "description": "Tanggal jatuh tempo",
+                    "type": "string"
+                },
                 "id": {
                     "type": "integer"
                 },
                 "invoicing_policy": {
                     "description": "ordered, delivered",
                     "type": "string"
+                },
+                "is_credit_bypassed": {
+                    "description": "Izin bypass dari manajer finance",
+                    "type": "boolean"
                 },
                 "is_payment_link_sent": {
                     "type": "boolean"
@@ -31090,6 +31339,10 @@ const docTemplate = `{
                 "notes": {
                     "type": "string"
                 },
+                "nsfp": {
+                    "description": "Nomor Seri Faktur Pajak E-Faktur DJP",
+                    "type": "string"
+                },
                 "order_lines": {
                     "type": "array",
                     "items": {
@@ -31106,6 +31359,10 @@ const docTemplate = `{
                 },
                 "partner_id": {
                     "type": "integer"
+                },
+                "payment_term": {
+                    "description": "FASE 1: Payment Terms, Pajak Dinamis \u0026 Credit Limit Controls",
+                    "type": "string"
                 },
                 "pricelist": {
                     "description": "Auto-added relation",
@@ -31139,6 +31396,14 @@ const docTemplate = `{
                 },
                 "state": {
                     "description": "draft, sent, sale, done, cancel",
+                    "type": "string"
+                },
+                "tax_rate": {
+                    "description": "0 (Non-PPN), 11 (PPN 11%), 12 (PPN 12%)",
+                    "type": "number"
+                },
+                "tax_type": {
+                    "description": "PPN 11%, PPN 12%, Non-PPN, PPh 23",
                     "type": "string"
                 }
             }
@@ -31192,6 +31457,9 @@ const docTemplate = `{
                     "type": "number"
                 },
                 "sub_total": {
+                    "type": "number"
+                },
+                "tax_rate": {
                     "type": "number"
                 },
                 "unit_price": {

@@ -131,8 +131,8 @@ func main() {
 	// Secure Headers (Anti XSS, HSTS)
 	e.Use(middleware.Secure())
 
-	// Global Rate Limiter (Max 20 requests per second per IP)
-	e.Use(middleware.RateLimiter(middleware.NewRateLimiterMemoryStore(20)))
+	// Global Rate Limiter (Max 100 requests per second per IP for enterprise dashboard burst calls)
+	e.Use(middleware.RateLimiter(middleware.NewRateLimiterMemoryStore(100)))
 
 	// Strict CORS
 	e.Use(commonMiddleware.CORS())

@@ -66,6 +66,7 @@ type Product struct {
 	Volume            float64   `gorm:"type:numeric(15,3);default:0" json:"volume"`
 	Weight            float64   `gorm:"type:numeric(15,3);default:0" json:"weight"`
 	StockQty          float64   `gorm:"type:numeric(15,2);default:0" json:"stock_qty"`
+	ReservedQty       float64   `gorm:"type:numeric(15,2);default:0" json:"reserved_qty"` // FASE 3: Stok terpesan (dikunci oleh Sales Order terkonfirmasi)
 	CreatedAt         time.Time `json:"created_at"`
 }
 
