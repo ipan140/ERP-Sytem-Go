@@ -30,6 +30,11 @@ func RegisterRoutes(e *echo.Echo) {
 	api.PUT("/resourceforecast/:id", UpdateResourceForecastHandler)
 	api.DELETE("/resourceforecast/:id", DeleteResourceForecastHandler)
 
+	api.POST("/task", CreateTaskHandler)
+	api.GET("/task", GetAllTaskHandler)
+	api.GET("/task/:id", GetTaskByIDHandler)
+	api.PUT("/task/:id", UpdateTaskHandler)
+	api.DELETE("/task/:id", DeleteTaskHandler)
 }
 
 

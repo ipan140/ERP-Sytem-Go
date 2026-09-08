@@ -354,4 +354,89 @@ func DeleteResourceForecastHandler(c echo.Context) error {
 	return utils.SendSuccess(c, http.StatusOK, "Success", nil)
 }
 
+// @Summary Create Task
+// @Description Create a new Task
+// @Tags services-project
+// @Accept json
+// @Produce json
+// @Success 201 {object} Task
+// @Param request body Task true "Payload"
+// @Router /api/services/project/task [post]
+// @Security BearerAuth
+func CreateTaskHandler(c echo.Context) error {
+	var data Task
+	if err := c.Bind(&data); err != nil {
+		return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error())
+	}
+	if err := CreateTaskService(&data); err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusCreated, "Success", data)
+}
+
+// @Summary Get all Task
+// @Description Retrieve a list of all Task
+// @Tags services-project
+// @Produce json
+// @Success 200 {object} []Task
+// @Router /api/services/project/task [get]
+// @Security BearerAuth
+func GetAllTaskHandler(c echo.Context) error {
+	data, err := GetAllTaskService()
+	if err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Success", data)
+}
+
+func GetTaskByIDHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	data, err := GetTaskByIDService(uint(id))
+	if err != nil {
+		return utils.SendError(c, http.StatusNotFound, "Not found", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Success", data)
+}
+
+// @Summary Update Task
+// @Description Update an existing Task
+// @Tags services-project
+// @Accept json
+// @Produce json
+// @Param id path int true "Task ID"
+// @Success 200 {object} map[string]interface{}
+// @Router /api/services/project/task/{id} [put]
+// @Security BearerAuth
+func UpdateTaskHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	data, err := GetTaskByIDService(uint(id))
+	if err != nil {
+		return utils.SendError(c, http.StatusNotFound, "Not found", err.Error())
+	}
+	if err := c.Bind(data); err != nil {
+		return utils.SendError(c, http.StatusBadRequest, "Invalid", err.Error())
+	}
+	if err := UpdateTaskService(data); err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Success", data)
+}
+
+// @Summary Delete Task
+// @Description Delete Task by ID
+// @Tags services-project
+// @Produce json
+// @Param id path int true "Task ID"
+// @Success 200 {object} map[string]interface{}
+// @Router /api/services/project/task/{id} [delete]
+// @Security BearerAuth
+func DeleteTaskHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	if err := DeleteTaskService(uint(id)); err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Success", nil)
+}
+
+
 
