@@ -8,6 +8,9 @@ import (
 
 func RegisterRoutes(e *echo.Echo) {
 	api := e.Group("/api/supply_chain/inventory", middleware.Auth(), middleware.GlobalAutoRBAC())
+	api.GET("/summary", GetInventorySummaryHandler)
+	api.POST("/adjustment", CreateStockAdjustmentHandler)
+	api.POST("/transfer", CreateInternalTransferHandler)
 	api.POST("", CreateProductHandler)
 	api.GET("", GetAllProductHandler)
 	api.GET("/:id", GetProductByIDHandler)

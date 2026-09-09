@@ -1,8 +1,14 @@
 package inventory
 
 import (
-	"gorm.io/gorm/clause"
+	"errors"
+	"fmt"
+	"strings"
+	"time"
+
 	"ERP-System/config"
+	"gorm.io/gorm"
+	"gorm.io/gorm/clause"
 )
 
 func CreateProduct(data *Product) error {
@@ -11,8 +17,206 @@ func CreateProduct(data *Product) error {
 
 func GetAllProduct() ([]Product, error) {
 	var list []Product
-	err := config.DB.Preload(clause.Associations).Find(&list).Error
+	err := config.DB.Preload(clause.Associations).
+		Preload("ProductTemplate.Category").
+		Preload("ProductTemplate.UoM").
+		Find(&list).Error
 	return list, err
+}
+
+func GetPaginatedProducts(offset, limit int, search string, categoryID, warehouseID uint, stockStatus string) ([]Product, int64, error) {
+	var list []Product
+	var total int64
+
+	query := config.DB.Model(&Product{}).
+		Joins("LEFT JOIN supply_chain.product_templates ON supply_chain.product_templates.id = supply_chain.products.product_template_id")
+
+	if search != "" {
+		searchPattern := "%" + strings.ToLower(search) + "%"
+		query = query.Where(
+			"LOWER(supply_chain.products.default_code) LIKE ? OR LOWER(supply_chain.products.barcode) LIKE ? OR LOWER(supply_chain.product_templates.name) LIKE ?",
+			searchPattern, searchPattern, searchPattern,
+		)
+	}
+
+	if categoryID > 0 {
+		query = query.Where("supply_chain.product_templates.category_id = ?", categoryID)
+	}
+
+	if warehouseID > 0 {
+		query = query.Where(
+			"supply_chain.products.id IN (SELECT sq.product_id FROM supply_chain.stock_quants sq JOIN supply_chain.stock_locations sl ON sl.id = sq.location_id WHERE sl.warehouse_id = ?)",
+			warehouseID,
+		)
+	}
+
+	if stockStatus != "" {
+		switch stockStatus {
+		case "out_of_stock":
+			query = query.Where("supply_chain.products.stock_qty <= 0")
+		case "low_stock":
+			query = query.Where("supply_chain.products.stock_qty > 0 AND supply_chain.products.stock_qty <= 10")
+		case "in_stock":
+			query = query.Where("supply_chain.products.stock_qty > 10")
+		}
+	}
+
+	if err := query.Count(&total).Error; err != nil {
+		return nil, 0, err
+	}
+
+	err := query.
+		Preload("ProductTemplate").
+		Preload("ProductTemplate.Category").
+		Preload("ProductTemplate.UoM").
+		Order("supply_chain.products.id DESC").
+		Offset(offset).
+		Limit(limit).
+		Find(&list).Error
+
+	return list, total, err
+}
+
+func GetInventorySummary() (InventorySummary, error) {
+	var summary InventorySummary
+
+	config.DB.Model(&Product{}).Count(&summary.TotalSKU)
+
+	type AggResult struct {
+		OnHand   float64
+		Reserved float64
+	}
+	var agg AggResult
+	config.DB.Model(&Product{}).Select("COALESCE(SUM(stock_qty), 0) as on_hand, COALESCE(SUM(reserved_qty), 0) as reserved").Scan(&agg)
+	summary.TotalOnHand = agg.OnHand
+	summary.TotalReserved = agg.Reserved
+
+	config.DB.Model(&Product{}).Where("stock_qty <= 0").Count(&summary.OutOfStockCount)
+	config.DB.Model(&Product{}).Where("stock_qty > 0 AND stock_qty <= 10").Count(&summary.LowStockCount)
+
+	var valResult struct {
+		TotalVal float64
+	}
+	config.DB.Table("supply_chain.products p").
+		Select("COALESCE(SUM(p.stock_qty * COALESCE(NULLIF(pt.standard_price, 0), pt.list_price, 0)), 0) as total_val").
+		Joins("LEFT JOIN supply_chain.product_templates pt ON pt.id = p.product_template_id").
+		Scan(&valResult)
+	summary.TotalValuation = valResult.TotalVal
+
+	return summary, nil
+}
+
+func ApplyStockAdjustment(req StockAdjustmentRequest) error {
+	return config.DB.Transaction(func(tx *gorm.DB) error {
+		var prod Product
+		if err := tx.First(&prod, req.ProductID).Error; err != nil {
+			return err
+		}
+
+		diff := req.CountedQty - prod.StockQty
+		prod.StockQty = req.CountedQty
+		if err := tx.Save(&prod).Error; err != nil {
+			return err
+		}
+
+		var targetLocID *uint
+		if req.LocationID > 0 {
+			targetLocID = &req.LocationID
+		} else {
+			var loc StockLocation
+			if err := tx.First(&loc).Error; err == nil {
+				targetLocID = &loc.ID
+			}
+		}
+
+		// Record stock move for audit trail
+		docNum := fmt.Sprintf("INV-ADJ/%s/%04d", time.Now().Format("20060102"), prod.ID)
+		move := StockMove{
+			Name:           fmt.Sprintf("Penyesuaian Fisik (Opname) - %s (Selisih: %.2f)", req.Reason, diff),
+			ProductID:      prod.ID,
+			Quantity:       req.CountedQty,
+			QuantityDone:   req.CountedQty,
+			LocationID:     targetLocID,
+			LocationDestID: targetLocID,
+			State:          "done",
+			CreatedAt:      time.Now(),
+		}
+		if err := tx.Create(&move).Error; err != nil {
+			return err
+		}
+
+		// Record valuation layer
+		var pt ProductTemplate
+		if err := tx.First(&pt, prod.ProductTemplateID).Error; err == nil {
+			unitCost := pt.StandardPrice
+			if unitCost == 0 {
+				unitCost = pt.ListPrice
+			}
+			valLayer := StockValuationLayer{
+				ProductID:   prod.ID,
+				Quantity:    diff,
+				UnitCost:    unitCost,
+				Value:       diff * unitCost,
+				Description: fmt.Sprintf("Penyesuaian Stok: %s (%s)", docNum, req.Reason),
+				CreatedAt:   time.Now(),
+			}
+			tx.Create(&valLayer)
+		}
+
+		return nil
+	})
+}
+
+func ApplyInternalTransfer(req InternalTransferRequest) error {
+	return config.DB.Transaction(func(tx *gorm.DB) error {
+		var prod Product
+		if err := tx.First(&prod, req.ProductID).Error; err != nil {
+			return err
+		}
+
+		if prod.StockQty < req.Quantity {
+			return errors.New("stok produk tidak mencukupi untuk ditransfer")
+		}
+
+		transferCode := fmt.Sprintf("WH/INT/%s/%d", time.Now().Format("20060102150405"), prod.ID)
+		var srcLoc, destLoc StockLocation
+		var srcLocID, destLocID *uint
+		if req.SourceWarehouseID > 0 && tx.Where("warehouse_id = ?", req.SourceWarehouseID).First(&srcLoc).Error == nil {
+			srcLocID = &srcLoc.ID
+		}
+		if req.DestWarehouseID > 0 && tx.Where("warehouse_id = ?", req.DestWarehouseID).First(&destLoc).Error == nil {
+			destLocID = &destLoc.ID
+		}
+
+		picking := StockPicking{
+			Name:           transferCode,
+			LocationID:     srcLocID,
+			LocationDestID: destLocID,
+			State:          "done",
+			ScheduledDate: time.Now(),
+			CreatedAt:     time.Now(),
+		}
+		if err := tx.Create(&picking).Error; err != nil {
+			return err
+		}
+
+		move := StockMove{
+			Name:           fmt.Sprintf("Transfer Internal Antar-Gudang %s (Catatan: %s)", transferCode, req.Notes),
+			PickingID:      &picking.ID,
+			ProductID:      prod.ID,
+			Quantity:       req.Quantity,
+			QuantityDone:   req.Quantity,
+			LocationID:     srcLocID,
+			LocationDestID: destLocID,
+			State:          "done",
+			CreatedAt:      time.Now(),
+		}
+		if err := tx.Create(&move).Error; err != nil {
+			return err
+		}
+
+		return nil
+	})
 }
 
 func GetProductByID(id uint) (*Product, error) {

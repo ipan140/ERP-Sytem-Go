@@ -13,7 +13,16 @@ type Ticket struct {
 	AssigneeID       *uint     `json:"assignee_id"`                                    // Employee ID
 	State            string    `gorm:"type:varchar(20);default:'new'" json:"state"`    // new, in_progress, solved, closed
 	IssueDescription string    `gorm:"type:text" json:"issue_description"`
-	CreatedAt        time.Time `json:"created_at"`
+	CompanyID        uint       `gorm:"default:6" json:"company_id"`
+	CreatedAt        time.Time  `json:"created_at"`
+
+	// Fase 3: SLA Escalation Engine
+	SlaDeadline      *time.Time `json:"sla_deadline,omitempty"`
+	SlaStatus        string     `gorm:"type:varchar(20);default:'ok'" json:"sla_status"` // ok, warning, breached
+	EscalationLevel  int        `gorm:"default:1" json:"escalation_level"`               // 1: Tier-1, 2: Tier-2 (Operational Manager)
+	EscalatedAt      *time.Time `json:"escalated_at,omitempty"`
+	FirstResponseAt  *time.Time `json:"first_response_at,omitempty"`
+	ResolvedAt       *time.Time `json:"resolved_at,omitempty"`
 }
 
 // 4. Helpdesk SLA (Robot Pengawas Waktu)

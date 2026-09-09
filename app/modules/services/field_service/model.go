@@ -27,6 +27,21 @@ type FieldServiceTask struct {
 	Notes         string              `gorm:"type:text" json:"notes"`
 	Signature     string              `gorm:"type:text" json:"signature"`
 	Checklist     []ChecklistItem     `gorm:"serializer:json" json:"checklist"`
+	CompanyID     uint                `gorm:"default:6" json:"company_id"`
+
+	// Fase 2: e-BAST Validation Gate
+	BastValidated bool                `gorm:"default:false" json:"bast_validated"`
+	ValidatedByID *uint               `json:"validated_by_id,omitempty"`
+	ValidatedAt   *time.Time          `json:"validated_at,omitempty"`
+
+	// Fase 4: GPS Geotagging
+	CheckInLat    *float64            `gorm:"type:numeric(10,7)" json:"check_in_lat,omitempty"`
+	CheckInLng    *float64            `gorm:"type:numeric(10,7)" json:"check_in_lng,omitempty"`
+	CheckInAt     *time.Time          `json:"check_in_at,omitempty"`
+	CheckOutLat   *float64            `gorm:"type:numeric(10,7)" json:"check_out_lat,omitempty"`
+	CheckOutLng   *float64            `gorm:"type:numeric(10,7)" json:"check_out_lng,omitempty"`
+	CheckOutAt    *time.Time          `json:"check_out_at,omitempty"`
+
 	CreatedAt     time.Time           `json:"created_at"`
 	UpdatedAt     time.Time           `json:"updated_at"`
 }

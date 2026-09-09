@@ -13,7 +13,15 @@ func RegisterRoutes(e *echo.Echo) {
 	api.GET("/:id", GetFieldServiceTaskByIDHandler)
 	api.PUT("/:id", UpdateFieldServiceTaskHandler)
 	api.DELETE("/:id", DeleteFieldServiceTaskHandler)
+
+	// Fase 2: e-BAST Validation Gate Route
+	api.POST("/:id/validate-bast", ValidateBastHandler)
+
+	// Fase 4: GPS Geotagging Routes
+	api.POST("/:id/check-in", GPSCheckInHandler)
+	api.POST("/:id/check-out", GPSCheckOutHandler)
 }
+
 
 
 

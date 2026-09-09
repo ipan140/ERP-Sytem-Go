@@ -22,6 +22,13 @@ type Timesheet struct {
 	// 2. Billable Timesheet & 7. Project Profitability
 	IsBillable bool    `gorm:"default:false" json:"is_billable"`         // Apakah jam ini akan ditagih ke klien?
 	Cost       float64 `gorm:"type:numeric(15,2);default:0" json:"cost"` // Harga Pokok Tenaga Kerja
+	CompanyID  uint    `gorm:"default:6" json:"company_id"`
+
+	// Fase 2: Workflow Approval & Validation Gates
+	Status          string     `gorm:"type:varchar(20);default:'approved'" json:"status"` // draft, submitted, approved, rejected, invoiced
+	ApprovedByID    *uint      `json:"approved_by_id,omitempty"`
+	ApprovedAt      *time.Time `json:"approved_at,omitempty"`
+	RejectionReason string     `gorm:"type:text" json:"rejection_reason,omitempty"`
 
 	CreatedAt time.Time `json:"created_at"`
 }

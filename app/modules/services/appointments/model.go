@@ -17,6 +17,7 @@ type Appointment struct {
 	Date       time.Time           `json:"date"`
 	Notes      string              `gorm:"type:text" json:"notes"`
 	State      string              `gorm:"type:varchar(50);default:'draft'" json:"state"` // draft, confirmed, done
+	CompanyID  uint                `gorm:"default:6" json:"company_id"`
 	CreatedAt  time.Time           `json:"created_at"`
 }
 

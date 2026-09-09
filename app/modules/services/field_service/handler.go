@@ -38,11 +38,34 @@ func CreateFieldServiceTaskHandler(c echo.Context) error {
 // @Router /api/services/field_service [get]
 // @Security BearerAuth
 func GetAllFieldServiceTaskHandler(c echo.Context) error {
-	data, err := GetAllFieldServiceTaskService()
-	if err != nil {
-		return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve data", err.Error())
+	if c.QueryParam("all") == "true" {
+		data, err := GetAllFieldServiceTaskService()
+		if err != nil {
+			return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve data", err.Error())
+		}
+		return utils.SendSuccess(c, http.StatusOK, "Data retrieved successfully", data)
 	}
-	return utils.SendSuccess(c, http.StatusOK, "Data retrieved successfully", data)
+
+	page, limit, offset, search := utils.GetPaginationQuery(c)
+	state := c.QueryParam("state")
+	priority := c.QueryParam("priority")
+	employeeID, _ := strconv.Atoi(c.QueryParam("employee_id"))
+	companyID, _ := strconv.Atoi(c.QueryParam("company_id"))
+
+	userRole, _ := c.Get("role").(string)
+	if c.QueryParam("my_only") == "true" && (userRole == "staff" || userRole == "technician") {
+		if currentEmpID, _ := strconv.Atoi(c.QueryParam("my_employee_id")); currentEmpID > 0 {
+			employeeID = currentEmpID
+		}
+	}
+
+	data, total, err := GetPaginatedFieldServiceTaskService(offset, limit, search, state, priority, uint(employeeID), uint(companyID))
+	if err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve paginated data", err.Error())
+	}
+
+	meta := utils.BuildPaginationMeta(total, page, limit)
+	return utils.SendPaginatedSuccess(c, http.StatusOK, "Data retrieved successfully", data, meta)
 }
 
 // GetFieldServiceTaskByID godoc
@@ -104,5 +127,74 @@ func DeleteFieldServiceTaskHandler(c echo.Context) error {
 	}
 	return utils.SendSuccess(c, http.StatusOK, "Data deleted successfully", nil)
 }
+
+// Fase 2: e-BAST Validation Gate Handler
+func ValidateBastHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	validatorID := uint(1)
+	if uid, ok := c.Get("user_id").(uint); ok && uid > 0 {
+		validatorID = uid
+	} else if uidFloat, ok := c.Get("user_id").(float64); ok && uidFloat > 0 {
+		validatorID = uint(uidFloat)
+	}
+
+	if err := ValidateBastFieldServiceTaskService(uint(id), validatorID); err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Gagal memvalidasi e-BAST pekerjaan", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Dokumen e-BAST telah diverifikasi dan tugas resmi diselesaikan", nil)
+}
+
+// GPSCheckInHandler godoc
+// @Summary Record technician GPS check-in at client site
+// @Tags services-field_service
+// @Router /api/services/field_service/{id}/check-in [post]
+func GPSCheckInHandler(c echo.Context) error {
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		return utils.SendError(c, http.StatusBadRequest, "ID tidak valid", err.Error())
+	}
+
+	var req struct {
+		Lat float64 `json:"lat"`
+		Lng float64 `json:"lng"`
+	}
+	if err := c.Bind(&req); err != nil {
+		return utils.SendError(c, http.StatusBadRequest, "Koordinat GPS tidak valid", err.Error())
+	}
+
+	task, err := RecordGPSCheckInService(uint(id), req.Lat, req.Lng)
+	if err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Gagal mencatat Check-in GPS", err.Error())
+	}
+
+	return utils.SendSuccess(c, http.StatusOK, "Berhasil Check-in GPS di lokasi klien", task)
+}
+
+// GPSCheckOutHandler godoc
+// @Summary Record technician GPS check-out
+// @Tags services-field_service
+// @Router /api/services/field_service/{id}/check-out [post]
+func GPSCheckOutHandler(c echo.Context) error {
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		return utils.SendError(c, http.StatusBadRequest, "ID tidak valid", err.Error())
+	}
+
+	var req struct {
+		Lat float64 `json:"lat"`
+		Lng float64 `json:"lng"`
+	}
+	if err := c.Bind(&req); err != nil {
+		return utils.SendError(c, http.StatusBadRequest, "Koordinat GPS tidak valid", err.Error())
+	}
+
+	task, err := RecordGPSCheckOutService(uint(id), req.Lat, req.Lng)
+	if err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Gagal mencatat Check-out GPS", err.Error())
+	}
+
+	return utils.SendSuccess(c, http.StatusOK, "Berhasil Check-out GPS pekerjaan", task)
+}
+
 
 

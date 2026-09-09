@@ -38,11 +38,85 @@ func CreateProductHandler(c echo.Context) error {
 // @Router /api/supply_chain/inventory [get]
 // @Security BearerAuth
 func GetAllProductHandler(c echo.Context) error {
-	data, err := GetAllProductService()
-	if err != nil {
-		return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve data", err.Error())
+	if c.QueryParam("all") == "true" {
+		data, err := GetAllProductService()
+		if err != nil {
+			return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve data", err.Error())
+		}
+		return utils.SendSuccess(c, http.StatusOK, "Data retrieved successfully", data)
 	}
-	return utils.SendSuccess(c, http.StatusOK, "Data retrieved successfully", data)
+
+	page, limit, offset, search := utils.GetPaginationQuery(c)
+	categoryID, _ := strconv.Atoi(c.QueryParam("category_id"))
+	warehouseID, _ := strconv.Atoi(c.QueryParam("warehouse_id"))
+	stockStatus := c.QueryParam("stock_status")
+
+	data, total, err := GetPaginatedProductsService(offset, limit, search, uint(categoryID), uint(warehouseID), stockStatus)
+	if err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve paginated products", err.Error())
+	}
+
+	meta := utils.BuildPaginationMeta(total, page, limit)
+	return utils.SendPaginatedSuccess(c, http.StatusOK, "Products retrieved successfully", data, meta)
+}
+
+// GetInventorySummaryHandler godoc
+// @Summary Get Inventory KPI summary
+// @Description Total SKUs, On Hand, Reserved, Valuation, Low Stock, Out of Stock
+// @Tags supply_chain-inventory
+// @Produce json
+// @Router /api/supply_chain/inventory/summary [get]
+// @Security BearerAuth
+func GetInventorySummaryHandler(c echo.Context) error {
+	summary, err := GetInventorySummaryService()
+	if err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve inventory summary", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Inventory summary retrieved successfully", summary)
+}
+
+// CreateStockAdjustmentHandler godoc
+// @Summary Stock Opname / Physical Count Adjustment
+// @Description Adjust physical stock quantity and record stock movement & valuation
+// @Tags supply_chain-inventory
+// @Accept json
+// @Produce json
+// @Router /api/supply_chain/inventory/adjustment [post]
+// @Security BearerAuth
+func CreateStockAdjustmentHandler(c echo.Context) error {
+	var req StockAdjustmentRequest
+	if err := c.Bind(&req); err != nil {
+		return utils.SendError(c, http.StatusBadRequest, "Format payload tidak valid", err.Error())
+	}
+	if req.ProductID == 0 {
+		return utils.SendError(c, http.StatusBadRequest, "Product ID wajib diisi", "")
+	}
+	if err := ApplyStockAdjustmentService(req); err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Gagal melakukan penyesuaian stok", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Penyesuaian stok berhasil disimpan", nil)
+}
+
+// CreateInternalTransferHandler godoc
+// @Summary Internal Stock Transfer between warehouses
+// @Description Transfer stock between warehouses and generate stock picking & moves
+// @Tags supply_chain-inventory
+// @Accept json
+// @Produce json
+// @Router /api/supply_chain/inventory/transfer [post]
+// @Security BearerAuth
+func CreateInternalTransferHandler(c echo.Context) error {
+	var req InternalTransferRequest
+	if err := c.Bind(&req); err != nil {
+		return utils.SendError(c, http.StatusBadRequest, "Format payload tidak valid", err.Error())
+	}
+	if req.ProductID == 0 || req.DestWarehouseID == 0 || req.Quantity <= 0 {
+		return utils.SendError(c, http.StatusBadRequest, "Data transfer tidak lengkap (Produk, Gudang Tujuan, dan Kuantitas > 0 wajib diisi)", "")
+	}
+	if err := ApplyInternalTransferService(req); err != nil {
+		return utils.SendError(c, http.StatusBadRequest, err.Error(), err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Transfer stok antar-gudang berhasil diproses", nil)
 }
 
 // GetProductByID godoc

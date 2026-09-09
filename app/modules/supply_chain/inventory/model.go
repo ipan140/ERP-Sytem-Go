@@ -93,9 +93,9 @@ type StockLocation struct {
 type StockPicking struct {
 	ID             uint      `gorm:"primaryKey" json:"id"`
 	Name           string    `gorm:"type:varchar(100);not null" json:"name"`        // WH/OUT/0001
-	LocationID     uint      `json:"location_id"`                                   // Source
+	LocationID     *uint     `json:"location_id"`                                   // Source
 	Location *StockLocation `gorm:"foreignKey:LocationID" json:"location,omitempty"` // Odoo relation mapped
-	LocationDestID uint      `json:"location_dest_id"`                              // Destination
+	LocationDestID *uint     `json:"location_dest_id"`                              // Destination
 	LocationDest *StockLocation `gorm:"foreignKey:LocationDestID" json:"locationdest,omitempty"` // Odoo relation mapped
 	PartnerID      *uint     `json:"partner_id"`                                    // Customer/Vendor
 	Partner *base.Partner `gorm:"foreignKey:PartnerID" json:"partner,omitempty"` // Cross-module relation
@@ -113,9 +113,9 @@ type StockMove struct {
 	Product *Product `gorm:"foreignKey:ProductID"` // Auto-added relation
 	Quantity       float64   `gorm:"type:numeric(15,2);not null;default:0" json:"quantity"`
 	QuantityDone   float64   `gorm:"type:numeric(15,2);default:0" json:"quantity_done"`
-	LocationID     uint      `json:"location_id"`
+	LocationID     *uint     `json:"location_id"`
 	Location *StockLocation `gorm:"foreignKey:LocationID" json:"location,omitempty"` // Odoo relation mapped
-	LocationDestID uint      `json:"location_dest_id"`
+	LocationDestID *uint     `json:"location_dest_id"`
 	LocationDest *StockLocation `gorm:"foreignKey:LocationDestID" json:"locationdest,omitempty"` // Odoo relation mapped
 	State          string    `gorm:"type:varchar(50);default:'draft'" json:"state"` // draft, waiting, confirmed, assigned, done, cancel
 	CreatedAt      time.Time `json:"created_at"`
@@ -248,6 +248,32 @@ type StockLandedCostLine struct {
 	Product *Product `gorm:"foreignKey:ProductID"` // Auto-added relation
 	SplitMethod string  `gorm:"type:varchar(50);default:'equal'" json:"split_method"` // equal, by_quantity, by_weight, by_volume
 	PriceUnit   float64 `gorm:"type:numeric(15,2);not null;default:0" json:"price_unit"`
+}
+
+// Enterprise SCM DTOs (Fase 1: Inventory & Multi-Gudang)
+type InventorySummary struct {
+	TotalSKU        int64   `json:"total_sku"`
+	TotalValuation  float64 `json:"total_valuation"`
+	LowStockCount   int64   `json:"low_stock_count"`
+	OutOfStockCount int64   `json:"out_of_stock_count"`
+	TotalReserved   float64 `json:"total_reserved"`
+	TotalOnHand     float64 `json:"total_on_hand"`
+}
+
+type StockAdjustmentRequest struct {
+	ProductID      uint    `json:"product_id" validate:"required"`
+	LocationID     uint    `json:"location_id"`
+	TheoreticalQty float64 `json:"theoretical_qty"`
+	CountedQty     float64 `json:"counted_qty"`
+	Reason         string  `json:"reason"`
+}
+
+type InternalTransferRequest struct {
+	ProductID         uint    `json:"product_id" validate:"required"`
+	SourceWarehouseID uint    `json:"source_warehouse_id"`
+	DestWarehouseID   uint    `json:"dest_warehouse_id" validate:"required"`
+	Quantity          float64 `json:"quantity" validate:"required,gt=0"`
+	Notes             string  `json:"notes"`
 }
 
 

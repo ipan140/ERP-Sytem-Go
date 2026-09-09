@@ -24,6 +24,18 @@ type RepairOrder struct {
 	LaborCost      float64             `gorm:"type:numeric(15,2);default:0" json:"labor_cost"`
 	TotalCost      float64             `gorm:"type:numeric(15,2);default:0" json:"total_cost"`
 	State          string              `gorm:"type:varchar(50);default:'confirmed'" json:"state"`
+	CompanyID      uint                `gorm:"default:6" json:"company_id"`
+
+	// Fase 2: QC Gate
+	QCPassed       bool                `gorm:"default:false" json:"qc_passed"`
+	QCNotes        string              `gorm:"type:text" json:"qc_notes,omitempty"`
+	QCInspectorID  *uint               `json:"qc_inspector_id,omitempty"`
+	QCPassedAt     *time.Time          `json:"qc_passed_at,omitempty"`
+
+	// Fase 4: Customer Portal Approval
+	CustomerApprovedAt   *time.Time    `json:"customer_approved_at,omitempty"`
+	CustomerApprovalNote string        `gorm:"type:text" json:"customer_approval_note,omitempty"`
+
 	CreatedAt      time.Time           `json:"created_at"`
 	UpdatedAt      time.Time           `json:"updated_at"`
 }

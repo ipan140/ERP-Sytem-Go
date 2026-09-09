@@ -13,7 +13,16 @@ func RegisterRoutes(e *echo.Echo) {
 	api.GET("/:id", GetRepairOrderByIDHandler)
 	api.PUT("/:id", UpdateRepairOrderHandler)
 	api.DELETE("/:id", DeleteRepairOrderHandler)
+
+	// Fase 2: QC Gate Route
+	api.POST("/:id/qc-pass", PassQCHandler)
+
+	// Fase 4: Public Tracking Portal (No Auth)
+	public := e.Group("/api/public/services/tracking")
+	public.GET("", PublicTrackingHandler)
+	public.POST("/approve-estimate", PublicApproveEstimateHandler)
 }
+
 
 
 

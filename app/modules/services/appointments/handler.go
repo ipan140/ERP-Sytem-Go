@@ -38,11 +38,34 @@ func CreateAppointmentHandler(c echo.Context) error {
 // @Router /api/services/appointments [get]
 // @Security BearerAuth
 func GetAllAppointmentHandler(c echo.Context) error {
-	data, err := GetAllAppointmentService()
-	if err != nil {
-		return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve data", err.Error())
+	if c.QueryParam("all") == "true" {
+		data, err := GetAllAppointmentService()
+		if err != nil {
+			return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve data", err.Error())
+		}
+		return utils.SendSuccess(c, http.StatusOK, "Data retrieved successfully", data)
 	}
-	return utils.SendSuccess(c, http.StatusOK, "Data retrieved successfully", data)
+
+	page, limit, offset, search := utils.GetPaginationQuery(c)
+	state := c.QueryParam("state")
+	employeeID, _ := strconv.Atoi(c.QueryParam("employee_id"))
+	partnerID, _ := strconv.Atoi(c.QueryParam("partner_id"))
+	companyID, _ := strconv.Atoi(c.QueryParam("company_id"))
+
+	userRole, _ := c.Get("role").(string)
+	if c.QueryParam("my_only") == "true" && (userRole == "staff" || userRole == "technician") {
+		if currentEmpID, _ := strconv.Atoi(c.QueryParam("my_employee_id")); currentEmpID > 0 {
+			employeeID = currentEmpID
+		}
+	}
+
+	data, total, err := GetPaginatedAppointmentService(offset, limit, search, state, uint(employeeID), uint(partnerID), uint(companyID))
+	if err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve paginated data", err.Error())
+	}
+
+	meta := utils.BuildPaginationMeta(total, page, limit)
+	return utils.SendPaginatedSuccess(c, http.StatusOK, "Data retrieved successfully", data, meta)
 }
 
 // GetAppointmentByID godoc

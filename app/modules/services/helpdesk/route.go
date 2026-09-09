@@ -25,7 +25,7 @@ func RegisterRoutes(e *echo.Echo) {
 	api.PUT("/helpdeskcannedresponse/:id", UpdateHelpdeskCannedResponseHandler)
 	api.DELETE("/helpdeskcannedresponse/:id", DeleteHelpdeskCannedResponseHandler)
 
+	// Fase 3: SLA Escalation Routes
+	api.POST("/tickets/:id/escalate", EscalateTicketHandler)
+	api.POST("/sla/process", TriggerSLAEngineHandler)
 }
-
-
-

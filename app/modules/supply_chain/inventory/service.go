@@ -44,6 +44,22 @@ func GetAllProductService() ([]Product, error) {
 	return GetAllProduct()
 }
 
+func GetPaginatedProductsService(offset, limit int, search string, categoryID, warehouseID uint, stockStatus string) ([]Product, int64, error) {
+	return GetPaginatedProducts(offset, limit, search, categoryID, warehouseID, stockStatus)
+}
+
+func GetInventorySummaryService() (InventorySummary, error) {
+	return GetInventorySummary()
+}
+
+func ApplyStockAdjustmentService(req StockAdjustmentRequest) error {
+	return ApplyStockAdjustment(req)
+}
+
+func ApplyInternalTransferService(req InternalTransferRequest) error {
+	return ApplyInternalTransfer(req)
+}
+
 func GetProductByIDService(id uint) (*Product, error) {
 	return GetProductByID(id)
 }

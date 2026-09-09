@@ -21,6 +21,10 @@ func GetAllTicketService() ([]Ticket, error) {
 	return GetAllTicket()
 }
 
+func GetPaginatedTicketService(offset int, limit int, search string, state string, priority string, assigneeID uint, customerID uint, companyID uint) ([]Ticket, int64, error) {
+	return GetPaginatedTickets(offset, limit, search, state, priority, assigneeID, customerID, companyID)
+}
+
 func GetTicketByIDService(id uint) (*Ticket, error) {
 	return GetTicketByID(id)
 }
@@ -52,3 +56,11 @@ func UpdateHelpdeskCannedResponseService(data *HelpdeskCannedResponse) error {
 	return UpdateHelpdeskCannedResponse(data)
 }
 func DeleteHelpdeskCannedResponseService(id uint) error { return DeleteHelpdeskCannedResponse(id) }
+
+func EscalateTicketService(id uint, level int, reason string) (*Ticket, error) {
+	return EscalateTicket(id, level, reason)
+}
+
+func ProcessAutoEscalationSLAService() (int, int, error) {
+	return ProcessAutoEscalationSLA()
+}

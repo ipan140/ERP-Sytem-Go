@@ -38,11 +38,35 @@ func CreateTicketHandler(c echo.Context) error {
 // @Router /api/services/helpdesk [get]
 // @Security BearerAuth
 func GetAllTicketHandler(c echo.Context) error {
-	data, err := GetAllTicketService()
-	if err != nil {
-		return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve data", err.Error())
+	if c.QueryParam("all") == "true" {
+		data, err := GetAllTicketService()
+		if err != nil {
+			return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve data", err.Error())
+		}
+		return utils.SendSuccess(c, http.StatusOK, "Data retrieved successfully", data)
 	}
-	return utils.SendSuccess(c, http.StatusOK, "Data retrieved successfully", data)
+
+	page, limit, offset, search := utils.GetPaginationQuery(c)
+	state := c.QueryParam("state")
+	priority := c.QueryParam("priority")
+	assigneeID, _ := strconv.Atoi(c.QueryParam("assignee_id"))
+	customerID, _ := strconv.Atoi(c.QueryParam("customer_id"))
+	companyID, _ := strconv.Atoi(c.QueryParam("company_id"))
+
+	userRole, _ := c.Get("role").(string)
+	if c.QueryParam("my_only") == "true" && (userRole == "staff" || userRole == "technician") {
+		if currentAssigneeID, _ := strconv.Atoi(c.QueryParam("my_assignee_id")); currentAssigneeID > 0 {
+			assigneeID = currentAssigneeID
+		}
+	}
+
+	data, total, err := GetPaginatedTicketService(offset, limit, search, state, priority, uint(assigneeID), uint(customerID), uint(companyID))
+	if err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve paginated data", err.Error())
+	}
+
+	meta := utils.BuildPaginationMeta(total, page, limit)
+	return utils.SendPaginatedSuccess(c, http.StatusOK, "Data retrieved successfully", data, meta)
 }
 
 // GetTicketByID godoc
@@ -270,5 +294,45 @@ func DeleteHelpdeskCannedResponseHandler(c echo.Context) error {
 	}
 	return utils.SendSuccess(c, http.StatusOK, "Success", nil)
 }
+
+// EscalateTicketHandler godoc
+// @Summary Escalate a ticket
+// @Tags services-helpdesk
+// @Router /api/services/helpdesk/tickets/{id}/escalate [post]
+func EscalateTicketHandler(c echo.Context) error {
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		return utils.SendError(c, http.StatusBadRequest, "ID tidak valid", err.Error())
+	}
+
+	var req struct {
+		Level  int    `json:"level"`
+		Reason string `json:"reason"`
+	}
+	_ = c.Bind(&req)
+	if req.Level <= 0 {
+		req.Level = 2 // default Tier-2
+	}
+
+	ticket, err := EscalateTicketService(uint(id), req.Level, req.Reason)
+	if err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Gagal mengeskalasi tiket", err.Error())
+	}
+
+	return utils.SendSuccess(c, http.StatusOK, "Tiket berhasil dieskalasi ke Tier-"+strconv.Itoa(req.Level), ticket)
+}
+
+// TriggerSLAEngineHandler allows manually running the SLA evaluation cycle
+func TriggerSLAEngineHandler(c echo.Context) error {
+	warn, esc, err := ProcessAutoEscalationSLAService()
+	if err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Gagal menjalankan evaluasi SLA", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "SLA Engine selesai diproses", map[string]interface{}{
+		"warning_count":    warn,
+		"escalation_count": esc,
+	})
+}
+
 
 

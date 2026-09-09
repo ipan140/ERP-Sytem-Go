@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"net/http"
+	"time"
 
 	"ERP-System/app/modules/auth"
 	"ERP-System/app/modules/core"
@@ -58,9 +59,11 @@ import (
 	"ERP-System/app/modules/sales/sales_core"
 	"ERP-System/app/modules/sales/subscriptions"
 	"ERP-System/app/modules/services"
+	"ERP-System/app/modules/services/activity_logs"
 	"ERP-System/app/modules/services/appointments"
 	"ERP-System/app/modules/services/field_service"
 	"ERP-System/app/modules/services/helpdesk"
+	"ERP-System/app/modules/services/notifications"
 	"ERP-System/app/modules/services/planning"
 	"ERP-System/app/modules/services/project"
 	"ERP-System/app/modules/services/repairs"
@@ -195,6 +198,8 @@ func main() {
 	project.RegisterRoutes(e)
 	repairs.RegisterRoutes(e)
 	timesheets.RegisterRoutes(e)
+	activity_logs.RegisterRoutes(e)
+	notifications.RegisterRoutes(e)
 	blog.RegisterRoutes(e)
 	ecommerce.RegisterRoutes(e)
 	elearning.RegisterRoutes(e)
@@ -207,6 +212,27 @@ func main() {
 	sms_marketing.RegisterRoutes(e)
 	social_marketing.RegisterRoutes(e)
 	surveys.RegisterRoutes(e)
+
+	// [Fase 3] SLA Auto-Escalation Background Worker (Every 5 minutes)
+	go func() {
+		// Run initial check after 5 seconds on startup
+		time.Sleep(5 * time.Second)
+		warn, esc, err := helpdesk.ProcessAutoEscalationSLAService()
+		if err == nil && (warn > 0 || esc > 0) {
+			log.Printf("🤖 [SLA Worker Startup] SLA Check: %d warning, %d escalated to Tier-2\n", warn, esc)
+		}
+
+		ticker := time.NewTicker(5 * time.Minute)
+		defer ticker.Stop()
+		for range ticker.C {
+			w, e, err := helpdesk.ProcessAutoEscalationSLAService()
+			if err != nil {
+				log.Printf("⚠️ [SLA Worker Error] %v\n", err)
+			} else if w > 0 || e > 0 {
+				log.Printf("🚨 [SLA Worker] SLA Check: %d warning, %d escalated to Tier-2\n", w, e)
+			}
+		}
+	}()
 
 	// Register Swagger Route
 	e.GET("/swagger/*", echoSwagger.WrapHandler)

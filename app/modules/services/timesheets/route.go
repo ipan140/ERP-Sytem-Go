@@ -13,6 +13,12 @@ func RegisterRoutes(e *echo.Echo) {
 	api.GET("/:id", GetTimesheetByIDHandler)
 	api.PUT("/:id", UpdateTimesheetHandler)
 	api.DELETE("/:id", DeleteTimesheetHandler)
+
+	// Fase 2: Workflow Approval Routes
+	api.POST("/:id/submit", SubmitTimesheetHandler)
+	api.POST("/:id/approve", ApproveTimesheetHandler)
+	api.POST("/:id/reject", RejectTimesheetHandler)
+	api.POST("/bulk-approve", BulkApproveTimesheetsHandler)
 }
 
 
