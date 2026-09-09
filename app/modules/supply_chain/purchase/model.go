@@ -1,7 +1,6 @@
 package purchase
 
 import (
-	"ERP-System/app/modules/sales/sales_core"
 	"ERP-System/app/modules/finance/invoicing"
 	"ERP-System/app/modules/core/base"
 	"ERP-System/app/modules/supply_chain/inventory"
@@ -35,18 +34,23 @@ type PurchaseOrder struct {
 	Partner *base.Partner `gorm:"foreignKey:PartnerID" json:"partner,omitempty"` // Cross-module relation
 	RequisitionID *uint     `json:"requisition_id"`                                // Link to Blanket Order
 	Requisition *PurchaseRequisition `gorm:"foreignKey:RequisitionID" json:"requisition,omitempty"` // Odoo relation mapped
-	State         string    `gorm:"type:varchar(50);default:'draft'" json:"state"` // draft, sent, purchase, done, cancel
+	State         string    `gorm:"type:varchar(50);default:'draft'" json:"state"` // draft, sent, to_approve, purchase, done, cancel
 	AmountUntaxed float64   `gorm:"type:numeric(15,2);default:0" json:"amount_untaxed"`
 	AmountTax     float64   `gorm:"type:numeric(15,2);default:0" json:"amount_tax"`
 	AmountTotal   float64   `gorm:"type:numeric(15,2);default:0" json:"amount_total"`
 	DateOrder     time.Time `json:"date_order"`
+	Notes         string    `gorm:"type:text" json:"notes"`
+	CompanyID     uint      `json:"company_id"`
+	ApprovedBy    *uint     `json:"approved_by"`
+	ApprovedAt    *time.Time `json:"approved_at"`
 	CreatedAt     time.Time `json:"created_at"`
+	OrderLines    []PurchaseOrderLine `gorm:"foreignKey:OrderID;-:migration" json:"order_lines,omitempty"`
 }
 
 type PurchaseOrderLine struct {
 	ID            uint    `gorm:"primaryKey" json:"id"`
 	OrderID       uint    `json:"order_id"`
-	Order *sales_core.SaleOrder `gorm:"foreignKey:OrderID" json:"order,omitempty"` // Odoo relation mapped
+	Order *PurchaseOrder  `gorm:"foreignKey:OrderID;-:migration" json:"order,omitempty"`
 	ProductID     uint    `json:"product_id"`
 	Product *inventory.Product `gorm:"foreignKey:ProductID" json:"product,omitempty"` // Cross-module relation
 	Name          string  `gorm:"type:varchar(255)" json:"name"` // Description
@@ -57,6 +61,40 @@ type PurchaseOrderLine struct {
 	TaxesID       *uint   `json:"taxes_id"`
 	Taxes *invoicing.Tax `gorm:"foreignKey:TaxesID" json:"taxes,omitempty"` // Odoo relation mapped
 	PriceSubtotal float64 `gorm:"type:numeric(15,2);default:0" json:"price_subtotal"`
+}
+
+// Enterprise SCM Procurement DTOs (Fase 2)
+type PurchaseSummary struct {
+	TotalSpentMonthly float64 `json:"total_spent_monthly"`
+	ToApproveCount    int64   `json:"to_approve_count"`
+	ToReceiveCount    int64   `json:"to_receive_count"`
+	ActiveVendorCount int64   `json:"active_vendor_count"`
+	TotalPOCount      int64   `json:"total_po_count"`
+}
+
+type CreatePOLineInput struct {
+	ProductID uint    `json:"product_id" validate:"required"`
+	Name      string  `json:"name"`
+	Quantity  float64 `json:"quantity" validate:"required,gt=0"`
+	PriceUnit float64 `json:"price_unit" validate:"required,gte=0"`
+}
+
+type CreatePORequest struct {
+	PartnerID uint                `json:"partner_id" validate:"required"`
+	DateOrder *time.Time          `json:"date_order"`
+	Notes     string              `json:"notes"`
+	Lines     []CreatePOLineInput `json:"lines" validate:"required,dive"`
+}
+
+type ReceiveItemInput struct {
+	LineID      uint    `json:"line_id" validate:"required"`
+	QtyReceived float64 `json:"qty_received" validate:"required,gt=0"`
+}
+
+type ReceiveGoodsRequest struct {
+	WarehouseID uint               `json:"warehouse_id"`
+	Items       []ReceiveItemInput `json:"items" validate:"required,dive"`
+	Notes       string             `json:"notes"`
 }
 
 

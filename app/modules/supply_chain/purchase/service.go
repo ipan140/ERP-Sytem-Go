@@ -14,6 +14,30 @@ func GetAllPurchaseOrderService() ([]PurchaseOrder, error) {
 	return GetAllPurchaseOrder()
 }
 
+func GetPaginatedPurchaseOrdersService(offset, limit int, search, state string, partnerID uint) ([]PurchaseOrder, int64, error) {
+	return GetPaginatedPurchaseOrders(offset, limit, search, state, partnerID)
+}
+
+func GetPurchaseSummaryService() (PurchaseSummary, error) {
+	return GetPurchaseSummary()
+}
+
+func CreatePurchaseOrderWithLinesService(req CreatePORequest) (*PurchaseOrder, error) {
+	return CreatePurchaseOrderWithLines(req)
+}
+
+func ConfirmPurchaseOrderService(id uint) (*PurchaseOrder, error) {
+	return ConfirmPurchaseOrder(id)
+}
+
+func ApprovePurchaseOrderService(id uint, approverID uint) (*PurchaseOrder, error) {
+	return ApprovePurchaseOrder(id, approverID)
+}
+
+func ReceivePurchaseOrderProductsService(poID uint, warehouseID uint, items []ReceiveItemInput, notes string) error {
+	return ReceivePurchaseOrderProducts(poID, warehouseID, items, notes)
+}
+
 func GetPurchaseOrderByIDService(id uint) (*PurchaseOrder, error) {
 	return GetPurchaseOrderByID(id)
 }

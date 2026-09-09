@@ -8,11 +8,17 @@ import (
 
 func RegisterRoutes(e *echo.Echo) {
 	api := e.Group("/api/supply_chain/manufacturing", middleware.Auth(), middleware.GlobalAutoRBAC())
+	api.GET("/summary", GetMrpSummaryHandler)
 	api.POST("", CreateMrpProductionHandler)
 	api.GET("", GetAllMrpProductionHandler)
 	api.GET("/:id", GetMrpProductionByIDHandler)
 	api.PUT("/:id", UpdateMrpProductionHandler)
 	api.DELETE("/:id", DeleteMrpProductionHandler)
+
+	api.POST("/:id/confirm", ConfirmProductionHandler)
+	api.POST("/:id/start", StartProductionHandler)
+	api.POST("/:id/finish", FinishProductionHandler)
+	api.POST("/:id/cancel", CancelProductionHandler)
 
 	api.POST("/mrpworkcenter", CreateMrpWorkcenterHandler)
 	api.GET("/mrpworkcenter", GetAllMrpWorkcenterHandler)

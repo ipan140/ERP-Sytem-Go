@@ -8,41 +8,121 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
+// GetMrpSummaryHandler godoc
+// @Summary Get MRP summary KPI
+// @Description Retrieve executive KPI summary for manufacturing
+// @Tags supply_chain-manufacturing
+// @Produce json
+// @Success 200 {object} MrpSummary
+// @Router /api/supply_chain/manufacturing/summary [get]
+// @Security BearerAuth
+func GetMrpSummaryHandler(c echo.Context) error {
+	summary, err := GetMrpSummaryService()
+	if err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Gagal mengambil ringkasan manufaktur", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Ringkasan manufaktur berhasil diambil", summary)
+}
+
 // CreateMrpProduction godoc
 // @Summary Create a new MrpProduction
-// @Description Create a new MrpProduction in the system
+// @Description Create a new MrpProduction with auto sequence
 // @Tags supply_chain-manufacturing
 // @Accept json
 // @Produce json
 // @Success 201 {object} MrpProduction
-// @Param request body MrpProduction true "Payload"
+// @Param request body CreateMORequest true "Payload"
 // @Router /api/supply_chain/manufacturing [post]
 // @Security BearerAuth
 func CreateMrpProductionHandler(c echo.Context) error {
-	var data MrpProduction
-	if err := c.Bind(&data); err != nil {
+	var req CreateMORequest
+	if err := c.Bind(&req); err != nil {
 		return utils.SendError(c, http.StatusBadRequest, "Invalid request payload", err.Error())
 	}
-	if err := CreateMrpProductionService(&data); err != nil {
-		return utils.SendError(c, http.StatusInternalServerError, "Failed to create data", err.Error())
+	if req.ProductID == 0 || req.ProductQty <= 0 {
+		return utils.SendError(c, http.StatusBadRequest, "Product ID dan kuantitas produksi wajib diisi", "Validation failed")
 	}
-	return utils.SendSuccess(c, http.StatusCreated, "Data created successfully", data)
+	data, err := CreateProductionWithSequenceService(req)
+	if err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Gagal membuat perintah produksi (MO)", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusCreated, "Perintah produksi (MO) berhasil dibuat", data)
 }
 
 // GetAllMrpProduction godoc
-// @Summary Get all MrpProduction
-// @Description Retrieve a list of all MrpProduction
+// @Summary Get all MrpProduction (paginated)
+// @Description Retrieve a list of MrpProduction with pagination and filters
 // @Tags supply_chain-manufacturing
 // @Produce json
 // @Success 200 {object} []MrpProduction
 // @Router /api/supply_chain/manufacturing [get]
 // @Security BearerAuth
 func GetAllMrpProductionHandler(c echo.Context) error {
-	data, err := GetAllMrpProductionService()
-	if err != nil {
-		return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve data", err.Error())
+	if c.QueryParam("all") == "true" {
+		data, err := GetAllMrpProductionService()
+		if err != nil {
+			return utils.SendError(c, http.StatusInternalServerError, "Gagal mengambil data produksi", err.Error())
+		}
+		return utils.SendSuccess(c, http.StatusOK, "Data produksi berhasil diambil", data)
 	}
-	return utils.SendSuccess(c, http.StatusOK, "Data retrieved successfully", data)
+
+	page, _ := strconv.Atoi(c.QueryParam("page"))
+	limit, _ := strconv.Atoi(c.QueryParam("limit"))
+	if page < 1 {
+		page = 1
+	}
+	if limit < 1 || limit > 100 {
+		limit = 10
+	}
+	offset := (page - 1) * limit
+
+	search := c.QueryParam("search")
+	state := c.QueryParam("state")
+	pID, _ := strconv.Atoi(c.QueryParam("product_id"))
+
+	data, total, err := GetPaginatedProductionsService(offset, limit, search, state, uint(pID))
+	if err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Gagal mengambil data produksi paginasi", err.Error())
+	}
+
+	meta := utils.BuildPaginationMeta(total, page, limit)
+	return utils.SendPaginatedSuccess(c, http.StatusOK, "Data produksi berhasil diambil", data, meta)
+}
+
+func ConfirmProductionHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	data, err := ConfirmProductionService(uint(id))
+	if err != nil {
+		return utils.SendError(c, http.StatusBadRequest, err.Error(), err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Perintah produksi berhasil dikonfirmasi", data)
+}
+
+func StartProductionHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	data, err := StartProductionService(uint(id))
+	if err != nil {
+		return utils.SendError(c, http.StatusBadRequest, err.Error(), err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Pengerjaan produksi berhasil dimulai", data)
+}
+
+func FinishProductionHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	data, err := FinishProductionService(uint(id))
+	if err != nil {
+		return utils.SendError(c, http.StatusBadRequest, err.Error(), err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Produksi berhasil diselesaikan dan stok telah diperbarui", data)
+}
+
+func CancelProductionHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	data, err := CancelProductionService(uint(id))
+	if err != nil {
+		return utils.SendError(c, http.StatusBadRequest, err.Error(), err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Perintah produksi berhasil dibatalkan", data)
 }
 
 // GetMrpProductionByID godoc
@@ -198,14 +278,19 @@ func DeleteMrpWorkcenterHandler(c echo.Context) error {
 // @Router /api/supply_chain/manufacturing/mrpbom [post]
 // @Security BearerAuth
 func CreateMrpBomHandler(c echo.Context) error {
-	var data MrpBom
-	if err := c.Bind(&data); err != nil {
+	var req CreateBomRequest
+	if err := c.Bind(&req); err != nil {
 		return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error())
 	}
-	if err := CreateMrpBomService(&data); err != nil {
-		return utils.SendError(c, http.StatusInternalServerError, "Failed to create", err.Error())
+	if req.ProductID == 0 || req.Quantity <= 0 {
+		return utils.SendError(c, http.StatusBadRequest, "Produk dan kuantitas BOM wajib diisi", "Validation failed")
 	}
-	return utils.SendSuccess(c, http.StatusCreated, "Created successfully", data)
+
+	data, err := CreateBomWithLinesService(req)
+	if err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed to create BOM", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusCreated, "BOM created successfully", data)
 }
 
 // @Summary Get all MrpBom
@@ -216,11 +301,32 @@ func CreateMrpBomHandler(c echo.Context) error {
 // @Router /api/supply_chain/manufacturing/mrpbom [get]
 // @Security BearerAuth
 func GetAllMrpBomHandler(c echo.Context) error {
-	data, err := GetAllMrpBomService()
-	if err != nil {
-		return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve", err.Error())
+	if c.QueryParam("all") == "true" {
+		data, err := GetAllMrpBomService()
+		if err != nil {
+			return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve", err.Error())
+		}
+		return utils.SendSuccess(c, http.StatusOK, "Retrieved successfully", data)
 	}
-	return utils.SendSuccess(c, http.StatusOK, "Retrieved successfully", data)
+
+	page, _ := strconv.Atoi(c.QueryParam("page"))
+	limit, _ := strconv.Atoi(c.QueryParam("limit"))
+	if page < 1 {
+		page = 1
+	}
+	if limit < 1 || limit > 100 {
+		limit = 10
+	}
+	offset := (page - 1) * limit
+	search := c.QueryParam("search")
+
+	data, total, err := GetPaginatedBomsService(offset, limit, search)
+	if err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve BOMs", err.Error())
+	}
+
+	meta := utils.BuildPaginationMeta(total, page, limit)
+	return utils.SendPaginatedSuccess(c, http.StatusOK, "BOMs retrieved successfully", data, meta)
 }
 func GetMrpBomByIDHandler(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))

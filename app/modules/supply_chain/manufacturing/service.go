@@ -6,6 +6,43 @@ import (
 	"log"
 )
 
+// Enterprise SCM Production Services (Fase 3)
+func GetPaginatedProductionsService(offset, limit int, search, state string, productID uint) ([]MrpProduction, int64, error) {
+	return GetPaginatedProductions(offset, limit, search, state, productID)
+}
+
+func GetMrpSummaryService() (MrpSummary, error) {
+	return GetMrpSummary()
+}
+
+func CreateProductionWithSequenceService(req CreateMORequest) (*MrpProduction, error) {
+	return CreateProductionWithSequence(req)
+}
+
+func ConfirmProductionService(id uint) (*MrpProduction, error) {
+	return ConfirmProduction(id)
+}
+
+func StartProductionService(id uint) (*MrpProduction, error) {
+	return StartProduction(id)
+}
+
+func FinishProductionService(id uint) (*MrpProduction, error) {
+	return FinishProduction(id)
+}
+
+func CancelProductionService(id uint) (*MrpProduction, error) {
+	return CancelProduction(id)
+}
+
+func GetPaginatedBomsService(offset, limit int, search string) ([]MrpBom, int64, error) {
+	return GetPaginatedBoms(offset, limit, search)
+}
+
+func CreateBomWithLinesService(req CreateBomRequest) (*MrpBom, error) {
+	return CreateBomWithLines(req)
+}
+
 func CreateMrpProductionService(data *MrpProduction) error {
 	return CreateMrpProduction(data)
 }

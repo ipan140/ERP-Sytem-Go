@@ -19,6 +19,15 @@ import (
 // @Router /api/supply_chain/purchase [post]
 // @Security BearerAuth
 func CreatePurchaseOrderHandler(c echo.Context) error {
+	var req CreatePORequest
+	if err := c.Bind(&req); err == nil && len(req.Lines) > 0 {
+		po, err := CreatePurchaseOrderWithLinesService(req)
+		if err != nil {
+			return utils.SendError(c, http.StatusInternalServerError, "Gagal membuat Purchase Order", err.Error())
+		}
+		return utils.SendSuccess(c, http.StatusCreated, "Purchase Order berhasil dibuat", po)
+	}
+
 	var data PurchaseOrder
 	if err := c.Bind(&data); err != nil {
 		return utils.SendError(c, http.StatusBadRequest, "Invalid request payload", err.Error())
@@ -38,11 +47,93 @@ func CreatePurchaseOrderHandler(c echo.Context) error {
 // @Router /api/supply_chain/purchase [get]
 // @Security BearerAuth
 func GetAllPurchaseOrderHandler(c echo.Context) error {
-	data, err := GetAllPurchaseOrderService()
-	if err != nil {
-		return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve data", err.Error())
+	if c.QueryParam("all") == "true" {
+		data, err := GetAllPurchaseOrderService()
+		if err != nil {
+			return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve data", err.Error())
+		}
+		return utils.SendSuccess(c, http.StatusOK, "Data retrieved successfully", data)
 	}
-	return utils.SendSuccess(c, http.StatusOK, "Data retrieved successfully", data)
+
+	page, limit, offset, search := utils.GetPaginationQuery(c)
+	state := c.QueryParam("state")
+	partnerID, _ := strconv.Atoi(c.QueryParam("partner_id"))
+
+	data, total, err := GetPaginatedPurchaseOrdersService(offset, limit, search, state, uint(partnerID))
+	if err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve paginated purchase orders", err.Error())
+	}
+
+	meta := utils.BuildPaginationMeta(total, page, limit)
+	return utils.SendPaginatedSuccess(c, http.StatusOK, "Purchase orders retrieved successfully", data, meta)
+}
+
+// GetPurchaseSummaryHandler godoc
+// @Summary Get Purchase KPI summary
+// @Description Total spent monthly, to approve count, to receive count, active vendors
+// @Tags supply_chain-purchase
+// @Produce json
+// @Router /api/supply_chain/purchase/summary [get]
+// @Security BearerAuth
+func GetPurchaseSummaryHandler(c echo.Context) error {
+	summary, err := GetPurchaseSummaryService()
+	if err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve purchase summary", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Purchase summary retrieved successfully", summary)
+}
+
+// ConfirmPurchaseOrderHandler godoc
+// @Summary Confirm Purchase Order / Send RFQ
+// @Description Transition state from draft/sent to purchase or to_approve (> 50jt)
+// @Tags supply_chain-purchase
+// @Produce json
+// @Router /api/supply_chain/purchase/:id/confirm [post]
+// @Security BearerAuth
+func ConfirmPurchaseOrderHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	po, err := ConfirmPurchaseOrderService(uint(id))
+	if err != nil {
+		return utils.SendError(c, http.StatusBadRequest, err.Error(), err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Status PO berhasil diperbarui", po)
+}
+
+// ApprovePurchaseOrderHandler godoc
+// @Summary Manager Approval for Purchase Order
+// @Description Approve high-value PO (> 50jt) transitioning to purchase state
+// @Tags supply_chain-purchase
+// @Produce json
+// @Router /api/supply_chain/purchase/:id/approve [post]
+// @Security BearerAuth
+func ApprovePurchaseOrderHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	userID, _ := c.Get("user_id").(uint)
+	po, err := ApprovePurchaseOrderService(uint(id), userID)
+	if err != nil {
+		return utils.SendError(c, http.StatusBadRequest, err.Error(), err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "PO berhasil disetujui oleh manajer", po)
+}
+
+// ReceivePurchaseOrderProductsHandler godoc
+// @Summary Receive products for PO (Three-Way Matching)
+// @Description Increment stock qty, create incoming picking & valuation layer
+// @Tags supply_chain-purchase
+// @Accept json
+// @Produce json
+// @Router /api/supply_chain/purchase/:id/receive [post]
+// @Security BearerAuth
+func ReceivePurchaseOrderProductsHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	var req ReceiveGoodsRequest
+	if err := c.Bind(&req); err != nil {
+		return utils.SendError(c, http.StatusBadRequest, "Format payload tidak valid", err.Error())
+	}
+	if err := ReceivePurchaseOrderProductsService(uint(id), req.WarehouseID, req.Items, req.Notes); err != nil {
+		return utils.SendError(c, http.StatusBadRequest, err.Error(), err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Penerimaan barang berhasil dicatat ke stok fisik gudang", nil)
 }
 
 // GetPurchaseOrderByID godoc
