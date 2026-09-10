@@ -8,12 +8,15 @@ import (
 
 func RegisterRoutes(e *echo.Echo) {
 	api := e.Group("/api/supply_chain/barcode", middleware.Auth(), middleware.GlobalAutoRBAC())
+
+	// Specific endpoints first
+	api.POST("/scan", ScanBarcodeHandler)
+	api.GET("/summary", GetBarcodeSummaryHandler)
+
+	// Nomenclature CRUD
 	api.POST("", CreateBarcodeConfigHandler)
 	api.GET("", GetAllBarcodeConfigHandler)
 	api.GET("/:id", GetBarcodeConfigByIDHandler)
 	api.PUT("/:id", UpdateBarcodeConfigHandler)
 	api.DELETE("/:id", DeleteBarcodeConfigHandler)
 }
-
-
-

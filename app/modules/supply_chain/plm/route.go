@@ -8,12 +8,15 @@ import (
 
 func RegisterRoutes(e *echo.Echo) {
 	api := e.Group("/api/supply_chain/plm", middleware.Auth(), middleware.GlobalAutoRBAC())
-	api.POST("", CreateBomHandler)
-	api.GET("", GetAllBomHandler)
-	api.GET("/:id", GetBomByIDHandler)
-	api.PUT("/:id", UpdateBomHandler)
-	api.DELETE("/:id", DeleteBomHandler)
+
+	// Specific endpoints first
+	api.GET("/summary", GetPlmSummaryHandler)
+	api.GET("/type", GetAllEcoTypesHandler)
+
+	// CRUD & Workflow
+	api.POST("", CreateEcoHandler)
+	api.GET("", GetAllEcoHandler)
+	api.GET("/:id", GetEcoByIDHandler)
+	api.PUT("/:id/state", UpdateEcoStateHandler)
+	api.DELETE("/:id", DeleteEcoHandler)
 }
-
-
-
