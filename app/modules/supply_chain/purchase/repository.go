@@ -6,6 +6,7 @@ import (
 	"strings"
 	"time"
 
+	"ERP-System/app/modules/finance/accounting"
 	"ERP-System/app/modules/supply_chain/inventory"
 	"ERP-System/config"
 	"gorm.io/gorm"
@@ -282,6 +283,53 @@ func ReceivePurchaseOrderProducts(poID uint, warehouseID uint, items []ReceiveIt
 						CreatedAt:   time.Now(),
 					}
 					tx.Create(&valLayer)
+
+					// --- FASE 8: AUTO-JOURNAL ENTRY ---
+					var inventoryAccount accounting.Account
+					if err := tx.Where("name = ?", "Persediaan Barang").First(&inventoryAccount).Error; err != nil {
+						inventoryAccount = accounting.Account{Code: "1-1401", Name: "Persediaan Barang", Type: "asset"}
+						tx.Create(&inventoryAccount)
+					}
+
+					var interimAccount accounting.Account
+					if err := tx.Where("name = ?", "Hutang Pembelian Belum Ditagih").First(&interimAccount).Error; err != nil {
+						interimAccount = accounting.Account{Code: "2-1002", Name: "Hutang Pembelian Belum Ditagih", Type: "payable"}
+						tx.Create(&interimAccount)
+					}
+
+					var journal accounting.Journal
+					if err := tx.Where("code = ?", "STJ").First(&journal).Error; err != nil {
+						journal = accounting.Journal{Code: "STJ", Name: "Stock Journal", Type: "general"}
+						tx.Create(&journal)
+					}
+
+					entry := accounting.JournalEntry{
+						Name:      fmt.Sprintf("STJ/%s/%s", time.Now().Format("200601"), receiptCode),
+						JournalID: journal.ID,
+						Date:      time.Now(),
+						State:     "posted",
+						CreatedAt: time.Now(),
+					}
+					tx.Create(&entry)
+
+					item1 := accounting.JournalItem{
+						EntryID:   entry.ID,
+						AccountID: inventoryAccount.ID,
+						Name:      valLayer.Description,
+						Debit:     valLayer.Value,
+						Credit:    0,
+					}
+					tx.Create(&item1)
+
+					item2 := accounting.JournalItem{
+						EntryID:   entry.ID,
+						AccountID: interimAccount.ID,
+						Name:      valLayer.Description,
+						Debit:     0,
+						Credit:    valLayer.Value,
+					}
+					tx.Create(&item2)
+					// ----------------------------------
 				}
 			}
 

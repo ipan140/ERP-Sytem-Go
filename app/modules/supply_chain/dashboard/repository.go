@@ -146,9 +146,9 @@ func GetScmCalendarEvents() ([]ScmCalendarEvent, error) {
 	var mos []manufacturing.MrpProduction
 	config.DB.Order("id desc").Limit(30).Find(&mos)
 	for _, mo := range mos {
-		date := mo.DatePlannedStart
-		if date.IsZero() {
-			date = mo.CreatedAt
+		date := mo.CreatedAt
+		if mo.DatePlanned != nil && !mo.DatePlanned.IsZero() {
+			date = *mo.DatePlanned
 		}
 		color := "#F59E0B" // Amber
 		if mo.State == "done" {

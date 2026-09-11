@@ -1,11 +1,13 @@
 package manufacturing
 
 import (
-	"ERP-System/app/modules/supply_chain/inventory"
-	"ERP-System/config"
 	"errors"
 	"fmt"
 	"time"
+
+	"ERP-System/app/modules/finance/accounting"
+	"ERP-System/app/modules/supply_chain/inventory"
+	"ERP-System/config"
 
 	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
@@ -197,16 +199,93 @@ func FinishProduction(id uint) (*MrpProduction, error) {
 			return err
 		}
 
+		// CALCULATE COST
+		var totalRMCost float64
+		if mo.Bom != nil && len(mo.Bom.BomLines) > 0 {
+			bomBaseQty := mo.Bom.Quantity
+			if bomBaseQty <= 0 {
+				bomBaseQty = 1
+			}
+			for _, line := range mo.Bom.BomLines {
+				requiredQty := (line.Quantity / bomBaseQty) * mo.ProductQty
+				totalRMCost += requiredQty * line.Product.ProductTemplate.StandardPrice
+			}
+		}
+
+		var totalOverhead float64
+		var workorders []MrpWorkorder
+		tx.Preload("Workcenter").Where("production_id = ?", mo.ID).Find(&workorders)
+		for _, wo := range workorders {
+			if wo.Workcenter != nil {
+				totalOverhead += (wo.Duration / 60.0) * wo.Workcenter.CostsHour
+			}
+		}
+		
+		totalCost := totalRMCost + totalOverhead
+		unitCost := totalCost / mo.ProductQty
+		if unitCost <= 0 {
+			unitCost = mo.Product.ProductTemplate.StandardPrice
+			totalCost = mo.ProductQty * unitCost
+		}
+
 		valLayer := inventory.StockValuationLayer{
 			ProductID:   mo.ProductID,
 			Quantity:    mo.ProductQty,
-			UnitCost:    mo.Product.ProductTemplate.StandardPrice,
-			Value:       mo.ProductQty * mo.Product.ProductTemplate.StandardPrice,
-			Description: fmt.Sprintf("Produksi Selesai: %s", mo.Name),
+			UnitCost:    unitCost,
+			Value:       totalCost,
+			Description: fmt.Sprintf("Produksi Selesai: %s (Overhead: %.2f)", mo.Name, totalOverhead),
 		}
 		if err := tx.Create(&valLayer).Error; err != nil {
 			return err
 		}
+
+		// --- FASE 8: AUTO-JOURNAL ENTRY MANUFAKTUR ---
+		var inventoryAccount accounting.Account
+		tx.Where("name = 'Persediaan Barang'").First(&inventoryAccount)
+		if inventoryAccount.ID == 0 {
+			inventoryAccount = accounting.Account{Code: "1-1401", Name: "Persediaan Barang", Type: "asset"}
+			tx.Create(&inventoryAccount)
+		}
+
+		var wipAccount accounting.Account
+		tx.Where("name = 'Persediaan WIP (Barang Dalam Proses)'").First(&wipAccount)
+		if wipAccount.ID == 0 {
+			wipAccount = accounting.Account{Code: "1-1402", Name: "Persediaan WIP (Barang Dalam Proses)", Type: "asset"}
+			tx.Create(&wipAccount)
+		}
+
+		var journal accounting.Journal
+		tx.Where("code = 'MFG'").First(&journal)
+		if journal.ID == 0 {
+			journal = accounting.Journal{Code: "MFG", Name: "Manufacturing Journal", Type: "general"}
+			tx.Create(&journal)
+		}
+
+		entry := accounting.JournalEntry{
+			Name:      fmt.Sprintf("MFG/%s/%d", time.Now().Format("200601"), mo.ID),
+			JournalID: journal.ID,
+			Date:      time.Now(),
+			State:     "posted",
+			CreatedAt: time.Now(),
+		}
+		tx.Create(&entry)
+
+		tx.Create(&accounting.JournalItem{
+			EntryID:   entry.ID,
+			AccountID: inventoryAccount.ID,
+			Name:      valLayer.Description,
+			Debit:     valLayer.Value,
+			Credit:    0,
+		})
+
+		tx.Create(&accounting.JournalItem{
+			EntryID:   entry.ID,
+			AccountID: wipAccount.ID,
+			Name:      valLayer.Description,
+			Debit:     0,
+			Credit:    valLayer.Value,
+		})
+		// ---------------------------------------------
 
 		// 4. Update status MO menjadi done
 		now := time.Now()

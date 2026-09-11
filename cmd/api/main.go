@@ -76,6 +76,7 @@ import (
 	"ERP-System/app/modules/supply_chain/plm"
 	"ERP-System/app/modules/supply_chain/purchase"
 	"ERP-System/app/modules/supply_chain/quality"
+	sc_dashboard "ERP-System/app/modules/supply_chain/dashboard"
 	"ERP-System/app/modules/website/blog"
 	"ERP-System/app/modules/website/ecommerce"
 	"ERP-System/app/modules/website/elearning"
@@ -191,6 +192,7 @@ func main() {
 	plm.RegisterRoutes(e)
 	purchase.RegisterRoutes(e)
 	quality.RegisterRoutes(e)
+	sc_dashboard.RegisterRoutes(e)
 	appointments.RegisterRoutes(e)
 	field_service.RegisterRoutes(e)
 	helpdesk.RegisterRoutes(e)

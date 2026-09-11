@@ -11,6 +11,7 @@ func RegisterRoutes(e *echo.Echo) {
 	api.GET("/summary", GetInventorySummaryHandler)
 	api.POST("/adjustment", CreateStockAdjustmentHandler)
 	api.POST("/transfer", CreateInternalTransferHandler)
+	api.POST("/landedcost", CreateLandedCostHandler)
 	api.POST("", CreateProductHandler)
 	api.GET("", GetAllProductHandler)
 	api.GET("/:id", GetProductByIDHandler)

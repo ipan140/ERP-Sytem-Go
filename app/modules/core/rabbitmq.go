@@ -5,6 +5,7 @@ import (
 	"log"
 	"time"
 
+	"ERP-System/config"
 	"ERP-System/pkg/rabbitmq"
 )
 
@@ -75,7 +76,14 @@ func StartAuditWorker() {
 			}
 
 			log.Printf("📝 [Worker Audit] %s record %s in module %s by user %s", event.Action, event.RecordID, event.Module, event.UserID)
-			// TODO: Save this event to the Audit Trail table in the DB
+			auditLog := AuditLog{
+				Action:   event.Action,
+				Module:   event.Module,
+				RecordID: event.RecordID,
+				UserID:   event.UserID,
+				CreatedAt: time.Now(),
+			}
+			config.DB.Create(&auditLog)
 		}
 	}()
 }

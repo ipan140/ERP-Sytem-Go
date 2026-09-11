@@ -36,13 +36,14 @@ func ConnectDB() {
 		log.Fatal("Failed to connect database:", err)
 	}
 
-	schemas := []string{"setting", "hrd", "sales", "marketing", "services", "supply_chain", "finance", "website_portal"}
+	schemas := []string{"setting", "hrd", "sales", "marketing", "services", "supply_chain", "finance", "website_portal", "core"}
 	for _, schema := range schemas {
 		db.Exec(fmt.Sprintf("CREATE SCHEMA IF NOT EXISTS %s;", schema))
 	}
 
 	// Clean orphaned records if table exists so AutoMigrate foreign keys succeed
 	db.Exec("DELETE FROM sales.sale_order_lines WHERE order_id NOT IN (SELECT id FROM sales.sale_orders);")
+	db.Exec("DELETE FROM supply_chain.barcode_rules WHERE nomenclature_id NOT IN (SELECT id FROM supply_chain.barcode_nomenclatures);")
 
 	if len(ModelsToMigrate) > 0 {
 		err = db.AutoMigrate(ModelsToMigrate...)

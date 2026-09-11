@@ -1259,3 +1259,13 @@ func DeleteStockValuationLayerHandler(c echo.Context) error {
 }
 
 
+func CreateLandedCostHandler(c echo.Context) error {
+	var req CreateLandedCostRequest
+	if err := c.Bind(&req); err != nil {
+		return utils.SendError(c, 400, "Invalid payload", err.Error())
+	}
+	if err := ProcessLandedCost(req); err != nil {
+		return utils.SendError(c, 500, "Failed to process landed cost", err.Error())
+	}
+	return utils.SendSuccess(c, 201, "Landed cost processed successfully", nil)
+}
