@@ -116,6 +116,25 @@ func UpdateEcoState(id uint, state string, approverID *uint) (*PlmEco, error) {
 			now := time.Now()
 			eco.ApprovedAt = &now
 			eco.ApproverID = approverID
+		} else if state == "done" {
+			// FASE 10: Apply to Live BOM
+			// Archive Old BOM
+			if eco.OldBomID != nil {
+				if err := tx.Exec("UPDATE supply_chain.mrp_boms SET active = false WHERE id = ?", *eco.OldBomID).Error; err != nil {
+					return err
+				}
+			}
+			// Set New BOM as Active and bump version
+			if eco.NewBomID != nil {
+				var oldVersion int
+				tx.Raw("SELECT version FROM supply_chain.mrp_boms WHERE id = ?", *eco.OldBomID).Scan(&oldVersion)
+				if oldVersion == 0 {
+					oldVersion = 1
+				}
+				if err := tx.Exec("UPDATE supply_chain.mrp_boms SET active = true, version = ? WHERE id = ?", oldVersion+1, *eco.NewBomID).Error; err != nil {
+					return err
+				}
+			}
 		}
 
 		return tx.Save(&eco).Error

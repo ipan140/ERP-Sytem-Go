@@ -358,17 +358,107 @@ func DeletePurchaseOrder(id uint) error {
 func CreatePurchaseRequisition(data *PurchaseRequisition) error { return config.DB.Create(data).Error }
 func GetAllPurchaseRequisition() ([]PurchaseRequisition, error) {
 	var list []PurchaseRequisition
-	err := config.DB.Preload(clause.Associations).Find(&list).Error
+	err := config.DB.Preload("Orders.Partner").Preload("Orders.OrderLines.Product").Order("id desc").Find(&list).Error
 	return list, err
 }
 func GetPurchaseRequisitionByID(id uint) (*PurchaseRequisition, error) {
 	var data PurchaseRequisition
-	err := config.DB.Preload(clause.Associations).First(&data, id).Error
+	err := config.DB.Preload("Orders.Partner").Preload("Orders.OrderLines.Product").First(&data, id).Error
 	return &data, err
 }
 func UpdatePurchaseRequisition(data *PurchaseRequisition) error { return config.DB.Save(data).Error }
 func DeletePurchaseRequisition(id uint) error {
 	return config.DB.Delete(&PurchaseRequisition{}, id).Error
+}
+
+func CreateTenderMultiVendor(req CreateTenderRequest) (*PurchaseRequisition, error) {
+	var pr PurchaseRequisition
+	err := config.DB.Transaction(func(tx *gorm.DB) error {
+		prCode := fmt.Sprintf("TE/%s/%04d", time.Now().Format("2006"), time.Now().Unix()%10000)
+		dateEnd, _ := time.Parse("2006-01-02", req.DateEnd)
+		if dateEnd.IsZero() {
+			dateEnd = time.Now().AddDate(0, 0, 7)
+		}
+
+		pr = PurchaseRequisition{
+			Name:      prCode,
+			Title:     req.Title,
+			State:     "open",
+			DateEnd:   dateEnd,
+			CreatedAt: time.Now(),
+		}
+		if err := tx.Create(&pr).Error; err != nil {
+			return err
+		}
+
+		var prod inventory.Product
+		tx.First(&prod, req.ProductID)
+
+		// Create RFQ for each vendor
+		for _, vID := range req.VendorIDs {
+			poName := fmt.Sprintf("RFQ/%s/%04d", time.Now().Format("2006"), time.Now().Unix()%10000)
+			estTotal := req.Quantity * req.EstPrice
+
+			po := PurchaseOrder{
+				Name:          poName,
+				PartnerID:     vID,
+				RequisitionID: &pr.ID,
+				State:         "draft",
+				AmountUntaxed: estTotal,
+				AmountTotal:   estTotal,
+				DateOrder:     time.Now(),
+				Notes:         fmt.Sprintf("Undangan Tender Pengadaan: %s", req.Title),
+				CreatedAt:     time.Now(),
+			}
+			if err := tx.Create(&po).Error; err != nil {
+				return err
+			}
+
+			line := PurchaseOrderLine{
+				OrderID:       po.ID,
+				ProductID:     req.ProductID,
+				Name:          fmt.Sprintf("Item Pengadaan: %s", prod.DefaultCode),
+				Quantity:      req.Quantity,
+				PriceUnit:     req.EstPrice,
+				PriceSubtotal: estTotal,
+			}
+			tx.Create(&line)
+		}
+
+		return nil
+	})
+
+	if err != nil {
+		return nil, err
+	}
+	return GetPurchaseRequisitionByID(pr.ID)
+}
+
+func SelectTenderWinner(requisitionID uint, poID uint) error {
+	return config.DB.Transaction(func(tx *gorm.DB) error {
+		var pr PurchaseRequisition
+		if err := tx.First(&pr, requisitionID).Error; err != nil {
+			return err
+		}
+
+		pr.WinnerPOID = &poID
+		pr.State = "done"
+		if err := tx.Save(&pr).Error; err != nil {
+			return err
+		}
+
+		// Set winning PO to purchase/confirmed
+		if err := tx.Model(&PurchaseOrder{}).Where("id = ?", poID).Update("state", "purchase").Error; err != nil {
+			return err
+		}
+
+		// Cancel other vendor bids for this tender
+		if err := tx.Model(&PurchaseOrder{}).Where("requisition_id = ? AND id != ?", requisitionID, poID).Update("state", "cancel").Error; err != nil {
+			return err
+		}
+
+		return nil
+	})
 }
 
 func CreateProductSupplierInfo(data *ProductSupplierInfo) error { return config.DB.Create(data).Error }

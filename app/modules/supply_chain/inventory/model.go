@@ -276,6 +276,28 @@ type InternalTransferRequest struct {
 	Notes             string  `json:"notes"`
 }
 
+type StockWarehouseOrderpoint struct {
+	ID          uint               `gorm:"primaryKey" json:"id"`
+	Name        string             `gorm:"type:varchar(100)" json:"name"` // OP/0001
+	ProductID   uint               `json:"product_id"`
+	Product     *Product           `gorm:"foreignKey:ProductID" json:"product,omitempty"`
+	WarehouseID uint               `json:"warehouse_id"`
+	Warehouse   *StockWarehouse    `gorm:"foreignKey:WarehouseID" json:"warehouse,omitempty"`
+	ProductMinQty float64          `gorm:"type:numeric(15,2);default:0" json:"product_min_qty"`
+	ProductMaxQty float64          `gorm:"type:numeric(15,2);default:0" json:"product_max_qty"`
+	QtyMultiple   float64          `gorm:"type:numeric(15,2);default:1" json:"qty_multiple"`
+	Active        bool             `gorm:"default:true" json:"active"`
+	CreatedAt     time.Time        `json:"created_at"`
+}
+
+type CreateOrderpointRequest struct {
+	ProductID     uint    `json:"product_id" validate:"required"`
+	WarehouseID   uint    `json:"warehouse_id" validate:"required"`
+	ProductMinQty float64 `json:"product_min_qty" validate:"gte=0"`
+	ProductMaxQty float64 `json:"product_max_qty" validate:"gt=0"`
+	QtyMultiple   float64 `json:"qty_multiple"`
+}
+
 
 func (ProductCategory) TableName() string {
 	return "supply_chain.product_categories"
@@ -365,6 +387,10 @@ func (StockLandedCostLine) TableName() string {
 	return "supply_chain.stock_landed_cost_lines"
 }
 
+func (StockWarehouseOrderpoint) TableName() string {
+	return "supply_chain.stock_warehouse_orderpoints"
+}
+
 func init() {
-	config.ModelsToMigrate = append(config.ModelsToMigrate, &ProductCategory{}, &UoMCategory{}, &UoM{}, &ProductTemplate{}, &ProductAttribute{}, &ProductAttributeValue{}, &Product{}, &StockWarehouse{}, &StockLocation{}, &StockPicking{}, &StockMove{}, &StockLot{}, &StockQuant{}, &StockPutawayRule{}, &StockValuationLayer{}, &StockInventory{}, &StockInventoryLine{}, &StockScrap{}, &StockRoute{}, &StockRule{}, &StockLandedCost{}, &StockLandedCostLine{})
+	config.ModelsToMigrate = append(config.ModelsToMigrate, &ProductCategory{}, &UoMCategory{}, &UoM{}, &ProductTemplate{}, &ProductAttribute{}, &ProductAttributeValue{}, &Product{}, &StockWarehouse{}, &StockLocation{}, &StockPicking{}, &StockMove{}, &StockLot{}, &StockQuant{}, &StockPutawayRule{}, &StockValuationLayer{}, &StockInventory{}, &StockInventoryLine{}, &StockScrap{}, &StockRoute{}, &StockRule{}, &StockLandedCost{}, &StockLandedCostLine{}, &StockWarehouseOrderpoint{})
 }

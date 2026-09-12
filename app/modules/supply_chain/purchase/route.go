@@ -35,6 +35,10 @@ func RegisterRoutes(e *echo.Echo) {
 	api.GET("/purchaseorderline/:id", GetPurchaseOrderLineByIDHandler)
 	api.PUT("/purchaseorderline/:id", UpdatePurchaseOrderLineHandler)
 	api.DELETE("/purchaseorderline/:id", DeletePurchaseOrderLineHandler)
+
+	// FASE 16: Purchase Tenders & RFQ Bidding
+	api.POST("/tender", CreateTenderHandler)
+	api.POST("/tender/:id/select-winner", SelectTenderWinnerHandler)
 }
 
 

@@ -105,7 +105,30 @@ func ConfirmProduction(id uint) (*MrpProduction, error) {
 		}
 
 		mo.State = "confirmed"
-		return tx.Save(&mo).Error
+		if err := tx.Save(&mo).Error; err != nil {
+			return err
+		}
+
+		// FASE 9: Auto-generate Workorders from BOM Operations
+		if mo.BomID != nil {
+			var ops []MrpRoutingWorkcenter
+			tx.Where("bom_id = ?", *mo.BomID).Order("sequence asc").Find(&ops)
+			for _, op := range ops {
+				wo := MrpWorkorder{
+					Name:             op.Name,
+					ProductionID:     mo.ID,
+					WorkcenterID:     op.WorkcenterID,
+					Sequence:         op.Sequence,
+					DurationExpected: op.TimeCycle * mo.ProductQty, // Simple estimation
+					State:            "pending",
+				}
+				if err := tx.Create(&wo).Error; err != nil {
+					return err
+				}
+			}
+		}
+
+		return nil
 	})
 
 	if err != nil {
@@ -374,6 +397,19 @@ func CreateBomWithLines(req CreateBomRequest) (*MrpBom, error) {
 			}
 		}
 
+		for _, op := range req.Operations {
+			operation := MrpRoutingWorkcenter{
+				BomID:        bom.ID,
+				WorkcenterID: op.WorkcenterID,
+				Name:         op.Name,
+				Sequence:     op.Sequence,
+				TimeCycle:    op.TimeCycle,
+			}
+			if err := tx.Create(&operation).Error; err != nil {
+				return err
+			}
+		}
+
 		return nil
 	})
 
@@ -487,4 +523,35 @@ func GetMrpWorkorderByID(id uint) (*MrpWorkorder, error) {
 }
 func UpdateMrpWorkorder(data *MrpWorkorder) error { return config.DB.Save(data).Error }
 func DeleteMrpWorkorder(id uint) error            { return config.DB.Delete(&MrpWorkorder{}, id).Error }
+
+// FASE 9 CRUD
+func CreateMrpProductionSchedule(data *MrpProductionSchedule) error { return config.DB.Create(data).Error }
+func GetAllMrpProductionSchedule() ([]MrpProductionSchedule, error) {
+	var list []MrpProductionSchedule
+	err := config.DB.Preload(clause.Associations).Find(&list).Error
+	return list, err
+}
+func GetMrpProductionScheduleByID(id uint) (*MrpProductionSchedule, error) {
+	var data MrpProductionSchedule
+	err := config.DB.Preload(clause.Associations).First(&data, id).Error
+	return &data, err
+}
+func UpdateMrpProductionSchedule(data *MrpProductionSchedule) error { return config.DB.Save(data).Error }
+func DeleteMrpProductionSchedule(id uint) error { return config.DB.Delete(&MrpProductionSchedule{}, id).Error }
+
+func CreateMrpWorkcenterProductivity(data *MrpWorkcenterProductivity) error { return config.DB.Create(data).Error }
+func GetAllMrpWorkcenterProductivity() ([]MrpWorkcenterProductivity, error) {
+	var list []MrpWorkcenterProductivity
+	err := config.DB.Preload(clause.Associations).Find(&list).Error
+	return list, err
+}
+func DeleteMrpWorkcenterProductivity(id uint) error { return config.DB.Delete(&MrpWorkcenterProductivity{}, id).Error }
+
+func CreateMrpScrap(data *MrpScrap) error { return config.DB.Create(data).Error }
+func GetAllMrpScrap() ([]MrpScrap, error) {
+	var list []MrpScrap
+	err := config.DB.Preload(clause.Associations).Find(&list).Error
+	return list, err
+}
+func DeleteMrpScrap(id uint) error { return config.DB.Delete(&MrpScrap{}, id).Error }
 

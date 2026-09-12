@@ -1259,6 +1259,16 @@ func DeleteStockValuationLayerHandler(c echo.Context) error {
 }
 
 
+// CreateLandedCostHandler godoc
+// @Summary Allocate landed costs (freight, customs, insurance) to stock valuation
+// @Description Distributes additional logistics and customs fees to inventory valuation layer
+// @Tags supply_chain-inventory
+// @Accept json
+// @Produce json
+// @Param request body CreateLandedCostRequest true "Payload"
+// @Success 201 {object} utils.SuccessResponse
+// @Router /api/supply_chain/inventory/landedcost [post]
+// @Security BearerAuth
 func CreateLandedCostHandler(c echo.Context) error {
 	var req CreateLandedCostRequest
 	if err := c.Bind(&req); err != nil {
@@ -1268,4 +1278,75 @@ func CreateLandedCostHandler(c echo.Context) error {
 		return utils.SendError(c, 500, "Failed to process landed cost", err.Error())
 	}
 	return utils.SendSuccess(c, 201, "Landed cost processed successfully", nil)
+}
+
+// CreateOrderpointHandler godoc
+// @Summary Create an automated reordering rule (Orderpoint min-max)
+// @Description Configures automated replenishment minimum and maximum stock rules for a product in a warehouse
+// @Tags supply_chain-inventory
+// @Accept json
+// @Produce json
+// @Param request body CreateOrderpointRequest true "Payload"
+// @Success 201 {object} utils.SuccessResponse{data=StockWarehouseOrderpoint}
+// @Router /api/supply_chain/inventory/orderpoint [post]
+// @Security BearerAuth
+func CreateOrderpointHandler(c echo.Context) error {
+	var req CreateOrderpointRequest
+	if err := c.Bind(&req); err != nil {
+		return utils.SendError(c, 400, "Invalid payload", err.Error())
+	}
+	data, err := CreateStockWarehouseOrderpoint(req)
+	if err != nil {
+		return utils.SendError(c, 500, "Failed to create orderpoint", err.Error())
+	}
+	return utils.SendSuccess(c, 201, "Orderpoint created successfully", data)
+}
+
+// GetAllOrderpointsHandler godoc
+// @Summary Get all automated reordering rules (Orderpoints)
+// @Description Retrieves all active automated replenishment rules
+// @Tags supply_chain-inventory
+// @Produce json
+// @Success 200 {object} utils.SuccessResponse{data=[]StockWarehouseOrderpoint}
+// @Router /api/supply_chain/inventory/orderpoint [get]
+// @Security BearerAuth
+func GetAllOrderpointsHandler(c echo.Context) error {
+	data, err := GetAllStockWarehouseOrderpoints()
+	if err != nil {
+		return utils.SendError(c, 500, "Failed to get orderpoints", err.Error())
+	}
+	return utils.SendSuccess(c, 200, "Orderpoints retrieved successfully", data)
+}
+
+// DeleteOrderpointHandler godoc
+// @Summary Delete an automated reordering rule by ID
+// @Description Removes a reordering rule
+// @Tags supply_chain-inventory
+// @Produce json
+// @Param id path int true "Orderpoint ID"
+// @Success 200 {object} utils.SuccessResponse
+// @Router /api/supply_chain/inventory/orderpoint/{id} [delete]
+// @Security BearerAuth
+func DeleteOrderpointHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	if err := DeleteStockWarehouseOrderpoint(uint(id)); err != nil {
+		return utils.SendError(c, 500, "Failed to delete orderpoint", err.Error())
+	}
+	return utils.SendSuccess(c, 200, "Orderpoint deleted successfully", nil)
+}
+
+// RunAutoReplenishHandler godoc
+// @Summary Trigger auto-replenishment calculation across all warehouses
+// @Description Evaluates min-max orderpoints and auto-generates draft Purchase Orders for items below safety stock
+// @Tags supply_chain-inventory
+// @Produce json
+// @Success 200 {object} utils.SuccessResponse{data=AutoReplenishResult}
+// @Router /api/supply_chain/inventory/orderpoint/run [post]
+// @Security BearerAuth
+func RunAutoReplenishHandler(c echo.Context) error {
+	result, err := RunAutoReplenishment()
+	if err != nil {
+		return utils.SendError(c, 500, "Failed to run auto-replenishment", err.Error())
+	}
+	return utils.SendSuccess(c, 200, "Auto-replenishment completed", result)
 }

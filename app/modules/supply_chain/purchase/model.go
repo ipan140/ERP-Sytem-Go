@@ -9,11 +9,27 @@ import (
 )
 
 type PurchaseRequisition struct {
-	ID        uint      `gorm:"primaryKey" json:"id"`
-	Name      string    `gorm:"type:varchar(100);not null" json:"name"`        // TE/2026/001
-	State     string    `gorm:"type:varchar(50);default:'draft'" json:"state"` // draft, in_progress, open, done, cancel
-	DateEnd   time.Time `json:"date_end"`                                      // Deadline for vendor bids
-	CreatedAt time.Time `json:"created_at"`
+	ID          uint            `gorm:"primaryKey" json:"id"`
+	Name        string          `gorm:"type:varchar(100);not null" json:"name"`        // TE/2026/001
+	Title       string          `gorm:"type:varchar(255)" json:"title"`               // Judul Pengadaan
+	State       string          `gorm:"type:varchar(50);default:'draft'" json:"state"` // draft, in_progress, open, done, cancel
+	DateEnd     time.Time       `json:"date_end"`                                      // Deadline for vendor bids
+	WinnerPOID  *uint           `json:"winner_po_id"`                                  // PO Pemenang lelang
+	CreatedAt   time.Time       `json:"created_at"`
+	Orders      []PurchaseOrder `gorm:"foreignKey:RequisitionID" json:"orders,omitempty"`
+}
+
+type CreateTenderRequest struct {
+	Title     string   `json:"title" validate:"required"`
+	DateEnd   string   `json:"date_end" validate:"required"`
+	VendorIDs []uint   `json:"vendor_ids" validate:"required"`
+	ProductID uint     `json:"product_id" validate:"required"`
+	Quantity  float64  `json:"quantity" validate:"required,gt=0"`
+	EstPrice  float64  `json:"est_price"`
+}
+
+type SelectTenderWinnerRequest struct {
+	PurchaseOrderID uint `json:"purchase_order_id" validate:"required"`
 }
 
 type ProductSupplierInfo struct {

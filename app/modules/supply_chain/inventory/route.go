@@ -95,6 +95,12 @@ func RegisterRoutes(e *echo.Echo) {
 	api.GET("/stockvaluationlayer/:id", GetStockValuationLayerByIDHandler)
 	api.PUT("/stockvaluationlayer/:id", UpdateStockValuationLayerHandler)
 	api.DELETE("/stockvaluationlayer/:id", DeleteStockValuationLayerHandler)
+
+	// FASE 15: Reordering Rules & Auto-Replenish
+	api.POST("/orderpoint", CreateOrderpointHandler)
+	api.GET("/orderpoint", GetAllOrderpointsHandler)
+	api.DELETE("/orderpoint/:id", DeleteOrderpointHandler)
+	api.POST("/orderpoint/run", RunAutoReplenishHandler)
 }
 
 

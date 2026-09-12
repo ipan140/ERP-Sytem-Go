@@ -14643,6 +14643,24 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/public/services/tracking": {
+            "get": {
+                "tags": [
+                    "services-repairs"
+                ],
+                "summary": "Public repair tracking by RMA and Serial Number",
+                "responses": {}
+            }
+        },
+        "/api/public/services/tracking/approve-estimate": {
+            "post": {
+                "tags": [
+                    "services-repairs"
+                ],
+                "summary": "Customer approves repair cost estimate from public portal",
+                "responses": {}
+            }
+        },
         "/api/public/surveys/{id}": {
             "get": {
                 "description": "Retrieve public info of a survey for respondents without authentication",
@@ -18692,6 +18710,24 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/services/field_service/{id}/check-in": {
+            "post": {
+                "tags": [
+                    "services-field_service"
+                ],
+                "summary": "Record technician GPS check-in at client site",
+                "responses": {}
+            }
+        },
+        "/api/services/field_service/{id}/check-out": {
+            "post": {
+                "tags": [
+                    "services-field_service"
+                ],
+                "summary": "Record technician GPS check-out",
+                "responses": {}
+            }
+        },
         "/api/services/helpdesk": {
             "get": {
                 "security": [
@@ -19021,6 +19057,15 @@ const docTemplate = `{
                         }
                     }
                 }
+            }
+        },
+        "/api/services/helpdesk/tickets/{id}/escalate": {
+            "post": {
+                "tags": [
+                    "services-helpdesk"
+                ],
+                "summary": "Escalate a ticket",
+                "responses": {}
             }
         },
         "/api/services/helpdesk/{id}": {
@@ -19625,6 +19670,142 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/services/project/task": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve a list of all Task",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "services-project"
+                ],
+                "summary": "Get all Task",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/project.Task"
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create a new Task",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "services-project"
+                ],
+                "summary": "Create Task",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/project.Task"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/project.Task"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/services/project/task/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update an existing Task",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "services-project"
+                ],
+                "summary": "Update Task",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Task ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete Task by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "services-project"
+                ],
+                "summary": "Delete Task",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Task ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
         "/api/services/project/taskdependency": {
             "get": {
                 "security": [
@@ -20197,174 +20378,6 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/supply_chain/barcode": {
-            "get": {
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ],
-                "description": "Retrieve a list of all BarcodeConfig",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "supply_chain-barcode"
-                ],
-                "summary": "Get all BarcodeConfig",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/barcode.BarcodeNomenclature"
-                            }
-                        }
-                    }
-                }
-            },
-            "post": {
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ],
-                "description": "Create a new BarcodeConfig in the system",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "supply_chain-barcode"
-                ],
-                "summary": "Create a new BarcodeConfig",
-                "parameters": [
-                    {
-                        "description": "Payload",
-                        "name": "request",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/barcode.BarcodeNomenclature"
-                        }
-                    }
-                ],
-                "responses": {
-                    "201": {
-                        "description": "Created",
-                        "schema": {
-                            "$ref": "#/definitions/barcode.BarcodeNomenclature"
-                        }
-                    }
-                }
-            }
-        },
-        "/api/supply_chain/barcode/{id}": {
-            "get": {
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ],
-                "description": "Retrieve a specific BarcodeConfig by its ID",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "supply_chain-barcode"
-                ],
-                "summary": "Get a BarcodeConfig by ID",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "BarcodeConfig ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/barcode.BarcodeNomenclature"
-                        }
-                    }
-                }
-            },
-            "put": {
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ],
-                "description": "Update an existing BarcodeConfig",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "supply_chain-barcode"
-                ],
-                "summary": "Update a BarcodeConfig",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "BarcodeConfig ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": true
-                        }
-                    }
-                }
-            },
-            "delete": {
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ],
-                "description": "Delete a BarcodeConfig by ID",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "supply_chain-barcode"
-                ],
-                "summary": "Delete a BarcodeConfig",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "BarcodeConfig ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": true
-                        }
-                    }
-                }
-            }
-        },
         "/api/supply_chain/inventory": {
             "get": {
                 "security": [
@@ -20425,6 +20438,226 @@ const docTemplate = `{
                         "description": "Created",
                         "schema": {
                             "$ref": "#/definitions/inventory.Product"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/supply_chain/inventory/adjustment": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Adjust physical stock quantity and record stock movement \u0026 valuation",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-inventory"
+                ],
+                "summary": "Stock Opname / Physical Count Adjustment",
+                "responses": {}
+            }
+        },
+        "/api/supply_chain/inventory/landedcost": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Distributes additional logistics and customs fees to inventory valuation layer",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-inventory"
+                ],
+                "summary": "Allocate landed costs (freight, customs, insurance) to stock valuation",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/inventory.CreateLandedCostRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/utils.SuccessResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/supply_chain/inventory/orderpoint": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieves all active automated replenishment rules",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-inventory"
+                ],
+                "summary": "Get all automated reordering rules (Orderpoints)",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/utils.SuccessResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/inventory.StockWarehouseOrderpoint"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Configures automated replenishment minimum and maximum stock rules for a product in a warehouse",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-inventory"
+                ],
+                "summary": "Create an automated reordering rule (Orderpoint min-max)",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/inventory.CreateOrderpointRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/utils.SuccessResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/inventory.StockWarehouseOrderpoint"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/api/supply_chain/inventory/orderpoint/run": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Evaluates min-max orderpoints and auto-generates draft Purchase Orders for items below safety stock",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-inventory"
+                ],
+                "summary": "Trigger auto-replenishment calculation across all warehouses",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/utils.SuccessResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/inventory.AutoReplenishResult"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/api/supply_chain/inventory/orderpoint/{id}": {
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Removes a reordering rule",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-inventory"
+                ],
+                "summary": "Delete an automated reordering rule by ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Orderpoint ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/utils.SuccessResponse"
                         }
                     }
                 }
@@ -21893,6 +22126,45 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/supply_chain/inventory/summary": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Total SKUs, On Hand, Reserved, Valuation, Low Stock, Out of Stock",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-inventory"
+                ],
+                "summary": "Get Inventory KPI summary",
+                "responses": {}
+            }
+        },
+        "/api/supply_chain/inventory/transfer": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Transfer stock between warehouses and generate stock picking \u0026 moves",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-inventory"
+                ],
+                "summary": "Internal Stock Transfer between warehouses",
+                "responses": {}
+            }
+        },
         "/api/supply_chain/inventory/uom": {
             "get": {
                 "security": [
@@ -22269,14 +22541,13 @@ const docTemplate = `{
                         "BearerAuth": []
                     }
                 ],
-                "description": "Retrieve a list of all MaintenanceRequest",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "supply_chain-maintenance"
                 ],
-                "summary": "Get all MaintenanceRequest",
+                "summary": "Get paginated Maintenance Requests",
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -22295,7 +22566,6 @@ const docTemplate = `{
                         "BearerAuth": []
                     }
                 ],
-                "description": "Create a new MaintenanceRequest in the system",
                 "consumes": [
                     "application/json"
                 ],
@@ -22305,23 +22575,122 @@ const docTemplate = `{
                 "tags": [
                     "supply_chain-maintenance"
                 ],
-                "summary": "Create a new MaintenanceRequest",
-                "parameters": [
-                    {
-                        "description": "Payload",
-                        "name": "request",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/maintenance.MaintenanceRequest"
-                        }
-                    }
-                ],
+                "summary": "Create a new Maintenance Request",
                 "responses": {
                     "201": {
                         "description": "Created",
                         "schema": {
                             "$ref": "#/definitions/maintenance.MaintenanceRequest"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/supply_chain/maintenance/equipment": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-maintenance"
+                ],
+                "summary": "Get paginated Maintenance Equipments",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/maintenance.MaintenanceEquipment"
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-maintenance"
+                ],
+                "summary": "Create a Maintenance Equipment",
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/maintenance.MaintenanceEquipment"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/supply_chain/maintenance/equipment/{id}": {
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-maintenance"
+                ],
+                "summary": "Delete Maintenance Equipment",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Equipment ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/supply_chain/maintenance/summary": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-maintenance"
+                ],
+                "summary": "Get Maintenance executive KPI summary",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/maintenance.MaintenanceSummary"
                         }
                     }
                 }
@@ -22334,7 +22703,6 @@ const docTemplate = `{
                         "BearerAuth": []
                     }
                 ],
-                "description": "Retrieve a specific MaintenanceRequest by its ID",
                 "produces": [
                     "application/json"
                 ],
@@ -22366,7 +22734,6 @@ const docTemplate = `{
                         "BearerAuth": []
                     }
                 ],
-                "description": "Update an existing MaintenanceRequest",
                 "consumes": [
                     "application/json"
                 ],
@@ -22390,8 +22757,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/maintenance.MaintenanceRequest"
                         }
                     }
                 }
@@ -22402,7 +22768,6 @@ const docTemplate = `{
                         "BearerAuth": []
                     }
                 ],
-                "description": "Delete a MaintenanceRequest by ID",
                 "produces": [
                     "application/json"
                 ],
@@ -22430,6 +22795,42 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/supply_chain/maintenance/{id}/state": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-maintenance"
+                ],
+                "summary": "Update maintenance request workflow state (todo -\u003e progress -\u003e done / cancel)",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "MaintenanceRequest ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/maintenance.MaintenanceRequest"
+                        }
+                    }
+                }
+            }
+        },
         "/api/supply_chain/manufacturing": {
             "get": {
                 "security": [
@@ -22437,14 +22838,14 @@ const docTemplate = `{
                         "BearerAuth": []
                     }
                 ],
-                "description": "Retrieve a list of all MrpProduction",
+                "description": "Retrieve a list of MrpProduction with pagination and filters",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "supply_chain-manufacturing"
                 ],
-                "summary": "Get all MrpProduction",
+                "summary": "Get all MrpProduction (paginated)",
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -22463,7 +22864,7 @@ const docTemplate = `{
                         "BearerAuth": []
                     }
                 ],
-                "description": "Create a new MrpProduction in the system",
+                "description": "Create a new MrpProduction with auto sequence",
                 "consumes": [
                     "application/json"
                 ],
@@ -22481,7 +22882,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/manufacturing.MrpProduction"
+                            "$ref": "#/definitions/manufacturing.CreateMORequest"
                         }
                     }
                 ],
@@ -22490,6 +22891,129 @@ const docTemplate = `{
                         "description": "Created",
                         "schema": {
                             "$ref": "#/definitions/manufacturing.MrpProduction"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/supply_chain/manufacturing/mps": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieves all MPS forecast schedules",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-manufacturing"
+                ],
+                "summary": "Get all Master Production Schedules",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/utils.SuccessResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/manufacturing.MrpProductionSchedule"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Creates a production forecast schedule for a manufactured product",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-manufacturing"
+                ],
+                "summary": "Create a Master Production Schedule (MPS)",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/manufacturing.CreateMPSRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/utils.SuccessResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/manufacturing.MrpProductionSchedule"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/api/supply_chain/manufacturing/mps/{id}/generate-mo": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Converts planned MPS demand into confirmed production orders on the shop floor",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-manufacturing"
+                ],
+                "summary": "Generate Manufacturing Order (MO) from MPS forecast",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "MPS Schedule ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/utils.SuccessResponse"
                         }
                     }
                 }
@@ -23160,6 +23684,116 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/supply_chain/manufacturing/summary": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve executive KPI summary for manufacturing",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-manufacturing"
+                ],
+                "summary": "Get MRP summary KPI",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/manufacturing.MrpSummary"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/supply_chain/manufacturing/workcenter/{id}/oee": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Calculates Availability (A), Performance (P), Quality (Q) and combined OEE percentage",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-manufacturing"
+                ],
+                "summary": "Get Overall Equipment Effectiveness (OEE) metrics for workcenter",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Workcenter ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/utils.SuccessResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/manufacturing.OEESummary"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/api/supply_chain/manufacturing/workorder/log-time": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Records productive uptime or breakdown downtime for a machine workcenter",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-manufacturing"
+                ],
+                "summary": "Log workorder time for Overall Equipment Effectiveness (OEE)",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/manufacturing.LogOEERequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/utils.SuccessResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/api/supply_chain/manufacturing/{id}": {
             "get": {
                 "security": [
@@ -23263,176 +23897,6 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/supply_chain/plm": {
-            "get": {
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ],
-                "description": "Retrieve a list of all PlmEco",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "supply_chain-plm"
-                ],
-                "summary": "Get all PlmEco",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "type": "object",
-                                "additionalProperties": true
-                            }
-                        }
-                    }
-                }
-            },
-            "post": {
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ],
-                "description": "Create a new PlmEco in the system",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "supply_chain-plm"
-                ],
-                "summary": "Create a new PlmEco",
-                "parameters": [
-                    {
-                        "description": "Payload",
-                        "name": "request",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/plm.PlmEco"
-                        }
-                    }
-                ],
-                "responses": {
-                    "201": {
-                        "description": "Created",
-                        "schema": {
-                            "$ref": "#/definitions/plm.PlmEco"
-                        }
-                    }
-                }
-            }
-        },
-        "/api/supply_chain/plm/{id}": {
-            "get": {
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ],
-                "description": "Retrieve a specific PlmEco by its ID",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "supply_chain-plm"
-                ],
-                "summary": "Get a PlmEco by ID",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "PlmEco ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": true
-                        }
-                    }
-                }
-            },
-            "put": {
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ],
-                "description": "Update an existing PlmEco",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "supply_chain-plm"
-                ],
-                "summary": "Update a PlmEco",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "PlmEco ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": true
-                        }
-                    }
-                }
-            },
-            "delete": {
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ],
-                "description": "Delete a PlmEco by ID",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "supply_chain-plm"
-                ],
-                "summary": "Delete a PlmEco",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "PlmEco ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": true
-                        }
-                    }
-                }
-            }
-        },
         "/api/supply_chain/purchase": {
             "get": {
                 "security": [
@@ -23496,6 +23960,63 @@ const docTemplate = `{
                         }
                     }
                 }
+            }
+        },
+        "/api/supply_chain/purchase/:id/approve": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Approve high-value PO (\u003e 50jt) transitioning to purchase state",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-purchase"
+                ],
+                "summary": "Manager Approval for Purchase Order",
+                "responses": {}
+            }
+        },
+        "/api/supply_chain/purchase/:id/confirm": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Transition state from draft/sent to purchase or to_approve (\u003e 50jt)",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-purchase"
+                ],
+                "summary": "Confirm Purchase Order / Send RFQ",
+                "responses": {}
+            }
+        },
+        "/api/supply_chain/purchase/:id/receive": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Increment stock qty, create incoming picking \u0026 valuation layer",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-purchase"
+                ],
+                "summary": "Receive products for PO (Three-Way Matching)",
+                "responses": {}
             }
         },
         "/api/supply_chain/purchase/productsupplierinfo": {
@@ -23897,6 +24418,121 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/supply_chain/purchase/summary": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Total spent monthly, to approve count, to receive count, active vendors",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-purchase"
+                ],
+                "summary": "Get Purchase KPI summary",
+                "responses": {}
+            }
+        },
+        "/api/supply_chain/purchase/tender": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Creates a multi-vendor tender agreement and automatically generates draft RFQs for participating vendors",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-purchase"
+                ],
+                "summary": "Create a new Purchase Tender (Multi-Vendor RFQ)",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/purchase.CreateTenderRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/utils.SuccessResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/purchase.PurchaseRequisition"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/api/supply_chain/purchase/tender/{id}/select-winner": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Confirms selected vendor's Purchase Order and cancels competing vendor RFQs",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-purchase"
+                ],
+                "summary": "Select winning vendor quotation for purchase tender",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Purchase Requisition / Tender ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/purchase.SelectTenderWinnerRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/utils.SuccessResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/api/supply_chain/purchase/{id}": {
             "get": {
                 "security": [
@@ -24007,14 +24643,14 @@ const docTemplate = `{
                         "BearerAuth": []
                     }
                 ],
-                "description": "Retrieve a list of all QualityCheck",
+                "description": "Retrieve a list of QualityCheck with pagination and filters",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "supply_chain-quality"
                 ],
-                "summary": "Get all QualityCheck",
+                "summary": "Get all QualityCheck (paginated)",
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -24033,7 +24669,7 @@ const docTemplate = `{
                         "BearerAuth": []
                     }
                 ],
-                "description": "Create a new QualityCheck in the system",
+                "description": "Create a new QualityCheck with auto sequence",
                 "consumes": [
                     "application/json"
                 ],
@@ -24051,7 +24687,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/quality.QualityCheck"
+                            "$ref": "#/definitions/quality.CreateQualityCheckRequest"
                         }
                     }
                 ],
@@ -24060,6 +24696,31 @@ const docTemplate = `{
                         "description": "Created",
                         "schema": {
                             "$ref": "#/definitions/quality.QualityCheck"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/supply_chain/quality/summary": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieve executive KPI summary for quality control",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "supply_chain-quality"
+                ],
+                "summary": "Get Quality summary KPI",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/quality.QualitySummary"
                         }
                     }
                 }
@@ -26598,6 +27259,9 @@ const docTemplate = `{
         "appointments.Appointment": {
             "type": "object",
             "properties": {
+                "company_id": {
+                    "type": "integer"
+                },
                 "created_at": {
                     "type": "string"
                 },
@@ -26931,25 +27595,6 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "updated_at": {
-                    "type": "string"
-                }
-            }
-        },
-        "barcode.BarcodeNomenclature": {
-            "type": "object",
-            "properties": {
-                "created_at": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "integer"
-                },
-                "name": {
-                    "description": "e.g. Default Nomenclature, GS1 Nomenclature",
-                    "type": "string"
-                },
-                "upc_ean_conv": {
-                    "description": "always, never, ean13_to_upca",
                     "type": "string"
                 }
             }
@@ -28339,17 +28984,103 @@ const docTemplate = `{
                 }
             }
         },
+        "field_service.ChecklistItem": {
+            "type": "object",
+            "properties": {
+                "done": {
+                    "type": "boolean"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                }
+            }
+        },
         "field_service.FieldServiceTask": {
             "type": "object",
             "properties": {
+                "address": {
+                    "type": "string"
+                },
+                "bast_validated": {
+                    "description": "Fase 2: e-BAST Validation Gate",
+                    "type": "boolean"
+                },
+                "check_in_at": {
+                    "type": "string"
+                },
+                "check_in_lat": {
+                    "description": "Fase 4: GPS Geotagging",
+                    "type": "number"
+                },
+                "check_in_lng": {
+                    "type": "number"
+                },
+                "check_out_at": {
+                    "type": "string"
+                },
+                "check_out_lat": {
+                    "type": "number"
+                },
+                "check_out_lng": {
+                    "type": "number"
+                },
+                "checklist": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/field_service.ChecklistItem"
+                    }
+                },
+                "company_id": {
+                    "type": "integer"
+                },
                 "created_at": {
                     "type": "string"
+                },
+                "employee": {
+                    "$ref": "#/definitions/employees.Employee"
+                },
+                "employee_id": {
+                    "type": "integer"
                 },
                 "id": {
                     "type": "integer"
                 },
                 "name": {
                     "type": "string"
+                },
+                "notes": {
+                    "type": "string"
+                },
+                "partner": {
+                    "$ref": "#/definitions/base.Partner"
+                },
+                "partner_id": {
+                    "type": "integer"
+                },
+                "priority": {
+                    "type": "string"
+                },
+                "scheduled_date": {
+                    "type": "string"
+                },
+                "signature": {
+                    "type": "string"
+                },
+                "state": {
+                    "description": "draft, assigned, in_progress, completed, cancelled",
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                },
+                "validated_at": {
+                    "type": "string"
+                },
+                "validated_by_id": {
+                    "type": "integer"
                 }
             }
         },
@@ -28531,12 +29262,25 @@ const docTemplate = `{
                     "description": "Employee ID",
                     "type": "integer"
                 },
+                "company_id": {
+                    "type": "integer"
+                },
                 "created_at": {
                     "type": "string"
                 },
                 "customer_id": {
                     "description": "Partner ID",
                     "type": "integer"
+                },
+                "escalated_at": {
+                    "type": "string"
+                },
+                "escalation_level": {
+                    "description": "1: Tier-1, 2: Tier-2 (Operational Manager)",
+                    "type": "integer"
+                },
+                "first_response_at": {
+                    "type": "string"
                 },
                 "id": {
                     "type": "integer"
@@ -28552,8 +29296,89 @@ const docTemplate = `{
                     "description": "low, medium, high",
                     "type": "string"
                 },
+                "resolved_at": {
+                    "type": "string"
+                },
+                "sla_deadline": {
+                    "description": "Fase 3: SLA Escalation Engine",
+                    "type": "string"
+                },
+                "sla_status": {
+                    "description": "ok, warning, breached",
+                    "type": "string"
+                },
                 "state": {
                     "description": "new, in_progress, solved, closed",
+                    "type": "string"
+                }
+            }
+        },
+        "inventory.AutoReplenishResult": {
+            "type": "object",
+            "properties": {
+                "draft_pos_created": {
+                    "type": "integer"
+                },
+                "generated_po_names": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "orderpoints_checked": {
+                    "type": "integer"
+                }
+            }
+        },
+        "inventory.CreateLandedCostRequest": {
+            "type": "object",
+            "properties": {
+                "costs": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/inventory.LandedCostInput"
+                    }
+                },
+                "picking_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "inventory.CreateOrderpointRequest": {
+            "type": "object",
+            "required": [
+                "product_id",
+                "warehouse_id"
+            ],
+            "properties": {
+                "product_id": {
+                    "type": "integer"
+                },
+                "product_max_qty": {
+                    "type": "number"
+                },
+                "product_min_qty": {
+                    "type": "number",
+                    "minimum": 0
+                },
+                "qty_multiple": {
+                    "type": "number"
+                },
+                "warehouse_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "inventory.LandedCostInput": {
+            "type": "object",
+            "properties": {
+                "amount": {
+                    "type": "number"
+                },
+                "product_id": {
+                    "type": "integer"
+                },
+                "split_method": {
                     "type": "string"
                 }
             }
@@ -29028,6 +29853,45 @@ const docTemplate = `{
                 }
             }
         },
+        "inventory.StockWarehouseOrderpoint": {
+            "type": "object",
+            "properties": {
+                "active": {
+                    "type": "boolean"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "description": "OP/0001",
+                    "type": "string"
+                },
+                "product": {
+                    "$ref": "#/definitions/inventory.Product"
+                },
+                "product_id": {
+                    "type": "integer"
+                },
+                "product_max_qty": {
+                    "type": "number"
+                },
+                "product_min_qty": {
+                    "type": "number"
+                },
+                "qty_multiple": {
+                    "type": "number"
+                },
+                "warehouse": {
+                    "$ref": "#/definitions/inventory.StockWarehouse"
+                },
+                "warehouse_id": {
+                    "type": "integer"
+                }
+            }
+        },
         "inventory.UoM": {
             "type": "object",
             "properties": {
@@ -29428,7 +30292,14 @@ const docTemplate = `{
         "maintenance.MaintenanceRequest": {
             "type": "object",
             "properties": {
+                "code": {
+                    "description": "MR-20260909-001",
+                    "type": "string"
+                },
                 "created_at": {
+                    "type": "string"
+                },
+                "date_done": {
                     "type": "string"
                 },
                 "duration": {
@@ -29450,7 +30321,14 @@ const docTemplate = `{
                     "type": "integer"
                 },
                 "name": {
-                    "description": "Mesin Potong Rusak",
+                    "description": "Mesin Potong Rusak / Servis Rutin",
+                    "type": "string"
+                },
+                "notes": {
+                    "type": "string"
+                },
+                "priority": {
+                    "description": "low, normal, high, urgent",
                     "type": "string"
                 },
                 "schedule_date": {
@@ -29466,9 +30344,108 @@ const docTemplate = `{
                 }
             }
         },
+        "maintenance.MaintenanceSummary": {
+            "type": "object",
+            "properties": {
+                "done_count": {
+                    "type": "integer"
+                },
+                "in_progress_count": {
+                    "type": "integer"
+                },
+                "todo_count": {
+                    "type": "integer"
+                },
+                "total_equipments": {
+                    "type": "integer"
+                },
+                "total_requests": {
+                    "type": "integer"
+                }
+            }
+        },
+        "manufacturing.CreateMORequest": {
+            "type": "object",
+            "required": [
+                "product_id",
+                "product_qty"
+            ],
+            "properties": {
+                "bom_id": {
+                    "type": "integer"
+                },
+                "date_planned": {
+                    "type": "string"
+                },
+                "notes": {
+                    "type": "string"
+                },
+                "product_id": {
+                    "type": "integer"
+                },
+                "product_qty": {
+                    "type": "number"
+                },
+                "warehouse_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "manufacturing.CreateMPSRequest": {
+            "type": "object",
+            "required": [
+                "date_planned",
+                "forecast_qty",
+                "product_id"
+            ],
+            "properties": {
+                "date_planned": {
+                    "type": "string"
+                },
+                "forecast_qty": {
+                    "type": "number"
+                },
+                "product_id": {
+                    "type": "integer"
+                },
+                "warehouse_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "manufacturing.LogOEERequest": {
+            "type": "object",
+            "required": [
+                "duration",
+                "loss_type",
+                "workcenter_id"
+            ],
+            "properties": {
+                "duration": {
+                    "description": "Minutes",
+                    "type": "number"
+                },
+                "loss_type": {
+                    "description": "productive, downtime, scrap",
+                    "type": "string"
+                },
+                "workcenter_id": {
+                    "type": "integer"
+                }
+            }
+        },
         "manufacturing.MrpBom": {
             "type": "object",
             "properties": {
+                "active": {
+                    "type": "boolean"
+                },
+                "bom_lines": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/manufacturing.MrpBomLine"
+                    }
+                },
                 "code": {
                     "description": "Reference",
                     "type": "string"
@@ -29494,6 +30471,9 @@ const docTemplate = `{
                 "type": {
                     "description": "normal, phantom",
                     "type": "string"
+                },
+                "version": {
+                    "type": "integer"
                 }
             }
         },
@@ -29579,10 +30559,19 @@ const docTemplate = `{
                 "bom_id": {
                     "type": "integer"
                 },
+                "company_id": {
+                    "type": "integer"
+                },
                 "created_at": {
                     "type": "string"
                 },
+                "date_finished": {
+                    "type": "string"
+                },
                 "date_planned": {
+                    "type": "string"
+                },
+                "date_start": {
                     "type": "string"
                 },
                 "id": {
@@ -29590,6 +30579,9 @@ const docTemplate = `{
                 },
                 "name": {
                     "description": "WH/MO/0001",
+                    "type": "string"
+                },
+                "notes": {
                     "type": "string"
                 },
                 "product": {
@@ -29609,6 +30601,59 @@ const docTemplate = `{
                 "state": {
                     "description": "draft, confirmed, progress, to_close, done, cancel",
                     "type": "string"
+                },
+                "warehouse": {
+                    "$ref": "#/definitions/inventory.StockWarehouse"
+                },
+                "warehouse_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "manufacturing.MrpProductionSchedule": {
+            "type": "object",
+            "properties": {
+                "actual_qty": {
+                    "description": "Qty already covered by MOs",
+                    "type": "number"
+                },
+                "date_planned": {
+                    "type": "string"
+                },
+                "forecast_qty": {
+                    "type": "number"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "product": {
+                    "$ref": "#/definitions/inventory.Product"
+                },
+                "product_id": {
+                    "type": "integer"
+                },
+                "warehouse_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "manufacturing.MrpSummary": {
+            "type": "object",
+            "properties": {
+                "mo_done_count": {
+                    "type": "integer"
+                },
+                "mo_in_progress": {
+                    "type": "integer"
+                },
+                "total_boms": {
+                    "type": "integer"
+                },
+                "total_mo_count": {
+                    "type": "integer"
+                },
+                "total_workcenters": {
+                    "type": "integer"
                 }
             }
         },
@@ -29646,6 +30691,9 @@ const docTemplate = `{
                     "description": "Actual minutes spent",
                     "type": "number"
                 },
+                "duration_expected": {
+                    "type": "number"
+                },
                 "id": {
                     "type": "integer"
                 },
@@ -29664,6 +30712,9 @@ const docTemplate = `{
                 "production_id": {
                     "type": "integer"
                 },
+                "sequence": {
+                    "type": "integer"
+                },
                 "state": {
                     "description": "pending, ready, progress, done, cancel",
                     "type": "string"
@@ -29678,6 +30729,27 @@ const docTemplate = `{
                 },
                 "workcenter_id": {
                     "type": "integer"
+                }
+            }
+        },
+        "manufacturing.OEESummary": {
+            "type": "object",
+            "properties": {
+                "availability": {
+                    "description": "%",
+                    "type": "number"
+                },
+                "oee": {
+                    "description": "%",
+                    "type": "number"
+                },
+                "performance": {
+                    "description": "%",
+                    "type": "number"
+                },
+                "quality": {
+                    "description": "%",
+                    "type": "number"
                 }
             }
         },
@@ -30042,87 +31114,37 @@ const docTemplate = `{
                 "created_at": {
                     "type": "string"
                 },
+                "date": {
+                    "type": "string"
+                },
+                "employee": {
+                    "$ref": "#/definitions/employees.Employee"
+                },
+                "employee_id": {
+                    "type": "integer"
+                },
+                "end_time": {
+                    "type": "string"
+                },
+                "hours": {
+                    "type": "number"
+                },
                 "id": {
                     "type": "integer"
                 },
                 "name": {
                     "type": "string"
-                }
-            }
-        },
-        "plm.PlmEco": {
-            "type": "object",
-            "properties": {
-                "created_at": {
+                },
+                "notes": {
                     "type": "string"
                 },
-                "id": {
-                    "type": "integer"
-                },
-                "name": {
-                    "description": "ECO/2026/001: Ubah Kayu Jadi Plastik",
+                "role": {
                     "type": "string"
                 },
-                "new_bom_id": {
-                    "description": "Resep revisi",
-                    "type": "integer"
-                },
-                "newbom": {
-                    "description": "Odoo relation mapped",
-                    "allOf": [
-                        {
-                            "$ref": "#/definitions/manufacturing.MrpBom"
-                        }
-                    ]
-                },
-                "old_bom_id": {
-                    "description": "Resep lama",
-                    "type": "integer"
-                },
-                "oldbom": {
-                    "description": "Odoo relation mapped",
-                    "allOf": [
-                        {
-                            "$ref": "#/definitions/manufacturing.MrpBom"
-                        }
-                    ]
-                },
-                "product": {
-                    "description": "Cross-module relation",
-                    "allOf": [
-                        {
-                            "$ref": "#/definitions/inventory.Product"
-                        }
-                    ]
-                },
-                "product_id": {
-                    "type": "integer"
+                "start_time": {
+                    "type": "string"
                 },
                 "state": {
-                    "description": "draft, progress, approved, done",
-                    "type": "string"
-                },
-                "type": {
-                    "description": "Odoo relation mapped",
-                    "allOf": [
-                        {
-                            "$ref": "#/definitions/plm.PlmEcoType"
-                        }
-                    ]
-                },
-                "type_id": {
-                    "type": "integer"
-                }
-            }
-        },
-        "plm.PlmEcoType": {
-            "type": "object",
-            "properties": {
-                "id": {
-                    "type": "integer"
-                },
-                "name": {
-                    "description": "PlmEco Change, Routing Change",
                     "type": "string"
                 }
             }
@@ -30519,6 +31541,39 @@ const docTemplate = `{
                 }
             }
         },
+        "purchase.CreateTenderRequest": {
+            "type": "object",
+            "required": [
+                "date_end",
+                "product_id",
+                "quantity",
+                "title",
+                "vendor_ids"
+            ],
+            "properties": {
+                "date_end": {
+                    "type": "string"
+                },
+                "est_price": {
+                    "type": "number"
+                },
+                "product_id": {
+                    "type": "integer"
+                },
+                "quantity": {
+                    "type": "number"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "vendor_ids": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                }
+            }
+        },
         "purchase.ProductSupplierInfo": {
             "type": "object",
             "properties": {
@@ -30572,6 +31627,15 @@ const docTemplate = `{
                 "amount_untaxed": {
                     "type": "number"
                 },
+                "approved_at": {
+                    "type": "string"
+                },
+                "approved_by": {
+                    "type": "integer"
+                },
+                "company_id": {
+                    "type": "integer"
+                },
                 "created_at": {
                     "type": "string"
                 },
@@ -30584,6 +31648,15 @@ const docTemplate = `{
                 "name": {
                     "description": "PO/2026/001",
                     "type": "string"
+                },
+                "notes": {
+                    "type": "string"
+                },
+                "order_lines": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/purchase.PurchaseOrderLine"
+                    }
                 },
                 "partner": {
                     "description": "Cross-module relation",
@@ -30610,7 +31683,7 @@ const docTemplate = `{
                     "type": "integer"
                 },
                 "state": {
-                    "description": "draft, sent, purchase, done, cancel",
+                    "description": "draft, sent, to_approve, purchase, done, cancel",
                     "type": "string"
                 }
             }
@@ -30626,12 +31699,7 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "order": {
-                    "description": "Odoo relation mapped",
-                    "allOf": [
-                        {
-                            "$ref": "#/definitions/sales_core.SaleOrder"
-                        }
-                    ]
+                    "$ref": "#/definitions/purchase.PurchaseOrder"
                 },
                 "order_id": {
                     "type": "integer"
@@ -30692,9 +31760,60 @@ const docTemplate = `{
                     "description": "TE/2026/001",
                     "type": "string"
                 },
+                "orders": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/purchase.PurchaseOrder"
+                    }
+                },
                 "state": {
                     "description": "draft, in_progress, open, done, cancel",
                     "type": "string"
+                },
+                "title": {
+                    "description": "Judul Pengadaan",
+                    "type": "string"
+                },
+                "winner_po_id": {
+                    "description": "PO Pemenang lelang",
+                    "type": "integer"
+                }
+            }
+        },
+        "purchase.SelectTenderWinnerRequest": {
+            "type": "object",
+            "required": [
+                "purchase_order_id"
+            ],
+            "properties": {
+                "purchase_order_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "quality.CreateQualityCheckRequest": {
+            "type": "object",
+            "required": [
+                "product_id"
+            ],
+            "properties": {
+                "measure_value": {
+                    "type": "number"
+                },
+                "notes": {
+                    "type": "string"
+                },
+                "picking_id": {
+                    "type": "integer"
+                },
+                "point_id": {
+                    "type": "integer"
+                },
+                "product_id": {
+                    "type": "integer"
+                },
+                "production_id": {
+                    "type": "integer"
                 }
             }
         },
@@ -30707,11 +31826,20 @@ const docTemplate = `{
                 "id": {
                     "type": "integer"
                 },
+                "inspected_at": {
+                    "type": "string"
+                },
+                "inspector_id": {
+                    "type": "integer"
+                },
                 "measure_value": {
                     "type": "number"
                 },
                 "name": {
-                    "description": "QC/001",
+                    "description": "QC/2026/0001",
+                    "type": "string"
+                },
+                "notes": {
                     "type": "string"
                 },
                 "picking": {
@@ -30776,8 +31904,12 @@ const docTemplate = `{
                     "type": "integer"
                 },
                 "name": {
-                    "description": "e.g. Check Temperature",
+                    "description": "e.g. Uji Dimensi \u0026 Presisi",
                     "type": "string"
+                },
+                "norm": {
+                    "description": "Nilai target standar",
+                    "type": "number"
                 },
                 "product": {
                     "description": "Cross-module relation",
@@ -30795,8 +31927,28 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "tolerance": {
-                    "description": "For measure tests",
+                    "description": "Batas toleransi +/-",
                     "type": "number"
+                }
+            }
+        },
+        "quality.QualitySummary": {
+            "type": "object",
+            "properties": {
+                "failed_checks_count": {
+                    "type": "integer"
+                },
+                "passed_checks_count": {
+                    "type": "integer"
+                },
+                "pending_checks_count": {
+                    "type": "integer"
+                },
+                "total_checks_count": {
+                    "type": "integer"
+                },
+                "total_points_count": {
+                    "type": "integer"
                 }
             }
         },
@@ -31051,20 +32203,79 @@ const docTemplate = `{
         "repairs.RepairOrder": {
             "type": "object",
             "properties": {
+                "company_id": {
+                    "type": "integer"
+                },
                 "created_at": {
+                    "type": "string"
+                },
+                "customer_approval_note": {
+                    "type": "string"
+                },
+                "customer_approved_at": {
+                    "description": "Fase 4: Customer Portal Approval",
+                    "type": "string"
+                },
+                "diagnosis": {
                     "type": "string"
                 },
                 "id": {
                     "type": "integer"
                 },
+                "labor_cost": {
+                    "type": "number"
+                },
                 "name": {
                     "type": "string"
+                },
+                "partner": {
+                    "$ref": "#/definitions/base.Partner"
+                },
+                "partner_id": {
+                    "type": "integer"
+                },
+                "parts_cost": {
+                    "type": "number"
                 },
                 "product": {
                     "$ref": "#/definitions/inventory.Product"
                 },
                 "product_id": {
                     "type": "integer"
+                },
+                "qc_inspector_id": {
+                    "type": "integer"
+                },
+                "qc_notes": {
+                    "type": "string"
+                },
+                "qc_passed": {
+                    "description": "Fase 2: QC Gate",
+                    "type": "boolean"
+                },
+                "qc_passed_at": {
+                    "type": "string"
+                },
+                "serial_number": {
+                    "type": "string"
+                },
+                "state": {
+                    "type": "string"
+                },
+                "technician": {
+                    "$ref": "#/definitions/employees.Employee"
+                },
+                "technician_id": {
+                    "type": "integer"
+                },
+                "total_cost": {
+                    "type": "number"
+                },
+                "updated_at": {
+                    "type": "string"
+                },
+                "warranty_status": {
+                    "type": "string"
                 }
             }
         },
@@ -32141,6 +33352,15 @@ const docTemplate = `{
         "timesheets.Timesheet": {
             "type": "object",
             "properties": {
+                "approved_at": {
+                    "type": "string"
+                },
+                "approved_by_id": {
+                    "type": "integer"
+                },
+                "company_id": {
+                    "type": "integer"
+                },
                 "cost": {
                     "description": "Harga Pokok Tenaga Kerja",
                     "type": "number"
@@ -32186,6 +33406,13 @@ const docTemplate = `{
                 },
                 "project_id": {
                     "type": "integer"
+                },
+                "rejection_reason": {
+                    "type": "string"
+                },
+                "status": {
+                    "description": "Fase 2: Workflow Approval \u0026 Validation Gates",
+                    "type": "string"
                 },
                 "task": {
                     "description": "Odoo relation mapped",

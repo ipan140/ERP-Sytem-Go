@@ -626,4 +626,98 @@ func DeleteMrpWorkorderHandler(c echo.Context) error {
 	return utils.SendSuccess(c, http.StatusOK, "Deleted successfully", nil)
 }
 
+// FASE 9 Handlers
 
+// CreateMPSHandler godoc
+// @Summary Create a Master Production Schedule (MPS)
+// @Description Creates a production forecast schedule for a manufactured product
+// @Tags supply_chain-manufacturing
+// @Accept json
+// @Produce json
+// @Param request body CreateMPSRequest true "Payload"
+// @Success 201 {object} utils.SuccessResponse{data=MrpProductionSchedule}
+// @Router /api/supply_chain/manufacturing/mps [post]
+// @Security BearerAuth
+func CreateMPSHandler(c echo.Context) error {
+	var req CreateMPSRequest
+	if err := c.Bind(&req); err != nil {
+		return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error())
+	}
+	data, err := CreateMPSService(req)
+	if err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed to create MPS", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusCreated, "MPS created successfully", data)
+}
+
+// GetMPSHandler godoc
+// @Summary Get all Master Production Schedules
+// @Description Retrieves all MPS forecast schedules
+// @Tags supply_chain-manufacturing
+// @Produce json
+// @Success 200 {object} utils.SuccessResponse{data=[]MrpProductionSchedule}
+// @Router /api/supply_chain/manufacturing/mps [get]
+// @Security BearerAuth
+func GetMPSHandler(c echo.Context) error {
+	data, err := GetAllMrpProductionSchedule()
+	if err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Retrieved successfully", data)
+}
+
+// GenerateMOFromMPSHandler godoc
+// @Summary Generate Manufacturing Order (MO) from MPS forecast
+// @Description Converts planned MPS demand into confirmed production orders on the shop floor
+// @Tags supply_chain-manufacturing
+// @Produce json
+// @Param id path int true "MPS Schedule ID"
+// @Success 200 {object} utils.SuccessResponse
+// @Router /api/supply_chain/manufacturing/mps/{id}/generate-mo [post]
+// @Security BearerAuth
+func GenerateMOFromMPSHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	if err := GenerateMOFromMPSService(uint(id)); err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed to generate MO", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "MO generated successfully", nil)
+}
+
+// LogOEEHandler godoc
+// @Summary Log workorder time for Overall Equipment Effectiveness (OEE)
+// @Description Records productive uptime or breakdown downtime for a machine workcenter
+// @Tags supply_chain-manufacturing
+// @Accept json
+// @Produce json
+// @Param request body LogOEERequest true "Payload"
+// @Success 200 {object} utils.SuccessResponse
+// @Router /api/supply_chain/manufacturing/workorder/log-time [post]
+// @Security BearerAuth
+func LogOEEHandler(c echo.Context) error {
+	var req LogOEERequest
+	if err := c.Bind(&req); err != nil {
+		return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error())
+	}
+	if err := LogOEEService(req); err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed to log OEE", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "OEE logged successfully", nil)
+}
+
+// GetOEEHandler godoc
+// @Summary Get Overall Equipment Effectiveness (OEE) metrics for workcenter
+// @Description Calculates Availability (A), Performance (P), Quality (Q) and combined OEE percentage
+// @Tags supply_chain-manufacturing
+// @Produce json
+// @Param id path int true "Workcenter ID"
+// @Success 200 {object} utils.SuccessResponse{data=OEESummary}
+// @Router /api/supply_chain/manufacturing/workcenter/{id}/oee [get]
+// @Security BearerAuth
+func GetOEEHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	summary, err := GetWorkcenterOEEService(uint(id))
+	if err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed to get OEE summary", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "OEE retrieved successfully", summary)
+}

@@ -445,4 +445,49 @@ func DeletePurchaseOrderLineHandler(c echo.Context) error {
 	return utils.SendSuccess(c, http.StatusOK, "Deleted successfully", nil)
 }
 
+// CreateTenderHandler godoc
+// @Summary Create a new Purchase Tender (Multi-Vendor RFQ)
+// @Description Creates a multi-vendor tender agreement and automatically generates draft RFQs for participating vendors
+// @Tags supply_chain-purchase
+// @Accept json
+// @Produce json
+// @Param request body CreateTenderRequest true "Payload"
+// @Success 201 {object} utils.SuccessResponse{data=PurchaseRequisition}
+// @Router /api/supply_chain/purchase/tender [post]
+// @Security BearerAuth
+func CreateTenderHandler(c echo.Context) error {
+	var req CreateTenderRequest
+	if err := c.Bind(&req); err != nil {
+		return utils.SendError(c, 400, "Invalid payload", err.Error())
+	}
+	data, err := CreateTenderMultiVendor(req)
+	if err != nil {
+		return utils.SendError(c, 500, "Failed to create tender", err.Error())
+	}
+	return utils.SendSuccess(c, 201, "Tender created successfully", data)
+}
+
+// SelectTenderWinnerHandler godoc
+// @Summary Select winning vendor quotation for purchase tender
+// @Description Confirms selected vendor's Purchase Order and cancels competing vendor RFQs
+// @Tags supply_chain-purchase
+// @Accept json
+// @Produce json
+// @Param id path int true "Purchase Requisition / Tender ID"
+// @Param request body SelectTenderWinnerRequest true "Payload"
+// @Success 200 {object} utils.SuccessResponse
+// @Router /api/supply_chain/purchase/tender/{id}/select-winner [post]
+// @Security BearerAuth
+func SelectTenderWinnerHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	var req SelectTenderWinnerRequest
+	if err := c.Bind(&req); err != nil {
+		return utils.SendError(c, 400, "Invalid payload", err.Error())
+	}
+	if err := SelectTenderWinner(uint(id), req.PurchaseOrderID); err != nil {
+		return utils.SendError(c, 500, "Failed to select winner", err.Error())
+	}
+	return utils.SendSuccess(c, 200, "Tender winner selected successfully", nil)
+}
+
 

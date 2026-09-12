@@ -22,6 +22,8 @@ type MrpBom struct {
 	Code      string             `gorm:"type:varchar(100)" json:"code"`                 // Reference
 	Type      string             `gorm:"type:varchar(50);default:'normal'" json:"type"` // normal, phantom
 	Quantity  float64            `gorm:"type:numeric(15,2);default:1" json:"quantity"`  // Product qty produced
+	Active    bool               `gorm:"default:true" json:"active"`
+	Version   int                `gorm:"default:1" json:"version"`
 	BomLines  []MrpBomLine       `gorm:"foreignKey:BomID;-:migration" json:"bom_lines,omitempty"`
 }
 
@@ -62,16 +64,62 @@ type MrpProduction struct {
 	CreatedAt    time.Time                 `json:"created_at"`
 }
 
-type MrpWorkorder struct {
+type MrpRoutingWorkcenter struct {
 	ID           uint           `gorm:"primaryKey" json:"id"`
-	Name         string         `gorm:"type:varchar(255);not null" json:"name"` // Operation name (e.g. Cutting)
-	ProductionID uint           `json:"production_id"`
-	Production   *MrpProduction `gorm:"foreignKey:ProductionID" json:"production,omitempty"` // Odoo relation mapped
+	BomID        uint           `json:"bom_id"`
+	Bom          *MrpBom        `gorm:"foreignKey:BomID" json:"bom,omitempty"`
 	WorkcenterID uint           `json:"workcenter_id"`
-	Workcenter   *MrpWorkcenter `gorm:"foreignKey:WorkcenterID" json:"workcenter,omitempty"` // Odoo relation mapped
-	State        string         `gorm:"type:varchar(50);default:'pending'" json:"state"` // pending, ready, progress, done, cancel
-	Duration     float64        `gorm:"type:numeric(15,2);default:0" json:"duration"`    // Actual minutes spent
-	CreatedAt    time.Time      `json:"created_at"`
+	Workcenter   *MrpWorkcenter `gorm:"foreignKey:WorkcenterID" json:"workcenter,omitempty"`
+	Name         string         `gorm:"type:varchar(100);not null" json:"name"` // Operation name
+	Sequence     int            `gorm:"default:10" json:"sequence"`
+	TimeCycle    float64        `gorm:"type:numeric(15,2);default:0" json:"time_cycle"` // Manual duration
+}
+
+type MrpWorkorder struct {
+	ID             uint           `gorm:"primaryKey" json:"id"`
+	Name           string         `gorm:"type:varchar(255);not null" json:"name"` // Operation name (e.g. Cutting)
+	ProductionID   uint           `json:"production_id"`
+	Production     *MrpProduction `gorm:"foreignKey:ProductionID" json:"production,omitempty"` // Odoo relation mapped
+	WorkcenterID   uint           `json:"workcenter_id"`
+	Workcenter     *MrpWorkcenter `gorm:"foreignKey:WorkcenterID" json:"workcenter,omitempty"` // Odoo relation mapped
+	Sequence       int            `gorm:"default:10" json:"sequence"`
+	State          string         `gorm:"type:varchar(50);default:'pending'" json:"state"` // pending, ready, progress, done, cancel
+	Duration       float64        `gorm:"type:numeric(15,2);default:0" json:"duration"`    // Actual minutes spent
+	DurationExpected float64      `gorm:"type:numeric(15,2);default:0" json:"duration_expected"`
+	CreatedAt      time.Time      `json:"created_at"`
+}
+
+type MrpWorkcenterProductivity struct {
+	ID           uint           `gorm:"primaryKey" json:"id"`
+	WorkcenterID uint           `json:"workcenter_id"`
+	Workcenter   *MrpWorkcenter `gorm:"foreignKey:WorkcenterID" json:"workcenter,omitempty"`
+	WorkorderID  *uint          `json:"workorder_id"`
+	LossType     string         `gorm:"type:varchar(50);default:'productive'" json:"loss_type"` // productive, availability, performance, quality
+	Duration     float64        `gorm:"type:numeric(15,2);default:0" json:"duration"` // Minutes
+	DateStart    time.Time      `json:"date_start"`
+	DateEnd      *time.Time     `json:"date_end"`
+}
+
+type MrpScrap struct {
+	ID           uint               `gorm:"primaryKey" json:"id"`
+	Name         string             `gorm:"type:varchar(100);not null" json:"name"`
+	ProductionID *uint              `json:"production_id"`
+	WorkorderID  *uint              `json:"workorder_id"`
+	ProductID    uint               `json:"product_id"`
+	Product      *inventory.Product `gorm:"foreignKey:ProductID" json:"product,omitempty"`
+	ScrapQty     float64            `gorm:"type:numeric(15,2);not null;default:1" json:"scrap_qty"`
+	State        string             `gorm:"type:varchar(50);default:'draft'" json:"state"` // draft, done
+	CreatedAt    time.Time          `json:"created_at"`
+}
+
+type MrpProductionSchedule struct {
+	ID          uint               `gorm:"primaryKey" json:"id"`
+	ProductID   uint               `json:"product_id"`
+	Product     *inventory.Product `gorm:"foreignKey:ProductID" json:"product,omitempty"`
+	WarehouseID uint               `json:"warehouse_id"`
+	DatePlanned time.Time          `json:"date_planned"`
+	ForecastQty float64            `gorm:"type:numeric(15,2);default:0" json:"forecast_qty"`
+	ActualQty   float64            `gorm:"type:numeric(15,2);default:0" json:"actual_qty"` // Qty already covered by MOs
 }
 
 type MrpUnbuild struct {
@@ -111,12 +159,41 @@ type CreateBomLineInput struct {
 	Quantity  float64 `json:"quantity" validate:"required,gt=0"`
 }
 
+type CreateBomOperationInput struct {
+	WorkcenterID uint    `json:"workcenter_id" validate:"required"`
+	Name         string  `json:"name" validate:"required"`
+	Sequence     int     `json:"sequence"`
+	TimeCycle    float64 `json:"time_cycle"`
+}
+
 type CreateBomRequest struct {
-	ProductID uint                 `json:"product_id" validate:"required"`
-	Code      string               `json:"code"`
-	Type      string               `json:"type"`
-	Quantity  float64              `json:"quantity" validate:"required,gt=0"`
-	Lines     []CreateBomLineInput `json:"lines" validate:"required,dive"`
+	ProductID  uint                      `json:"product_id" validate:"required"`
+	Code       string                    `json:"code"`
+	Type       string                    `json:"type"`
+	Quantity   float64                   `json:"quantity" validate:"required,gt=0"`
+	Lines      []CreateBomLineInput      `json:"lines" validate:"required,dive"`
+	Operations []CreateBomOperationInput `json:"operations" validate:"dive"`
+}
+
+// Fase 9 DTOs
+type CreateMPSRequest struct {
+	ProductID   uint    `json:"product_id" validate:"required"`
+	WarehouseID uint    `json:"warehouse_id"`
+	DatePlanned string  `json:"date_planned" validate:"required"`
+	ForecastQty float64 `json:"forecast_qty" validate:"required,gt=0"`
+}
+
+type LogOEERequest struct {
+	WorkcenterID uint    `json:"workcenter_id" validate:"required"`
+	LossType     string  `json:"loss_type" validate:"required"` // productive, downtime, scrap
+	Duration     float64 `json:"duration" validate:"required"` // Minutes
+}
+
+type OEESummary struct {
+	Availability float64 `json:"availability"` // %
+	Performance  float64 `json:"performance"`  // %
+	Quality      float64 `json:"quality"`      // %
+	OEE          float64 `json:"oee"`          // %
 }
 
 func (MrpWorkcenter) TableName() string {
@@ -147,6 +224,26 @@ func (MrpUnbuild) TableName() string {
 	return "supply_chain.mrp_unbuilds"
 }
 
+func (MrpProductionSchedule) TableName() string {
+	return "supply_chain.mrp_production_schedules"
+}
+
+func (MrpRoutingWorkcenter) TableName() string {
+	return "supply_chain.mrp_routing_workcenters"
+}
+
+func (MrpWorkcenterProductivity) TableName() string {
+	return "supply_chain.mrp_workcenter_productivities"
+}
+
+func (MrpScrap) TableName() string {
+	return "supply_chain.mrp_scraps"
+}
+
 func init() {
-	config.ModelsToMigrate = append(config.ModelsToMigrate, &MrpWorkcenter{}, &MrpBom{}, &MrpBomLine{}, &MrpBomByproduct{}, &MrpProduction{}, &MrpWorkorder{}, &MrpUnbuild{})
+	config.ModelsToMigrate = append(config.ModelsToMigrate, 
+		&MrpWorkcenter{}, &MrpBom{}, &MrpBomLine{}, &MrpBomByproduct{}, 
+		&MrpProduction{}, &MrpWorkorder{}, &MrpUnbuild{},
+		&MrpProductionSchedule{}, &MrpRoutingWorkcenter{}, &MrpWorkcenterProductivity{}, &MrpScrap{},
+	)
 }

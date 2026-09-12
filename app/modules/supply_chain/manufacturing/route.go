@@ -49,6 +49,13 @@ func RegisterRoutes(e *echo.Echo) {
 	api.GET("/mrpworkorder/:id", GetMrpWorkorderByIDHandler)
 	api.PUT("/mrpworkorder/:id", UpdateMrpWorkorderHandler)
 	api.DELETE("/mrpworkorder/:id", DeleteMrpWorkorderHandler)
+
+	// FASE 9: MPS & OEE Routes
+	api.POST("/mps", CreateMPSHandler)
+	api.GET("/mps", GetMPSHandler)
+	api.POST("/mps/:id/generate-mo", GenerateMOFromMPSHandler)
+	api.POST("/workorder/log-time", LogOEEHandler)
+	api.GET("/workcenter/:id/oee", GetOEEHandler)
 }
 
 

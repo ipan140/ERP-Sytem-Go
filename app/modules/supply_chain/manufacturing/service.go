@@ -4,6 +4,7 @@ import (
 	"ERP-System/pkg/rabbitmq"
 	"encoding/json"
 	"log"
+	"time"
 )
 
 // Enterprise SCM Production Services (Fase 3)
@@ -102,4 +103,100 @@ func GenerateWorkOrderPDFService(woID uint, userID uint) error {
 		log.Printf("🏭 Event RabbitMQ: Generate PDF Work Order %d dikirim ke antrean!", woID)
 	}
 	return nil
+}
+
+// FASE 9: MPS Service
+func CreateMPSService(req CreateMPSRequest) (*MrpProductionSchedule, error) {
+	parsedDate, err := time.Parse("2006-01-02", req.DatePlanned)
+	if err != nil {
+		return nil, err
+	}
+	mps := MrpProductionSchedule{
+		ProductID:   req.ProductID,
+		WarehouseID: req.WarehouseID,
+		DatePlanned: parsedDate,
+		ForecastQty: req.ForecastQty,
+	}
+	if err := CreateMrpProductionSchedule(&mps); err != nil {
+		return nil, err
+	}
+	return &mps, nil
+}
+
+func GenerateMOFromMPSService(mpsID uint) error {
+	mps, err := GetMrpProductionScheduleByID(mpsID)
+	if err != nil {
+		return err
+	}
+	qtyToProduce := mps.ForecastQty - mps.ActualQty
+	if qtyToProduce <= 0 {
+		return nil
+	}
+
+	dateStr := mps.DatePlanned.Format(time.RFC3339)
+	
+	// Cari BOM default untuk product
+	var boms []MrpBom
+	boms, _ = GetAllMrpBom()
+	var bomID *uint
+	for _, b := range boms {
+		if b.ProductID == mps.ProductID {
+			bomID = &b.ID
+			break
+		}
+	}
+
+	req := CreateMORequest{
+		ProductID:   mps.ProductID,
+		BomID:       bomID,
+		ProductQty:  qtyToProduce,
+		WarehouseID: &mps.WarehouseID,
+		DatePlanned: &dateStr,
+		Notes:       "Generated from MPS",
+	}
+
+	if _, err := CreateProductionWithSequence(req); err != nil {
+		return err
+	}
+
+	mps.ActualQty += qtyToProduce
+	return UpdateMrpProductionSchedule(mps)
+}
+
+// FASE 9: OEE Service
+func LogOEEService(req LogOEERequest) error {
+	now := time.Now()
+	oee := MrpWorkcenterProductivity{
+		WorkcenterID: req.WorkcenterID,
+		LossType:     req.LossType,
+		Duration:     req.Duration,
+		DateStart:    now,
+	}
+	return CreateMrpWorkcenterProductivity(&oee)
+}
+
+func GetWorkcenterOEEService(workcenterID uint) (OEESummary, error) {
+	logs, _ := GetAllMrpWorkcenterProductivity()
+	var totalTime, downtime float64
+	for _, l := range logs {
+		if l.WorkcenterID == workcenterID {
+			totalTime += l.Duration
+			if l.LossType != "productive" {
+				downtime += l.Duration
+			}
+		}
+	}
+
+	avail := 100.0
+	if totalTime > 0 {
+		avail = ((totalTime - downtime) / totalTime) * 100
+	}
+
+	// Sederhanakan kalkulasi untuk OEE
+	return OEESummary{
+		Availability: avail,
+		Performance:  100, // Dummy until we integrate cycle times
+		Quality:      100, // Dummy until we integrate scrap
+		OEE:          avail * 1.0 * 1.0,
+	}, nil
 }
