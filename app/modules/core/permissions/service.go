@@ -56,8 +56,12 @@ func TogglePermissionService(req TogglePermissionRequest) error {
 		perm.CanWrite = req.Value
 	case "delete":
 		perm.CanDelete = req.Value
+	case "export":
+		perm.CanExport = req.Value
+	case "approve":
+		perm.CanApprove = req.Value
 	default:
-		return errors.New("action tidak dikenali (gunakan: read, write, delete)")
+		return errors.New("action tidak dikenali (gunakan: read, write, delete, export, approve)")
 	}
 
 	// Simpan perubahan ke database

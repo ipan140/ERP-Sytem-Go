@@ -32,3 +32,33 @@ func ModifyEventService(id string, input *CalendarEvent) (CalendarEvent, error) 
 func RemoveEventService(id string) error {
 	return DeleteEventRepo(id)
 }
+
+func FetchCategoriesService(module string) ([]CalendarCategory, error) {
+	return FindCategories(module)
+}
+
+func SaveCategoryService(cat *CalendarCategory) error {
+	return CreateCategoryRepo(cat)
+}
+
+func ModifyCategoryService(id string, input *CalendarCategory) (CalendarCategory, error) {
+	cat, err := GetCategoryByID(id)
+	if err != nil {
+		return cat, err
+	}
+
+	cat.Name = input.Name
+	cat.Color = input.Color
+	cat.Icon = input.Icon
+	cat.Description = input.Description
+	if input.Module != "" {
+		cat.Module = input.Module
+	}
+
+	err = UpdateCategoryRepo(&cat)
+	return cat, err
+}
+
+func RemoveCategoryService(id string) error {
+	return DeleteCategoryRepo(id)
+}

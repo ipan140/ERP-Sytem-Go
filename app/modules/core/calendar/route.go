@@ -11,6 +11,12 @@ func RegisterRoutes(e *echo.Echo) {
 	g.POST("/events", CreateEventHandler)
 	g.PUT("/events/:id", UpdateEventHandler)
 	g.DELETE("/events/:id", DeleteEventHandler)
+
+	// Category endpoints
+	g.GET("/categories", GetCategoriesHandler)
+	g.POST("/categories", CreateCategoryHandler)
+	g.PUT("/categories/:id", UpdateCategoryHandler)
+	g.DELETE("/categories/:id", DeleteCategoryHandler)
 }
 
 

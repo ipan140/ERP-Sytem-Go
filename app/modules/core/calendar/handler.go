@@ -26,6 +26,9 @@ func GetEventsHandler(c echo.Context) error {
 	}
 
 	modelFilter := c.QueryParam("model")
+	if modelFilter == "" {
+		modelFilter = c.QueryParam("res_model")
+	}
 	start := c.QueryParam("start")
 	end := c.QueryParam("end")
 
@@ -113,3 +116,109 @@ func DeleteEventHandler(c echo.Context) error {
 	}
 	return c.JSON(http.StatusOK, map[string]string{"message": "Jadwal dihapus"})
 }
+
+// GetCategoriesHandler godoc
+// @Summary      Ambil Daftar Kategori Kalender
+// @Description  Mengambil daftar kategori kalender berdasarkan modul (HR, Finance, SupplyChain, Sales, dll)
+// @Tags         Calendar
+// @Accept       json
+// @Produce      json
+// @Security     BearerAuth
+// @Param        module query string false "Nama Modul (contoh: HR, Finance, SupplyChain)"
+// @Success      200  {array}   CalendarCategory
+// @Failure      500  {object}  map[string]string "Gagal mengambil kategori"
+// @Router       /api/calendar/categories [get]
+func GetCategoriesHandler(c echo.Context) error {
+	module := c.QueryParam("module")
+	if module == "" {
+		module = c.QueryParam("res_model")
+	}
+
+	categories, err := FetchCategoriesService(module)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, map[string]string{"error": "Gagal mengambil kategori"})
+	}
+
+	return c.JSON(http.StatusOK, categories)
+}
+
+// CreateCategoryHandler godoc
+// @Summary      Tambah Kategori Kalender Baru
+// @Description  Membuat kategori baru beserta warna dan ikon untuk modul kalender tertentu
+// @Tags         Calendar
+// @Accept       json
+// @Produce      json
+// @Security     BearerAuth
+// @Param        request body CalendarCategory true "Data Kategori"
+// @Success      201  {object}  CalendarCategory
+// @Failure      400  {object}  map[string]string "Data tidak valid"
+// @Failure      500  {object}  map[string]string "Gagal menyimpan kategori"
+// @Router       /api/calendar/categories [post]
+func CreateCategoryHandler(c echo.Context) error {
+	var req CalendarCategory
+	if err := c.Bind(&req); err != nil {
+		return c.JSON(http.StatusBadRequest, map[string]string{"error": "Data tidak valid"})
+	}
+
+	if req.Name == "" || req.Module == "" {
+		return c.JSON(http.StatusBadRequest, map[string]string{"error": "Nama dan Modul wajib diisi"})
+	}
+
+	if req.Color == "" {
+		req.Color = "primary"
+	}
+
+	if err := SaveCategoryService(&req); err != nil {
+		return c.JSON(http.StatusInternalServerError, map[string]string{"error": "Gagal menyimpan kategori"})
+	}
+
+	return c.JSON(http.StatusCreated, req)
+}
+
+// UpdateCategoryHandler godoc
+// @Summary      Update Kategori Kalender
+// @Description  Memperbarui nama, warna, atau ikon kategori kalender
+// @Tags         Calendar
+// @Accept       json
+// @Produce      json
+// @Security     BearerAuth
+// @Param        id      path string           true "ID Kategori"
+// @Param        request body CalendarCategory true "Data baru kategori"
+// @Success      200  {object}  CalendarCategory
+// @Failure      400  {object}  map[string]string "Data tidak valid"
+// @Failure      500  {object}  map[string]string "Gagal memperbarui kategori"
+// @Router       /api/calendar/categories/{id} [put]
+func UpdateCategoryHandler(c echo.Context) error {
+	id := c.Param("id")
+	var req CalendarCategory
+	if err := c.Bind(&req); err != nil {
+		return c.JSON(http.StatusBadRequest, map[string]string{"error": "Data tidak valid"})
+	}
+
+	updated, err := ModifyCategoryService(id, &req)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, map[string]string{"error": "Gagal memperbarui kategori"})
+	}
+
+	return c.JSON(http.StatusOK, updated)
+}
+
+// DeleteCategoryHandler godoc
+// @Summary      Hapus Kategori Kalender
+// @Description  Menghapus kategori kalender
+// @Tags         Calendar
+// @Accept       json
+// @Produce      json
+// @Security     BearerAuth
+// @Param        id   path string true "ID Kategori"
+// @Success      200  {object}  map[string]string "Kategori dihapus"
+// @Failure      500  {object}  map[string]string "Gagal menghapus kategori"
+// @Router       /api/calendar/categories/{id} [delete]
+func DeleteCategoryHandler(c echo.Context) error {
+	id := c.Param("id")
+	if err := RemoveCategoryService(id); err != nil {
+		return c.JSON(http.StatusInternalServerError, map[string]string{"error": "Gagal menghapus kategori"})
+	}
+	return c.JSON(http.StatusOK, map[string]string{"message": "Kategori berhasil dihapus"})
+}
+

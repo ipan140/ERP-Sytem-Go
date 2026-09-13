@@ -48,10 +48,21 @@ func (e *CalendarEvent) BeforeCreate(tx *gorm.DB) (err error) {
 	return
 }
 
-func (CalendarEvent) TableName() string {
-	return "setting.calendar_events"
+type CalendarCategory struct {
+	ID          uint      `gorm:"primaryKey" json:"id"`
+	Module      string    `gorm:"type:varchar(50);index;not null" json:"module"`
+	Name        string    `gorm:"type:varchar(100);not null" json:"name"`
+	Color       string    `gorm:"type:varchar(50);not null" json:"color"`
+	Icon        string    `gorm:"type:varchar(50)" json:"icon"`
+	Description string    `gorm:"type:varchar(255)" json:"description"`
+	CreatedAt   time.Time `json:"created_at"`
+	UpdatedAt   time.Time `json:"updated_at"`
+}
+
+func (CalendarCategory) TableName() string {
+	return "setting.calendar_categories"
 }
 
 func init() {
-	config.ModelsToMigrate = append(config.ModelsToMigrate, &CalendarEvent{})
+	config.ModelsToMigrate = append(config.ModelsToMigrate, &CalendarEvent{}, &CalendarCategory{})
 }

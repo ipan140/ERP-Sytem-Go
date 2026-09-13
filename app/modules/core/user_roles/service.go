@@ -30,7 +30,10 @@ func GetAllUsersRolesService() ([]UserRoleResponse, error) {
 	// [DB] 2. Jika di Cache tidak ada (Miss), ambil dari PostgreSQL
 	fmt.Println("🐢 [DB Hit] Fetching User Roles from PostgreSQL...")
 	var users []UserRoleResponse
-	err := config.DB.Table("users").Select("id, name, email, roles").Find(&users).Error
+	err := config.DB.Table("setting.users").Select("id, name, email, role as roles").Find(&users).Error
+	if err != nil || len(users) == 0 {
+		err = config.DB.Table("users").Select("id, name, email, roles").Find(&users).Error
+	}
 	
 	if err == nil && redisPkg.Client != nil {
 		// [Redis] 3. Simpan hasil query DB ke Redis agar request selanjutnya cepat
@@ -42,7 +45,10 @@ func GetAllUsersRolesService() ([]UserRoleResponse, error) {
 }
 
 func AssignRoleService(userID uint, roles string) error {
-	err := config.DB.Table("users").Where("id = ?", userID).Update("roles", roles).Error
+	err := config.DB.Table("setting.users").Where("id = ?", userID).Update("role", roles).Error
+	if err != nil {
+		err = config.DB.Table("users").Where("id = ?", userID).Update("roles", roles).Error
+	}
 	
 	if err == nil && redisPkg.Client != nil {
 		// [Redis] Hapus cache (Invalidation) karena ada perubahan role

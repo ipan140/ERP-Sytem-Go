@@ -8,12 +8,14 @@ type RolePermission struct {
 	CanRead   bool   `json:"can_read"`                      // Toggle Lihat
 	CanWrite  bool   `json:"can_write"`                     // Toggle Buat/Edit
 	CanDelete bool   `json:"can_delete"`                    // Toggle Hapus
+	CanExport bool   `json:"can_export"`                    // Toggle Ekspor Data
+	CanApprove bool  `json:"can_approve"`                   // Toggle Otorisasi
 }
 
 type TogglePermissionRequest struct {
 	RoleName string `json:"role_name" validate:"required"`
 	Module   string `json:"module" validate:"required"`
-	Action   string `json:"action" validate:"required"` // "read", "write", "delete"
+	Action   string `json:"action" validate:"required"` // "read", "write", "delete", "export", "approve"
 	Value    bool   `json:"value"`                      // true (On) / false (Off)
 }
 
