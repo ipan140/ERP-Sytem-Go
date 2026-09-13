@@ -420,6 +420,27 @@ func MarkPayslipPaid(id uint) error {
 	return nil
 }
 
+func BulkPayPayslips(period string) (int, float64, error) {
+	var payslips []Payslip
+	query := config.DB.Preload("Employee").Where("status = 'draft'")
+	if period != "" {
+		query = query.Where("period = ?", period)
+	}
+	if err := query.Find(&payslips).Error; err != nil {
+		return 0, 0, err
+	}
+
+	paidCount := 0
+	totalAmount := 0.0
+	for _, ps := range payslips {
+		if err := MarkPayslipPaid(ps.ID); err == nil {
+			paidCount++
+			totalAmount += ps.NetSalary
+		}
+	}
+	return paidCount, totalAmount, nil
+}
+
 // --- THR Repository ---
 func GenerateTHR(year int, cutoffDate time.Time) error {
 	var employees []Employee

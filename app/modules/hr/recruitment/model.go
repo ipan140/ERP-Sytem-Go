@@ -22,6 +22,8 @@ type Applicant struct {
 	StageID        uint      `json:"stage_id"`
 	Stage *Stage `gorm:"foreignKey:StageID"` // Auto-added relation
 	ExpectedSalary float64   `gorm:"type:numeric(15,2);default:0" json:"expected_salary"`
+	ResumeURL      string    `gorm:"type:varchar(500)" json:"resume_url"`
+	Notes          string    `gorm:"type:text" json:"notes"`
 	State          string    `gorm:"type:varchar(50);default:'in_progress'" json:"state"` // in_progress, hired, refused
 	CreatedAt      time.Time `json:"created_at"`
 }

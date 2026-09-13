@@ -101,6 +101,8 @@ func RegisterRoutes(e *echo.Echo) {
 	hrAdmin.POST("/payroll/generate", GeneratePayrollHandler)
 	hrAdmin.DELETE("/payroll/:id", DeletePayslipHandler)
 	hrAdmin.PUT("/payroll/:id/pay", PayPayslipHandler)
+	hrAdmin.PUT("/payroll/bulk-pay", BulkPayPayslipsHandler)
+	hrAdmin.GET("/payroll/bank-transfer-export", ExportBankDisbursementHandler)
 
 	// THR Admin routes
 	hrAdmin.POST("/thr/generate", GenerateTHRHandler)
