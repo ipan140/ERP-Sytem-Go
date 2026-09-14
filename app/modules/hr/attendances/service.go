@@ -14,6 +14,10 @@ func GetAllAttendanceService() ([]Attendance, error) {
 	return GetAllAttendance()
 }
 
+func GetPaginatedAttendanceService(offset, limit int, search string, employeeID string, date string) ([]Attendance, int64, error) {
+	return GetPaginatedAttendances(offset, limit, search, employeeID, date)
+}
+
 func GetAttendanceByIDService(id uint) (*Attendance, error) {
 	return GetAttendanceByID(id)
 }

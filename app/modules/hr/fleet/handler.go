@@ -38,11 +38,25 @@ func CreateVehicleHandler(c echo.Context) error {
 // @Router /api/hr/fleet [get]
 // @Security BearerAuth
 func GetAllVehicleHandler(c echo.Context) error {
-	data, err := GetAllVehicleService()
+	if c.QueryParam("all") == "true" {
+		data, err := GetAllVehicleService()
+		if err != nil {
+			return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve data", err.Error())
+		}
+		return utils.SendSuccess(c, http.StatusOK, "Data retrieved successfully", data)
+	}
+
+	page, limit, offset, search := utils.GetPaginationQuery(c)
+	employeeID := c.QueryParam("employee_id")
+	state := c.QueryParam("state")
+
+	data, total, err := GetPaginatedVehiclesService(offset, limit, search, employeeID, state)
 	if err != nil {
 		return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve data", err.Error())
 	}
-	return utils.SendSuccess(c, http.StatusOK, "Data retrieved successfully", data)
+
+	meta := utils.BuildPaginationMeta(total, page, limit)
+	return utils.SendPaginatedSuccess(c, http.StatusOK, "Data retrieved successfully", data, meta)
 }
 
 // GetVehicleByID godoc

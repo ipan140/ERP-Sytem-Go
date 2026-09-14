@@ -38,11 +38,25 @@ func CreateLeaveRequestHandler(c echo.Context) error {
 // @Router /api/hr/time_off [get]
 // @Security BearerAuth
 func GetAllLeaveRequestHandler(c echo.Context) error {
-	data, err := GetAllLeaveRequestService()
+	if c.QueryParam("all") == "true" {
+		data, err := GetAllLeaveRequestService()
+		if err != nil {
+			return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve data", err.Error())
+		}
+		return utils.SendSuccess(c, http.StatusOK, "Data retrieved successfully", data)
+	}
+
+	page, limit, offset, search := utils.GetPaginationQuery(c)
+	employeeID := c.QueryParam("employee_id")
+	status := c.QueryParam("status")
+
+	data, total, err := GetPaginatedLeaveRequestService(offset, limit, search, employeeID, status)
 	if err != nil {
 		return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve data", err.Error())
 	}
-	return utils.SendSuccess(c, http.StatusOK, "Data retrieved successfully", data)
+
+	meta := utils.BuildPaginationMeta(total, page, limit)
+	return utils.SendPaginatedSuccess(c, http.StatusOK, "Data retrieved successfully", data, meta)
 }
 
 // GetLeaveRequestByID godoc

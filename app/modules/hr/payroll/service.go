@@ -1,4 +1,4 @@
-﻿package payroll
+package payroll
 
 import (
 	"encoding/json"
@@ -38,6 +38,10 @@ func CreatePayslipService(data *Payslip) error {
 
 func GetAllPayslipService() ([]Payslip, error) {
 	return GetAllPayslip()
+}
+
+func GetPaginatedPayslipsService(offset, limit int, search, employeeID, state string) ([]Payslip, int64, error) {
+	return GetPaginatedPayslips(offset, limit, search, employeeID, state)
 }
 
 func GetPayslipByIDService(id uint) (*Payslip, error) {

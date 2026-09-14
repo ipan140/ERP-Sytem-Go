@@ -8,6 +8,10 @@ func GetAllVehicleService() ([]Vehicle, error) {
 	return GetAllVehicle()
 }
 
+func GetPaginatedVehiclesService(offset, limit int, search string, employeeID string, state string) ([]Vehicle, int64, error) {
+	return GetPaginatedVehicles(offset, limit, search, employeeID, state)
+}
+
 func GetVehicleByIDService(id uint) (*Vehicle, error) {
 	return GetVehicleByID(id)
 }

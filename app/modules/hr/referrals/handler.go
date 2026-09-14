@@ -38,11 +38,23 @@ func CreateReferralRewardHandler(c echo.Context) error {
 // @Router /api/hr/ReferralRewards [get]
 // @Security BearerAuth
 func GetAllReferralRewardHandler(c echo.Context) error {
-	data, err := GetAllReferralRewardService()
+	if c.QueryParam("all") == "true" {
+		data, err := GetAllReferralRewardService()
+		if err != nil {
+			return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve data", err.Error())
+		}
+		return utils.SendSuccess(c, http.StatusOK, "Data retrieved successfully", data)
+	}
+
+	page, limit, offset, search := utils.GetPaginationQuery(c)
+
+	data, total, err := GetPaginatedReferralRewardService(offset, limit, search)
 	if err != nil {
 		return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve data", err.Error())
 	}
-	return utils.SendSuccess(c, http.StatusOK, "Data retrieved successfully", data)
+
+	meta := utils.BuildPaginationMeta(total, page, limit)
+	return utils.SendPaginatedSuccess(c, http.StatusOK, "Data retrieved successfully", data, meta)
 }
 
 // GetReferralRewardByID godoc
@@ -133,11 +145,24 @@ func CreateReferralPointHandler(c echo.Context) error {
 // @Router /api/hr/referrals/referralpoint [get]
 // @Security BearerAuth
 func GetAllReferralPointHandler(c echo.Context) error {
-	data, err := GetAllReferralPointService()
+	if c.QueryParam("all") == "true" {
+		data, err := GetAllReferralPointService()
+		if err != nil {
+			return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve", err.Error())
+		}
+		return utils.SendSuccess(c, http.StatusOK, "Retrieved successfully", data)
+	}
+
+	page, limit, offset, search := utils.GetPaginationQuery(c)
+	employeeID := c.QueryParam("employee_id")
+
+	data, total, err := GetPaginatedReferralPointService(offset, limit, search, employeeID)
 	if err != nil {
 		return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve", err.Error())
 	}
-	return utils.SendSuccess(c, http.StatusOK, "Retrieved successfully", data)
+
+	meta := utils.BuildPaginationMeta(total, page, limit)
+	return utils.SendPaginatedSuccess(c, http.StatusOK, "Retrieved successfully", data, meta)
 }
 func GetReferralPointByIDHandler(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))

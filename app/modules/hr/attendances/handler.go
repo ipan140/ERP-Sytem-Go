@@ -38,11 +38,25 @@ func CreateAttendanceHandler(c echo.Context) error {
 // @Router /api/hr/attendances [get]
 // @Security BearerAuth
 func GetAllAttendanceHandler(c echo.Context) error {
-	data, err := GetAllAttendanceService()
+	if c.QueryParam("all") == "true" {
+		data, err := GetAllAttendanceService()
+		if err != nil {
+			return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve data", err.Error())
+		}
+		return utils.SendSuccess(c, http.StatusOK, "Data retrieved successfully", data)
+	}
+
+	page, limit, offset, search := utils.GetPaginationQuery(c)
+	employeeID := c.QueryParam("employee_id")
+	date := c.QueryParam("date")
+
+	data, total, err := GetPaginatedAttendanceService(offset, limit, search, employeeID, date)
 	if err != nil {
 		return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve data", err.Error())
 	}
-	return utils.SendSuccess(c, http.StatusOK, "Data retrieved successfully", data)
+
+	meta := utils.BuildPaginationMeta(total, page, limit)
+	return utils.SendPaginatedSuccess(c, http.StatusOK, "Data retrieved successfully", data, meta)
 }
 
 // GetAttendanceByID godoc

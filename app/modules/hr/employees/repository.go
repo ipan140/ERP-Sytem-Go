@@ -18,6 +18,35 @@ func GetAllEmployee() ([]Employee, error) {
 	return list, err
 }
 
+func GetPaginatedEmployees(offset int, limit int, search string, departmentID string, isActive string) ([]Employee, int64, error) {
+	var list []Employee
+	var total int64
+
+	query := config.DB.Model(&Employee{})
+
+	if isActive == "true" {
+		query = query.Where("is_active = ?", true)
+	} else if isActive == "false" {
+		query = query.Where("is_active = ?", false)
+	}
+
+	if departmentID != "" && departmentID != "all" && departmentID != "0" {
+		query = query.Where("department_id = ?", departmentID)
+	}
+
+	if search != "" {
+		s := "%" + search + "%"
+		query = query.Where("name ILIKE ? OR work_email ILIKE ? OR work_phone ILIKE ?", s, s, s)
+	}
+
+	if err := query.Count(&total).Error; err != nil {
+		return nil, 0, err
+	}
+
+	err := query.Preload(clause.Associations).Order("id DESC").Offset(offset).Limit(limit).Find(&list).Error
+	return list, total, err
+}
+
 func GetEmployeeByID(id uint) (*Employee, error) {
 	var data Employee
 	err := config.DB.Preload(clause.Associations).First(&data, id).Error
@@ -236,6 +265,41 @@ func GetAllPayslips() ([]Payslip, error) {
 	var list []Payslip
 	err := config.DB.Preload("Employee").Preload("PayslipLines").Order("created_at desc").Find(&list).Error
 	return list, err
+}
+
+func GetPaginatedPayslips(offset, limit int, search, period, department, status string) ([]Payslip, int64, error) {
+	var list []Payslip
+	var total int64
+
+	query := config.DB.Model(&Payslip{}).
+		Joins("LEFT JOIN hrd.employees ON hrd.employees.id = hrd.hr_payslips.employee_id").
+		Joins("LEFT JOIN hrd.departments ON hrd.departments.id = hrd.employees.department_id")
+
+	if period != "" && period != "all" {
+		query = query.Where("hrd.hr_payslips.period = ?", period)
+	}
+
+	if status != "" && status != "all" {
+		query = query.Where("hrd.hr_payslips.status = ?", status)
+	}
+
+	if department != "" && department != "all" {
+		query = query.Where("hrd.departments.name ILIKE ?", "%"+department+"%")
+	}
+
+	if search != "" {
+		s := "%" + search + "%"
+		query = query.Where("hrd.employees.name ILIKE ? OR hrd.hr_payslips.period ILIKE ?", s, s)
+	}
+
+	if err := query.Count(&total).Error; err != nil {
+		return nil, 0, err
+	}
+
+	err := query.Preload("Employee.Department").Preload("Employee.JobPosition").Preload("PayslipLines").
+		Order("hrd.hr_payslips.created_at DESC, hrd.hr_payslips.id DESC").
+		Offset(offset).Limit(limit).Find(&list).Error
+	return list, total, err
 }
 func GetPayslipByID(id uint) (*Payslip, error) {
 	var data Payslip

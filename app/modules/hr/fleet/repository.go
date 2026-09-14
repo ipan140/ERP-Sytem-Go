@@ -15,6 +15,34 @@ func GetAllVehicle() ([]Vehicle, error) {
 	return list, err
 }
 
+func GetPaginatedVehicles(offset, limit int, search string, employeeID string, state string) ([]Vehicle, int64, error) {
+	var list []Vehicle
+	var total int64
+
+	query := config.DB.Model(&Vehicle{})
+
+	if employeeID != "" && employeeID != "all" && employeeID != "0" {
+		query = query.Where("hrd.vehicles.employee_id = ?", employeeID)
+	}
+
+	if state != "" && state != "all" {
+		query = query.Where("hrd.vehicles.state = ?", state)
+	}
+
+	if search != "" {
+		s := "%" + search + "%"
+		query = query.Joins("LEFT JOIN hrd.employees ON hrd.employees.id = hrd.vehicles.employee_id").
+			Where("hrd.vehicles.model_name ILIKE ? OR hrd.vehicles.license_plate ILIKE ? OR hrd.employees.name ILIKE ?", s, s, s)
+	}
+
+	if err := query.Count(&total).Error; err != nil {
+		return nil, 0, err
+	}
+
+	err := query.Preload(clause.Associations).Order("hrd.vehicles.id DESC").Offset(offset).Limit(limit).Find(&list).Error
+	return list, total, err
+}
+
 func GetVehicleByID(id uint) (*Vehicle, error) {
 	var data Vehicle
 	err := config.DB.Preload(clause.Associations).First(&data, id).Error

@@ -14,6 +14,10 @@ func GetAllEmployeeService() ([]Employee, error) {
 	return GetAllEmployee()
 }
 
+func GetPaginatedEmployeeService(offset int, limit int, search string, departmentID string, isActive string) ([]Employee, int64, error) {
+	return GetPaginatedEmployees(offset, limit, search, departmentID, isActive)
+}
+
 func GetEmployeeByIDService(id uint) (*Employee, error) {
 	return GetEmployeeByID(id)
 }

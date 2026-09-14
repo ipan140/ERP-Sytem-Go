@@ -38,11 +38,25 @@ func CreatePayslipHandler(c echo.Context) error {
 // @Router /api/hr/payroll [get]
 // @Security BearerAuth
 func GetAllPayslipHandler(c echo.Context) error {
-	data, err := GetAllPayslipService()
+	if c.QueryParam("all") == "true" {
+		data, err := GetAllPayslipService()
+		if err != nil {
+			return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve data", err.Error())
+		}
+		return utils.SendSuccess(c, http.StatusOK, "Data retrieved successfully", data)
+	}
+
+	page, limit, offset, search := utils.GetPaginationQuery(c)
+	employeeID := c.QueryParam("employee_id")
+	state := c.QueryParam("state")
+
+	data, total, err := GetPaginatedPayslipsService(offset, limit, search, employeeID, state)
 	if err != nil {
 		return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve data", err.Error())
 	}
-	return utils.SendSuccess(c, http.StatusOK, "Data retrieved successfully", data)
+
+	meta := utils.BuildPaginationMeta(total, page, limit)
+	return utils.SendPaginatedSuccess(c, http.StatusOK, "Data retrieved successfully", data, meta)
 }
 
 // GetPayslipByID godoc

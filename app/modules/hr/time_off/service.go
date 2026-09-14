@@ -22,6 +22,10 @@ func GetAllLeaveRequestService() ([]LeaveRequest, error) {
 	return GetAllLeaveRequest()
 }
 
+func GetPaginatedLeaveRequestService(offset, limit int, search, employeeID, status string) ([]LeaveRequest, int64, error) {
+	return GetPaginatedLeaveRequests(offset, limit, search, employeeID, status)
+}
+
 func GetLeaveRequestByIDService(id uint) (*LeaveRequest, error) {
 	return GetLeaveRequestByID(id)
 }

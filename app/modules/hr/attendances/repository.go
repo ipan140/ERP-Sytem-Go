@@ -15,6 +15,34 @@ func GetAllAttendance() ([]Attendance, error) {
 	return list, err
 }
 
+func GetPaginatedAttendances(offset, limit int, search string, employeeID string, date string) ([]Attendance, int64, error) {
+	var list []Attendance
+	var total int64
+
+	query := config.DB.Model(&Attendance{})
+
+	if employeeID != "" && employeeID != "all" && employeeID != "0" {
+		query = query.Where("hrd.attendances.employee_id = ?", employeeID)
+	}
+
+	if date != "" {
+		query = query.Where("DATE(hrd.attendances.check_in) = ?", date)
+	}
+
+	if search != "" {
+		s := "%" + search + "%"
+		query = query.Joins("LEFT JOIN employees ON employees.id = hrd.attendances.employee_id").
+			Where("employees.name ILIKE ?", s)
+	}
+
+	if err := query.Count(&total).Error; err != nil {
+		return nil, 0, err
+	}
+
+	err := query.Preload(clause.Associations).Order("hrd.attendances.check_in DESC, hrd.attendances.id DESC").Offset(offset).Limit(limit).Find(&list).Error
+	return list, total, err
+}
+
 func GetAttendanceByID(id uint) (*Attendance, error) {
 	var data Attendance
 	err := config.DB.Preload(clause.Associations).First(&data, id).Error

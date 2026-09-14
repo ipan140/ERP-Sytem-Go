@@ -38,11 +38,25 @@ func CreateLunchOrderHandler(c echo.Context) error {
 // @Router /api/hr/lunch [get]
 // @Security BearerAuth
 func GetAllLunchOrderHandler(c echo.Context) error {
-	data, err := GetAllLunchOrderService()
+	if c.QueryParam("all") == "true" {
+		data, err := GetAllLunchOrderService()
+		if err != nil {
+			return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve data", err.Error())
+		}
+		return utils.SendSuccess(c, http.StatusOK, "Data retrieved successfully", data)
+	}
+
+	page, limit, offset, search := utils.GetPaginationQuery(c)
+	employeeID := c.QueryParam("employee_id")
+	state := c.QueryParam("state")
+
+	data, total, err := GetPaginatedLunchOrdersService(offset, limit, search, employeeID, state)
 	if err != nil {
 		return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve data", err.Error())
 	}
-	return utils.SendSuccess(c, http.StatusOK, "Data retrieved successfully", data)
+
+	meta := utils.BuildPaginationMeta(total, page, limit)
+	return utils.SendPaginatedSuccess(c, http.StatusOK, "Data retrieved successfully", data, meta)
 }
 
 // GetLunchOrderByID godoc
@@ -133,11 +147,24 @@ func CreateLunchCashmoveHandler(c echo.Context) error {
 // @Router /api/hr/lunch/lunchcashmove [get]
 // @Security BearerAuth
 func GetAllLunchCashmoveHandler(c echo.Context) error {
-	data, err := GetAllLunchCashmoveService()
+	if c.QueryParam("all") == "true" {
+		data, err := GetAllLunchCashmoveService()
+		if err != nil {
+			return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve", err.Error())
+		}
+		return utils.SendSuccess(c, http.StatusOK, "Retrieved successfully", data)
+	}
+
+	page, limit, offset, search := utils.GetPaginationQuery(c)
+	employeeID := c.QueryParam("employee_id")
+
+	data, total, err := GetPaginatedLunchCashmovesService(offset, limit, search, employeeID)
 	if err != nil {
 		return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve", err.Error())
 	}
-	return utils.SendSuccess(c, http.StatusOK, "Retrieved successfully", data)
+
+	meta := utils.BuildPaginationMeta(total, page, limit)
+	return utils.SendPaginatedSuccess(c, http.StatusOK, "Retrieved successfully", data, meta)
 }
 func GetLunchCashmoveByIDHandler(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))

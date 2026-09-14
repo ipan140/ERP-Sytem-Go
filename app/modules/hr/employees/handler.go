@@ -62,11 +62,25 @@ func CreateEmployeeHandler(c echo.Context) error {
 // @Router /api/hr/employees [get]
 // @Security BearerAuth
 func GetAllEmployeeHandler(c echo.Context) error {
-	data, err := GetAllEmployeeService()
+	if c.QueryParam("all") == "true" {
+		data, err := GetAllEmployeeService()
+		if err != nil {
+			return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve data", err.Error())
+		}
+		return utils.SendSuccess(c, http.StatusOK, "Data retrieved successfully", data)
+	}
+
+	page, limit, offset, search := utils.GetPaginationQuery(c)
+	departmentID := c.QueryParam("department_id")
+	isActive := c.QueryParam("is_active")
+
+	data, total, err := GetPaginatedEmployeeService(offset, limit, search, departmentID, isActive)
 	if err != nil {
 		return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve data", err.Error())
 	}
-	return utils.SendSuccess(c, http.StatusOK, "Data retrieved successfully", data)
+
+	meta := utils.BuildPaginationMeta(total, page, limit)
+	return utils.SendPaginatedSuccess(c, http.StatusOK, "Data retrieved successfully", data, meta)
 }
 
 // GetEmployeeByID godoc
@@ -1660,9 +1674,24 @@ func DeleteExpenseHandler(c echo.Context) error {
 // @Router /api/hr/employees/payroll [get]
 // @Security BearerAuth
 func GetAllPayslipsHandler(c echo.Context) error {
-	data, err := GetAllPayslips()
-	if err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error()) }
-	return utils.SendSuccess(c, http.StatusOK, "Success", data)
+	if c.QueryParam("all") == "true" {
+		data, err := GetAllPayslips()
+		if err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error()) }
+		return utils.SendSuccess(c, http.StatusOK, "Success", data)
+	}
+
+	page, limit, offset, search := utils.GetPaginationQuery(c)
+	period := c.QueryParam("period")
+	department := c.QueryParam("department")
+	status := c.QueryParam("status")
+
+	data, total, err := GetPaginatedPayslips(offset, limit, search, period, department, status)
+	if err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error())
+	}
+
+	meta := utils.BuildPaginationMeta(total, page, limit)
+	return utils.SendPaginatedSuccess(c, http.StatusOK, "Success", data, meta)
 }
 // GetPayslipByIDHandler godoc
 // @Summary Endpoint for GetPayslipByID

@@ -38,11 +38,26 @@ func CreateApplicantHandler(c echo.Context) error {
 // @Router /api/hr/recruitment [get]
 // @Security BearerAuth
 func GetAllApplicantHandler(c echo.Context) error {
-	data, err := GetAllApplicantService()
+	if c.QueryParam("all") == "true" {
+		data, err := GetAllApplicantService()
+		if err != nil {
+			return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve data", err.Error())
+		}
+		return utils.SendSuccess(c, http.StatusOK, "Data retrieved successfully", data)
+	}
+
+	page, limit, offset, search := utils.GetPaginationQuery(c)
+	jobPositionID := c.QueryParam("job_position_id")
+	stageID := c.QueryParam("stage_id")
+	state := c.QueryParam("state")
+
+	data, total, err := GetPaginatedApplicantService(offset, limit, search, jobPositionID, stageID, state)
 	if err != nil {
 		return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve data", err.Error())
 	}
-	return utils.SendSuccess(c, http.StatusOK, "Data retrieved successfully", data)
+
+	meta := utils.BuildPaginationMeta(total, page, limit)
+	return utils.SendPaginatedSuccess(c, http.StatusOK, "Data retrieved successfully", data, meta)
 }
 
 // GetApplicantByID godoc

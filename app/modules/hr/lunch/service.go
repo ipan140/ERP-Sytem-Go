@@ -8,6 +8,10 @@ func GetAllLunchOrderService() ([]LunchOrder, error) {
 	return GetAllLunchOrder()
 }
 
+func GetPaginatedLunchOrdersService(offset, limit int, search, employeeID, state string) ([]LunchOrder, int64, error) {
+	return GetPaginatedLunchOrders(offset, limit, search, employeeID, state)
+}
+
 func GetLunchOrderByIDService(id uint) (*LunchOrder, error) {
 	return GetLunchOrderByID(id)
 }
@@ -22,6 +26,9 @@ func DeleteLunchOrderService(id uint) error {
 
 func CreateLunchCashmoveService(data *LunchCashmove) error        { return CreateLunchCashmove(data) }
 func GetAllLunchCashmoveService() ([]LunchCashmove, error)        { return GetAllLunchCashmove() }
+func GetPaginatedLunchCashmovesService(offset, limit int, search, employeeID string) ([]LunchCashmove, int64, error) {
+	return GetPaginatedLunchCashmoves(offset, limit, search, employeeID)
+}
 func GetLunchCashmoveByIDService(id uint) (*LunchCashmove, error) { return GetLunchCashmoveByID(id) }
 func UpdateLunchCashmoveService(data *LunchCashmove) error        { return UpdateLunchCashmove(data) }
 func DeleteLunchCashmoveService(id uint) error                    { return DeleteLunchCashmove(id) }
