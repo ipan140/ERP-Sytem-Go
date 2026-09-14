@@ -41,6 +41,10 @@ func GetAllConsolidationReportsService() ([]ConsolidationReport, error) {
 	return GetAllConsolidationReports()
 }
 
+func GetPaginatedConsolidationReportsService(offset, limit int, search string) ([]ConsolidationReport, int64, error) {
+	return GetPaginatedConsolidationReports(offset, limit, search)
+}
+
 func GetConsolidationReportByIDService(id uint) (*ConsolidationReport, error) {
 	return GetConsolidationReportByID(id)
 }

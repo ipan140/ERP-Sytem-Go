@@ -1,4 +1,4 @@
-﻿package tax
+package tax
 
 import (
 	"fmt"
@@ -34,6 +34,10 @@ func GetAllTaxReportsService() ([]TaxReportSummary, float64, error) {
 		totalTaxAmount += it.TaxAmount
 	}
 	return list, totalTaxAmount, nil
+}
+
+func GetPaginatedTaxReportsService(offset int, limit int, search string, taxType string) ([]TaxReportSummary, int64, float64, error) {
+	return GetPaginatedTaxReportsRepo(offset, limit, search, taxType)
 }
 
 func CreateTaxReportService(t *TaxReportSummary) error {

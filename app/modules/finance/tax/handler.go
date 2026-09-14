@@ -1,4 +1,4 @@
-﻿package tax
+package tax
 
 import (
 	"ERP-System/common/utils"
@@ -98,16 +98,34 @@ func DeleteTaxMasterConfigHandler(c echo.Context) error {
 // @Router /api/finance/tax [get]
 // @Security BearerAuth
 func GetAllTaxReportsHandler(c echo.Context) error {
-	list, totalTaxAmount, err := GetAllTaxReportsService()
+	if c.QueryParam("all") == "true" {
+		list, totalTaxAmount, err := GetAllTaxReportsService()
+		if err != nil {
+			return utils.SendError(c, http.StatusInternalServerError, "Gagal mengambil data pajak", err.Error())
+		}
+		return utils.SendSuccess(c, http.StatusOK, "Tax reports retrieved", map[string]interface{}{
+			"items":            list,
+			"total_tax_amount": totalTaxAmount,
+			"currency":         "IDR",
+			"tax_office":       "KPP Pratama Jakarta Kebayoran Baru",
+		})
+	}
+
+	page, limit, offset, search := utils.GetPaginationQuery(c)
+	taxType := c.QueryParam("tax_type")
+
+	list, total, totalTaxAmount, err := GetPaginatedTaxReportsService(offset, limit, search, taxType)
 	if err != nil {
 		return utils.SendError(c, http.StatusInternalServerError, "Gagal mengambil data pajak", err.Error())
 	}
-	return utils.SendSuccess(c, http.StatusOK, "Tax reports retrieved", map[string]interface{}{
+
+	meta := utils.BuildPaginationMeta(total, page, limit)
+	return utils.SendPaginatedSuccess(c, http.StatusOK, "Tax reports retrieved", map[string]interface{}{
 		"items":            list,
 		"total_tax_amount": totalTaxAmount,
 		"currency":         "IDR",
 		"tax_office":       "KPP Pratama Jakarta Kebayoran Baru",
-	})
+	}, meta)
 }
 
 // CreateTaxReportHandler godoc

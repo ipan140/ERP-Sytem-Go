@@ -19,11 +19,23 @@ import (
 // --- Chart of Accounts (COA) Handlers ---
 func GetAllAccountsHandler(c echo.Context) error {
 	_ = SeedStandardIndonesianCOA() // Auto-seed jika masih kosong
-	data, err := GetAllAccounts()
+	if c.QueryParam("all") == "true" {
+		data, err := GetAllAccounts()
+		if err != nil {
+			return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve accounts", err.Error())
+		}
+		return utils.SendSuccess(c, http.StatusOK, "Success", data)
+	}
+
+	page, limit, offset, search := utils.GetPaginationQuery(c)
+	category := c.QueryParam("category")
+	data, total, err := GetPaginatedAccounts(offset, limit, search, category)
 	if err != nil {
 		return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve accounts", err.Error())
 	}
-	return utils.SendSuccess(c, http.StatusOK, "Success", data)
+
+	meta := utils.BuildPaginationMeta(total, page, limit)
+	return utils.SendPaginatedSuccess(c, http.StatusOK, "Success", data, meta)
 }
 
 func GetAccountByIDHandler(c echo.Context) error {
@@ -491,11 +503,24 @@ func CreateJournalEntryHandler(c echo.Context) error {
 // @Router /api/finance/accounting [get]
 // @Security BearerAuth
 func GetAllJournalEntryHandler(c echo.Context) error {
-	data, err := GetAllJournalEntryService()
+	if c.QueryParam("all") == "true" {
+		data, err := GetAllJournalEntryService()
+		if err != nil {
+			return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve data", err.Error())
+		}
+		return utils.SendSuccess(c, http.StatusOK, "Data retrieved successfully", data)
+	}
+
+	page, limit, offset, search := utils.GetPaginationQuery(c)
+	status := c.QueryParam("status")
+
+	data, total, err := GetPaginatedJournalEntryService(offset, limit, search, status)
 	if err != nil {
 		return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve data", err.Error())
 	}
-	return utils.SendSuccess(c, http.StatusOK, "Data retrieved successfully", data)
+
+	meta := utils.BuildPaginationMeta(total, page, limit)
+	return utils.SendPaginatedSuccess(c, http.StatusOK, "Data retrieved successfully", data, meta)
 }
 
 // GetJournalEntryByID godoc

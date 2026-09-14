@@ -39,11 +39,24 @@ func CreateApprovalRequestHandler(c echo.Context) error {
 // @Router /api/finance/approvals [get]
 // @Security BearerAuth
 func GetAllApprovalRequestHandler(c echo.Context) error {
-	data, err := GetAllApprovalRequestService()
+	if c.QueryParam("all") == "true" {
+		data, err := GetAllApprovalRequestService()
+		if err != nil {
+			return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve data", err.Error())
+		}
+		return utils.SendSuccess(c, http.StatusOK, "Data retrieved successfully", data)
+	}
+
+	page, limit, offset, search := utils.GetPaginationQuery(c)
+	status := c.QueryParam("status")
+
+	data, total, err := GetPaginatedApprovalRequestService(offset, limit, search, status)
 	if err != nil {
 		return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve data", err.Error())
 	}
-	return utils.SendSuccess(c, http.StatusOK, "Data retrieved successfully", data)
+
+	meta := utils.BuildPaginationMeta(total, page, limit)
+	return utils.SendPaginatedSuccess(c, http.StatusOK, "Data retrieved successfully", data, meta)
 }
 
 // GetApprovalRequestByID godoc

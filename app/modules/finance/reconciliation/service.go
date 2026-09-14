@@ -1,4 +1,4 @@
-﻿package reconciliation
+package reconciliation
 
 import (
 	"encoding/csv"
@@ -10,6 +10,10 @@ import (
 
 func GetAllBankStatementsService() ([]BankStatementItem, error) {
 	return GetAllBankStatementsRepo()
+}
+
+func GetPaginatedBankStatementsService(offset int, limit int, search string, bank string, status string) ([]BankStatementItem, int64, error) {
+	return GetPaginatedBankStatementsRepo(offset, limit, search, bank, status)
 }
 
 func CreateBankStatementService(item *BankStatementItem) error {

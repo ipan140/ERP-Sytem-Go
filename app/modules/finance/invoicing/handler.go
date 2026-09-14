@@ -43,11 +43,24 @@ func CreateInvoiceHandler(c echo.Context) error {
 // @Router /api/finance/invoicing [get]
 // @Security BearerAuth
 func GetAllInvoiceHandler(c echo.Context) error {
-	data, err := GetAllInvoiceService()
+	if c.QueryParam("all") == "true" {
+		data, err := GetAllInvoiceService()
+		if err != nil {
+			return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve data", err.Error())
+		}
+		return utils.SendSuccess(c, http.StatusOK, "Data retrieved successfully", data)
+	}
+
+	page, limit, offset, search := utils.GetPaginationQuery(c)
+	status := c.QueryParam("status")
+
+	data, total, err := GetPaginatedInvoiceService(offset, limit, search, status)
 	if err != nil {
 		return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve data", err.Error())
 	}
-	return utils.SendSuccess(c, http.StatusOK, "Data retrieved successfully", data)
+
+	meta := utils.BuildPaginationMeta(total, page, limit)
+	return utils.SendPaginatedSuccess(c, http.StatusOK, "Data retrieved successfully", data, meta)
 }
 
 // GetInvoiceByID godoc

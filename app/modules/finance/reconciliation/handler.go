@@ -17,11 +17,25 @@ import (
 // @Router /api/finance/reconciliation [get]
 // @Security BearerAuth
 func GetAllBankStatementsHandler(c echo.Context) error {
-	list, err := GetAllBankStatementsService()
+	if c.QueryParam("all") == "true" {
+		list, err := GetAllBankStatementsService()
+		if err != nil {
+			return utils.SendError(c, http.StatusInternalServerError, "Gagal mengambil data", err.Error())
+		}
+		return utils.SendSuccess(c, http.StatusOK, "Bank statement items retrieved", list)
+	}
+
+	page, limit, offset, search := utils.GetPaginationQuery(c)
+	bank := c.QueryParam("bank")
+	status := c.QueryParam("status")
+
+	list, total, err := GetPaginatedBankStatementsService(offset, limit, search, bank, status)
 	if err != nil {
 		return utils.SendError(c, http.StatusInternalServerError, "Gagal mengambil data", err.Error())
 	}
-	return utils.SendSuccess(c, http.StatusOK, "Bank statement items retrieved", list)
+
+	meta := utils.BuildPaginationMeta(total, page, limit)
+	return utils.SendPaginatedSuccess(c, http.StatusOK, "Bank statement items retrieved", list, meta)
 }
 
 // CreateBankStatementHandler godoc

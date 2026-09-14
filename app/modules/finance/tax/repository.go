@@ -34,6 +34,32 @@ func GetAllTaxReportsRepo() ([]TaxReportSummary, error) {
 	return list, err
 }
 
+func GetPaginatedTaxReportsRepo(offset int, limit int, search string, taxType string) ([]TaxReportSummary, int64, float64, error) {
+	var list []TaxReportSummary
+	var total int64
+
+	var summary struct {
+		TotalTax float64
+	}
+	config.DB.Model(&TaxReportSummary{}).Select("COALESCE(SUM(tax_amount), 0) as total_tax").Scan(&summary)
+
+	query := config.DB.Model(&TaxReportSummary{})
+	if taxType != "" && taxType != "all" && taxType != "All" && taxType != "Semua" {
+		query = query.Where("tax_type = ?", taxType)
+	}
+	if search != "" {
+		s := "%" + search + "%"
+		query = query.Where("partner_name ILIKE ? OR npwp ILIKE ? OR tax_period ILIKE ?", s, s, s)
+	}
+
+	if err := query.Count(&total).Error; err != nil {
+		return nil, 0, 0, err
+	}
+
+	err := query.Order("id asc").Offset(offset).Limit(limit).Find(&list).Error
+	return list, total, summary.TotalTax, err
+}
+
 func GetTaxReportByIDRepo(id uint) (*TaxReportSummary, error) {
 	var item TaxReportSummary
 	err := config.DB.First(&item, id).Error

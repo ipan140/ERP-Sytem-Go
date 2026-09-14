@@ -45,6 +45,10 @@ func GetAllAssetsService() ([]FixedAsset, float64, float64, float64, error) {
 	return list, totalAcq, totalAccum, totalNBV, nil
 }
 
+func GetPaginatedAssetsService(offset int, limit int, search string, category string) ([]FixedAsset, int64, float64, float64, float64, error) {
+	return GetPaginatedAssetsRepo(offset, limit, search, category)
+}
+
 func CreateAssetService(asset *FixedAsset) error {
 	if asset.AcquisitionDate.IsZero() {
 		asset.AcquisitionDate = time.Now()

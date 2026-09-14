@@ -42,6 +42,10 @@ func GetAllInvoiceService() ([]Invoice, error) {
 	return GetAllInvoice()
 }
 
+func GetPaginatedInvoiceService(offset int, limit int, search string, status string) ([]Invoice, int64, error) {
+	return GetPaginatedInvoices(offset, limit, search, status)
+}
+
 func GetInvoiceByIDService(id uint) (*Invoice, error) {
 	return GetInvoiceByID(id)
 }

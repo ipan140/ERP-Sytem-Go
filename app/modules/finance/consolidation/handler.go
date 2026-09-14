@@ -30,11 +30,22 @@ func GenerateConsolidationHandler(c echo.Context) error {
 }
 
 func GetAllConsolidationReportsHandler(c echo.Context) error {
-	data, err := GetAllConsolidationReportsService()
+	if c.QueryParam("all") == "true" {
+		data, err := GetAllConsolidationReportsService()
+		if err != nil {
+			return utils.SendError(c, http.StatusInternalServerError, "Gagal mengambil data", err.Error())
+		}
+		return utils.SendSuccess(c, http.StatusOK, "Berhasil mengambil data", data)
+	}
+
+	page, limit, offset, search := utils.GetPaginationQuery(c)
+	data, total, err := GetPaginatedConsolidationReportsService(offset, limit, search)
 	if err != nil {
 		return utils.SendError(c, http.StatusInternalServerError, "Gagal mengambil data", err.Error())
 	}
-	return utils.SendSuccess(c, http.StatusOK, "Berhasil mengambil data", data)
+
+	meta := utils.BuildPaginationMeta(total, page, limit)
+	return utils.SendPaginatedSuccess(c, http.StatusOK, "Berhasil mengambil data", data, meta)
 }
 
 func GetConsolidationReportByIDHandler(c echo.Context) error {

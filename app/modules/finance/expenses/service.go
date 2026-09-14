@@ -57,6 +57,10 @@ func GetAllExpenseService() ([]Expense, error) {
 	return GetAllExpense()
 }
 
+func GetPaginatedExpenseService(offset int, limit int, search string, status string) ([]Expense, int64, error) {
+	return GetPaginatedExpenses(offset, limit, search, status)
+}
+
 func GetExpenseByIDService(id uint) (*Expense, error) {
 	return GetExpenseByID(id)
 }
@@ -85,8 +89,11 @@ func DeleteExpenseService(id uint) error {
 	return DeleteExpense(id)
 }
 
-func CreateExpenseSheetService(data *ExpenseSheet) error        { return CreateExpenseSheet(data) }
-func GetAllExpenseSheetService() ([]ExpenseSheet, error)        { return GetAllExpenseSheet() }
+func CreateExpenseSheetService(data *ExpenseSheet) error { return CreateExpenseSheet(data) }
+func GetAllExpenseSheetService() ([]ExpenseSheet, error) { return GetAllExpenseSheet() }
+func GetPaginatedExpenseSheetService(offset int, limit int, search string, status string) ([]ExpenseSheet, int64, error) {
+	return GetPaginatedExpenseSheets(offset, limit, search, status)
+}
 func GetExpenseSheetByIDService(id uint) (*ExpenseSheet, error) { return GetExpenseSheetByID(id) }
 func UpdateExpenseSheetService(data *ExpenseSheet) error        { return UpdateExpenseSheet(data) }
 func DeleteExpenseSheetService(id uint) error                   { return DeleteExpenseSheet(id) }

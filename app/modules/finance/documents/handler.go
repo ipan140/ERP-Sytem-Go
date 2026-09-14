@@ -38,11 +38,22 @@ func CreateFinanceDocumentHandler(c echo.Context) error {
 // @Router /api/finance/documents [get]
 // @Security BearerAuth
 func GetAllFinanceDocumentHandler(c echo.Context) error {
-	data, err := GetAllFinanceDocumentService()
+	if c.QueryParam("all") == "true" {
+		data, err := GetAllFinanceDocumentService()
+		if err != nil {
+			return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve data", err.Error())
+		}
+		return utils.SendSuccess(c, http.StatusOK, "Data retrieved successfully", data)
+	}
+
+	page, limit, offset, search := utils.GetPaginationQuery(c)
+	data, total, err := GetPaginatedFinanceDocumentService(offset, limit, search)
 	if err != nil {
 		return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve data", err.Error())
 	}
-	return utils.SendSuccess(c, http.StatusOK, "Data retrieved successfully", data)
+
+	meta := utils.BuildPaginationMeta(total, page, limit)
+	return utils.SendPaginatedSuccess(c, http.StatusOK, "Data retrieved successfully", data, meta)
 }
 
 // GetFinanceDocumentByID godoc

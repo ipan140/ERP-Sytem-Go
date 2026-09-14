@@ -38,6 +38,10 @@ func GetAllJournalEntryService() ([]JournalEntry, error) {
 	return GetAllJournalEntry()
 }
 
+func GetPaginatedJournalEntryService(offset int, limit int, search string, status string) ([]JournalEntry, int64, error) {
+	return GetPaginatedJournalEntries(offset, limit, search, status)
+}
+
 func GetJournalEntryByIDService(id uint) (*JournalEntry, error) {
 	return GetJournalEntryByID(id)
 }

@@ -39,11 +39,24 @@ func CreateExpenseHandler(c echo.Context) error {
 // @Router /api/finance/expenses [get]
 // @Security BearerAuth
 func GetAllExpenseHandler(c echo.Context) error {
-	data, err := GetAllExpenseService()
+	if c.QueryParam("all") == "true" {
+		data, err := GetAllExpenseService()
+		if err != nil {
+			return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve data", err.Error())
+		}
+		return utils.SendSuccess(c, http.StatusOK, "Data retrieved successfully", data)
+	}
+
+	page, limit, offset, search := utils.GetPaginationQuery(c)
+	status := c.QueryParam("status")
+
+	data, total, err := GetPaginatedExpenseService(offset, limit, search, status)
 	if err != nil {
 		return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve data", err.Error())
 	}
-	return utils.SendSuccess(c, http.StatusOK, "Data retrieved successfully", data)
+
+	meta := utils.BuildPaginationMeta(total, page, limit)
+	return utils.SendPaginatedSuccess(c, http.StatusOK, "Data retrieved successfully", data, meta)
 }
 
 // GetExpenseByID godoc
@@ -134,11 +147,24 @@ func CreateExpenseSheetHandler(c echo.Context) error {
 // @Router /api/finance/expenses/expensesheet [get]
 // @Security BearerAuth
 func GetAllExpenseSheetHandler(c echo.Context) error {
-	data, err := GetAllExpenseSheetService()
+	if c.QueryParam("all") == "true" {
+		data, err := GetAllExpenseSheetService()
+		if err != nil {
+			return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve", err.Error())
+		}
+		return utils.SendSuccess(c, http.StatusOK, "Retrieved successfully", data)
+	}
+
+	page, limit, offset, search := utils.GetPaginationQuery(c)
+	status := c.QueryParam("status")
+
+	data, total, err := GetPaginatedExpenseSheetService(offset, limit, search, status)
 	if err != nil {
 		return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve", err.Error())
 	}
-	return utils.SendSuccess(c, http.StatusOK, "Retrieved successfully", data)
+
+	meta := utils.BuildPaginationMeta(total, page, limit)
+	return utils.SendPaginatedSuccess(c, http.StatusOK, "Retrieved successfully", data, meta)
 }
 func GetExpenseSheetByIDHandler(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))

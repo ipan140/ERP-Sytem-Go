@@ -15,6 +15,25 @@ func GetAllConsolidationReports() ([]ConsolidationReport, error) {
 	return list, err
 }
 
+func GetPaginatedConsolidationReports(offset, limit int, search string) ([]ConsolidationReport, int64, error) {
+	var list []ConsolidationReport
+	var total int64
+
+	query := config.DB.Model(&ConsolidationReport{})
+
+	if search != "" {
+		s := "%" + search + "%"
+		query = query.Where("name ILIKE ? OR period ILIKE ?", s, s)
+	}
+
+	if err := query.Count(&total).Error; err != nil {
+		return nil, 0, err
+	}
+
+	err := query.Order("created_at desc, id desc").Offset(offset).Limit(limit).Find(&list).Error
+	return list, total, err
+}
+
 func GetConsolidationReportByID(id uint) (*ConsolidationReport, error) {
 	var data ConsolidationReport
 	err := config.DB.Preload(clause.Associations).First(&data, id).Error

@@ -8,6 +8,10 @@ func GetAllSignatureRequestService() ([]SignatureRequest, error) {
 	return GetAllSignatureRequest()
 }
 
+func GetPaginatedSignatureRequestService(offset int, limit int, search, status string) ([]SignatureRequest, int64, error) {
+	return GetPaginatedSignatureRequests(offset, limit, search, status)
+}
+
 func GetSignatureRequestByIDService(id uint) (*SignatureRequest, error) {
 	return GetSignatureRequestByID(id)
 }

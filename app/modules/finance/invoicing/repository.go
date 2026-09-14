@@ -15,6 +15,29 @@ func GetAllInvoice() ([]Invoice, error) {
 	return list, err
 }
 
+func GetPaginatedInvoices(offset int, limit int, search string, status string) ([]Invoice, int64, error) {
+	var list []Invoice
+	var total int64
+
+	query := config.DB.Model(&Invoice{}).Preload(clause.Associations)
+
+	if status != "" && status != "all" && status != "All" && status != "Semua" {
+		query = query.Where("invoices.state = ?", status)
+	}
+	if search != "" {
+		s := "%" + search + "%"
+		query = query.Joins("LEFT JOIN partners ON partners.id = invoices.partner_id").
+			Where("invoices.name ILIKE ? OR partners.name ILIKE ?", s, s)
+	}
+
+	if err := query.Count(&total).Error; err != nil {
+		return nil, 0, err
+	}
+
+	err := query.Order("invoices.id DESC").Offset(offset).Limit(limit).Find(&list).Error
+	return list, total, err
+}
+
 func GetInvoiceByID(id uint) (*Invoice, error) {
 	var data Invoice
 	err := config.DB.Preload(clause.Associations).First(&data, id).Error

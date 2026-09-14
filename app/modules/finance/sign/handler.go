@@ -40,11 +40,24 @@ func CreateSignatureRequestHandler(c echo.Context) error {
 // @Router /api/finance/sign [get]
 // @Security BearerAuth
 func GetAllSignatureRequestHandler(c echo.Context) error {
-	data, err := GetAllSignatureRequestService()
+	if c.QueryParam("all") == "true" {
+		data, err := GetAllSignatureRequestService()
+		if err != nil {
+			return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve data", err.Error())
+		}
+		return utils.SendSuccess(c, http.StatusOK, "Data retrieved successfully", data)
+	}
+
+	page, limit, offset, search := utils.GetPaginationQuery(c)
+	status := c.QueryParam("status")
+
+	data, total, err := GetPaginatedSignatureRequestService(offset, limit, search, status)
 	if err != nil {
 		return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve data", err.Error())
 	}
-	return utils.SendSuccess(c, http.StatusOK, "Data retrieved successfully", data)
+
+	meta := utils.BuildPaginationMeta(total, page, limit)
+	return utils.SendPaginatedSuccess(c, http.StatusOK, "Data retrieved successfully", data, meta)
 }
 
 // GetSignatureRequestByID godoc

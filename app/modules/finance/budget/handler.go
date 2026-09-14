@@ -1,4 +1,4 @@
-﻿package budget
+package budget
 
 import (
 	"ERP-System/common/utils"
@@ -17,17 +17,35 @@ import (
 // @Router /api/finance/budget [get]
 // @Security BearerAuth
 func GetAllBudgetsHandler(c echo.Context) error {
-	list, totalLimit, totalSpent, remaining, overallUsage, err := GetAllBudgetsService()
+	if c.QueryParam("all") == "true" {
+		list, totalLimit, totalSpent, remaining, overallUsage, err := GetAllBudgetsService()
+		if err != nil {
+			return utils.SendError(c, http.StatusInternalServerError, "Gagal mengambil data anggaran", err.Error())
+		}
+		return utils.SendSuccess(c, http.StatusOK, "Budgets retrieved", map[string]interface{}{
+			"items":             list,
+			"total_allocated":   totalLimit,
+			"total_realized":    totalSpent,
+			"total_remaining":   remaining,
+			"overall_usage_pct": overallUsage,
+		})
+	}
+
+	page, limit, offset, search := utils.GetPaginationQuery(c)
+
+	list, total, totalLimit, totalSpent, remaining, overallUsage, err := GetPaginatedBudgetsService(offset, limit, search)
 	if err != nil {
 		return utils.SendError(c, http.StatusInternalServerError, "Gagal mengambil data anggaran", err.Error())
 	}
-	return utils.SendSuccess(c, http.StatusOK, "Budgets retrieved", map[string]interface{}{
+
+	meta := utils.BuildPaginationMeta(total, page, limit)
+	return utils.SendPaginatedSuccess(c, http.StatusOK, "Budgets retrieved", map[string]interface{}{
 		"items":             list,
 		"total_allocated":   totalLimit,
 		"total_realized":    totalSpent,
 		"total_remaining":   remaining,
 		"overall_usage_pct": overallUsage,
-	})
+	}, meta)
 }
 
 // CreateBudgetHandler godoc

@@ -1,4 +1,4 @@
-﻿package budget
+package budget
 
 import (
 	"math"
@@ -22,6 +22,10 @@ func GetAllBudgetsService() ([]DepartmentBudget, float64, float64, float64, floa
 	}
 
 	return list, totalLimit, totalSpent, remaining, overallUsage, nil
+}
+
+func GetPaginatedBudgetsService(offset int, limit int, search string) ([]DepartmentBudget, int64, float64, float64, float64, float64, error) {
+	return GetPaginatedBudgetsRepo(offset, limit, search)
 }
 
 func calculateBudgetMetrics(b *DepartmentBudget) {

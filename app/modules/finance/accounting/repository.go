@@ -16,6 +16,28 @@ func GetAllAccounts() ([]Account, error) {
 	return list, err
 }
 
+func GetPaginatedAccounts(offset int, limit int, search string, category string) ([]Account, int64, error) {
+	var list []Account
+	var total int64
+
+	query := config.DB.Model(&Account{})
+
+	if category != "" && category != "all" && category != "All" && category != "Semua" {
+		query = query.Where("type = ? OR category ILIKE ?", category, "%"+category+"%")
+	}
+	if search != "" {
+		s := "%" + search + "%"
+		query = query.Where("code ILIKE ? OR name ILIKE ?", s, s)
+	}
+
+	if err := query.Count(&total).Error; err != nil {
+		return nil, 0, err
+	}
+
+	err := query.Order("code asc").Offset(offset).Limit(limit).Find(&list).Error
+	return list, total, err
+}
+
 func GetAccountByID(id uint) (*Account, error) {
 	var data Account
 	err := config.DB.First(&data, id).Error
@@ -91,6 +113,28 @@ func GetAllJournalEntry() ([]JournalEntry, error) {
 	var list []JournalEntry
 	err := config.DB.Preload(clause.Associations).Find(&list).Error
 	return list, err
+}
+
+func GetPaginatedJournalEntries(offset int, limit int, search string, status string) ([]JournalEntry, int64, error) {
+	var list []JournalEntry
+	var total int64
+
+	query := config.DB.Model(&JournalEntry{}).Preload(clause.Associations)
+
+	if status != "" && status != "all" && status != "All" && status != "Semua" {
+		query = query.Where("state = ?", status)
+	}
+	if search != "" {
+		s := "%" + search + "%"
+		query = query.Where("name ILIKE ?", s)
+	}
+
+	if err := query.Count(&total).Error; err != nil {
+		return nil, 0, err
+	}
+
+	err := query.Order("id DESC").Offset(offset).Limit(limit).Find(&list).Error
+	return list, total, err
 }
 
 func GetJournalEntryByID(id uint) (*JournalEntry, error) {

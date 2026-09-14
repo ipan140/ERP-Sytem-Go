@@ -1,4 +1,4 @@
-﻿package assets
+package assets
 
 import (
 	"ERP-System/common/utils"
@@ -97,16 +97,34 @@ func DeleteCategoryHandler(c echo.Context) error {
 // @Router /api/finance/assets [get]
 // @Security BearerAuth
 func GetAllAssetsHandler(c echo.Context) error {
-	list, totalAcq, totalAccum, totalNBV, err := GetAllAssetsService()
+	if c.QueryParam("all") == "true" {
+		list, totalAcq, totalAccum, totalNBV, err := GetAllAssetsService()
+		if err != nil {
+			return utils.SendError(c, http.StatusInternalServerError, "Gagal mengambil data aset", err.Error())
+		}
+		return utils.SendSuccess(c, http.StatusOK, "Assets retrieved", map[string]interface{}{
+			"items":              list,
+			"total_acquisition":  totalAcq,
+			"total_accumulated":  totalAccum,
+			"total_net_book_val": totalNBV,
+		})
+	}
+
+	page, limit, offset, search := utils.GetPaginationQuery(c)
+	category := c.QueryParam("category")
+
+	list, total, totalAcq, totalAccum, totalNBV, err := GetPaginatedAssetsService(offset, limit, search, category)
 	if err != nil {
 		return utils.SendError(c, http.StatusInternalServerError, "Gagal mengambil data aset", err.Error())
 	}
-	return utils.SendSuccess(c, http.StatusOK, "Assets retrieved", map[string]interface{}{
+
+	meta := utils.BuildPaginationMeta(total, page, limit)
+	return utils.SendPaginatedSuccess(c, http.StatusOK, "Assets retrieved", map[string]interface{}{
 		"items":              list,
 		"total_acquisition":  totalAcq,
 		"total_accumulated":  totalAccum,
 		"total_net_book_val": totalNBV,
-	})
+	}, meta)
 }
 
 // CreateAssetHandler godoc
