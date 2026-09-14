@@ -38,11 +38,24 @@ func CreateRentalOrderHandler(c echo.Context) error {
 // @Router /api/sales/rental [get]
 // @Security BearerAuth
 func GetAllRentalOrderHandler(c echo.Context) error {
-	data, err := GetAllRentalOrderService()
+	if c.QueryParam("all") == "true" {
+		data, err := GetAllRentalOrderService()
+		if err != nil {
+			return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve data", err.Error())
+		}
+		return utils.SendSuccess(c, http.StatusOK, "Data retrieved successfully", data)
+	}
+
+	page, limit, offset, search := utils.GetPaginationQuery(c)
+	state := c.QueryParam("state")
+
+	data, total, err := GetPaginatedRentalOrderService(offset, limit, search, state)
 	if err != nil {
 		return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve data", err.Error())
 	}
-	return utils.SendSuccess(c, http.StatusOK, "Data retrieved successfully", data)
+
+	meta := utils.BuildPaginationMeta(total, page, limit)
+	return utils.SendPaginatedSuccess(c, http.StatusOK, "Data retrieved successfully", data, meta)
 }
 
 // GetRentalOrderByID godoc

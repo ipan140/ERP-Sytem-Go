@@ -15,6 +15,34 @@ func GetAllLead() ([]Lead, error) {
 	return list, err
 }
 
+func GetPaginatedLeads(offset int, limit int, search string, stageID uint, salespersonID uint, territory string) ([]Lead, int64, error) {
+	var list []Lead
+	var total int64
+
+	query := config.DB.Model(&Lead{}).Preload(clause.Associations)
+
+	if stageID > 0 {
+		query = query.Where("stage_id = ?", stageID)
+	}
+	if salespersonID > 0 {
+		query = query.Where("salesperson_id = ?", salespersonID)
+	}
+	if territory != "" && territory != "All" && territory != "Semua" {
+		query = query.Where("territory = ?", territory)
+	}
+	if search != "" {
+		s := "%" + search + "%"
+		query = query.Where("name ILIKE ? OR email ILIKE ? OR phone ILIKE ? OR affiliate_name ILIKE ?", s, s, s, s)
+	}
+
+	if err := query.Count(&total).Error; err != nil {
+		return nil, 0, err
+	}
+
+	err := query.Order("id DESC").Offset(offset).Limit(limit).Find(&list).Error
+	return list, total, err
+}
+
 func GetLeadByID(id uint) (*Lead, error) {
 	var data Lead
 	err := config.DB.Preload(clause.Associations).First(&data, id).Error

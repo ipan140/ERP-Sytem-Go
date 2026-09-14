@@ -15,6 +15,31 @@ func GetAllSaleOrder() ([]SaleOrder, error) {
 	return list, err
 }
 
+func GetPaginatedSaleOrders(offset int, limit int, search string, branch string, status string) ([]SaleOrder, int64, error) {
+	var list []SaleOrder
+	var total int64
+
+	query := config.DB.Model(&SaleOrder{}).Preload(clause.Associations)
+
+	if branch != "" && branch != "All" && branch != "Semua" {
+		query = query.Where("branch_name = ?", branch)
+	}
+	if status != "" && status != "All" && status != "Semua" {
+		query = query.Where("state = ?", status)
+	}
+	if search != "" {
+		s := "%" + search + "%"
+		query = query.Where("name ILIKE ? OR customer_name ILIKE ? OR customer_email ILIKE ? OR salesperson_name ILIKE ?", s, s, s, s)
+	}
+
+	if err := query.Count(&total).Error; err != nil {
+		return nil, 0, err
+	}
+
+	err := query.Order("id DESC").Offset(offset).Limit(limit).Find(&list).Error
+	return list, total, err
+}
+
 func GetSaleOrderByID(id uint) (*SaleOrder, error) {
 	var data SaleOrder
 	err := config.DB.Preload(clause.Associations).First(&data, id).Error

@@ -15,6 +15,28 @@ func GetAllPosSession() ([]PosSession, error) {
 	return list, err
 }
 
+func GetPaginatedPosSessions(offset int, limit int, search string, state string) ([]PosSession, int64, error) {
+	var list []PosSession
+	var total int64
+
+	query := config.DB.Model(&PosSession{}).Preload(clause.Associations)
+
+	if state != "" && state != "All" && state != "all" {
+		query = query.Where("state = ?", state)
+	}
+	if search != "" {
+		s := "%" + search + "%"
+		query = query.Where("name ILIKE ?", s)
+	}
+
+	if err := query.Count(&total).Error; err != nil {
+		return nil, 0, err
+	}
+
+	err := query.Order("id DESC").Offset(offset).Limit(limit).Find(&list).Error
+	return list, total, err
+}
+
 func GetPosSessionByID(id uint) (*PosSession, error) {
 	var data PosSession
 	err := config.DB.Preload(clause.Associations).First(&data, id).Error
@@ -48,6 +70,28 @@ func GetAllPosOrder() ([]PosOrder, error) {
 	var list []PosOrder
 	err := config.DB.Preload(clause.Associations).Find(&list).Error
 	return list, err
+}
+
+func GetPaginatedPosOrders(offset int, limit int, search string, state string) ([]PosOrder, int64, error) {
+	var list []PosOrder
+	var total int64
+
+	query := config.DB.Model(&PosOrder{}).Preload(clause.Associations)
+
+	if state != "" && state != "All" && state != "all" {
+		query = query.Where("state = ?", state)
+	}
+	if search != "" {
+		s := "%" + search + "%"
+		query = query.Where("name ILIKE ?", s)
+	}
+
+	if err := query.Count(&total).Error; err != nil {
+		return nil, 0, err
+	}
+
+	err := query.Order("id DESC").Offset(offset).Limit(limit).Find(&list).Error
+	return list, total, err
 }
 func GetPosOrderByID(id uint) (*PosOrder, error) {
 	var data PosOrder

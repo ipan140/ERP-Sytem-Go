@@ -38,11 +38,26 @@ func CreateLeadHandler(c echo.Context) error {
 // @Router /api/sales/crm [get]
 // @Security BearerAuth
 func GetAllLeadHandler(c echo.Context) error {
-	data, err := GetAllLeadService()
+	if c.QueryParam("all") == "true" {
+		data, err := GetAllLeadService()
+		if err != nil {
+			return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve data", err.Error())
+		}
+		return utils.SendSuccess(c, http.StatusOK, "Data retrieved successfully", data)
+	}
+
+	page, limit, offset, search := utils.GetPaginationQuery(c)
+	stageID, _ := strconv.Atoi(c.QueryParam("stage_id"))
+	salespersonID, _ := strconv.Atoi(c.QueryParam("salesperson_id"))
+	territory := c.QueryParam("territory")
+
+	data, total, err := GetPaginatedLeadService(offset, limit, search, uint(stageID), uint(salespersonID), territory)
 	if err != nil {
 		return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve data", err.Error())
 	}
-	return utils.SendSuccess(c, http.StatusOK, "Data retrieved successfully", data)
+
+	meta := utils.BuildPaginationMeta(total, page, limit)
+	return utils.SendPaginatedSuccess(c, http.StatusOK, "Data retrieved successfully", data, meta)
 }
 
 // GetLeadByID godoc

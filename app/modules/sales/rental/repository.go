@@ -15,6 +15,28 @@ func GetAllRentalOrder() ([]RentalOrder, error) {
 	return list, err
 }
 
+func GetPaginatedRentalOrders(offset int, limit int, search string, state string) ([]RentalOrder, int64, error) {
+	var list []RentalOrder
+	var total int64
+
+	query := config.DB.Model(&RentalOrder{}).Preload(clause.Associations)
+
+	if state != "" && state != "All" && state != "all" {
+		query = query.Where("state = ?", state)
+	}
+	if search != "" {
+		s := "%" + search + "%"
+		query = query.Where("name ILIKE ?", s)
+	}
+
+	if err := query.Count(&total).Error; err != nil {
+		return nil, 0, err
+	}
+
+	err := query.Order("id DESC").Offset(offset).Limit(limit).Find(&list).Error
+	return list, total, err
+}
+
 func GetRentalOrderByID(id uint) (*RentalOrder, error) {
 	var data RentalOrder
 	err := config.DB.Preload(clause.Associations).First(&data, id).Error

@@ -17,6 +17,10 @@ func GetAllPosSessionService() ([]PosSession, error) {
 	return GetAllPosSession()
 }
 
+func GetPaginatedPosSessionService(offset int, limit int, search string, state string) ([]PosSession, int64, error) {
+	return GetPaginatedPosSessions(offset, limit, search, state)
+}
+
 func GetPosSessionByIDService(id uint) (*PosSession, error) {
 	return GetPosSessionByID(id)
 }
@@ -37,6 +41,9 @@ func DeletePosConfigService(id uint) error                { return DeletePosConf
 
 func CreatePosOrderService(data *PosOrder) error        { return CreatePosOrder(data) }
 func GetAllPosOrderService() ([]PosOrder, error)        { return GetAllPosOrder() }
+func GetPaginatedPosOrderService(offset int, limit int, search string, state string) ([]PosOrder, int64, error) {
+	return GetPaginatedPosOrders(offset, limit, search, state)
+}
 func GetPosOrderByIDService(id uint) (*PosOrder, error) { return GetPosOrderByID(id) }
 func UpdatePosOrderService(data *PosOrder) error        { return UpdatePosOrder(data) }
 func DeletePosOrderService(id uint) error               { return DeletePosOrder(id) }

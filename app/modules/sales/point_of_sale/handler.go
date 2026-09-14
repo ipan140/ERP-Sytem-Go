@@ -38,11 +38,24 @@ func CreatePosSessionHandler(c echo.Context) error {
 // @Router /api/sales/point_of_sale [get]
 // @Security BearerAuth
 func GetAllPosSessionHandler(c echo.Context) error {
-	data, err := GetAllPosSessionService()
+	if c.QueryParam("all") == "true" {
+		data, err := GetAllPosSessionService()
+		if err != nil {
+			return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve data", err.Error())
+		}
+		return utils.SendSuccess(c, http.StatusOK, "Data retrieved successfully", data)
+	}
+
+	page, limit, offset, search := utils.GetPaginationQuery(c)
+	state := c.QueryParam("state")
+
+	data, total, err := GetPaginatedPosSessionService(offset, limit, search, state)
 	if err != nil {
 		return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve data", err.Error())
 	}
-	return utils.SendSuccess(c, http.StatusOK, "Data retrieved successfully", data)
+
+	meta := utils.BuildPaginationMeta(total, page, limit)
+	return utils.SendPaginatedSuccess(c, http.StatusOK, "Data retrieved successfully", data, meta)
 }
 
 // GetPosSessionByID godoc
@@ -239,11 +252,24 @@ func CheckoutPosOrderHandler(c echo.Context) error {
 // @Router /api/sales/point_of_sale/posorder [get]
 // @Security BearerAuth
 func GetAllPosOrderHandler(c echo.Context) error {
-	data, err := GetAllPosOrderService()
+	if c.QueryParam("all") == "true" {
+		data, err := GetAllPosOrderService()
+		if err != nil {
+			return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve", err.Error())
+		}
+		return utils.SendSuccess(c, http.StatusOK, "Retrieved successfully", data)
+	}
+
+	page, limit, offset, search := utils.GetPaginationQuery(c)
+	state := c.QueryParam("state")
+
+	data, total, err := GetPaginatedPosOrderService(offset, limit, search, state)
 	if err != nil {
 		return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve", err.Error())
 	}
-	return utils.SendSuccess(c, http.StatusOK, "Retrieved successfully", data)
+
+	meta := utils.BuildPaginationMeta(total, page, limit)
+	return utils.SendPaginatedSuccess(c, http.StatusOK, "Retrieved successfully", data, meta)
 }
 func GetPosOrderByIDHandler(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))

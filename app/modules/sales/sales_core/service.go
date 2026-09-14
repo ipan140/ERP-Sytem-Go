@@ -148,6 +148,9 @@ func CreateSaleOrderService(data *SaleOrder) error {
 }
 
 func GetAllSaleOrderService() ([]SaleOrder, error)        { return GetAllSaleOrder() }
+func GetPaginatedSaleOrderService(offset int, limit int, search string, branch string, status string) ([]SaleOrder, int64, error) {
+	return GetPaginatedSaleOrders(offset, limit, search, branch, status)
+}
 func GetSaleOrderByIDService(id uint) (*SaleOrder, error) { return GetSaleOrderByID(id) }
 
 func UpdateSaleOrderService(data *SaleOrder) error {

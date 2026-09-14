@@ -26,6 +26,10 @@ func GetAllRentalOrderService() ([]RentalOrder, error) {
 	return GetAllRentalOrder()
 }
 
+func GetPaginatedRentalOrderService(offset int, limit int, search string, state string) ([]RentalOrder, int64, error) {
+	return GetPaginatedRentalOrders(offset, limit, search, state)
+}
+
 func GetRentalOrderByIDService(id uint) (*RentalOrder, error) {
 	return GetRentalOrderByID(id)
 }

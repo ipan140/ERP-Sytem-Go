@@ -25,6 +25,10 @@ func GetAllSubscriptionService() ([]Subscription, error) {
 	return GetAllSubscription()
 }
 
+func GetPaginatedSubscriptionService(offset int, limit int, search string, state string) ([]Subscription, int64, error) {
+	return GetPaginatedSubscriptions(offset, limit, search, state)
+}
+
 func GetSubscriptionByIDService(id uint) (*Subscription, error) {
 	return GetSubscriptionByID(id)
 }

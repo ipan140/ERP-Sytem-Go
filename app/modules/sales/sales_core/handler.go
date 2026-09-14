@@ -39,11 +39,25 @@ func CreateSaleOrderHandler(c echo.Context) error {
 // @Router /api/sales/sales_core [get]
 // @Security BearerAuth
 func GetAllSaleOrderHandler(c echo.Context) error {
-	data, err := GetAllSaleOrderService()
+	if c.QueryParam("all") == "true" {
+		data, err := GetAllSaleOrderService()
+		if err != nil {
+			return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve data", err.Error())
+		}
+		return utils.SendSuccess(c, http.StatusOK, "Data retrieved successfully", data)
+	}
+
+	page, limit, offset, search := utils.GetPaginationQuery(c)
+	branch := c.QueryParam("branch")
+	status := c.QueryParam("status")
+
+	data, total, err := GetPaginatedSaleOrderService(offset, limit, search, branch, status)
 	if err != nil {
 		return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve data", err.Error())
 	}
-	return utils.SendSuccess(c, http.StatusOK, "Data retrieved successfully", data)
+
+	meta := utils.BuildPaginationMeta(total, page, limit)
+	return utils.SendPaginatedSuccess(c, http.StatusOK, "Data retrieved successfully", data, meta)
 }
 
 // GetSaleOrderByID godoc

@@ -38,11 +38,24 @@ func CreateSubscriptionHandler(c echo.Context) error {
 // @Router /api/sales/subscriptions [get]
 // @Security BearerAuth
 func GetAllSubscriptionHandler(c echo.Context) error {
-	data, err := GetAllSubscriptionService()
+	if c.QueryParam("all") == "true" {
+		data, err := GetAllSubscriptionService()
+		if err != nil {
+			return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve data", err.Error())
+		}
+		return utils.SendSuccess(c, http.StatusOK, "Data retrieved successfully", data)
+	}
+
+	page, limit, offset, search := utils.GetPaginationQuery(c)
+	state := c.QueryParam("state")
+
+	data, total, err := GetPaginatedSubscriptionService(offset, limit, search, state)
 	if err != nil {
 		return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve data", err.Error())
 	}
-	return utils.SendSuccess(c, http.StatusOK, "Data retrieved successfully", data)
+
+	meta := utils.BuildPaginationMeta(total, page, limit)
+	return utils.SendPaginatedSuccess(c, http.StatusOK, "Data retrieved successfully", data, meta)
 }
 
 // GetSubscriptionByID godoc

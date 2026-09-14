@@ -127,6 +127,10 @@ func GetAllLeadService() ([]Lead, error) {
 	return leads, err
 }
 
+func GetPaginatedLeadService(offset int, limit int, search string, stageID uint, salespersonID uint, territory string) ([]Lead, int64, error) {
+	return GetPaginatedLeads(offset, limit, search, stageID, salespersonID, territory)
+}
+
 func GetLeadByIDService(id uint) (*Lead, error) {
 	return GetLeadByID(id)
 }
