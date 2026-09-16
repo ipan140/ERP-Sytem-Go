@@ -21,6 +21,10 @@ func GetAllMailingCampaignService() ([]MailingCampaign, error) {
 	return GetAllMailingCampaign()
 }
 
+func GetPaginatedMailingCampaignService(offset, limit int, search string) ([]MailingCampaign, int64, error) {
+	return GetPaginatedMailingCampaigns(offset, limit, search)
+}
+
 func GetMailingCampaignByIDService(id uint) (*MailingCampaign, error) {
 	return GetMailingCampaignByID(id)
 }

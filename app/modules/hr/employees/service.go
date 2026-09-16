@@ -46,6 +46,9 @@ func DeleteWorkingScheduleService(id uint) error               { return DeleteWo
 
 func CreateContractService(data *Contract) error        { return CreateContract(data) }
 func GetAllContractService() ([]Contract, error)        { return GetAllContract() }
+func GetPaginatedContractService(offset, limit int, search string) ([]Contract, int64, error) {
+	return GetPaginatedContract(offset, limit, search)
+}
 func GetContractByIDService(id uint) (*Contract, error) { return GetContractByID(id) }
 func UpdateContractService(data *Contract) error        { return UpdateContract(data) }
 func DeleteContractService(id uint) error               { return DeleteContract(id) }
@@ -92,6 +95,9 @@ func DeleteDepartmentService(id uint) error { return DeleteDepartment(id) }
 
 // --- Warning Letter ---
 func GetAllWarningLetterService() ([]WarningLetter, error) { return GetAllWarningLetter() }
+func GetPaginatedWarningLetterService(offset, limit int, search string) ([]WarningLetter, int64, error) {
+	return GetPaginatedWarningLetter(offset, limit, search)
+}
 func GetWarningLetterByIDService(id uint) (*WarningLetter, error) { return GetWarningLetterByID(id) }
 func CreateWarningLetterService(data *WarningLetter) error { return CreateWarningLetter(data) }
 func UpdateWarningLetterService(data *WarningLetter) error { return UpdateWarningLetter(data) }
@@ -107,18 +113,27 @@ func DeleteEmployeeTaskService(id uint) error { return DeleteEmployeeTask(id) }
 
 // --- Phase 3 ---
 func GetAllOvertimeService() ([]Overtime, error) { return GetAllOvertime() }
+func GetPaginatedOvertimeService(offset, limit int, search string) ([]Overtime, int64, error) {
+	return GetPaginatedOvertime(offset, limit, search)
+}
 func GetOvertimeByIDService(id uint) (*Overtime, error) { return GetOvertimeByID(id) }
 func CreateOvertimeService(data *Overtime) error { return CreateOvertime(data) }
 func UpdateOvertimeService(data *Overtime) error { return UpdateOvertime(data) }
 func DeleteOvertimeService(id uint) error { return DeleteOvertime(id) }
 
 func GetAllEmployeeLoanService() ([]EmployeeLoan, error) { return GetAllEmployeeLoan() }
+func GetPaginatedEmployeeLoanService(offset, limit int, search string) ([]EmployeeLoan, int64, error) {
+	return GetPaginatedEmployeeLoan(offset, limit, search)
+}
 func GetEmployeeLoanByIDService(id uint) (*EmployeeLoan, error) { return GetEmployeeLoanByID(id) }
 func CreateEmployeeLoanService(data *EmployeeLoan) error { return CreateEmployeeLoan(data) }
 func UpdateEmployeeLoanService(data *EmployeeLoan) error { return UpdateEmployeeLoan(data) }
 func DeleteEmployeeLoanService(id uint) error { return DeleteEmployeeLoan(id) }
 
 func GetAllExpenseService() ([]Expense, error) { return GetAllExpense() }
+func GetPaginatedExpenseService(offset, limit int, search string) ([]Expense, int64, error) {
+	return GetPaginatedExpense(offset, limit, search)
+}
 func GetExpenseByIDService(id uint) (*Expense, error) { return GetExpenseByID(id) }
 func CreateExpenseService(data *Expense) error { return CreateExpense(data) }
 func UpdateExpenseService(data *Expense) error { return UpdateExpense(data) }

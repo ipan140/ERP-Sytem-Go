@@ -44,6 +44,28 @@ func GetAllUsersRolesService() ([]UserRoleResponse, error) {
 	return users, err
 }
 
+func GetPaginatedUsersRolesService(offset, limit int, search string) ([]UserRoleResponse, int64, error) {
+	var users []UserRoleResponse
+	var total int64
+	query := config.DB.Table("setting.users")
+	if search != "" {
+		s := "%" + search + "%"
+		query = query.Where("name ILIKE ? OR email ILIKE ?", s, s)
+	}
+	if err := query.Count(&total).Error; err != nil || total == 0 {
+		queryFallback := config.DB.Table("users")
+		if search != "" {
+			s := "%" + search + "%"
+			queryFallback = queryFallback.Where("name ILIKE ? OR email ILIKE ?", s, s)
+		}
+		_ = queryFallback.Count(&total).Error
+		err := queryFallback.Select("id, name, email, roles").Order("id desc").Offset(offset).Limit(limit).Find(&users).Error
+		return users, total, err
+	}
+	err := query.Select("id, name, email, role as roles").Order("id desc").Offset(offset).Limit(limit).Find(&users).Error
+	return users, total, err
+}
+
 func AssignRoleService(userID uint, roles string) error {
 	err := config.DB.Table("setting.users").Where("id = ?", userID).Update("role", roles).Error
 	if err != nil {
@@ -69,6 +91,21 @@ func GetAllRolesService() ([]Role, error) {
 	var roles []Role
 	err := config.DB.Find(&roles).Error
 	return roles, err
+}
+
+func GetPaginatedRolesService(offset, limit int, search string) ([]Role, int64, error) {
+	var roles []Role
+	var total int64
+	query := config.DB.Model(&Role{})
+	if search != "" {
+		s := "%" + search + "%"
+		query = query.Where("name ILIKE ? OR description ILIKE ?", s, s)
+	}
+	if err := query.Count(&total).Error; err != nil {
+		return nil, 0, err
+	}
+	err := query.Order("id desc").Offset(offset).Limit(limit).Find(&roles).Error
+	return roles, total, err
 }
 
 func UpdateRoleService(id uint, req Role) error {

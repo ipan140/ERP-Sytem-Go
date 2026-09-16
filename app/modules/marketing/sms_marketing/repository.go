@@ -15,6 +15,21 @@ func GetAllSmsCampaign() ([]SmsCampaign, error) {
 	return list, err
 }
 
+func GetPaginatedSmsCampaigns(offset, limit int, search string) ([]SmsCampaign, int64, error) {
+	var list []SmsCampaign
+	var total int64
+	query := config.DB.Model(&SmsCampaign{}).Preload(clause.Associations)
+	if search != "" {
+		s := "%" + search + "%"
+		query = query.Where("name ILIKE ? OR content ILIKE ? OR target_audience ILIKE ?", s, s, s)
+	}
+	if err := query.Count(&total).Error; err != nil {
+		return nil, 0, err
+	}
+	err := query.Order("id desc").Offset(offset).Limit(limit).Find(&list).Error
+	return list, total, err
+}
+
 func GetSmsCampaignByID(id uint) (*SmsCampaign, error) {
 	var data SmsCampaign
 	err := config.DB.Preload(clause.Associations).First(&data, id).Error

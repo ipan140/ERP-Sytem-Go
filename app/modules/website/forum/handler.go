@@ -38,11 +38,21 @@ func CreateForumPostHandler(c echo.Context) error {
 // @Router /api/website/forum [get]
 // @Security BearerAuth
 func GetAllForumPostHandler(c echo.Context) error {
-	data, err := GetAllForumPostService()
+	if c.QueryParam("all") == "true" {
+		data, err := GetAllForumPostService()
+		if err != nil {
+			return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve data", err.Error())
+		}
+		return utils.SendSuccess(c, http.StatusOK, "Data retrieved successfully", data)
+	}
+
+	page, limit, offset, search := utils.GetPaginationQuery(c)
+	data, total, err := GetPaginatedForumPostService(offset, limit, search)
 	if err != nil {
 		return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve data", err.Error())
 	}
-	return utils.SendSuccess(c, http.StatusOK, "Data retrieved successfully", data)
+	meta := utils.BuildPaginationMeta(total, page, limit)
+	return utils.SendPaginatedSuccess(c, http.StatusOK, "Data retrieved successfully", data, meta)
 }
 
 // GetForumPostByID godoc

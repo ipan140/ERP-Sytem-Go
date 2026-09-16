@@ -19,11 +19,21 @@ import (
 // @Security BearerAuth
 // @Router /core/permissions [get]
 func GetAllPermissionsHandler(c echo.Context) error {
-	perms, err := GetAllPermissionsService()
+	if c.QueryParam("all") == "true" {
+		perms, err := GetAllPermissionsService()
+		if err != nil {
+			return utils.SendError(c, http.StatusInternalServerError, "Gagal mengambil data", err.Error())
+		}
+		return utils.SendSuccess(c, http.StatusOK, "Berhasil mengambil konfigurasi toggle", perms)
+	}
+
+	page, limit, offset, search := utils.GetPaginationQuery(c)
+	data, total, err := GetPaginatedPermissionsService(offset, limit, search)
 	if err != nil {
 		return utils.SendError(c, http.StatusInternalServerError, "Gagal mengambil data", err.Error())
 	}
-	return utils.SendSuccess(c, http.StatusOK, "Berhasil mengambil konfigurasi toggle", perms)
+	meta := utils.BuildPaginationMeta(total, page, limit)
+	return utils.SendPaginatedSuccess(c, http.StatusOK, "Berhasil mengambil konfigurasi toggle", data, meta)
 }
 
 // TogglePermissionHandler godoc

@@ -8,6 +8,10 @@ func GetAllEmailLogService() ([]EmailLog, error) {
 	return GetAllEmailLog()
 }
 
+func GetPaginatedEmailLogService(offset, limit int, search string) ([]EmailLog, int64, error) {
+	return GetPaginatedEmailLog(offset, limit, search)
+}
+
 func GetEmailLogByIDService(id uint) (*EmailLog, error) {
 	return GetEmailLogByID(id)
 }

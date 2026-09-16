@@ -299,11 +299,22 @@ func CreatePartnerHandler(c echo.Context) error {
 // @Router /api/core/base/partner [get]
 // @Security BearerAuth
 func GetAllPartnerHandler(c echo.Context) error {
-	data, err := GetAllPartnerService()
-	if err != nil {
-		return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve", err.Error())
+	if c.QueryParam("all") == "true" {
+		data, err := GetAllPartnerService()
+		if err != nil {
+			return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve", err.Error())
+		}
+		return utils.SendSuccess(c, http.StatusOK, "Retrieved successfully", data)
 	}
-	return utils.SendSuccess(c, http.StatusOK, "Retrieved successfully", data)
+
+	page, limit, offset, search := utils.GetPaginationQuery(c)
+	data, total, err := GetPaginatedPartnerService(offset, limit, search)
+	if err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve paginated data", err.Error())
+	}
+
+	meta := utils.BuildPaginationMeta(total, page, limit)
+	return utils.SendPaginatedSuccess(c, http.StatusOK, "Retrieved successfully", data, meta)
 }
 func GetPartnerByIDHandler(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))

@@ -8,6 +8,10 @@ func GetAllAutomationCampaignService() ([]AutomationCampaign, error) {
 	return GetAllAutomationCampaign()
 }
 
+func GetPaginatedAutomationCampaignService(offset, limit int, search string) ([]AutomationCampaign, int64, error) {
+	return GetPaginatedAutomationCampaigns(offset, limit, search)
+}
+
 func GetAutomationCampaignByIDService(id uint) (*AutomationCampaign, error) {
 	return GetAutomationCampaignByID(id)
 }

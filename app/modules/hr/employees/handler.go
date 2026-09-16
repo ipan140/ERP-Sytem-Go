@@ -487,11 +487,22 @@ func CreateContractHandler(c echo.Context) error {
 // @Router /api/hr/employees/contract [get]
 // @Security BearerAuth
 func GetAllContractHandler(c echo.Context) error {
-	data, err := GetAllContractService()
-	if err != nil {
-		return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve", err.Error())
+	if c.QueryParam("all") == "true" {
+		data, err := GetAllContractService()
+		if err != nil {
+			return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve", err.Error())
+		}
+		return utils.SendSuccess(c, http.StatusOK, "Retrieved successfully", data)
 	}
-	return utils.SendSuccess(c, http.StatusOK, "Retrieved successfully", data)
+
+	page, limit, offset, search := utils.GetPaginationQuery(c)
+	data, total, err := GetPaginatedContractService(offset, limit, search)
+	if err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve paginated data", err.Error())
+	}
+
+	meta := utils.BuildPaginationMeta(total, page, limit)
+	return utils.SendPaginatedSuccess(c, http.StatusOK, "Retrieved successfully", data, meta)
 }
 // GetContractByIDHandler godoc
 // @Summary Endpoint for GetContractByID
@@ -1265,9 +1276,18 @@ func DeleteDepartmentHandler(c echo.Context) error {
 // @Router /api/hr/employees/warningletter [get]
 // @Security BearerAuth
 func GetAllWarningLetterHandler(c echo.Context) error {
-	data, err := GetAllWarningLetterService()
-	if err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to get data", err.Error()) }
-	return utils.SendSuccess(c, http.StatusOK, "Success", data)
+	if c.QueryParam("all") == "true" {
+		data, err := GetAllWarningLetterService()
+		if err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to get data", err.Error()) }
+		return utils.SendSuccess(c, http.StatusOK, "Success", data)
+	}
+
+	page, limit, offset, search := utils.GetPaginationQuery(c)
+	data, total, err := GetPaginatedWarningLetterService(offset, limit, search)
+	if err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to get paginated data", err.Error()) }
+
+	meta := utils.BuildPaginationMeta(total, page, limit)
+	return utils.SendPaginatedSuccess(c, http.StatusOK, "Success", data, meta)
 }
 // GetWarningLetterByIDHandler godoc
 // @Summary Endpoint for GetWarningLetterByID
@@ -1430,9 +1450,18 @@ func DeleteEmployeeTaskHandler(c echo.Context) error {
 // @Router /api/hr/employees/overtime [get]
 // @Security BearerAuth
 func GetAllOvertimeHandler(c echo.Context) error {
-	data, err := GetAllOvertimeService()
-	if err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error()) }
-	return utils.SendSuccess(c, http.StatusOK, "Success", data)
+	if c.QueryParam("all") == "true" {
+		data, err := GetAllOvertimeService()
+		if err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error()) }
+		return utils.SendSuccess(c, http.StatusOK, "Success", data)
+	}
+
+	page, limit, offset, search := utils.GetPaginationQuery(c)
+	data, total, err := GetPaginatedOvertimeService(offset, limit, search)
+	if err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to get paginated data", err.Error()) }
+
+	meta := utils.BuildPaginationMeta(total, page, limit)
+	return utils.SendPaginatedSuccess(c, http.StatusOK, "Success", data, meta)
 }
 // GetOvertimeByIDHandler godoc
 // @Summary Endpoint for GetOvertimeByID
@@ -1511,9 +1540,18 @@ func DeleteOvertimeHandler(c echo.Context) error {
 // @Router /api/hr/employees/employeeloan [get]
 // @Security BearerAuth
 func GetAllEmployeeLoanHandler(c echo.Context) error {
-	data, err := GetAllEmployeeLoanService()
-	if err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error()) }
-	return utils.SendSuccess(c, http.StatusOK, "Success", data)
+	if c.QueryParam("all") == "true" {
+		data, err := GetAllEmployeeLoanService()
+		if err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error()) }
+		return utils.SendSuccess(c, http.StatusOK, "Success", data)
+	}
+
+	page, limit, offset, search := utils.GetPaginationQuery(c)
+	data, total, err := GetPaginatedEmployeeLoanService(offset, limit, search)
+	if err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to get paginated data", err.Error()) }
+
+	meta := utils.BuildPaginationMeta(total, page, limit)
+	return utils.SendPaginatedSuccess(c, http.StatusOK, "Success", data, meta)
 }
 // GetEmployeeLoanByIDHandler godoc
 // @Summary Endpoint for GetEmployeeLoanByID
@@ -1592,9 +1630,18 @@ func DeleteEmployeeLoanHandler(c echo.Context) error {
 // @Router /api/hr/employees/expense [get]
 // @Security BearerAuth
 func GetAllExpenseHandler(c echo.Context) error {
-	data, err := GetAllExpenseService()
-	if err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error()) }
-	return utils.SendSuccess(c, http.StatusOK, "Success", data)
+	if c.QueryParam("all") == "true" {
+		data, err := GetAllExpenseService()
+		if err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed", err.Error()) }
+		return utils.SendSuccess(c, http.StatusOK, "Success", data)
+	}
+
+	page, limit, offset, search := utils.GetPaginationQuery(c)
+	data, total, err := GetPaginatedExpenseService(offset, limit, search)
+	if err != nil { return utils.SendError(c, http.StatusInternalServerError, "Failed to get paginated data", err.Error()) }
+
+	meta := utils.BuildPaginationMeta(total, page, limit)
+	return utils.SendPaginatedSuccess(c, http.StatusOK, "Success", data, meta)
 }
 // GetExpenseByIDHandler godoc
 // @Summary Endpoint for GetExpenseByID

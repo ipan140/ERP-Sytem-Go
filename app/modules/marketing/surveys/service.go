@@ -8,6 +8,10 @@ func GetAllSurveyService() ([]Survey, error) {
 	return GetAllSurvey()
 }
 
+func GetPaginatedSurveyService(offset, limit int, search string) ([]Survey, int64, error) {
+	return GetPaginatedSurveys(offset, limit, search)
+}
+
 func GetSurveyByIDService(id uint) (*Survey, error) {
 	return GetSurveyByID(id)
 }

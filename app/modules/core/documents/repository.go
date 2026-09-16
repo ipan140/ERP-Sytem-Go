@@ -15,6 +15,21 @@ func GetAllWorkspace() ([]Workspace, error) {
 	return list, err
 }
 
+func GetPaginatedWorkspaces(offset, limit int, search string) ([]Workspace, int64, error) {
+	var list []Workspace
+	var total int64
+	query := config.DB.Model(&Workspace{}).Preload(clause.Associations)
+	if search != "" {
+		s := "%" + search + "%"
+		query = query.Where("name ILIKE ?", s)
+	}
+	if err := query.Count(&total).Error; err != nil {
+		return nil, 0, err
+	}
+	err := query.Order("id desc").Offset(offset).Limit(limit).Find(&list).Error
+	return list, total, err
+}
+
 func GetWorkspaceByID(id uint) (*Workspace, error) {
 	var data Workspace
 	err := config.DB.Preload(clause.Associations).First(&data, id).Error

@@ -63,6 +63,17 @@ func GetAllPartner() ([]Partner, error) {
 	err := config.DB.Preload(clause.Associations).Order("id asc").Find(&list).Error
 	return list, err
 }
+func GetPaginatedPartner(offset, limit int, search string) ([]Partner, int64, error) {
+	var list []Partner
+	var total int64
+	db := config.DB.Model(&Partner{})
+	if search != "" {
+		db = db.Where("name ILIKE ? OR email ILIKE ? OR phone ILIKE ? OR city ILIKE ?", "%"+search+"%", "%"+search+"%", "%"+search+"%", "%"+search+"%")
+	}
+	db.Count(&total)
+	err := db.Preload(clause.Associations).Order("id asc").Offset(offset).Limit(limit).Find(&list).Error
+	return list, total, err
+}
 func GetPartnerByID(id uint) (*Partner, error) {
 	var data Partner
 	err := config.DB.Preload(clause.Associations).First(&data, id).Error

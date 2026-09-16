@@ -38,11 +38,21 @@ func CreateAttachmentHandler(c echo.Context) error {
 // @Router /api/core/storage [get]
 // @Security BearerAuth
 func GetAllAttachmentHandler(c echo.Context) error {
-	data, err := GetAllAttachmentService()
+	if c.QueryParam("all") == "true" {
+		data, err := GetAllAttachmentService()
+		if err != nil {
+			return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve data", err.Error())
+		}
+		return utils.SendSuccess(c, http.StatusOK, "Data retrieved successfully", data)
+	}
+
+	page, limit, offset, search := utils.GetPaginationQuery(c)
+	data, total, err := GetPaginatedAttachmentService(offset, limit, search)
 	if err != nil {
 		return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve data", err.Error())
 	}
-	return utils.SendSuccess(c, http.StatusOK, "Data retrieved successfully", data)
+	meta := utils.BuildPaginationMeta(total, page, limit)
+	return utils.SendPaginatedSuccess(c, http.StatusOK, "Data retrieved successfully", data, meta)
 }
 
 // GetAttachmentByID godoc

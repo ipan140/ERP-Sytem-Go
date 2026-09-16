@@ -38,11 +38,21 @@ func CreateWorkspaceHandler(c echo.Context) error {
 // @Router /api/documents [get]
 // @Security BearerAuth
 func GetAllWorkspaceHandler(c echo.Context) error {
-	data, err := GetAllWorkspaceService()
+	if c.QueryParam("all") == "true" {
+		data, err := GetAllWorkspaceService()
+		if err != nil {
+			return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve data", err.Error())
+		}
+		return utils.SendSuccess(c, http.StatusOK, "Data retrieved successfully", data)
+	}
+
+	page, limit, offset, search := utils.GetPaginationQuery(c)
+	data, total, err := GetPaginatedWorkspaceService(offset, limit, search)
 	if err != nil {
 		return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve data", err.Error())
 	}
-	return utils.SendSuccess(c, http.StatusOK, "Data retrieved successfully", data)
+	meta := utils.BuildPaginationMeta(total, page, limit)
+	return utils.SendPaginatedSuccess(c, http.StatusOK, "Data retrieved successfully", data, meta)
 }
 
 // GetWorkspaceByID godoc

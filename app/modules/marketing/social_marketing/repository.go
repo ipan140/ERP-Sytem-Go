@@ -15,6 +15,21 @@ func GetAllSocialPost() ([]SocialPost, error) {
 	return list, err
 }
 
+func GetPaginatedSocialPosts(offset, limit int, search string) ([]SocialPost, int64, error) {
+	var list []SocialPost
+	var total int64
+	query := config.DB.Model(&SocialPost{}).Preload(clause.Associations)
+	if search != "" {
+		s := "%" + search + "%"
+		query = query.Where("message ILIKE ? OR channels ILIKE ? OR status ILIKE ?", s, s, s)
+	}
+	if err := query.Count(&total).Error; err != nil {
+		return nil, 0, err
+	}
+	err := query.Order("id desc").Offset(offset).Limit(limit).Find(&list).Error
+	return list, total, err
+}
+
 func GetSocialPostByID(id uint) (*SocialPost, error) {
 	var data SocialPost
 	err := config.DB.Preload(clause.Associations).First(&data, id).Error

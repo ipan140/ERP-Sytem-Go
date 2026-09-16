@@ -34,6 +34,9 @@ func DeleteCountryStateService(id uint) error                   { return DeleteC
 
 func CreatePartnerService(data *Partner) error        { return CreatePartner(data) }
 func GetAllPartnerService() ([]Partner, error)        { return GetAllPartner() }
+func GetPaginatedPartnerService(offset, limit int, search string) ([]Partner, int64, error) {
+	return GetPaginatedPartner(offset, limit, search)
+}
 func GetPartnerByIDService(id uint) (*Partner, error) { return GetPartnerByID(id) }
 func UpdatePartnerService(data *Partner) error        { return UpdatePartner(data) }
 func DeletePartnerService(id uint) error              { return DeletePartner(id) }

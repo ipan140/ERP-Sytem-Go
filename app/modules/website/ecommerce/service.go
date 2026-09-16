@@ -8,6 +8,10 @@ func GetAllCartService() ([]Cart, error) {
 	return GetAllCart()
 }
 
+func GetPaginatedCartService(offset, limit int, search string) ([]Cart, int64, error) {
+	return GetPaginatedCarts(offset, limit, search)
+}
+
 func GetCartByIDService(id uint) (*Cart, error) {
 	return GetCartByID(id)
 }

@@ -38,11 +38,21 @@ func CreateSocialPostHandler(c echo.Context) error {
 // @Router /api/marketing/social_marketing [get]
 // @Security BearerAuth
 func GetAllSocialPostHandler(c echo.Context) error {
-	data, err := GetAllSocialPostService()
+	if c.QueryParam("all") == "true" {
+		data, err := GetAllSocialPostService()
+		if err != nil {
+			return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve data", err.Error())
+		}
+		return utils.SendSuccess(c, http.StatusOK, "Data retrieved successfully", data)
+	}
+
+	page, limit, offset, search := utils.GetPaginationQuery(c)
+	data, total, err := GetPaginatedSocialPostService(offset, limit, search)
 	if err != nil {
 		return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve data", err.Error())
 	}
-	return utils.SendSuccess(c, http.StatusOK, "Data retrieved successfully", data)
+	meta := utils.BuildPaginationMeta(total, page, limit)
+	return utils.SendPaginatedSuccess(c, http.StatusOK, "Data retrieved successfully", data, meta)
 }
 
 // GetSocialPostByID godoc

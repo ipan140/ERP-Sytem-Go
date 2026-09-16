@@ -8,6 +8,10 @@ func GetAllWaTemplateService() ([]WaTemplate, error) {
 	return GetAllWaTemplate()
 }
 
+func GetPaginatedWaTemplateService(offset, limit int, search string) ([]WaTemplate, int64, error) {
+	return GetPaginatedWaTemplate(offset, limit, search)
+}
+
 func GetWaTemplateByIDService(id uint) (*WaTemplate, error) {
 	return GetWaTemplateByID(id)
 }

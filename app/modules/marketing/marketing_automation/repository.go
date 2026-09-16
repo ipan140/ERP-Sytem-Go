@@ -15,6 +15,21 @@ func GetAllAutomationCampaign() ([]AutomationCampaign, error) {
 	return list, err
 }
 
+func GetPaginatedAutomationCampaigns(offset, limit int, search string) ([]AutomationCampaign, int64, error) {
+	var list []AutomationCampaign
+	var total int64
+	query := config.DB.Model(&AutomationCampaign{}).Preload(clause.Associations)
+	if search != "" {
+		s := "%" + search + "%"
+		query = query.Where("name ILIKE ? OR trigger_type ILIKE ?", s, s)
+	}
+	if err := query.Count(&total).Error; err != nil {
+		return nil, 0, err
+	}
+	err := query.Order("id desc").Offset(offset).Limit(limit).Find(&list).Error
+	return list, total, err
+}
+
 func GetAutomationCampaignByID(id uint) (*AutomationCampaign, error) {
 	var data AutomationCampaign
 	err := config.DB.Preload(clause.Associations).First(&data, id).Error

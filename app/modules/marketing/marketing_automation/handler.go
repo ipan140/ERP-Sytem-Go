@@ -41,11 +41,21 @@ func CreateAutomationCampaignHandler(c echo.Context) error {
 // @Router /api/marketing/marketing_automation [get]
 // @Security BearerAuth
 func GetAllAutomationCampaignHandler(c echo.Context) error {
-	data, err := GetAllAutomationCampaignService()
+	if c.QueryParam("all") == "true" {
+		data, err := GetAllAutomationCampaignService()
+		if err != nil {
+			return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve automation campaigns", err.Error())
+		}
+		return utils.SendSuccess(c, http.StatusOK, "Automation campaigns retrieved successfully", data)
+	}
+
+	page, limit, offset, search := utils.GetPaginationQuery(c)
+	data, total, err := GetPaginatedAutomationCampaignService(offset, limit, search)
 	if err != nil {
 		return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve automation campaigns", err.Error())
 	}
-	return utils.SendSuccess(c, http.StatusOK, "Automation campaigns retrieved successfully", data)
+	meta := utils.BuildPaginationMeta(total, page, limit)
+	return utils.SendPaginatedSuccess(c, http.StatusOK, "Automation campaigns retrieved successfully", data, meta)
 }
 
 // GetAutomationCampaignByID godoc

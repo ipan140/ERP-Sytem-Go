@@ -8,6 +8,10 @@ func GetAllSocialPostService() ([]SocialPost, error) {
 	return GetAllSocialPost()
 }
 
+func GetPaginatedSocialPostService(offset, limit int, search string) ([]SocialPost, int64, error) {
+	return GetPaginatedSocialPosts(offset, limit, search)
+}
+
 func GetSocialPostByIDService(id uint) (*SocialPost, error) {
 	return GetSocialPostByID(id)
 }

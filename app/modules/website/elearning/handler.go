@@ -38,11 +38,21 @@ func CreateCourseHandler(c echo.Context) error {
 // @Router /api/website/elearning [get]
 // @Security BearerAuth
 func GetAllCourseHandler(c echo.Context) error {
-	data, err := GetAllCourseService()
+	if c.QueryParam("all") == "true" {
+		data, err := GetAllCourseService()
+		if err != nil {
+			return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve data", err.Error())
+		}
+		return utils.SendSuccess(c, http.StatusOK, "Data retrieved successfully", data)
+	}
+
+	page, limit, offset, search := utils.GetPaginationQuery(c)
+	data, total, err := GetPaginatedCourseService(offset, limit, search)
 	if err != nil {
 		return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve data", err.Error())
 	}
-	return utils.SendSuccess(c, http.StatusOK, "Data retrieved successfully", data)
+	meta := utils.BuildPaginationMeta(total, page, limit)
+	return utils.SendPaginatedSuccess(c, http.StatusOK, "Data retrieved successfully", data, meta)
 }
 
 // GetCourseByID godoc

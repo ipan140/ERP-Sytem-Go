@@ -95,6 +95,14 @@ func GetAllContract() ([]Contract, error) {
 	err := config.DB.Preload(clause.Associations).Find(&list).Error
 	return list, err
 }
+func GetPaginatedContract(offset, limit int, search string) ([]Contract, int64, error) {
+	var list []Contract
+	var total int64
+	db := config.DB.Model(&Contract{})
+	db.Count(&total)
+	err := db.Preload(clause.Associations).Order("id asc").Offset(offset).Limit(limit).Find(&list).Error
+	return list, total, err
+}
 func GetContractByID(id uint) (*Contract, error) {
 	var data Contract
 	err := config.DB.Preload(clause.Associations).First(&data, id).Error
@@ -180,6 +188,14 @@ func GetAllWarningLetter() ([]WarningLetter, error) {
 	err := config.DB.Preload("Employee").Find(&list).Error
 	return list, err
 }
+func GetPaginatedWarningLetter(offset, limit int, search string) ([]WarningLetter, int64, error) {
+	var list []WarningLetter
+	var total int64
+	db := config.DB.Model(&WarningLetter{})
+	db.Count(&total)
+	err := db.Preload("Employee").Order("id asc").Offset(offset).Limit(limit).Find(&list).Error
+	return list, total, err
+}
 func GetWarningLetterByID(id uint) (*WarningLetter, error) {
 	var data WarningLetter
 	err := config.DB.Preload("Employee").First(&data, id).Error
@@ -223,6 +239,14 @@ func GetAllOvertime() ([]Overtime, error) {
 	err := config.DB.Preload("Employee").Find(&list).Error
 	return list, err
 }
+func GetPaginatedOvertime(offset, limit int, search string) ([]Overtime, int64, error) {
+	var list []Overtime
+	var total int64
+	db := config.DB.Model(&Overtime{})
+	db.Count(&total)
+	err := db.Preload("Employee").Order("id asc").Offset(offset).Limit(limit).Find(&list).Error
+	return list, total, err
+}
 func GetOvertimeByID(id uint) (*Overtime, error) {
 	var data Overtime
 	err := config.DB.Preload("Employee").First(&data, id).Error
@@ -237,6 +261,14 @@ func GetAllEmployeeLoan() ([]EmployeeLoan, error) {
 	err := config.DB.Preload("Employee").Find(&list).Error
 	return list, err
 }
+func GetPaginatedEmployeeLoan(offset, limit int, search string) ([]EmployeeLoan, int64, error) {
+	var list []EmployeeLoan
+	var total int64
+	db := config.DB.Model(&EmployeeLoan{})
+	db.Count(&total)
+	err := db.Preload("Employee").Order("id asc").Offset(offset).Limit(limit).Find(&list).Error
+	return list, total, err
+}
 func GetEmployeeLoanByID(id uint) (*EmployeeLoan, error) {
 	var data EmployeeLoan
 	err := config.DB.Preload("Employee").First(&data, id).Error
@@ -250,6 +282,14 @@ func GetAllExpense() ([]Expense, error) {
 	var list []Expense
 	err := config.DB.Preload("Employee").Find(&list).Error
 	return list, err
+}
+func GetPaginatedExpense(offset, limit int, search string) ([]Expense, int64, error) {
+	var list []Expense
+	var total int64
+	db := config.DB.Model(&Expense{})
+	db.Count(&total)
+	err := db.Preload("Employee").Order("id asc").Offset(offset).Limit(limit).Find(&list).Error
+	return list, total, err
 }
 func GetExpenseByID(id uint) (*Expense, error) {
 	var data Expense

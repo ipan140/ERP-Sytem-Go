@@ -46,11 +46,21 @@ func CreateSurveyHandler(c echo.Context) error {
 // @Router /api/marketing/surveys [get]
 // @Security BearerAuth
 func GetAllSurveyHandler(c echo.Context) error {
-	data, err := GetAllSurveyService()
+	if c.QueryParam("all") == "true" {
+		data, err := GetAllSurveyService()
+		if err != nil {
+			return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve data", err.Error())
+		}
+		return utils.SendSuccess(c, http.StatusOK, "Data retrieved successfully", data)
+	}
+
+	page, limit, offset, search := utils.GetPaginationQuery(c)
+	data, total, err := GetPaginatedSurveyService(offset, limit, search)
 	if err != nil {
 		return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve data", err.Error())
 	}
-	return utils.SendSuccess(c, http.StatusOK, "Data retrieved successfully", data)
+	meta := utils.BuildPaginationMeta(total, page, limit)
+	return utils.SendPaginatedSuccess(c, http.StatusOK, "Data retrieved successfully", data, meta)
 }
 
 // GetSurveyByID godoc

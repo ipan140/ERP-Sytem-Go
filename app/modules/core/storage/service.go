@@ -8,6 +8,10 @@ func GetAllAttachmentService() ([]Attachment, error) {
 	return GetAllAttachment()
 }
 
+func GetPaginatedAttachmentService(offset, limit int, search string) ([]Attachment, int64, error) {
+	return GetPaginatedAttachments(offset, limit, search)
+}
+
 func GetAttachmentByIDService(id uint) (*Attachment, error) {
 	return GetAttachmentByID(id)
 }

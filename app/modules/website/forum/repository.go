@@ -15,6 +15,21 @@ func GetAllForumPost() ([]ForumPost, error) {
 	return list, err
 }
 
+func GetPaginatedForumPosts(offset, limit int, search string) ([]ForumPost, int64, error) {
+	var list []ForumPost
+	var total int64
+	query := config.DB.Model(&ForumPost{}).Preload(clause.Associations)
+	if search != "" {
+		s := "%" + search + "%"
+		query = query.Where("name ILIKE ?", s)
+	}
+	if err := query.Count(&total).Error; err != nil {
+		return nil, 0, err
+	}
+	err := query.Order("id desc").Offset(offset).Limit(limit).Find(&list).Error
+	return list, total, err
+}
+
 func GetForumPostByID(id uint) (*ForumPost, error) {
 	var data ForumPost
 	err := config.DB.Preload(clause.Associations).First(&data, id).Error

@@ -49,11 +49,21 @@ func CreatePageHandler(c echo.Context) error {
 // @Router /api/website/website_builder [get]
 // @Security BearerAuth
 func GetAllPageHandler(c echo.Context) error {
-	data, err := GetAllPageService()
+	if c.QueryParam("all") == "true" {
+		data, err := GetAllPageService()
+		if err != nil {
+			return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve data", err.Error())
+		}
+		return utils.SendSuccess(c, http.StatusOK, "Data retrieved successfully", data)
+	}
+
+	page, limit, offset, search := utils.GetPaginationQuery(c)
+	data, total, err := GetPaginatedPageService(offset, limit, search)
 	if err != nil {
 		return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve data", err.Error())
 	}
-	return utils.SendSuccess(c, http.StatusOK, "Data retrieved successfully", data)
+	meta := utils.BuildPaginationMeta(total, page, limit)
+	return utils.SendPaginatedSuccess(c, http.StatusOK, "Data retrieved successfully", data, meta)
 }
 
 // GetPageByID godoc

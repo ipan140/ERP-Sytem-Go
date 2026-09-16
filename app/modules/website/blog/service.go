@@ -18,6 +18,10 @@ func GetAllBlogPostService() ([]BlogPost, error) {
 	return GetAllBlogPost()
 }
 
+func GetPaginatedBlogPostService(offset, limit int, search string) ([]BlogPost, int64, error) {
+	return GetPaginatedBlogPosts(offset, limit, search)
+}
+
 func GetBlogPostByIDService(id uint) (*BlogPost, error) {
 	return GetBlogPostByID(id)
 }

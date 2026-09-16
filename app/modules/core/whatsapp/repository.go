@@ -15,6 +15,18 @@ func GetAllWaTemplate() ([]WaTemplate, error) {
 	return list, err
 }
 
+func GetPaginatedWaTemplate(offset, limit int, search string) ([]WaTemplate, int64, error) {
+	var list []WaTemplate
+	var total int64
+	db := config.DB.Model(&WaTemplate{})
+	if search != "" {
+		db = db.Where("name ILIKE ?", "%"+search+"%")
+	}
+	db.Count(&total)
+	err := db.Preload(clause.Associations).Order("id asc").Offset(offset).Limit(limit).Find(&list).Error
+	return list, total, err
+}
+
 func GetWaTemplateByID(id uint) (*WaTemplate, error) {
 	var data WaTemplate
 	err := config.DB.Preload(clause.Associations).First(&data, id).Error

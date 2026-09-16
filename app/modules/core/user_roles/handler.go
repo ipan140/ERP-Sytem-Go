@@ -20,11 +20,21 @@ import (
 // @Security BearerAuth
 // @Router /core/user_roles [get]
 func GetAllUsersRolesHandler(c echo.Context) error {
-	users, err := GetAllUsersRolesService()
+	if c.QueryParam("all") == "true" {
+		users, err := GetAllUsersRolesService()
+		if err != nil {
+			return utils.SendError(c, http.StatusInternalServerError, "Gagal Mengambil Data", err.Error())
+		}
+		return utils.SendSuccess(c, http.StatusOK, "Berhasil mengambil daftar hak akses pengguna", users)
+	}
+
+	page, limit, offset, search := utils.GetPaginationQuery(c)
+	data, total, err := GetPaginatedUsersRolesService(offset, limit, search)
 	if err != nil {
 		return utils.SendError(c, http.StatusInternalServerError, "Gagal Mengambil Data", err.Error())
 	}
-	return utils.SendSuccess(c, http.StatusOK, "Berhasil mengambil daftar hak akses pengguna", users)
+	meta := utils.BuildPaginationMeta(total, page, limit)
+	return utils.SendPaginatedSuccess(c, http.StatusOK, "Berhasil mengambil daftar hak akses pengguna", data, meta)
 }
 
 // AssignRoleHandler godoc
@@ -68,11 +78,21 @@ func CreateRoleHandler(c echo.Context) error {
 }
 
 func GetAllRolesHandler(c echo.Context) error {
-	roles, err := GetAllRolesService()
+	if c.QueryParam("all") == "true" {
+		roles, err := GetAllRolesService()
+		if err != nil {
+			return utils.SendError(c, http.StatusInternalServerError, "Gagal mengambil role", err.Error())
+		}
+		return utils.SendSuccess(c, http.StatusOK, "Berhasil", roles)
+	}
+
+	page, limit, offset, search := utils.GetPaginationQuery(c)
+	data, total, err := GetPaginatedRolesService(offset, limit, search)
 	if err != nil {
 		return utils.SendError(c, http.StatusInternalServerError, "Gagal mengambil role", err.Error())
 	}
-	return utils.SendSuccess(c, http.StatusOK, "Berhasil", roles)
+	meta := utils.BuildPaginationMeta(total, page, limit)
+	return utils.SendPaginatedSuccess(c, http.StatusOK, "Berhasil", data, meta)
 }
 
 func UpdateRoleHandler(c echo.Context) error {

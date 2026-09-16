@@ -17,6 +17,21 @@ func GetAllEvent() ([]Event, error) {
 	return list, err
 }
 
+func GetPaginatedEvents(offset, limit int, search string) ([]Event, int64, error) {
+	var list []Event
+	var total int64
+	query := config.DB.Model(&Event{}).Preload(clause.Associations)
+	if search != "" {
+		s := "%" + search + "%"
+		query = query.Where("event_name ILIKE ? OR location ILIKE ?", s, s)
+	}
+	if err := query.Count(&total).Error; err != nil {
+		return nil, 0, err
+	}
+	err := query.Order("id desc").Offset(offset).Limit(limit).Find(&list).Error
+	return list, total, err
+}
+
 func GetEventByID(id uint) (*Event, error) {
 	var data Event
 	err := config.DB.Preload(clause.Associations).First(&data, id).Error

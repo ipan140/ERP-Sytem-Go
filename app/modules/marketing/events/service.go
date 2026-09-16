@@ -8,6 +8,10 @@ func GetAllEventService() ([]Event, error) {
 	return GetAllEvent()
 }
 
+func GetPaginatedEventService(offset, limit int, search string) ([]Event, int64, error) {
+	return GetPaginatedEvents(offset, limit, search)
+}
+
 func GetEventByIDService(id uint) (*Event, error) {
 	return GetEventByID(id)
 }

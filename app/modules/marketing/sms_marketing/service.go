@@ -17,6 +17,10 @@ func GetAllSmsCampaignService() ([]SmsCampaign, error) {
 	return GetAllSmsCampaign()
 }
 
+func GetPaginatedSmsCampaignService(offset, limit int, search string) ([]SmsCampaign, int64, error) {
+	return GetPaginatedSmsCampaigns(offset, limit, search)
+}
+
 func GetSmsCampaignByIDService(id uint) (*SmsCampaign, error) {
 	return GetSmsCampaignByID(id)
 }

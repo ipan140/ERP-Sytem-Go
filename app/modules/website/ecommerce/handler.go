@@ -38,11 +38,21 @@ func CreateCartHandler(c echo.Context) error {
 // @Router /api/website/ecommerce [get]
 // @Security BearerAuth
 func GetAllCartHandler(c echo.Context) error {
-	data, err := GetAllCartService()
+	if c.QueryParam("all") == "true" {
+		data, err := GetAllCartService()
+		if err != nil {
+			return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve data", err.Error())
+		}
+		return utils.SendSuccess(c, http.StatusOK, "Data retrieved successfully", data)
+	}
+
+	page, limit, offset, search := utils.GetPaginationQuery(c)
+	data, total, err := GetPaginatedCartService(offset, limit, search)
 	if err != nil {
 		return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve data", err.Error())
 	}
-	return utils.SendSuccess(c, http.StatusOK, "Data retrieved successfully", data)
+	meta := utils.BuildPaginationMeta(total, page, limit)
+	return utils.SendPaginatedSuccess(c, http.StatusOK, "Data retrieved successfully", data, meta)
 }
 
 // GetCartByID godoc

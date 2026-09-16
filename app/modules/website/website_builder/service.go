@@ -8,6 +8,10 @@ func GetAllPageService() ([]Page, error) {
 	return GetAllPage()
 }
 
+func GetPaginatedPageService(offset, limit int, search string) ([]Page, int64, error) {
+	return GetPaginatedPages(offset, limit, search)
+}
+
 func GetPageByIDService(id uint) (*Page, error) {
 	return GetPageByID(id)
 }

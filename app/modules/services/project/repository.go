@@ -15,6 +15,18 @@ func GetAllProject() ([]Project, error) {
 	return list, err
 }
 
+func GetPaginatedProject(offset, limit int, search string) ([]Project, int64, error) {
+	var list []Project
+	var total int64
+	db := config.DB.Model(&Project{})
+	if search != "" {
+		db = db.Where("name ILIKE ?", "%"+search+"%")
+	}
+	db.Count(&total)
+	err := db.Preload(clause.Associations).Order("id asc").Offset(offset).Limit(limit).Find(&list).Error
+	return list, total, err
+}
+
 func GetProjectByID(id uint) (*Project, error) {
 	var data Project
 	err := config.DB.Preload(clause.Associations).First(&data, id).Error

@@ -10,6 +10,10 @@ func GetAllProjectService() ([]Project, error) {
 	return GetAllProject()
 }
 
+func GetPaginatedProjectService(offset, limit int, search string) ([]Project, int64, error) {
+	return GetPaginatedProject(offset, limit, search)
+}
+
 func GetProjectByIDService(id uint) (*Project, error) {
 	return GetProjectByID(id)
 }

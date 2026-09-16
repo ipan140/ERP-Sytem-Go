@@ -15,6 +15,17 @@ func GetAllCart() ([]Cart, error) {
 	return list, err
 }
 
+func GetPaginatedCarts(offset, limit int, search string) ([]Cart, int64, error) {
+	var list []Cart
+	var total int64
+	query := config.DB.Model(&Cart{}).Preload(clause.Associations)
+	if err := query.Count(&total).Error; err != nil {
+		return nil, 0, err
+	}
+	err := query.Order("id desc").Offset(offset).Limit(limit).Find(&list).Error
+	return list, total, err
+}
+
 func GetCartByID(id uint) (*Cart, error) {
 	var data Cart
 	err := config.DB.Preload(clause.Associations).First(&data, id).Error

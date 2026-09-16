@@ -38,11 +38,21 @@ func CreateChatSessionHandler(c echo.Context) error {
 // @Router /api/website/live_chat [get]
 // @Security BearerAuth
 func GetAllChatSessionHandler(c echo.Context) error {
-	data, err := GetAllChatSessionService()
+	if c.QueryParam("all") == "true" {
+		data, err := GetAllChatSessionService()
+		if err != nil {
+			return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve data", err.Error())
+		}
+		return utils.SendSuccess(c, http.StatusOK, "Data retrieved successfully", data)
+	}
+
+	page, limit, offset, search := utils.GetPaginationQuery(c)
+	data, total, err := GetPaginatedChatSessionService(offset, limit, search)
 	if err != nil {
 		return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve data", err.Error())
 	}
-	return utils.SendSuccess(c, http.StatusOK, "Data retrieved successfully", data)
+	meta := utils.BuildPaginationMeta(total, page, limit)
+	return utils.SendPaginatedSuccess(c, http.StatusOK, "Data retrieved successfully", data, meta)
 }
 
 // GetChatSessionByID godoc

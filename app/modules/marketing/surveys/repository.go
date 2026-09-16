@@ -15,6 +15,21 @@ func GetAllSurvey() ([]Survey, error) {
 	return list, err
 }
 
+func GetPaginatedSurveys(offset, limit int, search string) ([]Survey, int64, error) {
+	var list []Survey
+	var total int64
+	query := config.DB.Model(&Survey{}).Preload(clause.Associations)
+	if search != "" {
+		s := "%" + search + "%"
+		query = query.Where("title ILIKE ? OR description ILIKE ? OR state ILIKE ?", s, s, s)
+	}
+	if err := query.Count(&total).Error; err != nil {
+		return nil, 0, err
+	}
+	err := query.Order("id desc").Offset(offset).Limit(limit).Find(&list).Error
+	return list, total, err
+}
+
 func GetSurveyByID(id uint) (*Survey, error) {
 	var data Survey
 	err := config.DB.Preload(clause.Associations).First(&data, id).Error

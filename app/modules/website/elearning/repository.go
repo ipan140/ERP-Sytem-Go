@@ -15,6 +15,17 @@ func GetAllCourse() ([]Course, error) {
 	return list, err
 }
 
+func GetPaginatedCourses(offset, limit int, search string) ([]Course, int64, error) {
+	var list []Course
+	var total int64
+	query := config.DB.Model(&Course{}).Preload(clause.Associations)
+	if err := query.Count(&total).Error; err != nil {
+		return nil, 0, err
+	}
+	err := query.Order("id desc").Offset(offset).Limit(limit).Find(&list).Error
+	return list, total, err
+}
+
 func GetCourseByID(id uint) (*Course, error) {
 	var data Course
 	err := config.DB.Preload(clause.Associations).First(&data, id).Error

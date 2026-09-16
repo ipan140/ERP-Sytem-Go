@@ -8,6 +8,10 @@ func GetAllCourseService() ([]Course, error) {
 	return GetAllCourse()
 }
 
+func GetPaginatedCourseService(offset, limit int, search string) ([]Course, int64, error) {
+	return GetPaginatedCourses(offset, limit, search)
+}
+
 func GetCourseByIDService(id uint) (*Course, error) {
 	return GetCourseByID(id)
 }

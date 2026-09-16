@@ -25,6 +25,24 @@ func GetAllPermissionsService() ([]RolePermission, error) {
 	return perms, err
 }
 
+func GetPaginatedPermissionsService(offset, limit int, search string) ([]RolePermission, int64, error) {
+	var perms []RolePermission
+	var total int64
+	if config.DB == nil {
+		return perms, 0, errors.New("database belum siap")
+	}
+	query := config.DB.Model(&RolePermission{})
+	if search != "" {
+		s := "%" + search + "%"
+		query = query.Where("role_name ILIKE ? OR module ILIKE ?", s, s)
+	}
+	if err := query.Count(&total).Error; err != nil {
+		return nil, 0, err
+	}
+	err := query.Order("id desc").Offset(offset).Limit(limit).Find(&perms).Error
+	return perms, total, err
+}
+
 func TogglePermissionService(req TogglePermissionRequest) error {
 	if config.DB == nil {
 		return errors.New("database belum siap")

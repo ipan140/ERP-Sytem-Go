@@ -38,11 +38,21 @@ func CreateBlogPostHandler(c echo.Context) error {
 // @Router /api/website/blog [get]
 // @Security BearerAuth
 func GetAllBlogPostHandler(c echo.Context) error {
-	data, err := GetAllBlogPostService()
+	if c.QueryParam("all") == "true" {
+		data, err := GetAllBlogPostService()
+		if err != nil {
+			return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve data", err.Error())
+		}
+		return utils.SendSuccess(c, http.StatusOK, "Data retrieved successfully", data)
+	}
+
+	page, limit, offset, search := utils.GetPaginationQuery(c)
+	data, total, err := GetPaginatedBlogPostService(offset, limit, search)
 	if err != nil {
 		return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve data", err.Error())
 	}
-	return utils.SendSuccess(c, http.StatusOK, "Data retrieved successfully", data)
+	meta := utils.BuildPaginationMeta(total, page, limit)
+	return utils.SendPaginatedSuccess(c, http.StatusOK, "Data retrieved successfully", data, meta)
 }
 
 // GetBlogPostByID godoc
