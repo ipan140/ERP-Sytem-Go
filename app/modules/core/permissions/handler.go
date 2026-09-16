@@ -71,12 +71,13 @@ func TogglePermissionHandler(c echo.Context) error {
 // @Router /core/permissions/modules [get]
 func GetAvailableModulesHandler(c echo.Context) error {
 	modules := []string{
-		"core/artificial_intelligence", "core/base", "core/dashboards", "core/discuss",
+		"core/artificial_intelligence", "core/base", "core/calendar", "core/dashboards", "core/discuss",
 		"core/documents", "core/iot", "core/knowledge", "core/mailer", "core/permissions",
 		"core/report", "core/storage", "core/user_roles", "core/voip", "core/whatsapp",
 
-		"finance/accounting", "finance/approvals", "finance/consolidation", "finance/documents",
-		"finance/expenses", "finance/invoicing", "finance/sign", "finance/spreadsheet_bi",
+		"finance/accounting", "finance/approvals", "finance/assets", "finance/budget", "finance/consolidation",
+		"finance/documents", "finance/expenses", "finance/invoicing", "finance/reconciliation", "finance/sign",
+		"finance/spreadsheet_bi", "finance/tax",
 
 		"hr/appraisals", "hr/attendances", "hr/employees", "hr/fleet", "hr/lunch",
 		"hr/payroll", "hr/recruitment", "hr/referrals", "hr/time_off",
@@ -86,10 +87,10 @@ func GetAvailableModulesHandler(c echo.Context) error {
 
 		"sales/crm", "sales/point_of_sale", "sales/rental", "sales/sales_core", "sales/subscriptions",
 
-		"services/appointments", "services/field_service", "services/helpdesk", "services/planning",
-		"services/project", "services/repairs", "services/timesheets",
+		"services/activity_logs", "services/appointments", "services/field_service", "services/helpdesk",
+		"services/notifications", "services/planning", "services/project", "services/repairs", "services/timesheets",
 
-		"supply_chain/barcode", "supply_chain/inventory", "supply_chain/maintenance",
+		"supply_chain/barcode", "supply_chain/dashboard", "supply_chain/inventory", "supply_chain/maintenance",
 		"supply_chain/manufacturing", "supply_chain/plm", "supply_chain/purchase", "supply_chain/quality",
 
 		"website/blog", "website/ecommerce", "website/elearning", "website/forum",

@@ -3,6 +3,7 @@ package permissions
 import (
 	"ERP-System/config"
 	"errors"
+	"strings"
 )
 
 // Pastikan tabel role_permissions sudah ada (AutoMigrate)
@@ -56,13 +57,15 @@ func TogglePermissionService(req TogglePermissionRequest) error {
 	// Cari apakah aturan untuk Role dan Module ini sudah pernah dibuat sebelumnya
 	err = config.DB.Where("role_name = ? AND module = ?", req.RoleName, req.Module).First(&perm).Error
 	if err != nil {
-		// Jika belum ada, buat baru (Default false semua)
+		isSuper := strings.ToUpper(req.RoleName) == "SUPERADMIN"
 		perm = RolePermission{
-			RoleName:  req.RoleName,
-			Module:    req.Module,
-			CanRead:   false,
-			CanWrite:  false,
-			CanDelete: false,
+			RoleName:   req.RoleName,
+			Module:     req.Module,
+			CanRead:    isSuper,
+			CanWrite:   isSuper,
+			CanDelete:  isSuper,
+			CanExport:  isSuper,
+			CanApprove: isSuper,
 		}
 	}
 

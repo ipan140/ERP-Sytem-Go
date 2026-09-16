@@ -55,7 +55,20 @@ func GlobalAutoRBAC() echo.MiddlewareFunc {
 					CanWrite  bool
 					CanDelete bool
 				}
-				err := config.DB.Table("setting.role_permissions").Where("role_name = ? AND module = ?", roleName, moduleName).Scan(&perm).Error
+
+				candidates := []string{
+					moduleName,
+					"core/" + moduleName,
+					segments[2],
+					"core/" + segments[2],
+				}
+				if moduleName == "sales/pos" { candidates = append(candidates, "sales/point_of_sale") }
+				if moduleName == "sales/core" { candidates = append(candidates, "sales/sales_core") }
+				if moduleName == "core/roles" { candidates = append(candidates, "core/user_roles") }
+				if moduleName == "services/activity-logs" { candidates = append(candidates, "services/activity_logs") }
+				if moduleName == "base/partner" { candidates = append(candidates, "core/base") }
+
+				err := config.DB.Table("setting.role_permissions").Where("role_name = ? AND module IN (?)", roleName, candidates).Scan(&perm).Error
 				if err == nil {
 					if action == "read" && perm.CanRead { isAllowed = true; break }
 					if action == "write" && perm.CanWrite { isAllowed = true; break }
