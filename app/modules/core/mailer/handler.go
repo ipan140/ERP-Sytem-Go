@@ -115,4 +115,67 @@ func DeleteEmailLogHandler(c echo.Context) error {
 	return utils.SendSuccess(c, http.StatusOK, "Data deleted successfully", nil)
 }
 
+// GetSmtpConfigHandler godoc
+// @Summary Get active SMTP configuration
+// @Description Retrieve current active SMTP outgoing configuration
+// @Tags core-mailer
+// @Produce json
+// @Success 200 {object} SmtpConfig
+// @Router /api/core/mailer/config [get]
+// @Security BearerAuth
+func GetSmtpConfigHandler(c echo.Context) error {
+	data, err := GetSmtpConfigService()
+	if err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Gagal mengambil konfigurasi SMTP", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Konfigurasi SMTP berhasil dimuat", data)
+}
+
+// SaveSmtpConfigHandler godoc
+// @Summary Save or update SMTP configuration
+// @Description Save or update SMTP outgoing configuration
+// @Tags core-mailer
+// @Accept json
+// @Produce json
+// @Param request body SmtpConfig true "SMTP Payload"
+// @Success 200 {object} SmtpConfig
+// @Router /api/core/mailer/config [post]
+// @Security BearerAuth
+func SaveSmtpConfigHandler(c echo.Context) error {
+	var payload SmtpConfig
+	if err := c.Bind(&payload); err != nil {
+		return utils.SendError(c, http.StatusBadRequest, "Format payload tidak valid", err.Error())
+	}
+	if err := SaveSmtpConfigService(&payload); err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Gagal menyimpan konfigurasi SMTP", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Konfigurasi SMTP berhasil disimpan", payload)
+}
+
+// TestSendEmailHandler godoc
+// @Summary Test SMTP connection and send test email
+// @Description Connect to SMTP server and send a verification test message
+// @Tags core-mailer
+// @Accept json
+// @Produce json
+// @Param request body map[string]string true "Recipient Payload"
+// @Success 200 {object} map[string]interface{}
+// @Router /api/core/mailer/test [post]
+// @Security BearerAuth
+func TestSendEmailHandler(c echo.Context) error {
+	var body struct {
+		Recipient string `json:"recipient"`
+	}
+	_ = c.Bind(&body)
+
+	msg, err := TestSendEmailService(body.Recipient)
+	if err != nil {
+		return utils.SendError(c, http.StatusBadGateway, "Gagal mengirim email uji coba", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, msg, map[string]interface{}{
+		"success": true,
+		"message": msg,
+	})
+}
+
 
