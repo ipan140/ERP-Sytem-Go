@@ -20,6 +20,10 @@ func DeleteCurrencyService(id uint) error {
 	return DeleteCurrency(id)
 }
 
+func SyncBankIndonesiaRatesService() error {
+	return SyncBankIndonesiaRates()
+}
+
 func CreateCountryService(data *Country) error        { return CreateCountry(data) }
 func GetAllCountryService() ([]Country, error)        { return GetAllCountry() }
 func GetCountryByIDService(id uint) (*Country, error) { return GetCountryByID(id) }

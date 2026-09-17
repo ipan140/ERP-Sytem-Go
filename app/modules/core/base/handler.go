@@ -105,6 +105,22 @@ func DeleteCurrencyHandler(c echo.Context) error {
 	return utils.SendSuccess(c, http.StatusOK, "Data deleted successfully", nil)
 }
 
+// SyncBankIndonesiaRatesHandler godoc
+// @Summary Sync Bank Indonesia JISDOR currency rates
+// @Description Sync default exchange rates with Bank Indonesia
+// @Tags base
+// @Produce json
+// @Success 200 {object} []Currency
+// @Router /api/base/currency/sync-bi [post]
+// @Security BearerAuth
+func SyncBankIndonesiaRatesHandler(c echo.Context) error {
+	if err := SyncBankIndonesiaRatesService(); err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Gagal sinkronisasi kurs Bank Indonesia", err.Error())
+	}
+	data, _ := GetAllCurrencyService()
+	return utils.SendSuccess(c, http.StatusOK, "Kurs Tengah Bank Indonesia (JISDOR) berhasil disinkronkan", data)
+}
+
 // @Summary Create Country
 // @Description Create a new Country
 // @Tags core-base

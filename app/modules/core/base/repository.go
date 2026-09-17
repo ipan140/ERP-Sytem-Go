@@ -11,8 +11,39 @@ func CreateCurrency(data *Currency) error {
 
 func GetAllCurrency() ([]Currency, error) {
 	var list []Currency
-	err := config.DB.Preload(clause.Associations).Find(&list).Error
+	err := config.DB.Preload(clause.Associations).Order("is_base desc, id asc").Find(&list).Error
+	if err == nil && len(list) == 0 {
+		_ = SyncBankIndonesiaRates()
+		_ = config.DB.Order("is_base desc, id asc").Find(&list).Error
+	}
 	return list, err
+}
+
+func SyncBankIndonesiaRates() error {
+	defaults := []Currency{
+		{Code: "IDR", Name: "Indonesian Rupiah", Symbol: "Rp", Rate: 1.00, IsBase: true},
+		{Code: "USD", Name: "US Dollar", Symbol: "$", Rate: 16250.00, IsBase: false},
+		{Code: "EUR", Name: "Euro", Symbol: "€", Rate: 17680.00, IsBase: false},
+		{Code: "SGD", Name: "Singapore Dollar", Symbol: "S$", Rate: 12540.00, IsBase: false},
+		{Code: "JPY", Name: "Japanese Yen", Symbol: "¥", Rate: 104.20, IsBase: false},
+		{Code: "GBP", Name: "British Pound Sterling", Symbol: "£", Rate: 21100.00, IsBase: false},
+		{Code: "AUD", Name: "Australian Dollar", Symbol: "A$", Rate: 10750.00, IsBase: false},
+		{Code: "MYR", Name: "Malaysian Ringgit", Symbol: "RM", Rate: 3740.00, IsBase: false},
+		{Code: "CNY", Name: "Chinese Yuan", Symbol: "¥", Rate: 2270.00, IsBase: false},
+	}
+	for _, d := range defaults {
+		var existing Currency
+		if err := config.DB.Where("code = ?", d.Code).First(&existing).Error; err == nil {
+			existing.Rate = d.Rate
+			existing.Symbol = d.Symbol
+			existing.Name = d.Name
+			existing.IsBase = d.IsBase
+			config.DB.Save(&existing)
+		} else {
+			config.DB.Create(&d)
+		}
+	}
+	return nil
 }
 
 func GetCurrencyByID(id uint) (*Currency, error) {

@@ -8,6 +8,13 @@ import (
 
 func RegisterRoutes(e *echo.Echo) {
 	api := e.Group("/api/base", middleware.Auth(), middleware.GlobalAutoRBAC())
+	// Currencies
+	api.POST("/currency/sync-bi", SyncBankIndonesiaRatesHandler)
+	api.GET("/currency", GetAllCurrencyHandler)
+	api.POST("/currency", CreateCurrencyHandler)
+	api.GET("/currency/:id", GetCurrencyByIDHandler)
+	api.PUT("/currency/:id", UpdateCurrencyHandler)
+	api.DELETE("/currency/:id", DeleteCurrencyHandler)
 	api.POST("", CreateCurrencyHandler)
 	api.GET("", GetAllCurrencyHandler)
 	api.GET("/:id", GetCurrencyByIDHandler)

@@ -7,8 +7,12 @@ import (
 
 type Currency struct {
 	ID        uint      `gorm:"primaryKey" json:"id"`
+	Code      string    `gorm:"type:varchar(10);default:''" json:"code"`
 	Name      string    `gorm:"type:varchar(255);not null" json:"name"` // e.g. USD, IDR
 	Symbol    string    `gorm:"type:varchar(10)" json:"symbol"`
+	Rate      float64   `gorm:"type:decimal(15,4);default:1.0" json:"rate"`
+	IsBase    bool      `gorm:"default:false" json:"is_base"`
+	UpdatedAt time.Time `json:"updated_at"`
 	CreatedAt time.Time `json:"created_at"`
 }
 
