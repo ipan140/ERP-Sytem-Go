@@ -6,11 +6,14 @@ import (
 )
 
 func RegisterRoutes(e *echo.Echo) {
-	api := e.Group("/api/core/report", middleware.Auth(), middleware.GlobalAutoRBAC())
-	
-	// Endpoint dinamis untuk export (Menerima data JSON dari Frontend)
-	api.POST("/excel", GenerateDynamicExcelHandler)
-	api.POST("/pdf", GenerateDynamicPDFHandler)
+	for _, path := range []string{"/api/core/report", "/api/report"} {
+		api := e.Group(path, middleware.Auth(), middleware.GlobalAutoRBAC())
+		api.GET("/templates", GetPrintTemplatesHandler)
+		api.POST("/templates", CreatePrintTemplateHandler)
+		api.GET("/exports", GetExportReportsHandler)
+		api.POST("/excel", GenerateDynamicExcelHandler)
+		api.POST("/pdf", GenerateDynamicPDFHandler)
+	}
 }
 
 

@@ -115,4 +115,81 @@ func DeleteWaTemplateHandler(c echo.Context) error {
 	return utils.SendSuccess(c, http.StatusOK, "Data deleted successfully", nil)
 }
 
+// GetWhatsappConfigHandler godoc
+// @Summary Get active WhatsApp Gateway configuration
+// @Tags whatsapp
+// @Produce json
+// @Success 200 {object} WhatsappConfig
+// @Router /api/whatsapp/config [get]
+// @Security BearerAuth
+func GetWhatsappConfigHandler(c echo.Context) error {
+	data, err := GetWhatsappConfigService()
+	if err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Gagal mengambil konfigurasi WhatsApp", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Konfigurasi WhatsApp Gateway berhasil dimuat", data)
+}
+
+// SaveWhatsappConfigHandler godoc
+// @Summary Save WhatsApp Gateway configuration
+// @Tags whatsapp
+// @Accept json
+// @Produce json
+// @Param request body WhatsappConfig true "Payload"
+// @Success 200 {object} WhatsappConfig
+// @Router /api/whatsapp/config [post]
+// @Security BearerAuth
+func SaveWhatsappConfigHandler(c echo.Context) error {
+	var payload WhatsappConfig
+	if err := c.Bind(&payload); err != nil {
+		return utils.SendError(c, http.StatusBadRequest, "Format payload tidak valid", err.Error())
+	}
+	if err := SaveWhatsappConfigService(&payload); err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Gagal menyimpan konfigurasi WhatsApp", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Konfigurasi WhatsApp Gateway berhasil disimpan", payload)
+}
+
+// TestSendWhatsappHandler godoc
+// @Summary Test send WhatsApp message
+// @Tags whatsapp
+// @Accept json
+// @Produce json
+// @Success 200 {object} map[string]interface{}
+// @Router /api/whatsapp/test [post]
+// @Security BearerAuth
+func TestSendWhatsappHandler(c echo.Context) error {
+	var body struct {
+		Phone        string `json:"phone"`
+		TemplateCode string `json:"template_code"`
+	}
+	_ = c.Bind(&body)
+
+	msg, err := TestSendWhatsappService(body.Phone, body.TemplateCode)
+	if err != nil {
+		return utils.SendError(c, http.StatusBadRequest, "Gagal mengirim pesan WhatsApp", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, msg, map[string]interface{}{
+		"success": true,
+		"message": msg,
+	})
+}
+
+// GetWaLogsHandler godoc
+// @Summary Get WhatsApp logs
+// @Tags whatsapp
+// @Produce json
+// @Success 200 {object} []WaLog
+// @Router /api/whatsapp/logs [get]
+// @Security BearerAuth
+func GetWaLogsHandler(c echo.Context) error {
+	page, limit, offset, search := utils.GetPaginationQuery(c)
+	data, total, err := GetPaginatedWaLogsService(offset, limit, search)
+	if err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Gagal mengambil log WhatsApp", err.Error())
+	}
+	meta := utils.BuildPaginationMeta(total, page, limit)
+	return utils.SendPaginatedSuccess(c, http.StatusOK, "Data log WhatsApp berhasil dimuat", data, meta)
+}
+
 

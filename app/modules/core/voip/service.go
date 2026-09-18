@@ -19,3 +19,11 @@ func UpdateCallRecordService(data *CallRecord) error {
 func DeleteCallRecordService(id uint) error {
 	return DeleteCallRecord(id)
 }
+
+func GetAllVoipExtensionsService() ([]VoipExtension, error) {
+	return GetAllVoipExtensions()
+}
+
+func CreateVoipExtensionService(data *VoipExtension) error {
+	return CreateVoipExtension(data)
+}

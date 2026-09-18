@@ -77,5 +77,32 @@ func GenerateDynamicPDFHandler(c echo.Context) error {
 	return err
 }
 
+func GetPrintTemplatesHandler(c echo.Context) error {
+	data, err := GetAllPrintTemplatesService()
+	if err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve templates", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Templates retrieved successfully", data)
+}
+
+func CreatePrintTemplateHandler(c echo.Context) error {
+	var data PrintTemplate
+	if err := c.Bind(&data); err != nil {
+		return utils.SendError(c, http.StatusBadRequest, "Invalid payload", err.Error())
+	}
+	if err := CreatePrintTemplateService(&data); err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed to create template", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusCreated, "Template created successfully", data)
+}
+
+func GetExportReportsHandler(c echo.Context) error {
+	data, err := GetAllExportReportsService()
+	if err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve reports catalogue", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Reports catalogue retrieved successfully", data)
+}
+
 
 

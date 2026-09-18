@@ -19,3 +19,15 @@ func UpdateReportService(data *Report) error {
 func DeleteReportService(id uint) error {
 	return DeleteReport(id)
 }
+
+func GetAllPrintTemplatesService() ([]PrintTemplate, error) {
+	return GetAllPrintTemplates()
+}
+
+func CreatePrintTemplateService(data *PrintTemplate) error {
+	return CreatePrintTemplate(data)
+}
+
+func GetAllExportReportsService() ([]ExportReportItem, error) {
+	return GetAllExportReports()
+}

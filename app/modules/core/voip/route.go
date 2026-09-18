@@ -7,12 +7,17 @@ import (
 )
 
 func RegisterRoutes(e *echo.Echo) {
-	api := e.Group("/api/voip", middleware.Auth(), middleware.GlobalAutoRBAC())
-	api.POST("", CreateCallRecordHandler)
-	api.GET("", GetAllCallRecordHandler)
-	api.GET("/:id", GetCallRecordByIDHandler)
-	api.PUT("/:id", UpdateCallRecordHandler)
-	api.DELETE("/:id", DeleteCallRecordHandler)
+	for _, path := range []string{"/api/voip", "/api/core/voip"} {
+		api := e.Group(path, middleware.Auth(), middleware.GlobalAutoRBAC())
+		api.GET("/extensions", GetVoipExtensionsHandler)
+		api.POST("/extensions", CreateVoipExtensionHandler)
+		api.POST("/call", InitiateCallHandler)
+		api.POST("", CreateCallRecordHandler)
+		api.GET("", GetAllCallRecordHandler)
+		api.GET("/:id", GetCallRecordByIDHandler)
+		api.PUT("/:id", UpdateCallRecordHandler)
+		api.DELETE("/:id", DeleteCallRecordHandler)
+	}
 }
 
 

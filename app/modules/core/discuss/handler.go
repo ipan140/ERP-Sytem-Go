@@ -105,4 +105,43 @@ func DeleteChannelHandler(c echo.Context) error {
 	return utils.SendSuccess(c, http.StatusOK, "Data deleted successfully", nil)
 }
 
+func GetMessagesHandler(c echo.Context) error {
+	channelID := c.QueryParam("channel_id")
+	if channelID == "" {
+		channelID = "ch_general"
+	}
+	messages, err := GetMessagesByChannelService(channelID)
+	if err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve messages", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Messages retrieved successfully", messages)
+}
+
+func SendMessageHandler(c echo.Context) error {
+	var payload struct {
+		ChannelID string `json:"channel_id"`
+		Sender    string `json:"sender"`
+		Text      string `json:"text"`
+	}
+	if err := c.Bind(&payload); err != nil {
+		return utils.SendError(c, http.StatusBadRequest, "Invalid request payload", err.Error())
+	}
+	if payload.ChannelID == "" || payload.Text == "" {
+		return utils.SendError(c, http.StatusBadRequest, "channel_id and text are required", "")
+	}
+	if payload.Sender == "" {
+		payload.Sender = "Saya (User)"
+	}
+	msg := DiscussMessage{
+		ChannelID: payload.ChannelID,
+		Sender:    payload.Sender,
+		Text:      payload.Text,
+		IsMe:      true,
+	}
+	if err := CreateDiscussMessageService(&msg); err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed to send message", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusCreated, "Message sent successfully", msg)
+}
+
 

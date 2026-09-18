@@ -7,12 +7,14 @@ import (
 )
 
 func RegisterRoutes(e *echo.Echo) {
-	api := e.Group("/api/knowledge", middleware.Auth(), middleware.GlobalAutoRBAC())
-	api.POST("", CreateArticleHandler)
-	api.GET("", GetAllArticleHandler)
-	api.GET("/:id", GetArticleByIDHandler)
-	api.PUT("/:id", UpdateArticleHandler)
-	api.DELETE("/:id", DeleteArticleHandler)
+	for _, path := range []string{"/api/knowledge", "/api/core/knowledge"} {
+		api := e.Group(path, middleware.Auth(), middleware.GlobalAutoRBAC())
+		api.POST("", CreateArticleHandler)
+		api.GET("", GetAllArticleHandler)
+		api.GET("/:id", GetArticleByIDHandler)
+		api.PUT("/:id", UpdateArticleHandler)
+		api.DELETE("/:id", DeleteArticleHandler)
+	}
 }
 
 

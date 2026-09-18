@@ -19,3 +19,7 @@ func UpdateIoTDeviceService(data *IoTDevice) error {
 func DeleteIoTDeviceService(id uint) error {
 	return DeleteIoTDevice(id)
 }
+
+func GetAllAttendanceLogsService() ([]AttendanceLog, error) {
+	return GetAllAttendanceLogs()
+}

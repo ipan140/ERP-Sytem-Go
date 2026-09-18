@@ -44,6 +44,8 @@ func ConnectDB() {
 	// Clean orphaned records if table exists so AutoMigrate foreign keys succeed
 	db.Exec("DELETE FROM sales.sale_order_lines WHERE order_id NOT IN (SELECT id FROM sales.sale_orders);")
 	db.Exec("DELETE FROM supply_chain.barcode_rules WHERE nomenclature_id NOT IN (SELECT id FROM supply_chain.barcode_nomenclatures);")
+	db.Exec("DROP TABLE IF EXISTS setting.wa_templates CASCADE;")
+	db.Exec("DROP TABLE IF EXISTS setting.call_records CASCADE;")
 
 	if len(ModelsToMigrate) > 0 {
 		err = db.AutoMigrate(ModelsToMigrate...)

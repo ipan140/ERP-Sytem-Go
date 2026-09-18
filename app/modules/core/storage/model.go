@@ -18,11 +18,28 @@ type Attachment struct {
 	UpdatedAt    time.Time `json:"updated_at"`
 }
 
-
 func (Attachment) TableName() string {
 	return "setting.attachments"
 }
 
+// StorageConfig menyimpan konfigurasi Cloud Storage (S3, MinIO, Local)
+type StorageConfig struct {
+	ID        uint      `gorm:"primaryKey" json:"id"`
+	Driver    string    `gorm:"type:varchar(50);default:'S3'" json:"driver"` // S3, LOCAL, GCS
+	Endpoint  string    `gorm:"type:varchar(255)" json:"endpoint"`
+	Bucket    string    `gorm:"type:varchar(100);default:'erp-company-dms'" json:"bucket"`
+	Region    string    `gorm:"type:varchar(50);default:'ap-southeast-1'" json:"region"`
+	AccessKey string    `gorm:"type:varchar(255)" json:"access_key"`
+	SecretKey string    `gorm:"type:varchar(255)" json:"secret_key"`
+	IsActive  bool      `gorm:"default:true" json:"is_active"`
+	CreatedAt time.Time `json:"created_at"`
+	UpdatedAt time.Time `json:"updated_at"`
+}
+
+func (StorageConfig) TableName() string {
+	return "setting.storage_configs"
+}
+
 func init() {
-	config.ModelsToMigrate = append(config.ModelsToMigrate, &Attachment{})
+	config.ModelsToMigrate = append(config.ModelsToMigrate, &Attachment{}, &StorageConfig{})
 }

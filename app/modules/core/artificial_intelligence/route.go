@@ -7,12 +7,17 @@ import (
 )
 
 func RegisterRoutes(e *echo.Echo) {
-	api := e.Group("/api/artificial_intelligence", middleware.Auth(), middleware.GlobalAutoRBAC())
-	api.POST("", CreateAIPromptHandler)
-	api.GET("", GetAllAIPromptHandler)
-	api.GET("/:id", GetAIPromptByIDHandler)
-	api.PUT("/:id", UpdateAIPromptHandler)
-	api.DELETE("/:id", DeleteAIPromptHandler)
+	for _, path := range []string{"/api/artificial_intelligence", "/api/core/ai"} {
+		api := e.Group(path, middleware.Auth(), middleware.GlobalAutoRBAC())
+		api.GET("/config", GetAIConfigHandler)
+		api.POST("/config", SaveAIConfigHandler)
+		api.POST("/generate", GenerateAISimulationHandler)
+		api.POST("", CreateAIPromptHandler)
+		api.GET("", GetAllAIPromptHandler)
+		api.GET("/:id", GetAIPromptByIDHandler)
+		api.PUT("/:id", UpdateAIPromptHandler)
+		api.DELETE("/:id", DeleteAIPromptHandler)
+	}
 }
 
 

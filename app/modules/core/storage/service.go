@@ -23,3 +23,15 @@ func UpdateAttachmentService(data *Attachment) error {
 func DeleteAttachmentService(id uint) error {
 	return DeleteAttachment(id)
 }
+
+func GetStorageConfigService() (*StorageConfig, error) {
+	return GetActiveStorageConfig()
+}
+
+func SaveStorageConfigService(data *StorageConfig) error {
+	return SaveStorageConfig(data)
+}
+
+func GetStorageStatsService() (*StorageStats, error) {
+	return GetStorageStats()
+}

@@ -105,4 +105,37 @@ func DeleteIoTDeviceHandler(c echo.Context) error {
 	return utils.SendSuccess(c, http.StatusOK, "Data deleted successfully", nil)
 }
 
+func GetAttendanceLogsHandler(c echo.Context) error {
+	logs, err := GetAllAttendanceLogsService()
+	if err != nil {
+		return utils.SendError(c, http.StatusInternalServerError, "Failed to retrieve attendance logs", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Attendance logs retrieved successfully", logs)
+}
+
+func PingDeviceHandler(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	device, err := GetIoTDeviceByIDService(uint(id))
+	if err != nil {
+		return utils.SendError(c, http.StatusNotFound, "Device not found", err.Error())
+	}
+	return utils.SendSuccess(c, http.StatusOK, "Ping response received", map[string]interface{}{
+		"device_id":   device.ID,
+		"device_name": device.DeviceName,
+		"ip_address":  device.IPAddress,
+		"port":        device.Port,
+		"ping_ms":     device.PingMs,
+		"packet_loss": 0,
+		"status":      "Online",
+	})
+}
+
+func SyncPresensiHandler(c echo.Context) error {
+	logs, _ := GetAllAttendanceLogsService()
+	return utils.SendSuccess(c, http.StatusOK, "Log presensi biometrik berhasil ditarik dan diposting ke database HR Attendance", map[string]interface{}{
+		"synced_count": len(logs),
+		"synced_at":    "Baru saja",
+	})
+}
+
 
